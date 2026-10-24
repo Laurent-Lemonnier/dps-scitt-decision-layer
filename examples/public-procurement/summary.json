@@ -1,0 +1,60 @@
+{
+ "records": {
+  "DR-2026-0071": {
+   "schema_errors": [],
+   "seal_hash": "beb792be5985d09a871b2912063779532d15956fec03e37eb97e4bd66c974d06",
+   "record_type": "decision"
+  },
+  "DR-2026-0142": {
+   "schema_errors": [],
+   "seal_hash": "e769914f288ecaca1f6b68d06fa9657bae9f855961ed661509223658860ae6be",
+   "record_type": "decision"
+  },
+  "DR-2027-0210": {
+   "schema_errors": [],
+   "seal_hash": "50bcff89ad4de5b2bb08a357964eeed7ab2f18e90d22579c31295b34afeb0d88",
+   "record_type": "re_decision"
+  }
+ },
+ "attachment_schema_errors": [],
+ "attachment_digest": "ca5c7dfec011b40a360fac70861248729f0e76e501d627c6b23c74f1b29636c5",
+ "binding_check": {
+  "specification_digests": [
+   "verified",
+   []
+  ],
+  "record_statements": [
+   "verified",
+   []
+  ],
+  "action_binding": [
+   "verified",
+   []
+  ],
+  "stage_order": [
+   "verified",
+   []
+  ],
+  "authorisation_recheck": [
+   "verified",
+   []
+  ],
+  "observed_results": [
+   "verified",
+   []
+  ],
+  "execution_state": "attempted",
+  "rationale_provenance": [
+   "verified",
+   []
+  ]
+ },
+ "measure": {
+  "planned_36_months_eur": 1140000,
+  "awarded_eur": 1062000,
+  "previous_36_months_eur": 1410000,
+  "actual_12_months_eur": 338400,
+  "planned_12_months_eur": 354000,
+  "saving_vs_previous_pct": 24.7
+ }
+}

@@ -20,6 +20,11 @@ The Decision Provenance Standard, Yohay Etsion, 2026, CC-BY 4.0, https://decisio
   release charter, request, re-check, attempt, observed result). `build.py` builds both, validates them against the
   Standard's schemas and runs the action binding reference check; `summary.json` is its output. Nothing in it is
   specific to AI.
+- `examples/public-procurement/`: three decision records of one public purchase (the decision to buy a fleet
+  maintenance contract, priced against the open procurement data; the award among four bids, one rejected as abnormally
+  low; the review at twelve months as a re-decision stating what was planned, what was paid and what is decided next),
+  and the action-binding attachment of the award's notification. Each record carries its price context and how it will
+  be measured, so that waste shows. `summary.json` holds the validation and the measure.
 - `demo/`: an Agent Action Capsule (format 4) that cites the record and the attachment in `references[]` as Canonical
   Payload Binding typed digest references. `build_demo.py` computes its `capsule_id`, parses and verifies it with the
   capsule reference library (`agent-action-capsule` 0.12.0), and resolves the two references on the decision side.
