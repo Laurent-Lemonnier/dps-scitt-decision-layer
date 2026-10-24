@@ -1,0 +1,74 @@
+{
+ "record_schema_errors": [],
+ "attachment_schema_errors": [],
+ "record_seal_hash": "34ba302a668e9200017a1083a92e88773dab1ca620faeaac8cd8bb7747596ba5",
+ "attachment_digest": "5086c7674db770c6d01592ba697722a2fb468c16d1d5ab9226a7b5217c4bc1a8",
+ "spec_digest": "19ade2a46319ac6622333cd6731ac400ed11daa7d6955b5daa5864da91c2b711",
+ "binding_check": {
+  "specification_digests": [
+   "verified",
+   []
+  ],
+  "specification_statements": [
+   "verified",
+   []
+  ],
+  "record_statements": [
+   "verified",
+   []
+  ],
+  "reviews": [
+   [
+    "v1",
+    "as_proposed",
+    null
+   ]
+  ],
+  "action_binding": [
+   "verified",
+   []
+  ],
+  "executed": [
+   [
+    0,
+    "shown_to_reviewer"
+   ]
+  ],
+  "stage_order": [
+   "verified",
+   []
+  ],
+  "authorisation_recheck": [
+   "verified",
+   []
+  ],
+  "observed_results": [
+   "verified",
+   []
+  ],
+  "execution_state": "attempted",
+  "observed": [
+   [
+    "x1",
+    "succeeded",
+    "target_response"
+   ]
+  ],
+  "rationale_provenance": [
+   "verified",
+   []
+  ],
+  "per_spec": [
+   [
+    [
+     "verified",
+     []
+    ],
+    [
+     "verified",
+     []
+    ]
+   ]
+  ]
+ }
+}

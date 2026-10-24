@@ -1,0 +1,24 @@
+{
+ "capsule_id": "8ffac39fe42e5d1b9dcbff838ec5c3aad749a3e8a32e3157791297f5f325b6e7",
+ "library_parse_ok": true,
+ "library_parse_error": null,
+ "library_verify": {
+  "ok": true
+ },
+ "library_findings": [
+  [
+   "info",
+   "unknown_registry_value",
+   "[info] check 8 unknown_registry_value: effect.type='net.isoluce.dps.release_deploy' is not a seeded effect.type value; informational, not rejected (§12)"
+  ],
+  [
+   "info",
+   "domain_unknown_value",
+   "[info] check None domain_unknown_value: domain='software-release' is not a seeded value; informational, not rejected (§-02 REGISTRY §8)"
+  ]
+ ],
+ "dps_side_references_resolved": {
+  "net.isoluce.dps.decision_record": true,
+  "net.isoluce.dps.action_binding_attachment": true
+ }
+}

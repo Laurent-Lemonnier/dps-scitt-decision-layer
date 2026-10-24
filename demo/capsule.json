@@ -1,0 +1,42 @@
+{
+ "spec_version": "0.12",
+ "format_version": "4",
+ "canonicalization_id": "jcs",
+ "action_id": "urn:isoluce:deploy:request:0412",
+ "action_type": "decide",
+ "operator": "iSoluce release orchestrator",
+ "developer": "iSoluce",
+ "timestamp": "2026-10-23T14:21:10Z",
+ "domain": "software-release",
+ "disposition": {
+  "decision": "accept",
+  "approver": "human",
+  "human_disposed": true,
+  "authority": "urn:isoluce:charter:CH-ISOLUCE-RELEASE-1#release-approval",
+  "verdict_class": "executed"
+ },
+ "effect": {
+  "status": "confirmed",
+  "type": "net.isoluce.dps.release_deploy",
+  "request_digest": "19ade2a46319ac6622333cd6731ac400ed11daa7d6955b5daa5864da91c2b711",
+  "response_digest": "90e54d8c535a484485c0c177a8f89214c84876d1fefa055ee7dd8fe55a0a20ed",
+  "external_ref": "urn:isoluce:deploy:confirmation:0412",
+  "irreversibility_class": "one_way_recoverable",
+  "effect_attestation": "host_served_observed"
+ },
+ "references": [
+  {
+   "type": "net.isoluce.dps.decision_record",
+   "digest_alg": "SHA-256",
+   "digest": "34ba302a668e9200017a1083a92e88773dab1ca620faeaac8cd8bb7747596ba5",
+   "citation_purpose": "ran_under"
+  },
+  {
+   "type": "net.isoluce.dps.action_binding_attachment",
+   "digest_alg": "SHA-256",
+   "digest": "5086c7674db770c6d01592ba697722a2fb468c16d1d5ab9226a7b5217c4bc1a8",
+   "citation_purpose": "acted_on"
+  }
+ ],
+ "capsule_id": "8ffac39fe42e5d1b9dcbff838ec5c3aad749a3e8a32e3157791297f5f325b6e7"
+}
