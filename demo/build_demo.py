@@ -11,7 +11,7 @@ record = json.loads(rec_bytes)
 seal = record["seal_hash"]
 att_digest = hashlib.sha256(att_bytes).hexdigest()   # unsigned attachment: its bytes as issued
 spec_digest = json.loads(att_bytes)["action_specifications"][0]["spec_digest"]
-NS = "net.isoluce.dps"  # provisional namespace under the author's own domain, until the Steward answers on the Standard's
+NS = "org.decisionprovenancestandard"  # the Standard's own namespace, with its Steward's agreement (mail of 25 October 2026)
 capsule = {
     "spec_version": sys.argv[1] if len(sys.argv) > 1 else "0.12",
     "format_version": "4",

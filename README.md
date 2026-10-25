@@ -28,10 +28,10 @@ The Decision Provenance Standard, Yohay Etsion, 2026, CC-BY 4.0, https://decisio
 - `demo/`: an Agent Action Capsule (format 4) that cites the record and the attachment in `references[]` as Canonical
   Payload Binding typed digest references. `build_demo.py` computes its `capsule_id`, parses and verifies it with the
   capsule reference library (`agent-action-capsule` 0.12.0), and resolves the two references on the decision side.
-  `demo-result.json` is its output. The artifact-type namespace is provisional (`net.isoluce.dps`) until the Steward
-  answers on the Standard's own.
-- `draft/`: the draft's source (kramdown-rfc), revision -00 in preparation. `COMMIT-TBD` marks the repository commit
-  the draft will be written against.
+  `demo-result.json` is its output. The artifact types are named under the Standard's own namespace, `org.decisionprovenancestandard`, with its
+  Steward's agreement; the Standard's repository declares the names and their digest rules.
+- `draft/`: the draft's source (kramdown-rfc), revision -00 in preparation, written against the repository's main branch
+  at the commit it names.
 
 ## Running
 

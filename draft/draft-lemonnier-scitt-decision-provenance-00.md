@@ -30,13 +30,13 @@ normative:
     author:
       - name: Laurent Lemonnier
     date: 2026-10
-    target: https://github.com/decision-provenance-standard/standard/tree/COMMIT-TBD/extensions/anchoring
+    target: https://github.com/decision-provenance-standard/standard/tree/c989a9d/extensions/anchoring
   DPS-ACTION-BINDING:
     title: "Action binding extension 0.3.0 of the Decision Provenance Standard"
     author:
       - name: Laurent Lemonnier
     date: 2026-10
-    target: https://github.com/decision-provenance-standard/standard/tree/COMMIT-TBD/extensions/action-binding
+    target: https://github.com/decision-provenance-standard/standard/tree/c989a9d/extensions/action-binding
 
 informative:
   DPS-CORE:
@@ -47,10 +47,10 @@ informative:
     target: https://decisionprovenancestandard.org
   DPS-SIGNATURES:
     title: "Signatures extension 0.2.0 of the Decision Provenance Standard"
-    target: https://github.com/decision-provenance-standard/standard/tree/COMMIT-TBD/extensions/signatures
+    target: https://github.com/decision-provenance-standard/standard/tree/c989a9d/extensions/signatures
   DPS-PV:
     title: "Portable verification extension 0.3.0 of the Decision Provenance Standard"
-    target: https://github.com/decision-provenance-standard/standard/tree/COMMIT-TBD/extensions/portable-verification
+    target: https://github.com/decision-provenance-standard/standard/tree/c989a9d/extensions/portable-verification
   I-D.ietf-scitt-software-use-cases:
   I-D.mih-scitt-agent-action-capsule:
   I-D.mih-sokolov-scitt-payload-binding:
@@ -93,7 +93,7 @@ This document is an independent, downstream description. It is not part of the D
 
 ## Versions and commit
 
-This document is written against the extensions as they stand on the repository's main branch at commit COMMIT-TBD: anchoring 0.2.0, signatures 0.2.0, portable verification 0.3.0 and action binding 0.3.0. Each extension states its version in every document it defines; this document names them so that a reader can check the same tree.
+This document is written against the extensions as they stand on the repository's main branch at commit c989a9d: anchoring 0.2.0, signatures 0.2.0, portable verification 0.3.0 and action binding 0.3.0. Each extension states its version in every document it defines; this document names them so that a reader can check the same tree.
 
 # Conventions and Definitions
 
@@ -124,17 +124,17 @@ The stages an action-binding attachment records map onto a release pipeline with
 
 # Artifact types for typed digest references {#artifact-types}
 
-The Canonical Payload Binding {{I-D.mih-sokolov-scitt-payload-binding}} defines a typed digest reference, {type, purpose, digest_alg, digest}, and leaves artifact types to the consuming profile. This document declares two. The namespace is provisional until the Steward of the Standard answers on the use of its own (TBD-NAMESPACE).
+The Canonical Payload Binding {{I-D.mih-sokolov-scitt-payload-binding}} defines a typed digest reference, {type, purpose, digest_alg, digest}, and leaves artifact types to the consuming profile; the Agent Action Capsule profile {{I-D.mih-scitt-agent-action-capsule}} (section 9.1) asks that a declared type name carry a URI or reverse-DNS prefix. This document uses two, both declared by the Standard in its repository under its own namespace, `org.decisionprovenancestandard`, with the agreement of its Steward. The repository declares each name, what it identifies and which digest it uses; this document only says how the references are carried. A name never changes meaning; a different digest rule would get a new name.
 
 ## decision_record
 
-- type: TBD-NAMESPACE.decision_record
+- type: org.decisionprovenancestandard.decision_record
 - digest context: the record's seal_hash as the Standard defines it: SHA-256 over the record's bytes with the value of seal_hash replaced by 64 zeros, in lowercase hexadecimal. A record exported under portable verification {{DPS-PV}} carries the same digest as its entry's seal.
 - what a verified reference shows: the cited bytes are the affirmed decision record, under the trust the verifier gives the seal's source; not that the record is true, complete or the latest.
 
 ## action_binding_attachment
 
-- type: TBD-NAMESPACE.action_binding_attachment
+- type: org.decisionprovenancestandard.action_binding_attachment
 - digest context: SHA-256 over the attachment's bytes as issued, with every character of issuer_signature.value_b64 replaced by A where the attachment carries a copy of its seal, as the signatures extension defines it {{DPS-SIGNATURES}}; lowercase hexadecimal.
 - what a verified reference shows: the cited bytes are the attachment as its issuer sealed them; the attachment's own check then says what the stages show.
 
@@ -156,7 +156,7 @@ The reference checks, their cases and their vectors are in the repository under 
 
 # Checkpoints in a Transparency Service {#checkpoints}
 
-A witness's checkpoint over a chain of decision records is a signed statement whose payload is the checkpoint's signed bytes under the Standard's shared rule, with its Receipt, as the anchoring extension defines under "A transparency service as a checkpoint source" at commit COMMIT-TBD. This document adds no rule; it names what a Transparency Service operator and a verifier need:
+A witness's checkpoint over a chain of decision records is a signed statement whose payload is the checkpoint's signed bytes under the Standard's shared rule, with its Receipt, as the anchoring extension defines under "A transparency service as a checkpoint source" at commit c989a9d. This document adds no rule; it names what a Transparency Service operator and a verifier need:
 
 - the statement's protected header: alg -19, kid the witness key's reference, CWT claims {{RFC9597}} iss the key's holder and sub the chain;
 - the leaf: the statement's bytes as registered; a Transparent Statement is carried with its receipts taken out;
@@ -196,18 +196,18 @@ The files are kept with this document's source (https://github.com/laurent-star/
 - Decision record DR-2026-0412 (Core v5.0 schema, state closed): "Ship claims-intake 2.3.1 to production on 2026-10-23", three options considered, the first chosen; affirmed by the release manager on 2026-10-23T14:20:00Z. seal_hash: `34ba302a668e9200017a1083a92e88773dab1ca620faeaac8cd8bb7747596ba5`.
 - Action-binding attachment (0.3.0, unsigned in this example): seven stages, proposal by the release assistant, review and signed approval by the release manager under the release charter, request, re-check, attempt, observed result; one specification, digest `19ade2a46319ac6622333cd6731ac400ed11daa7d6955b5daa5864da91c2b711`, carried in full, naming build 2.3.1+git.5d1c9f0, the artifact digest, the SBOM digest, migration 0042 and the rollback. Attachment digest: `5086c7674db770c6d01592ba697722a2fb468c16d1d5ab9226a7b5217c4bc1a8`.
 - The action binding reference check on the attachment with the record: specification digests, record statements, action binding, stage order, authorisation re-check, observed results and rationale provenance all verified; execution state attempted, result succeeded.
-- A capsule (format 4, action_type decide, disposition accept by a human, effect confirmed) citing both by typed digest references in references[] with citation_purpose ran_under and acted_on: capsule_id `8ffac39fe42e5d1b9dcbff838ec5c3aad749a3e8a32e3157791297f5f325b6e7`; the capsule library (0.12.0) parses it strictly and its Class 1 verification passes with two informational findings (an effect type and a domain outside the seeded values); a verifier of the Standard resolves both references to the documents it holds. The namespace shown is the provisional one.
+- A capsule (format 4, action_type decide, disposition accept by a human, effect confirmed) citing both by typed digest references in references[] with citation_purpose ran_under and acted_on: capsule_id `8ffac39fe42e5d1b9dcbff838ec5c3aad749a3e8a32e3157791297f5f325b6e7`; the capsule library (0.12.0) parses it strictly and its Class 1 verification passes with two informational findings (an effect type and a domain outside the seeded values); a verifier of the Standard resolves both references to the documents it holds.
 
 ~~~
 [
  {
-  "type": "net.isoluce.dps.decision_record",
+  "type": "org.decisionprovenancestandard.decision_record",
   "digest_alg": "SHA-256",
   "digest": "34ba302a668e9200017a1083a92e88773dab1ca620faeaac8cd8bb7747596ba5",
   "citation_purpose": "ran_under"
  },
  {
-  "type": "net.isoluce.dps.action_binding_attachment",
+  "type": "org.decisionprovenancestandard.action_binding_attachment",
   "digest_alg": "SHA-256",
   "digest": "5086c7674db770c6d01592ba697722a2fb468c16d1d5ab9226a7b5217c4bc1a8",
   "citation_purpose": "acted_on"
