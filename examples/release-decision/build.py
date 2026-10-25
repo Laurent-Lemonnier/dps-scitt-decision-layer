@@ -1,4 +1,4 @@
-"""A software release decision in DPS: a decision record (Core v5.0 schema) and an action-binding 0.3.0 attachment
+"""A software release decision in DPS: a decision record (record schema of the reference files 5.2.0) and an action-binding 0.3.0 attachment
 binding the release pipeline's stages to it. Validates both against the repository's schemas and runs the action-binding
 reference check on the attachment. No key: the attachment is unsigned (allowed), the record carries its seal_hash."""
 import base64

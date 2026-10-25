@@ -2,7 +2,7 @@
 twelve months) and the action-binding attachment of the award's notification. Each record carries the price context it was
 decided on (the estimate, the open-data comparables, the bids) and how it will be measured, so that waste shows: the
 twelve-month review is a re_decision that states what was planned, what was paid and what is decided next.
-Validates every record against the Core v5.0 schema and the attachment against action binding 0.3.0, and runs the action
+Validates every record against the record schema of the reference files 5.2.0 and the attachment against action binding 0.3.0, and runs the action
 binding reference check. No key: the attachment is unsigned (allowed); records carry their seal_hash."""
 import base64
 import hashlib

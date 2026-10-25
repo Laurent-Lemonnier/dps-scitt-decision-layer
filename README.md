@@ -15,9 +15,9 @@ The Decision Provenance Standard, Yohay Etsion, 2026, CC-BY 4.0, https://decisio
 
 ## What is here
 
-- `examples/release-decision/`: a decision record (Core v5.0 schema) for shipping release 2.3.1 of a claims-intake
-  service, and the action-binding 0.3.0 attachment of its deploy pipeline (proposal, review, signed approval under the
-  release charter, request, re-check, attempt, observed result). `build.py` builds both, validates them against the
+- `examples/release-decision/`: a decision record (record schema of the reference files 5.2.0) for shipping release 2.3.1 of a claims-intake
+  service, and the action-binding 0.3.0 attachment of its deploy pipeline (proposal, review, approval under the
+  release charter, unsigned in this example, request, re-check, attempt, observed result). `build.py` builds both, validates them against the
   Standard's schemas and runs the action binding reference check; `summary.json` is its output. Nothing in it is
   specific to AI.
 - `examples/public-procurement/`: three decision records of one public purchase (the decision to buy a fleet
