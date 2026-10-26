@@ -34,7 +34,7 @@
     <abstract>
       <?line 76?>
 
-<t>A software supply chain records what was built, from what, and by whom: build attestations, bills of materials, signed statements registered in a Transparency Service. It does not record the decision to ship: who approved the release, on what authority, what they were shown, which options were weighed and why. The statement profiles that record AI agent actions have the same gap, and say so: their human-approval fields are the producer's claim. This document describes how a decision record and its action-binding attachment, as the extension proposals of the Decision Provenance Standard define them, sit under both kinds of record by typed digest references; how a verifier checks offline the approval stage, the approver's signature where one is carried, and the chain of digests from what the attachment says was shown to what was executed; and how the witness checkpoints of the anchoring extension are registered in a SCITT Transparency Service. A software release decision is the first worked example and an agent action capsule the second; the model has no feature specific to either. This document is independent of the Decision Provenance Standard, is not part of it, does not change it, and is not endorsed by its Steward.</t>
+<t>Build attestations, bills of materials and Signed Statements in a Transparency Service record what was built and by whom. None records the decision to ship: who approved it, on what authority, what they were shown, and why. The statement profiles for AI agent actions have the same gap, and say so: their human-approval fields are the producer's claim. This document describes how a decision record and its action-binding attachment, as the extension proposals of the Decision Provenance Standard define them, sit under a release statement, a build attestation or an agent action record by typed digest references; how a verifier checks them offline, including the approver's signature where one is carried; and how the witness checkpoints of the anchoring extension are registered in a Transparency Service. Nothing in the SCITT architecture, in Signed Statements or in Receipts changes. A software release decision and an agent action capsule are the worked examples; the model has no feature specific to either. This document is independent of the Decision Provenance Standard, is not part of it, does not change it, and is not endorsed by its Steward.</t>
     </abstract>
   </front>
   <middle>
@@ -45,7 +45,7 @@
       <t>The SCITT use cases <xref target="I-D.ietf-scitt-software-use-cases"/> and the formats a software supply chain already carries, build provenance <xref target="SLSA"/>, attestations <xref target="IN-TOTO"/> and bills of materials <xref target="SPDX"/>, answer the question "what is this artifact, and how was it built". Registered as Signed Statements in a Transparency Service <xref target="RFC9943"/>, with Receipts <xref target="RFC9942"/>, they become evidence anyone can check later. None of them answers "who decided to ship it, on what, and under which authority": the release decision is a ticket, a chat message or a button, and the record of it, where one exists, is neither signed by the decider nor bound to the artifact that shipped.</t>
       <t>The statement profiles written for AI agent actions have the same gap, and are careful to say so. A capsule records an action's disposition <xref target="I-D.mih-scitt-agent-action-capsule"/>; an AgentInteractionRecord its inputs and outcomes <xref target="I-D.emirdag-scitt-ai-agent-execution"/>; a receipt its risk class and verdict <xref target="I-D.noa-scitt-ai-agent-receipt"/>. Each says that its human-approval field is the producer's claim: an enumeration value or an opaque label, not an authenticated act, and that the reasoning behind the action stays private or reduced to a hash.</t>
       <t>The Decision Provenance Standard <xref target="DPS-CORE"/> records the decision: what was decided, under which charter, which options were considered and with what rationale, and the affirmative human act that closed the record. Its action binding extension <xref target="DPS-ACTION-BINDING"/>, a proposal in the Standard's repository, records the stages from a proposed action specification to its execution: what the attachment states the reviewer was shown, what was approved, signed where a signature is carried, what was requested, re-checked and executed, bound to one another by equal digests. Its anchoring extension <xref target="DPS-ANCHORING"/>, also a proposal, gives those records evidence that their bytes existed by a given point, and witness checkpoints, including, since its SCITT source, a witness-signed checkpoint registered in a Transparency Service with its Receipt. A deploy pipeline and an AI agent are two executors of decisions; the Standard does not distinguish them.</t>
-      <t>This document does three things. It declares two artifact types so that a build attestation, a release statement or an agent action record may cite, by typed digest reference <xref target="I-D.mih-sokolov-scitt-payload-binding"/>, the decision record and the action-binding attachment it executes. It describes how a verifier holding both checks the approval and the binding offline. And it describes the registration of the anchoring extension's checkpoints in a Transparency Service, by reference to the anchoring extension at a fixed commit. Two worked examples: a software release decision, and an agent action capsule citing a decision.</t>
+      <t>This document does three things. It declares two artifact types so that a build attestation, a release statement or an agent action record may cite, by typed digest reference <xref target="I-D.mih-sokolov-scitt-payload-binding"/>, the decision record and the action-binding attachment it executes. It describes how a verifier holding both checks the approval and the binding offline. And it describes the registration of the anchoring extension's checkpoints in a Transparency Service, by reference to the anchoring extension at a fixed commit. Two worked examples: a software release decision, and an agent action capsule citing a decision. Nothing in the architecture <xref target="RFC9943"/>, in Signed Statements or in Receipts changes: the decision layer is cited by digest from a statement a service already registers, and its checkpoints are registered as any statement is.</t>
       <section anchor="relation-to-the-decision-provenance-standard">
         <name>Relation to the Decision Provenance Standard</name>
         <t>This document is an independent, downstream description. It is not part of the Decision Provenance Standard, does not change it, and is not endorsed by its Steward. The name is used only to identify the Standard and its extensions, which are the source: where this document and the repository differ, the repository governs, and any change a reader asks for in a format described here is made in the repository first, as a pull request. The extensions are proposals in the repository; they are not part of the Standard itself.</t>
@@ -72,7 +72,7 @@ appear in all capitals, as shown here.</t>
       <t>A verifier holding an action record (a release statement, a build attestation, a capsule) and the decision record and attachment it cites can establish, offline:</t>
       <ul spacing="normal">
         <li>
-          <t>where the approver's signature is carried, that the approver signed the outcome stage with a key the verifier's own trust policy maps to a person in role person; the authority reference that points into the deployer's charter stays the issuer's statement unless the verifier checks it against an independent source, such as the permission system;</t>
+          <t>where the approver's signature is carried, that the approver signed the outcome stage with a key the verifier's own trust policy maps to a named person, in the role <tt>person</tt> of that policy; the authority reference that points into the deployer's charter stays the issuer's statement unless the verifier checks it against an independent source, such as the permission system;</t>
         </li>
         <li>
           <t>that the specification the attachment says was shown to the approver, the one approved, the one that was requested, re-checked and executed, are one and the same, by equal digests, or exactly where they differ; for a release, that specification names the artifact digest, the bill of materials digest, the migrations and the rollback;</t>
@@ -94,7 +94,7 @@ appear in all capitals, as shown here.</t>
           <t>The action specification the approver sees, carried in full in the attachment, names the artifact by its digest, the bill of materials by its digest, and the build by its identifier. A verifier that holds the SLSA provenance or the SBOM recomputes those digests and reads whether the release that was approved is the artifact that was built.</t>
         </li>
         <li>
-          <t>A release statement registered in a Transparency Service, or the build attestation itself where its format allows additional references, cites the decision record and the attachment by the typed digest references of <xref target="artifact-types"/>. The SCITT Receipt then covers the decision together with the artifact.</t>
+          <t>A release statement registered in a Transparency Service, or the build attestation itself where its format allows additional references, cites the decision record and the attachment by the typed digest references of <xref target="artifact-types"/>. The Receipt over that statement then covers the references, that is the two digests, beside the artifact's; the decision documents themselves travel beside the statement or are obtained from the issuer.</t>
         </li>
         <li>
           <t>A Transparency Service that registers the anchoring extension's witness checkpoints (<xref target="checkpoints"/>) gives each checkpoint over one issuer's chain of release decisions a Receipt from the same service the artifacts use. A Receipt shows the statement's inclusion; the anchoring extension does not yet check that the log only grew, so this is not evidence of an append-only history of decisions.</t>
@@ -168,7 +168,7 @@ appear in all capitals, as shown here.</t>
           <t>the leaf: the statement's bytes as registered; a Transparent Statement is carried with its receipts taken out;</t>
         </li>
         <li>
-          <t>what a Receipt shows: that the service signed the statement into its log at a tree size; not the log's consistency, which the extension reports as not checked in this version, nor a registration time;</t>
+          <t>what a Receipt shows: that the service signed the statement into its log at a tree size; not the log's consistency, which the extension reports as not checked in this version; and the extension reads no registration time from it;</t>
         </li>
         <li>
           <t>the registration policy is the operator's <xref target="RFC9943"/>. A verifier never relies on it: it accepts only statements from the witness keys and chains its own trust policy lists for that service. A service may mirror that list in its policy.</t>
@@ -185,6 +185,24 @@ appear in all capitals, as shown here.</t>
         <name>An agent action capsule citing a decision</name>
         <t>The same record and attachment, cited from an Agent Action Capsule by two typed digest references in references[]. The capsule reference library parses the capsule strictly and verifies it; a verifier of the Standard resolves both references to the documents it holds. Nothing in the capsule's protected header or verification changed.</t>
       </section>
+    </section>
+    <section anchor="open-questions">
+      <name>Open questions</name>
+      <t>This revision is a base for discussion. The questions its author would like the working group's reading on:</t>
+      <ul spacing="normal">
+        <li>
+          <t>Whether a decision record should itself be registered as a Signed Statement, with the decision identifier as its subject, rather than only cited by digest from the statements that execute it. The anchoring extension registers checkpoints over chains of records, not the records; registering a record would be a new rule, made in the repository.</t>
+        </li>
+        <li>
+          <t>Whether the two artifact type names of <xref target="artifact-types"/> belong in a registry, if the Canonical Payload Binding establishes one, and under which policy; today the Standard's repository declares them under its own namespace.</t>
+        </li>
+        <li>
+          <t>Which media type or CoAP Content-Format, if any, a checkpoint payload should carry when registered, and whether the vendor tree is the right place (<xref target="iana-considerations"/>).</t>
+        </li>
+        <li>
+          <t>Whether a Transparency Service should recognise witness checkpoints in its registration policy by their witness keys, as a verifier does in its trust policy, or treat them as any statement from any issuer.</t>
+        </li>
+      </ul>
     </section>
     <section anchor="security-considerations">
       <name>Security Considerations</name>
@@ -604,7 +622,7 @@ appear in all capitals, as shown here.</t>
         </reference>
       </references>
     </references>
-    <?line 208?>
+    <?line 217?>
 
 <section numbered="false" anchor="acknowledgments">
       <name>Acknowledgments</name>
@@ -651,171 +669,180 @@ b5217c4bc1a8",
     </section>
   </back>
   <!-- ##markdown-source:
-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
-QU3WxVcAAA==
+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
+XQAA
 
 -->
 

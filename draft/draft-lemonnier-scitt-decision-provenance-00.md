@@ -75,7 +75,7 @@ informative:
 
 --- abstract
 
-A software supply chain records what was built, from what, and by whom: build attestations, bills of materials, signed statements registered in a Transparency Service. It does not record the decision to ship: who approved the release, on what authority, what they were shown, which options were weighed and why. The statement profiles that record AI agent actions have the same gap, and say so: their human-approval fields are the producer's claim. This document describes how a decision record and its action-binding attachment, as the extension proposals of the Decision Provenance Standard define them, sit under both kinds of record by typed digest references; how a verifier checks offline the approval stage, the approver's signature where one is carried, and the chain of digests from what the attachment says was shown to what was executed; and how the witness checkpoints of the anchoring extension are registered in a SCITT Transparency Service. A software release decision is the first worked example and an agent action capsule the second; the model has no feature specific to either. This document is independent of the Decision Provenance Standard, is not part of it, does not change it, and is not endorsed by its Steward.
+Build attestations, bills of materials and Signed Statements in a Transparency Service record what was built and by whom. None records the decision to ship: who approved it, on what authority, what they were shown, and why. The statement profiles for AI agent actions have the same gap, and say so: their human-approval fields are the producer's claim. This document describes how a decision record and its action-binding attachment, as the extension proposals of the Decision Provenance Standard define them, sit under a release statement, a build attestation or an agent action record by typed digest references; how a verifier checks them offline, including the approver's signature where one is carried; and how the witness checkpoints of the anchoring extension are registered in a Transparency Service. Nothing in the SCITT architecture, in Signed Statements or in Receipts changes. A software release decision and an agent action capsule are the worked examples; the model has no feature specific to either. This document is independent of the Decision Provenance Standard, is not part of it, does not change it, and is not endorsed by its Steward.
 
 --- middle
 
@@ -87,7 +87,7 @@ The statement profiles written for AI agent actions have the same gap, and are c
 
 The Decision Provenance Standard {{DPS-CORE}} records the decision: what was decided, under which charter, which options were considered and with what rationale, and the affirmative human act that closed the record. Its action binding extension {{DPS-ACTION-BINDING}}, a proposal in the Standard's repository, records the stages from a proposed action specification to its execution: what the attachment states the reviewer was shown, what was approved, signed where a signature is carried, what was requested, re-checked and executed, bound to one another by equal digests. Its anchoring extension {{DPS-ANCHORING}}, also a proposal, gives those records evidence that their bytes existed by a given point, and witness checkpoints, including, since its SCITT source, a witness-signed checkpoint registered in a Transparency Service with its Receipt. A deploy pipeline and an AI agent are two executors of decisions; the Standard does not distinguish them.
 
-This document does three things. It declares two artifact types so that a build attestation, a release statement or an agent action record may cite, by typed digest reference {{I-D.mih-sokolov-scitt-payload-binding}}, the decision record and the action-binding attachment it executes. It describes how a verifier holding both checks the approval and the binding offline. And it describes the registration of the anchoring extension's checkpoints in a Transparency Service, by reference to the anchoring extension at a fixed commit. Two worked examples: a software release decision, and an agent action capsule citing a decision.
+This document does three things. It declares two artifact types so that a build attestation, a release statement or an agent action record may cite, by typed digest reference {{I-D.mih-sokolov-scitt-payload-binding}}, the decision record and the action-binding attachment it executes. It describes how a verifier holding both checks the approval and the binding offline. And it describes the registration of the anchoring extension's checkpoints in a Transparency Service, by reference to the anchoring extension at a fixed commit. Two worked examples: a software release decision, and an agent action capsule citing a decision. Nothing in the architecture {{RFC9943}}, in Signed Statements or in Receipts changes: the decision layer is cited by digest from a statement a service already registers, and its checkpoints are registered as any statement is.
 
 ## Relation to the Decision Provenance Standard
 
@@ -109,7 +109,7 @@ Decision record, action-binding attachment, stage, checkpoint, witness, trust po
 
 A verifier holding an action record (a release statement, a build attestation, a capsule) and the decision record and attachment it cites can establish, offline:
 
-- where the approver's signature is carried, that the approver signed the outcome stage with a key the verifier's own trust policy maps to a person in role person; the authority reference that points into the deployer's charter stays the issuer's statement unless the verifier checks it against an independent source, such as the permission system;
+- where the approver's signature is carried, that the approver signed the outcome stage with a key the verifier's own trust policy maps to a named person, in the role `person` of that policy; the authority reference that points into the deployer's charter stays the issuer's statement unless the verifier checks it against an independent source, such as the permission system;
 - that the specification the attachment says was shown to the approver, the one approved, the one that was requested, re-checked and executed, are one and the same, by equal digests, or exactly where they differ; for a release, that specification names the artifact digest, the bill of materials digest, the migrations and the rollback;
 - the options considered and the rationale as the record states them, with the time the rationale was recorded relative to the decision;
 - and, through the anchoring extension, evidence about when those bytes existed, each source with what it does and does not show: an RFC 3161 token {{RFC3161}} gives a time from an authority the verifier trusts; a SCITT Receipt states no time, only that the service registered the statement into its log; an OpenTimestamps proof shows only that the bytes existed before a block was mined.
@@ -121,7 +121,7 @@ It cannot establish that the decision was right, that the action was, or what th
 Nothing here replaces a build attestation, a provenance predicate or a bill of materials; they say what was built, and they say it well. The decision layer sits beside them and is linked to them in both directions by digests:
 
 - The action specification the approver sees, carried in full in the attachment, names the artifact by its digest, the bill of materials by its digest, and the build by its identifier. A verifier that holds the SLSA provenance or the SBOM recomputes those digests and reads whether the release that was approved is the artifact that was built.
-- A release statement registered in a Transparency Service, or the build attestation itself where its format allows additional references, cites the decision record and the attachment by the typed digest references of {{artifact-types}}. The SCITT Receipt then covers the decision together with the artifact.
+- A release statement registered in a Transparency Service, or the build attestation itself where its format allows additional references, cites the decision record and the attachment by the typed digest references of {{artifact-types}}. The Receipt over that statement then covers the references, that is the two digests, beside the artifact's; the decision documents themselves travel beside the statement or are obtained from the issuer.
 - A Transparency Service that registers the anchoring extension's witness checkpoints ({{checkpoints}}) gives each checkpoint over one issuer's chain of release decisions a Receipt from the same service the artifacts use. A Receipt shows the statement's inclusion; the anchoring extension does not yet check that the log only grew, so this is not evidence of an append-only history of decisions.
 
 The stages an action-binding attachment records map onto a release pipeline without change: the proposal is the release candidate as the assistant or the pipeline drafted it; the review is the release manager's reading of it; the outcome is the approval under the release charter, signed by the release manager where a signature is carried; the request is the deploy job; the re-check is the permission or policy gate just before deployment; the attempt and the result are the deployment and what the target reported. A change of the artifact digest between the approval and the attempt fails the binding, by construction.
@@ -166,7 +166,7 @@ A witness's checkpoint over a chain of decision records is a signed statement wh
 
 - the statement's protected header {{RFC9052}}: alg -19, kid the witness key's reference, CWT claims {{RFC9597}} iss the key's holder and sub the chain;
 - the leaf: the statement's bytes as registered; a Transparent Statement is carried with its receipts taken out;
-- what a Receipt shows: that the service signed the statement into its log at a tree size; not the log's consistency, which the extension reports as not checked in this version, nor a registration time;
+- what a Receipt shows: that the service signed the statement into its log at a tree size; not the log's consistency, which the extension reports as not checked in this version; and the extension reads no registration time from it;
 - the registration policy is the operator's {{RFC9943}}. A verifier never relies on it: it accepts only statements from the witness keys and chains its own trust policy lists for that service. A service may mirror that list in its policy.
 
 # Worked examples
@@ -179,11 +179,20 @@ The appendix carries a decision record for shipping release 2.3.1 of a claims-in
 
 The same record and attachment, cited from an Agent Action Capsule by two typed digest references in references[]. The capsule reference library parses the capsule strictly and verifies it; a verifier of the Standard resolves both references to the documents it holds. Nothing in the capsule's protected header or verification changed.
 
+# Open questions {#open-questions}
+
+This revision is a base for discussion. The questions its author would like the working group's reading on:
+
+- Whether a decision record should itself be registered as a Signed Statement, with the decision identifier as its subject, rather than only cited by digest from the statements that execute it. The anchoring extension registers checkpoints over chains of records, not the records; registering a record would be a new rule, made in the repository.
+- Whether the two artifact type names of {{artifact-types}} belong in a registry, if the Canonical Payload Binding establishes one, and under which policy; today the Standard's repository declares them under its own namespace.
+- Which media type or CoAP Content-Format, if any, a checkpoint payload should carry when registered, and whether the vendor tree is the right place ({{iana-considerations}}).
+- Whether a Transparency Service should recognise witness checkpoints in its registration policy by their witness keys, as a verifier does in its trust policy, or treat them as any statement from any issuer.
+
 # Security Considerations
 
 Where the approver's signature is carried, the decision layer authenticates the approver's act and binds it to the executed specification; an authority reference stays the issuer's statement unless checked against an independent source; it does not establish the truth of the decision's inputs, nor that the artifact a specification names is safe: that stays with the build attestations and the reviews they record. A relying party that needs a signed approval requires one in its own configuration and does not accept an unsigned attachment: anyone holding a signed attachment can remove its signature and present it as unsigned, and only a seal beside it shows that. Keys and sources of trust come from the verifier's own trust policy, never from the artifacts. A Receipt states no time; an OpenTimestamps proof shows only that bytes existed before a block was mined; only an RFC 3161 token from an authority the verifier trusts gives a time bound. The anchoring extension's security considerations apply.
 
-# IANA Considerations
+# IANA Considerations {#iana-considerations}
 
 This document registers no media type in this revision. A later revision may register, in the vendor tree, a media type for the checkpoint payload, with the Steward of the Decision Provenance Standard as change controller; the content type stays optional in the anchoring extension.
 
