@@ -30,13 +30,13 @@ normative:
     author:
       - name: Laurent Lemonnier
     date: 2026-10
-    target: https://github.com/decision-provenance-standard/standard/tree/c989a9d/extensions/anchoring
+    target: https://github.com/decision-provenance-standard/standard/tree/5b0534d/extensions/anchoring
   DPS-ACTION-BINDING:
     title: "Action binding extension 0.3.0 of the Decision Provenance Standard"
     author:
       - name: Laurent Lemonnier
     date: 2026-10
-    target: https://github.com/decision-provenance-standard/standard/tree/c989a9d/extensions/action-binding
+    target: https://github.com/decision-provenance-standard/standard/tree/5b0534d/extensions/action-binding
 
 informative:
   DPS-CORE:
@@ -47,13 +47,13 @@ informative:
     target: https://decisionprovenancestandard.org
   DPS-SIGNATURES:
     title: "Signatures extension 0.2.0 of the Decision Provenance Standard"
-    target: https://github.com/decision-provenance-standard/standard/tree/c989a9d/extensions/signatures
+    target: https://github.com/decision-provenance-standard/standard/tree/5b0534d/extensions/signatures
   DPS-PV:
     title: "Portable verification extension 0.3.0 of the Decision Provenance Standard"
-    target: https://github.com/decision-provenance-standard/standard/tree/c989a9d/extensions/portable-verification
+    target: https://github.com/decision-provenance-standard/standard/tree/5b0534d/extensions/portable-verification
   DPS-NAMES:
-    title: "Extensions of the Decision Provenance Standard, Names for typed references (pull request #73)"
-    target: https://github.com/decision-provenance-standard/standard/pull/73
+    title: "Extensions of the Decision Provenance Standard, Names for typed references"
+    target: https://github.com/decision-provenance-standard/standard/blob/5b0534d/extensions/README.md#names-for-typed-references
   I-D.ietf-scitt-software-use-cases:
   I-D.mih-scitt-agent-action-capsule:
   I-D.mih-sokolov-scitt-payload-binding:
@@ -96,7 +96,7 @@ This document is an independent, downstream description. It is not part of the D
 
 ## Versions and commit
 
-This document is written against the extensions as they stand on the repository's main branch at commit c989a9d: anchoring 0.2.0, signatures 0.2.0, portable verification 0.3.0 and action binding 0.3.0, each a proposal written against Core v1.3 rev. 11 and the reference files 5.2.0. The names of {{artifact-types}} are those of {{DPS-NAMES}}; a later revision cites the commit where they are merged. Each extension states its version in every document it defines; this document names them so that a reader can check the same tree.
+This document is written against the extensions as they stand on the repository's main branch at commit 5b0534d: anchoring 0.2.0, signatures 0.2.0, portable verification 0.3.0 and action binding 0.3.0, each a proposal written against Core v1.3 rev. 11 and the reference files 5.2.0. The names of {{artifact-types}} are those the extensions index declares at the same commit {{DPS-NAMES}}. Each extension states its version in every document it defines; this document names them so that a reader can check the same tree.
 
 # Conventions and Definitions
 
@@ -161,7 +161,7 @@ The reference checks, their cases and their vectors are in the repository under 
 
 # Checkpoints in a Transparency Service {#checkpoints}
 
-A witness's checkpoint over a chain of decision records is a signed statement whose payload is the checkpoint's signed bytes under the anchoring extension's shared rule, with its Receipt, as the anchoring extension defines under "A transparency service as a checkpoint source" at commit c989a9d. This document adds no rule; it names what a Transparency Service operator and a verifier need:
+A witness's checkpoint over a chain of decision records is a signed statement whose payload is the checkpoint's signed bytes under the anchoring extension's shared rule, with its Receipt, as the anchoring extension defines under "A transparency service as a checkpoint source" at commit 5b0534d. This document adds no rule; it names what a Transparency Service operator and a verifier need:
 
 - the statement's protected header: alg -19, kid the witness key's reference, CWT claims {{RFC9597}} iss the key's holder and sub the chain;
 - the leaf: the statement's bytes as registered; a Transparent Statement is carried with its receipts taken out;
