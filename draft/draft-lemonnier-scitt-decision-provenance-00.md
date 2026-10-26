@@ -3,6 +3,7 @@ title: "Decision Provenance for SCITT: binding software releases and agent actio
 abbrev: "SCITT Decision Provenance"
 docname: draft-lemonnier-scitt-decision-provenance-00
 category: info
+submissiontype: IETF
 ipr: trust200902
 area: Security
 workgroup: SCITT
@@ -22,7 +23,6 @@ normative:
   RFC2119:
   RFC8174:
   RFC9052:
-  RFC9162:
   RFC9942:
   RFC9943:
   DPS-ANCHORING:
@@ -61,6 +61,7 @@ informative:
   I-D.emirdag-scitt-ai-agent-execution:
   I-D.noa-scitt-ai-agent-receipt:
   RFC3161:
+  RFC8792:
   RFC9597:
   SLSA:
     title: "SLSA: Supply-chain Levels for Software Artifacts, provenance predicate"
@@ -163,7 +164,7 @@ The reference checks, their cases and their vectors are in the repository under 
 
 A witness's checkpoint over a chain of decision records is a signed statement whose payload is the checkpoint's signed bytes under the anchoring extension's shared rule, with its Receipt, as the anchoring extension defines under "A transparency service as a checkpoint source" at commit 5b0534d. This document adds no rule; it names what a Transparency Service operator and a verifier need:
 
-- the statement's protected header: alg -19, kid the witness key's reference, CWT claims {{RFC9597}} iss the key's holder and sub the chain;
+- the statement's protected header {{RFC9052}}: alg -19, kid the witness key's reference, CWT claims {{RFC9597}} iss the key's holder and sub the chain;
 - the leaf: the statement's bytes as registered; a Transparent Statement is carried with its receipts taken out;
 - what a Receipt shows: that the service signed the statement into its log at a tree size; not the log's consistency, which the extension reports as not checked in this version, nor a registration time;
 - the registration policy is the operator's {{RFC9943}}. A verifier never relies on it: it accepts only statements from the witness keys and chains its own trust policy lists for that service. A service may mirror that list in its policy.
@@ -203,18 +204,24 @@ The files are kept with this document's source (https://github.com/laurent-star/
 - The action binding reference check on the attachment with the record: specification digests, record statements, action binding, stage order, authorisation re-check, observed results and rationale provenance verified; execution state attempted, result succeeded; issuer signature and time not checked, as the attachment is unsigned.
 - A capsule (format 4, action_type decide, disposition accept by a human, effect confirmed) citing both by typed digest references in references[] with citation_purpose ran_under and acted_on: capsule_id `8ffac39fe42e5d1b9dcbff838ec5c3aad749a3e8a32e3157791297f5f325b6e7`; the capsule library (0.12.0) parses it strictly and its Class 1 verification passes with two informational findings (an effect type and a domain outside the seeded values); a verifier of the Standard resolves both references to the documents it holds.
 
+The two references as the capsule carries them, wrapped as {{RFC8792}} describes:
+
 ~~~
+NOTE: '\' line wrapping per RFC 8792
+
 [
  {
   "type": "org.decisionprovenancestandard.decision_record",
   "digest_alg": "SHA-256",
-  "digest": "34ba302a668e9200017a1083a92e88773dab1ca620faeaac8cd8bb7747596ba5",
+  "digest": "34ba302a668e9200017a1083a92e88773dab1ca620faeaac8cd8\
+bb7747596ba5",
   "citation_purpose": "ran_under"
  },
  {
   "type": "org.decisionprovenancestandard.action_binding_attachment",
   "digest_alg": "SHA-256",
-  "digest": "5086c7674db770c6d01592ba697722a2fb468c16d1d5ab9226a7b5217c4bc1a8",
+  "digest": "5086c7674db770c6d01592ba697722a2fb468c16d1d5ab9226a7\
+b5217c4bc1a8",
   "citation_purpose": "acted_on"
  }
 ]
