@@ -11,7 +11,10 @@ record = json.loads(rec_bytes)
 seal = record["seal_hash"]
 att_digest = hashlib.sha256(att_bytes).hexdigest()   # unsigned attachment: its bytes as issued
 spec_digest = json.loads(att_bytes)["action_specifications"][0]["spec_digest"]
-NS = "org.decisionprovenancestandard"  # the Standard's own namespace, with its Steward's agreement (mail of 25 October 2026)
+NS = "org.decisionprovenancestandard"  # the Standard's own namespace, declared at its commit ef7225f (#73)
+# The response the deploy target returned, as observed: a confirmed effect's response_digest is the JSON digest of the
+# response object (AAC -05 sections 2 and 5.3: lowercase-hex SHA-256 over its JCS form), not a digest of a label.
+response = json.loads((H / "deploy-response.json").read_bytes())
 capsule = {
     "spec_version": sys.argv[1] if len(sys.argv) > 1 else "0.12",
     "format_version": "4",
@@ -24,8 +27,8 @@ capsule = {
     "domain": "software-release",
     "disposition": {"decision": "accept", "approver": "human", "human_disposed": True,
                     "authority": "urn:isoluce:charter:CH-ISOLUCE-RELEASE-1#release-approval", "verdict_class": "executed"},
-    "effect": {"status": "confirmed", "type": f"{NS}.release_deploy", "request_digest": spec_digest,
-               "response_digest": hashlib.sha256(b"deploy confirmation 0412").hexdigest(),
+    "effect": {"status": "confirmed", "type": "net.isoluce.release_deploy", "request_digest": spec_digest,
+               "response_digest": canonical.json_digest(response),
                "external_ref": "urn:isoluce:deploy:confirmation:0412", "irreversibility_class": "one_way_recoverable",
                "effect_attestation": "host_served_observed"},
     "references": [

@@ -17,9 +17,9 @@
  },
  "effect": {
   "status": "confirmed",
-  "type": "org.decisionprovenancestandard.release_deploy",
+  "type": "net.isoluce.release_deploy",
   "request_digest": "19ade2a46319ac6622333cd6731ac400ed11daa7d6955b5daa5864da91c2b711",
-  "response_digest": "90e54d8c535a484485c0c177a8f89214c84876d1fefa055ee7dd8fe55a0a20ed",
+  "response_digest": "34cfe0724b208a1b7294bd01718452ab054b318c6870cdc7c6e164ed2ac893ba",
   "external_ref": "urn:isoluce:deploy:confirmation:0412",
   "irreversibility_class": "one_way_recoverable",
   "effect_attestation": "host_served_observed"
@@ -38,5 +38,5 @@
    "citation_purpose": "acted_on"
   }
  ],
- "capsule_id": "18c04796e178ceaec69139ef3088c89eb2d0e0b2e56b2ade0b3e6d106f19a0a3"
+ "capsule_id": "76481fc3bf5016ae51d7be821557f4bd7e40a0c0898ac7d8a6f425fbc135ab9d"
 }

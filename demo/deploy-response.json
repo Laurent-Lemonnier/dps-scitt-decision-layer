@@ -1,0 +1,10 @@
+{
+ "confirmation": "urn:isoluce:deploy:confirmation:0412",
+ "target": "urn:isoluce:service:claims-intake:production",
+ "status": "deployed",
+ "version": "2.3.1",
+ "build": "2.3.1+git.5d1c9f0",
+ "artifact_digest": "sha256:9d4e2c1b0f6a7e3d8c5b4a2910f8e7d6c5b4a3920e1d0c9b8a7f6e5d4c3b2a19",
+ "migrations_applied": ["0042"],
+ "completed_at": "2026-10-23T14:29:40Z"
+}

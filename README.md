@@ -29,8 +29,12 @@ The Decision Provenance Standard, Yohay Etsion, 2026, CC-BY 4.0, https://decisio
   Payload Binding typed digest references. `build_demo.py` computes its `capsule_id`, parses and verifies it with the
   capsule reference library (`agent-action-capsule` 0.12.0), and resolves the two references on the decision side.
   `demo-result.json` is its output. The artifact types are named under the Standard's own namespace, `org.decisionprovenancestandard`, with its
-  Steward's agreement; the Standard's repository declares the names and their digest rules.
-- `draft/`: the draft's source (kramdown-rfc), revision -00 in preparation, written against the repository's main branch
+  Steward's agreement; the Standard's repository declares the names and their digest rules at commit `ef7225f` (#73).
+  The effect's `response_digest` is the JSON digest (JCS, then SHA-256) of the observed deploy response,
+  `deploy-response.json`, as the capsule profile requires for a confirmed effect; the effect type is iSoluce's own.
+  These two corrections, after a reading by the capsule's author, change the capsule's `capsule_id` from the one the
+  -00 quotes (`8ffac39f…`) to `76481fc3bf5016ae51d7be821557f4bd7e40a0c0898ac7d8a6f425fbc135ab9d`; the -01 will carry the new one.
+- `draft/`: the draft's source (kramdown-rfc), revision -00, posted on 26 October 2026, written against the repository's main branch
   at the commit it names.
 
 ## Running
