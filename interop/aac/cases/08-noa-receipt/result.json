@@ -1,0 +1,84 @@
+{
+ "case": "08-noa-receipt",
+ "noa_vectors_commit": "6642fb238bb33a0bcda53c175c0d4a7683d95dcd",
+ "receipt": "rcpt_0000000000000000000000000C",
+ "receipt_spec": "noa.receipt/0.1",
+ "noa_chain_recomputes": true,
+ "declaration": {
+  "noa.receipt/0.1": "context: the profile's digest over UTF8(JCS(receipt without chain.hash and sig.value)); representation: 'sha256:' + lowercase hex; equals chain.hash for a valid receipt; binds the receipt object"
+ },
+ "cpb_refs_label": -65537,
+ "valid": {
+  "signature": "Signature-Valid",
+  "cpb_refs": "ok",
+  "references": [
+   {
+    "type": "noa.receipt/0.1",
+    "state": "Verified"
+   },
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "state": "Verified"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "state": "Verified"
+   }
+  ]
+ },
+ "altered_receipt_digest_in_reference": {
+  "signature": "Signature-Valid",
+  "cpb_refs": "ok",
+  "references": [
+   {
+    "type": "noa.receipt/0.1",
+    "state": "Failed"
+   },
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "state": "Verified"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "state": "Verified"
+   }
+  ]
+ },
+ "receipt_bytes_changed_after_reference": {
+  "signature": "Signature-Valid",
+  "cpb_refs": "ok",
+  "references": [
+   {
+    "type": "noa.receipt/0.1",
+    "state": "Failed"
+   },
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "state": "Verified"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "state": "Verified"
+   }
+  ],
+  "tampered_receipt_chain_hash_recomputes": false
+ },
+ "reference_to_the_signed_file_instead_of_the_object": {
+  "signature": "Signature-Valid",
+  "cpb_refs": "ok",
+  "references": [
+   {
+    "type": "noa.receipt/0.1",
+    "state": "Failed"
+   },
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "state": "Verified"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "state": "Verified"
+   }
+  ]
+ }
+}
