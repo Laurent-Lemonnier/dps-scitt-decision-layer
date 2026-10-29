@@ -1,0 +1,49 @@
+{
+ "case": "06-transparency-receipt",
+ "runner": "/root/claude-ops/dps/wt89/extensions/anchoring/tests/run_checks.py",
+ "A_check_receipt": {
+  "status": "failed",
+  "findings": [
+   "the receipt's kid None is not a key in the trust policy"
+  ]
+ },
+ "B_leaf_diagnostic": {
+  "tree_size": 12750,
+  "leaf_index": 12749,
+  "path_length": 8,
+  "service_entry_hash": "5086d1f277ead4809b792733575661f399a4e6b8fa0a02c0ea5c2607eb0098b6",
+  "alg_in_receipt": -8,
+  "kid_in_receipt": null,
+  "candidates": {
+   "sha256(0x00 || statement bytes)  [RFC 9162 leaf, anchoring 0.2.0]": {
+    "leaf": "e9eac62cee153870…",
+    "root_reached": "39f5ada347db9509…",
+    "receipt_signature_verifies_over_root": false
+   },
+   "sha256(statement bytes)": {
+    "leaf": "b3841ad4b3e5f789…",
+    "root_reached": "6f730d4ac18eeb49…",
+    "receipt_signature_verifies_over_root": false
+   },
+   "sha256(0x00 || Sig_structure)": {
+    "leaf": "fc667f6916531db6…",
+    "root_reached": "4b47dcfb26150386…",
+    "receipt_signature_verifies_over_root": false
+   },
+   "sha256(Sig_structure)  [the service's entry_hash]": {
+    "leaf": "5086d1f277ead480…",
+    "root_reached": "7c905a7909fb123a…",
+    "receipt_signature_verifies_over_root": false
+   },
+   "sha256(0x00 || entry_hash), entry_hash = sha256(Sig_structure)  [RFC 6962 leaf over the service's entry]": {
+    "leaf": "e841fa8404280dc7…",
+    "root_reached": "c1a5d3bdf2be1a9a…",
+    "receipt_signature_verifies_over_root": true
+   }
+  }
+ },
+ "what_this_shows": [
+  "A: after PR #91 the extension reads a -8 receipt; here it stops earlier, on the kid: the receipt names no key, so the policy cannot select one. Nothing to change on the Standard's side; RFC 9943 section 6 makes kid, iss and sub a MUST of a Signed Statement and RFC 9942 names the service key by kid.",
+  "B: the receipt's signature verifies over the root reached from leaf = SHA-256(0x00 || entry_hash) with entry_hash = SHA-256(Sig_structure of the statement): the service's entry is the Sig_structure digest, and its leaf is the RFC 6962 leaf hash of that digest. Anchoring 0.2.0, as RFC 9162 applied to the statement, takes leaf = SHA-256(0x00 || statement bytes). The receipt is sound under the service's definition; the two definitions differ on what the entry is, and that is the question for the service's author, settled here by bytes rather than by reading."
+ ]
+}
