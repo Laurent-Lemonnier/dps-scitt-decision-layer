@@ -1,0 +1,65 @@
+{
+  "decision_id": "DR-2026-0901",
+  "charter_id": "CH-EXAMPLE-BILLING-1",
+  "record_type": "decision",
+  "record_state": "closed",
+  "dispatch_mode": "mode-1-with-embedded-mode-2-summary",
+  "created_at": "2026-10-24T09:00:00Z",
+  "altitude": "team-leader",
+  "decision_statement": "Invoice Atelier Exemple SARL (SIRET 12345678901234) 250 EUR excluding tax, 300 EUR including tax, due 2026-10-25, unpaid, by running the confirmed Luce program example.invoice.create_unpaid on the inputs whose digest the attachment names.",
+  "context_at_decision": "The work was delivered; the client exists or is created with its exact SIRET; the invoice must be issued before the due date agreed by e-mail.",
+  "options_considered": [
+    "Issue the invoice now through the confirmed program (chosen): exact client, read back, receipts kept.",
+    "Issue it by hand in the accounting tool: no read-back and no receipt, so no proof of what was sent.",
+    "Wait for the monthly batch: the agreed due date would pass."
+  ],
+  "required_inputs_used": [
+    "delivery note 2026-10-22",
+    "SIRET checked in the public register"
+  ],
+  "assumptions_depended_on": [
+    "The amount excluding tax agreed by e-mail is 250 EUR."
+  ],
+  "success_criteria": [
+    "The invoice is read back with 300 EUR including tax, due 2026-10-25, unpaid."
+  ],
+  "accountable_owner": {
+    "full_name": "Camille Exemple",
+    "role": "Billing lead",
+    "employer": "Example SARL"
+  },
+  "decision_class": "billing",
+  "drafting_authority": {
+    "deployer_role_pointer": "urn:example:role:billing-drafting",
+    "system_name": "pria-luce",
+    "version": "luce-1.0-candidate"
+  },
+  "consent_posture": {
+    "posture_class": "not-applicable: business-to-business billing data only"
+  },
+  "affirmation_record": {
+    "timestamp": "2026-10-24T09:12:00Z",
+    "actor_identity": "person:billing-lead",
+    "method": "person_approval signature over the Luce payload hash"
+  },
+  "mode_classification_attestation": {
+    "attestor_full_name": "Camille Exemple",
+    "attestor_role_title": "Billing lead",
+    "attestor_employer": "Example SARL",
+    "attestation_timestamp": "2026-10-24T09:20:00Z",
+    "jurisdiction": "EU",
+    "attestation_language_version": "v5.0",
+    "attestor_capacity": "employee",
+    "attestation_text_signed": "I attest that this decision record was dispatched in mode-1 with an embedded mode-2 summary under charter CH-EXAMPLE-BILLING-1: the PRIA runtime prepared the confirmed Luce program and its inputs; I reviewed them as shown, weighed the three options recorded here, signed with my own key the exact payload whose digest the attachment names, and I am the accountable owner of this decision as an employee."
+  },
+  "accountable_owner_signoff": {
+    "signed_by": "person:billing-lead",
+    "signed_at": "2026-10-24T09:20:00Z"
+  },
+  "re_decision_trigger": "Any read-back that differs from the confirmed version, or an uncertain effect receipt.",
+  "record_location": "urn:example:decision-records:DR-2026-0901",
+  "seal_algorithm": "SHA-256",
+  "supersedes": null,
+  "closed_at": "2026-10-24T09:20:00Z",
+  "seal_hash": "e4adee54d9314c58b10b61487d21c895d8ea76652d26438285b49ae373b8213b"
+}

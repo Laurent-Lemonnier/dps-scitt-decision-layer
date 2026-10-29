@@ -1,0 +1,42 @@
+{
+ "case": "07-cose",
+ "07a_producer_envelope": {
+  "library_verify_ok": true,
+  "key_matches_ours": true,
+  "against_another_capsule_id": {
+   "ok": false,
+   "reason": "envelope_payload_mismatch"
+  }
+ },
+ "07b_cpb_refs_statement": {
+  "valid": {
+   "signature": "Signature-Valid",
+   "cpb_refs": "ok",
+   "references": {
+    "decision_record": "Verified",
+    "action_binding_attachment": "Verified"
+   }
+  },
+  "altered_digest": {
+   "signature": "Signature-Valid",
+   "cpb_refs": "ok",
+   "references": {
+    "decision_record": "Failed",
+    "action_binding_attachment": "Verified"
+   }
+  },
+  "malformed_map": {
+   "signature": "Signature-Valid",
+   "cpb_refs": "Malformed",
+   "references": "none reported Verified"
+  },
+  "refs_in_unprotected": {
+   "signature": "Signature-Valid",
+   "cpb_refs": "nonconforming"
+  },
+  "without_understanding_cpb_refs": {
+   "signature": "rejected: crit not understood (RFC 9052 \u00a73.1)"
+  }
+ },
+ "note": "cpb-refs label is TBD1 in CPB -06 \u00a715.2; the fixture uses -65537 (private use). The record is cited by its seal, the attachment by the SHA-256 of its bytes as issued (the Standard's declarations after #73/#87)."
+}

@@ -1,0 +1,31 @@
+{
+ "about": "everything valid: the capsule verifies, both references resolve, the Standard's checks verify the attachment and the person's signed approval",
+ "capsule": {
+  "verify_ok": true
+ },
+ "references": {
+  "org.decisionprovenancestandard.decision_record": {
+   "resolved": true
+  },
+  "org.decisionprovenancestandard.action_binding_attachment": {
+   "resolved": true
+  }
+ },
+ "dps": {
+  "record": {
+   "seal_recomputed": true
+  },
+  "attachment": {
+   "action_binding": "verified"
+  },
+  "signatures": {
+   "present": true,
+   "person_approval": {
+    "signature": "verified",
+    "subject": "verified",
+    "key_state": "verified",
+    "identity": "verified"
+   }
+  }
+ }
+}

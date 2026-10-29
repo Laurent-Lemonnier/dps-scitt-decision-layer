@@ -1,0 +1,42 @@
+{
+ "spec_version": "0.12",
+ "format_version": "4",
+ "canonicalization_id": "jcs",
+ "action_id": "urn:example:deploy:request:0412",
+ "action_type": "decide",
+ "operator": "example orchestrator",
+ "developer": "example",
+ "timestamp": "2026-10-23T14:21:10Z",
+ "domain": "software-release",
+ "disposition": {
+  "decision": "accept",
+  "approver": "human",
+  "human_disposed": true,
+  "authority": "urn:example:charter:CH-EXAMPLE-RELEASE-1#release-approval",
+  "verdict_class": "executed"
+ },
+ "effect": {
+  "status": "confirmed",
+  "type": "org.example.release_deploy",
+  "request_digest": "19ade2a46319ac6622333cd6731ac400ed11daa7d6955b5daa5864da91c2b711",
+  "response_digest": "05d12d6262e5662a21154e88be7ef3bfb0baccf7157aa84d96184a72f1ab419c",
+  "external_ref": "urn:example:deploy:request:0412:confirmation",
+  "irreversibility_class": "one_way_recoverable",
+  "effect_attestation": "host_served_observed"
+ },
+ "references": [
+  {
+   "type": "org.decisionprovenancestandard.decision_record",
+   "digest_alg": "SHA-256",
+   "digest": "34ba302a668e9200017a1083a92e88773dab1ca620faeaac8cd8bb7747596ba5",
+   "citation_purpose": "ran_under"
+  },
+  {
+   "type": "org.decisionprovenancestandard.action_binding_attachment",
+   "digest_alg": "SHA-256",
+   "digest": "5086c7674db770c6d01592ba697722a2fb468c16d1d5ab9226a7b5217c4bc1a8",
+   "citation_purpose": "acted_on"
+  }
+ ],
+ "capsule_id": "fb273c5daaa0731c87f0efd9d3e5ba26979ca9f2c4663e2deae47f3ae1b5180b"
+}

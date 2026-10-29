@@ -1,0 +1,39 @@
+{
+ "ts_url": "https://ts.agentactioncapsule.org",
+ "response_keys": [
+  "checkpoint_witness",
+  "entry_hash",
+  "entry_hash_scheme",
+  "leaf_index",
+  "receipt_b64",
+  "subject",
+  "tree_size"
+ ],
+ "entry_hash": "5086d1f277ead4809b792733575661f399a4e6b8fa0a02c0ea5c2607eb0098b6",
+ "entry_hash_matches": [],
+ "receipt_protected_header": {
+  "1": -8,
+  "395": 1,
+  "15": "{6: 1793095789}"
+ },
+ "receipt_unprotected_labels": [
+  "396"
+ ],
+ "receipt_verify": {
+  "entry_hash as returned": {
+   "ok": true,
+   "errors": [],
+   "tree_size": 12750,
+   "leaf_index": 12749
+  },
+  "sha256(statement)": {
+   "ok": false,
+   "errors": [
+    "receipt signature did not verify: signature verification FAILED (InvalidSignature)",
+    "protected header claims withheld (iat/iss/sub/protected_header_ext): receipt signature did not verify"
+   ],
+   "tree_size": 12750,
+   "leaf_index": 12749
+  }
+ }
+}

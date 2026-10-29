@@ -1,0 +1,29 @@
+{
+ "about": "the cited attachment's outcome stage names a review the attachment does not carry: the capsule verifies and both references resolve (the bytes are the ones cited), and the Standard's own checks fail the binding and the signed approval's subject",
+ "capsule": {
+  "verify_ok": true
+ },
+ "references": {
+  "org.decisionprovenancestandard.decision_record": {
+   "resolved": true
+  },
+  "org.decisionprovenancestandard.action_binding_attachment": {
+   "resolved": true
+  }
+ },
+ "dps": {
+  "record": {
+   "seal_recomputed": true
+  },
+  "attachment": {
+   "action_binding": "failed"
+  },
+  "signatures": {
+   "present": true,
+   "person_approval": {
+    "signature": "verified",
+    "subject": "failed"
+   }
+  }
+ }
+}

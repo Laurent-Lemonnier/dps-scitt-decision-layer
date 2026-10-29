@@ -1,0 +1,38 @@
+{
+ "case": "06-transparency-receipt",
+ "what": "the capsule of case 01, its capsule_id registered as a SCITT Signed Statement at ts.agentactioncapsule.org (the capsule library's own Transparency Service), with the COSE Receipt the service returned",
+ "registered": {
+  "ts_url": "https://ts.agentactioncapsule.org",
+  "tree_size": 12750,
+  "leaf_index": 12749,
+  "entry_hash": "5086d1f277ead4809b792733575661f399a4e6b8fa0a02c0ea5c2607eb0098b6",
+  "entry_hash_scheme": "sig_structure",
+  "entry_hash_recomputed_as_sha256_of_Sig_structure": true
+ },
+ "receipt": {
+  "verified_with_scitt_cose": true,
+  "under_leaf": "the entry_hash the service returned (SHA-256 of the statement's Sig_structure)",
+  "protected_header": {
+   "alg": -8,
+   "vds_395": 1,
+   "cwt_claims_15": {
+    "6": 1793095789
+   }
+  },
+  "unprotected_labels": [
+   396
+  ]
+ },
+ "statement": {
+  "alg": "EdDSA (-8)",
+  "content_type": "the capsule-id media type",
+  "payload": "the 32 bytes of capsule_id",
+  "cwt": "iss urn:agent-action-capsule:core:free-anchor, sub capsule_id"
+ },
+ "findings_for_the_call": [
+  "1. The library's submit_anchor (0.12.0) expects entry_hash = SHA-256(statement bytes) and raises on the service's answer; the service hashes the statement's Sig_structure (entry_hash_scheme: sig_structure). Registering by hand and verifying the receipt under the service's leaf works. Library and service disagree on the leaf.",
+  "2. The receipt's protected header carries alg -8 (EdDSA), the verifiable data structure (395: 1) and only iat in its CWT claims: no iss, no sub, no kid. RFC 9943 section 6 makes iss and sub a MUST for a receipt, and kid a MUST without x5t/x5chain (the library's own docstring says so).",
+  "3. The Standard's anchoring 0.2.0 pins alg -19 (Ed25519, RFC 9864) for a statement and for a receipt and reports -8 as not_supported; it also needs kid on the receipt and reads the inclusion proof at label 396 key -1 as [tree-size, leaf-index, path]. The service's proof shape (395: 1, 396) is the right one; the algorithm label and the missing kid are what keep a DPS verifier from reading this receipt as it stands."
+ ],
+ "what_it_shows": "that the service signed this statement into its log at tree size 12750: not when, not that the log is append-only, and nothing about the capsule's content, which never left this folder."
+}

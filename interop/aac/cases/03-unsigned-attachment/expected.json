@@ -1,0 +1,25 @@
+{
+ "about": "both references resolve; the attachment carries no signature and no signatures attachment travels beside: the binding verifies, the approval's signature is reported absent, not verified",
+ "capsule": {
+  "verify_ok": true
+ },
+ "references": {
+  "org.decisionprovenancestandard.decision_record": {
+   "resolved": true
+  },
+  "org.decisionprovenancestandard.action_binding_attachment": {
+   "resolved": true
+  }
+ },
+ "dps": {
+  "record": {
+   "seal_recomputed": true
+  },
+  "attachment": {
+   "action_binding": "verified"
+  },
+  "signatures": {
+   "present": false
+  }
+ }
+}

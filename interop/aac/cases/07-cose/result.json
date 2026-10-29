@@ -1,0 +1,114 @@
+{
+ "case": "07-cose",
+ "capsule_id": "534f4aa83673740cecf16e1830062e0a316a4bac5240cc02b93efff980331466",
+ "producer_public_key_hex": "47d2dc7a4ed5d81c56482953afa9fc435b8392ae131a606465602869d789938d",
+ "cpb_refs_label": -65537,
+ "cpb_refs_label_note": "TBD1 in CPB -06 Section 15.2; private-use value, fixture only",
+ "07a_producer_envelope": {
+  "bytes": 181,
+  "library_verify_ok": true,
+  "library_authenticated_key_hex": "47d2dc7a4ed5d81c56482953afa9fc435b8392ae131a606465602869d789938d",
+  "library_findings": [],
+  "key_matches_ours": true,
+  "against_another_capsule_id": {
+   "ok": false,
+   "findings": [
+    "envelope_payload_mismatch: attached payload MUST equal the raw 32-byte Capsule ID"
+   ]
+  }
+ },
+ "07b_cpb_refs_statement": {
+  "valid": {
+   "signature": "Signature-Valid",
+   "payload_is_capsule_id": true,
+   "cwt": {
+    "iss": "urn:isoluce:aac-interop:producer",
+    "sub": "534f4aa83673740cecf16e1830062e0a316a4bac5240cc02b93efff980331466"
+   },
+   "crit": [
+    -65537
+   ],
+   "cpb_refs": "ok",
+   "references": [
+    {
+     "type": "org.decisionprovenancestandard.decision_record",
+     "state": "Verified"
+    },
+    {
+     "type": "org.decisionprovenancestandard.action_binding_attachment",
+     "state": "Verified"
+    }
+   ]
+  },
+  "altered_digest": {
+   "signature": "Signature-Valid",
+   "payload_is_capsule_id": true,
+   "cwt": {
+    "iss": "urn:isoluce:aac-interop:producer",
+    "sub": "534f4aa83673740cecf16e1830062e0a316a4bac5240cc02b93efff980331466"
+   },
+   "crit": [
+    -65537
+   ],
+   "cpb_refs": "ok",
+   "references": [
+    {
+     "type": "org.decisionprovenancestandard.decision_record",
+     "state": "Failed"
+    },
+    {
+     "type": "org.decisionprovenancestandard.action_binding_attachment",
+     "state": "Verified"
+    }
+   ]
+  },
+  "malformed_map": {
+   "signature": "Signature-Valid",
+   "payload_is_capsule_id": true,
+   "cwt": {
+    "iss": "urn:isoluce:aac-interop:producer",
+    "sub": "534f4aa83673740cecf16e1830062e0a316a4bac5240cc02b93efff980331466"
+   },
+   "crit": [
+    -65537
+   ],
+   "cpb_refs": "Malformed",
+   "cpb_refs_reason": "a reference map is not closed on keys 1..4 with 1, 3, 4 present",
+   "references": []
+  },
+  "refs_in_unprotected": {
+   "signature": "Signature-Valid",
+   "payload_is_capsule_id": true,
+   "cwt": {
+    "iss": "urn:isoluce:aac-interop:producer",
+    "sub": "534f4aa83673740cecf16e1830062e0a316a4bac5240cc02b93efff980331466"
+   },
+   "crit": null,
+   "cpb_refs": "nonconforming",
+   "cpb_refs_reason": "cpb-refs MUST NOT occur in the unprotected header",
+   "references": []
+  },
+  "without_understanding_cpb_refs": {
+   "signature": "failed: crit marks header -65537 as critical, but this verifier does not understand it; rejecting (RFC 9052 §3.1)",
+   "payload_is_capsule_id": true,
+   "cwt": {
+    "iss": "urn:isoluce:aac-interop:producer",
+    "sub": "534f4aa83673740cecf16e1830062e0a316a4bac5240cc02b93efff980331466"
+   },
+   "crit": [
+    -65537
+   ],
+   "cpb_refs": "ok",
+   "references": [
+    {
+     "type": "org.decisionprovenancestandard.decision_record",
+     "state": "Verified"
+    },
+    {
+     "type": "org.decisionprovenancestandard.action_binding_attachment",
+     "state": "Verified"
+    }
+   ]
+  }
+ }
+}

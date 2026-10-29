@@ -1,0 +1,17 @@
+{
+ "about": "the decision record's reference carries a digest one hex digit off: the capsule still verifies as a document, the reference does not resolve, and nothing of the Standard is consulted",
+ "capsule": {
+  "verify_ok": true
+ },
+ "references": {
+  "org.decisionprovenancestandard.decision_record": {
+   "resolved": false
+  },
+  "org.decisionprovenancestandard.action_binding_attachment": {
+   "resolved": true
+  }
+ },
+ "dps": {
+  "consulted": false
+ }
+}

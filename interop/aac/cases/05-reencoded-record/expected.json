@@ -1,0 +1,17 @@
+{
+ "about": "the record travels re-encoded (indented), the same JSON in other bytes; the reference carries the digest of the covered bytes as issued: an as-transmitted context hashes the bytes received, so the reference does not resolve, and the seal does not recompute either",
+ "capsule": {
+  "verify_ok": true
+ },
+ "references": {
+  "org.decisionprovenancestandard.decision_record": {
+   "resolved": false
+  },
+  "org.decisionprovenancestandard.action_binding_attachment": {
+   "resolved": true
+  }
+ },
+ "dps": {
+  "consulted": false
+ }
+}

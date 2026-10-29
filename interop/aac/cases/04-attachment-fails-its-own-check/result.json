@@ -1,0 +1,62 @@
+{
+ "case": "04-attachment-fails-its-own-check",
+ "capsule": {
+  "parse_ok": true,
+  "parse_error": null,
+  "verify_ok": true,
+  "findings": [
+   "info unknown_registry_value",
+   "info domain_unknown_value"
+  ]
+ },
+ "references": {
+  "org.decisionprovenancestandard.decision_record": {
+   "cited": "e4adee54d9314c58b10b61487d21c895d8ea76652d26438285b49ae373b8213b",
+   "held": "e4adee54d9314c58b10b61487d21c895d8ea76652d26438285b49ae373b8213b",
+   "digest_alg": "SHA-256",
+   "resolved": true,
+   "citation_purpose": "ran_under"
+  },
+  "org.decisionprovenancestandard.action_binding_attachment": {
+   "cited": "aa3f36bcf42891fa3f484ad041a8ca21837439f53a1d4d19fb4dff08f2fe3a76",
+   "held": "aa3f36bcf42891fa3f484ad041a8ca21837439f53a1d4d19fb4dff08f2fe3a76",
+   "digest_alg": "SHA-256",
+   "resolved": true,
+   "citation_purpose": "acted_on"
+  }
+ },
+ "dps": {
+  "consulted": true,
+  "record": {
+   "schema_errors": [],
+   "seal_recomputed": true
+  },
+  "attachment": {
+   "schema_errors": [],
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "failed",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified",
+   "execution_state": "attempted"
+  },
+  "signatures": {
+   "present": true,
+   "schema_errors": [],
+   "trust_policy": "verified",
+   "person_approval": {
+    "signature": "verified",
+    "subject": "failed",
+    "key_state": "verified",
+    "identity": "verified"
+   },
+   "findings": [
+    "o1 answers no review stage"
+   ]
+  }
+ },
+ "matches_expected": true
+}

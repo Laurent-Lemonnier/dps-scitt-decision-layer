@@ -1,0 +1,9 @@
+{
+ "receipt_b64": "0oRPowEnGQGLAQ+hBhpq4HhtoRkBjKEggVkBGIMZMc4ZMc2IWCCHWPeKqqjvKDOyW+ADJUzHZrYikcabOxBVEn0S//b6u1ggFPeYWF4cXQwP/sKHRww9fgqzypVZuvRZM8aaF4SbGnFYIFG4CojurrDaWGs3d2J9e78Jf9ReH8eCJw4BdUtEFgaJWCAznVZBHTwb7vHXsXauTRH46B3MS5vIRH9lyRzdIl2dZVgg/sV5tl8Ljf1hjRJByvt7YkR/JvzWydf5vX+6xUfsFytYIMrq+QN25BApgzcnISWhgwpXk4c7sGdToH4pqOiB7vbUWCDQsc1yGzhPWO23RK3YTdEmXkOPKt1cheGHrU7RvQxCvVggSl6hrsDFTJr8mRvY4R/IQAz9NSNNu1Dt7fPnaMjREWD2WEBlGWlIB1VVkgGB0fnH6PwofSBrKX9FvqNnUjLIuk0/fkPQ1wLf/Y1Aqz+YfY/VlkOGGWbFDJFdZ3lvGn4h1/4I",
+ "entry_hash": "5086d1f277ead4809b792733575661f399a4e6b8fa0a02c0ea5c2607eb0098b6",
+ "entry_hash_scheme": "sig_structure",
+ "leaf_index": 12749,
+ "tree_size": 12750,
+ "checkpoint_witness": null,
+ "subject": "534f4aa83673740cecf16e1830062e0a316a4bac5240cc02b93efff980331466"
+}

@@ -1,0 +1,33 @@
+{
+ "case": "02-altered-reference-digest",
+ "capsule": {
+  "parse_ok": true,
+  "parse_error": null,
+  "verify_ok": true,
+  "findings": [
+   "info unknown_registry_value",
+   "info domain_unknown_value"
+  ]
+ },
+ "references": {
+  "org.decisionprovenancestandard.decision_record": {
+   "cited": "e4adee54d9314c58b10b61487d21c895d8ea76652d26438285b49ae373b82130",
+   "held": "e4adee54d9314c58b10b61487d21c895d8ea76652d26438285b49ae373b8213b",
+   "digest_alg": "SHA-256",
+   "resolved": false,
+   "citation_purpose": "ran_under"
+  },
+  "org.decisionprovenancestandard.action_binding_attachment": {
+   "cited": "47a8b475037471c7256279dc3d679c347b432f8a5451bb07502f808e5cb95789",
+   "held": "47a8b475037471c7256279dc3d679c347b432f8a5451bb07502f808e5cb95789",
+   "digest_alg": "SHA-256",
+   "resolved": true,
+   "citation_purpose": "acted_on"
+  }
+ },
+ "dps": {
+  "consulted": false,
+  "note": "a reference did not resolve: the Standard's documents are not the ones cited, so they are not checked"
+ },
+ "matches_expected": true
+}

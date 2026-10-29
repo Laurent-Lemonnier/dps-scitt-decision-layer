@@ -1,0 +1,52 @@
+{
+ "case": "03-unsigned-attachment",
+ "capsule": {
+  "parse_ok": true,
+  "parse_error": null,
+  "verify_ok": true,
+  "findings": [
+   "info unknown_registry_value",
+   "info domain_unknown_value"
+  ]
+ },
+ "references": {
+  "org.decisionprovenancestandard.decision_record": {
+   "cited": "34ba302a668e9200017a1083a92e88773dab1ca620faeaac8cd8bb7747596ba5",
+   "held": "34ba302a668e9200017a1083a92e88773dab1ca620faeaac8cd8bb7747596ba5",
+   "digest_alg": "SHA-256",
+   "resolved": true,
+   "citation_purpose": "ran_under"
+  },
+  "org.decisionprovenancestandard.action_binding_attachment": {
+   "cited": "5086c7674db770c6d01592ba697722a2fb468c16d1d5ab9226a7b5217c4bc1a8",
+   "held": "5086c7674db770c6d01592ba697722a2fb468c16d1d5ab9226a7b5217c4bc1a8",
+   "digest_alg": "SHA-256",
+   "resolved": true,
+   "citation_purpose": "acted_on"
+  }
+ },
+ "dps": {
+  "consulted": true,
+  "record": {
+   "schema_errors": [],
+   "seal_recomputed": true
+  },
+  "attachment": {
+   "schema_errors": [],
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified",
+   "execution_state": "attempted"
+  },
+  "signatures": {
+   "present": false,
+   "note": "no signatures attachment travels beside: the approval's signature is absent, not verified"
+  }
+ },
+ "matches_expected": true
+}

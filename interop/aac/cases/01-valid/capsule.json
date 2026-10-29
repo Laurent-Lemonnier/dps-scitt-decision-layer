@@ -1,0 +1,42 @@
+{
+ "spec_version": "0.12",
+ "format_version": "4",
+ "canonicalization_id": "jcs",
+ "action_id": "urn:example:invoice:request:0901",
+ "action_type": "decide",
+ "operator": "example orchestrator",
+ "developer": "example",
+ "timestamp": "2026-10-24T10:05:00Z",
+ "domain": "invoicing",
+ "disposition": {
+  "decision": "accept",
+  "approver": "human",
+  "human_disposed": true,
+  "authority": "urn:example:charter:CH-EXAMPLE-BILLING-1#invoice-approval",
+  "verdict_class": "executed"
+ },
+ "effect": {
+  "status": "confirmed",
+  "type": "org.example.invoice_create",
+  "request_digest": "6cdfcf49dbba35c4713f4ec1a692d790b55b1eecf0cb1618e028e1c9304338f6",
+  "response_digest": "4ed66c905c50d9fe65a63a3d2e923c2b36918b2ea590c4962416d75539601ccb",
+  "external_ref": "urn:example:invoice:request:0901:confirmation",
+  "irreversibility_class": "one_way_recoverable",
+  "effect_attestation": "host_served_observed"
+ },
+ "references": [
+  {
+   "type": "org.decisionprovenancestandard.decision_record",
+   "digest_alg": "SHA-256",
+   "digest": "e4adee54d9314c58b10b61487d21c895d8ea76652d26438285b49ae373b8213b",
+   "citation_purpose": "ran_under"
+  },
+  {
+   "type": "org.decisionprovenancestandard.action_binding_attachment",
+   "digest_alg": "SHA-256",
+   "digest": "47a8b475037471c7256279dc3d679c347b432f8a5451bb07502f808e5cb95789",
+   "citation_purpose": "acted_on"
+  }
+ ],
+ "capsule_id": "534f4aa83673740cecf16e1830062e0a316a4bac5240cc02b93efff980331466"
+}
