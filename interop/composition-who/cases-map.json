@@ -1,0 +1,226 @@
+{
+ "about": "Negative classes of draft-mih-sato-agent-accountability-composition-01 section 6.2 (WHO slot) mapped to existing test cases of the Decision Provenance Standard, action binding 0.3.0 and signatures 0.2.0, at main commit 007f8c9 (28 October 2026). Case identifiers are those of the cases.json files named; each was checked to exist and the two suites pass on this commit. INTEROP cases are outside the Standard (/root/claude-ops/interop/cases). Status: covered, covered_with_note, partial, not_applicable.",
+ "standard_commit": "007f8c9",
+ "draft": "draft-mih-sato-agent-accountability-composition-01, section 6.2",
+ "files_short": {
+  "AB": "extensions/action-binding/tests/cases.json",
+  "SIG": "extensions/signatures/tests/cases.json",
+  "INTEROP": "/root/claude-ops/interop/cases"
+ },
+ "classes": [
+  {
+   "class": "semantically similar action input with different canonical bytes",
+   "dps_case_ids": [
+    "D06",
+    "D07",
+    "X18"
+   ],
+   "files": [
+    "extensions/action-binding/tests/cases.json"
+   ],
+   "status": "covered",
+   "note": "D06/D07: S0 re-indented or key-sorted, equal as JSON, digest mismatch. X18: a canonical form named without a specification_ref is refused. Interop case 05 shows the same at the join.",
+   "interop_cases": [
+    "05-reencoded-record"
+   ]
+  },
+  {
+   "class": "a changed subject",
+   "dps_case_ids": [
+    "L12",
+    "L13",
+    "L14",
+    "N29",
+    "N30"
+   ],
+   "files": [
+    "extensions/action-binding/tests/cases.json",
+    "extensions/signatures/tests/cases.json"
+   ],
+   "status": "covered",
+   "note": "L12/L13/L14: amount, target or destination changed after approval: action_binding failed. N29/N30: shown or approved digest changed in the attachment after signing: subject failed."
+  },
+  {
+   "class": "a changed authorizing-principal reference",
+   "dps_case_ids": [
+    "N13",
+    "N31",
+    "L35",
+    "G27"
+   ],
+   "files": [
+    "extensions/signatures/tests/cases.json",
+    "extensions/action-binding/tests/cases.json"
+   ],
+   "status": "covered",
+   "note": "N13: signature presented under another key_ref (signed field): signature failed. N31: issuer names another actor than the key's holder: identity failed, inconsistent. L35: approval by someone other than the person shown: action_binding failed. G27: issuer copy under another key reference: failed."
+  },
+  {
+   "class": "replay of the receipt under a different action (a different subject digest)",
+   "dps_case_ids": [
+    "N24",
+    "L15",
+    "G06",
+    "N96",
+    "N103",
+    "N104"
+   ],
+   "files": [
+    "extensions/signatures/tests/cases.json",
+    "extensions/action-binding/tests/cases.json"
+   ],
+   "status": "covered",
+   "note": "N24: approval presented against another record: subject failed. L15: approved digest carried with another specification's bytes: specification_digests failed. G06: issuer copy moved onto another attachment: failed. N103/N104: assertion type swapped: failed."
+  },
+  {
+   "class": "a quorum satisfied by a non-distinct principal filling two slots",
+   "dps_case_ids": [],
+   "files": [],
+   "status": "not_applicable",
+   "note": "No quorum in action binding 0.3.0. Nearest: L62, L63 (one core field or one record backing two approvals, S0 paid twice: action_binding failed), which check distinctness of the backing core field, not of principals in a threshold.",
+   "nearest_case_ids": [
+    "L62",
+    "L63"
+   ]
+  },
+  {
+   "class": "an ordered quorum satisfied out of order",
+   "dps_case_ids": [],
+   "files": [],
+   "status": "not_applicable",
+   "note": "No quorum. Order among stages is checked (L18, L72: stage_order failed), not order among signers.",
+   "nearest_case_ids": [
+    "L18",
+    "L72"
+   ]
+  },
+  {
+   "class": "a threshold not met",
+   "dps_case_ids": [],
+   "files": [],
+   "status": "not_applicable",
+   "note": "No threshold. Fail-closed cases for the single approver: X04, X25 (schema), L19, L20 (execution after rejection or escalation: action_binding failed).",
+   "nearest_case_ids": [
+    "X04",
+    "X25",
+    "L19",
+    "L20"
+   ]
+  },
+  {
+   "class": "a mismatched or absent receipt signature",
+   "dps_case_ids": [
+    "N19",
+    "N27",
+    "G04",
+    "G28",
+    "J31"
+   ],
+   "files": [
+    "extensions/signatures/tests/cases.json",
+    "extensions/action-binding/tests/cases.json"
+   ],
+   "status": "covered",
+   "note": "N19: signature does not match. N27: key not in the policy. G28: a changed byte. G04: unsigned attachment reported not_checked, never verified. J31 (action binding pairing): unsigned attachment reported verified is inconsistent.",
+   "interop_cases": [
+    "03-unsigned-attachment"
+   ]
+  },
+  {
+   "class": "a signature that verifies but whose signed payload does not cover the subject digest (an unbound signature)",
+   "dps_case_ids": [
+    "V15",
+    "V16",
+    "N30",
+    "N17",
+    "N39",
+    "T03"
+   ],
+   "files": [
+    "extensions/signatures/tests/cases.json"
+   ],
+   "status": "covered",
+   "note": "By construction: the digests are fixed fields of the signed bytes, which the verifier builds itself (V15/V16). N30: attachment digest differs from the signed one: signature verified, subject failed. N17/N39: view digest dropped or added: failed. T03: timestamp subject names another assertion: subject_bytes failed."
+  },
+  {
+   "class": "a stale receipt",
+   "dps_case_ids": [
+    "S22",
+    "S16",
+    "N21",
+    "N40",
+    "N41"
+   ],
+   "files": [
+    "extensions/action-binding/tests/cases.json",
+    "extensions/signatures/tests/cases.json"
+   ],
+   "status": "partial",
+   "note": "Single approval: no reference check compares signed_at with the attempt time; the Steward's answer to issue #93 (29/10/2026) puts a deadline in the specification as a deployer-declared material member, enforced at the executor's recheck."
+  },
+  {
+   "class": "a post-hoc ratification presented as pre-execution authorization",
+   "dps_case_ids": [
+    "L17",
+    "L18",
+    "L26",
+    "L72",
+    "S35",
+    "L33",
+    "L44",
+    "G39"
+   ],
+   "files": [
+    "extensions/action-binding/tests/cases.json"
+   ],
+   "status": "covered_with_note",
+   "note": "L17: execution stages dated before the approval: stage_order failed (runner limitation: issuer's own times). L18: request listed before its approval. L26: recheck dated after the attempt. S35: standing approval dated before its review. L33/L44: rationale timing misrepresented: rationale_provenance failed. G39: a stage dated after the independent timestamp over the issuer's signature: finding. Stage times are the issuer's; see README, The ordering class."
+  },
+  {
+   "class": "a one-time authorization presented as reusable",
+   "dps_case_ids": [
+    "L31",
+    "L30",
+    "L59",
+    "L60",
+    "L65",
+    "S21",
+    "S40",
+    "L32"
+   ],
+   "files": [
+    "extensions/action-binding/tests/cases.json"
+   ],
+   "status": "covered",
+   "note": "L31: second request under an approval covering one. L30: duplicate request_id. L59/L60: one approval paying twice through a change. L65: two requests under an approval covering one while another covers two. S21/S40: requests over max_requests. L32: two requests under a stated request_limit of 2 are accepted."
+  },
+  {
+   "class": "a reusable authorization presented under one-time semantics",
+   "dps_case_ids": [
+    "Y07",
+    "L32"
+   ],
+   "files": [
+    "extensions/action-binding/tests/cases.json"
+   ],
+   "status": "covered_with_note",
+   "note": "The limit is what the stage states (request_limit) or what the signed bounds state (max_requests). Y07: a standing approval carrying a request_limit is refused, the count living in the signed bounds. For a single approval the limit is under the issuer's seal, not under the person's signature."
+  },
+  {
+   "class": "WHO digest bytes that do not match an adjacent slot's digest for the same claimed action under compatible digest contexts",
+   "dps_case_ids": [
+    "L11",
+    "L14"
+   ],
+   "files": [
+    "extensions/action-binding/tests/cases.json"
+   ],
+   "status": "covered_with_note",
+   "note": "Inside the Standard: L11 (approved not the one shown), L14 (executed differs from requested): action_binding failed. The join to another slot is outside the Standard: interop cases 02 (digest one hex digit off, reference does not resolve) and 05 (re-encoded record).",
+   "interop_cases": [
+    "02-altered-reference-digest",
+    "05-reencoded-record"
+   ]
+  }
+ ]
+}

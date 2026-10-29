@@ -43,7 +43,8 @@ AQ = importlib.util.module_from_spec(spec); spec.loader.exec_module(AQ)   # its 
 
 CPB_REFS_LABEL, HDR_CRIT = -65537, 2
 NOA_COMMIT = "6642fb238bb33a0bcda53c175c0d4a7683d95dcd"
-NOA_TYPE = "noa.receipt/0.1"     # the format identifier the profile's receipts carry in "spec"; provisional as a type token
+NOA_TYPE = "noa.receipt/0.1"     # the "spec" identifier the receipts carry; confirmed as the type token by the profile author (29/10/2026)
+NOA_SIG_TAG = "NOA-Receipt-v0.1-sig:".encode("utf-8")   # 21-byte domain tag, docs/receipt-spec.md "Hashing rule (frozen)" at NOA_COMMIT
 
 
 def sha256(b):
@@ -56,6 +57,24 @@ def noa_digest(receipt):
     del body["chain"]["hash"]
     del body["sig"]["value"]
     return "sha256:" + sha256(AQ.canonical(body).encode("utf-8"))
+
+
+def noa_signature_verifies(receipt, keyring, message="tag||raw"):
+    """The receipt's own signature: Ed25519 (RFC 8032, pure) over UTF8("NOA-Receipt-v0.1-sig:") || the raw 32-byte
+    SHA-256 of UTF8(JCS(receipt without chain.hash and sig.value)), as the profile author stated it on 29/10/2026.
+    The two other messages are kept as negatives: the tag followed by the hex digest, and the bare digest."""
+    import base64
+    from cryptography.hazmat.primitives.serialization import load_der_public_key
+    body = copy.deepcopy(receipt)
+    del body["chain"]["hash"]
+    del body["sig"]["value"]
+    digest = hashlib.sha256(AQ.canonical(body).encode("utf-8")).digest()
+    msg = {"tag||raw": NOA_SIG_TAG + digest, "tag||hex": NOA_SIG_TAG + digest.hex().encode("ascii"), "raw": digest}[message]
+    try:
+        load_der_public_key(base64.b64decode(keyring[receipt["sig"]["kid"]])).verify(base64.b64decode(receipt["sig"]["value"]), msg)
+        return True
+    except Exception:
+        return False
 
 
 # ---- the receipt (seq 2, the chain's head) and the decision documents; the vectors are fetched at the pinned commit
@@ -153,8 +172,17 @@ held_tampered = dict(held); held_tampered[NOA_TYPE] = (lambda: noa_digest(tamper
 wrong_object = copy.deepcopy(refs); wrong_object[0][4] = "sha256:" + sha256(receipt_bytes)   # the signed file, not the receipt object
 n3 = statement(wrong_object)
 
+keyring = json.loads((NOA / "keyring.json").read_text())
+receipt_signature = {
+    "construction": "Ed25519 over UTF8('NOA-Receipt-v0.1-sig:') || raw SHA-256 of UTF8(JCS(receipt without chain.hash and sig.value)); 53 bytes",
+    "source": f"NordenSoft/noa-mandate-core {NOA_COMMIT[:7]} docs/receipt-spec.md 'Hashing rule (frozen)', src/signing.ts signingMessage; raw-vs-hex stated in NordenSoft/noa-mandate-core#75",
+    "all_three_receipts_verify": all(noa_signature_verifies(r, keyring) for r in chain),
+    "negative_tag_then_hex_digest_verifies": any(noa_signature_verifies(r, keyring, "tag||hex") for r in chain),
+    "negative_bare_digest_verifies": any(noa_signature_verifies(r, keyring, "raw") for r in chain),
+    "tampered_receipt_signature_verifies": noa_signature_verifies(tampered, keyring)}
+
 result = {"case": "08-noa-receipt", "noa_vectors_commit": NOA_COMMIT, "receipt": receipt["id"], "receipt_spec": receipt["spec"],
-          "noa_chain_recomputes": chain_ok, "declaration": {NOA_TYPE: "context: the profile's digest over UTF8(JCS(receipt without chain.hash and sig.value)); representation: 'sha256:' + lowercase hex; equals chain.hash for a valid receipt; binds the receipt object"},
+          "noa_chain_recomputes": chain_ok, "receipt_signature": receipt_signature,"declaration": {NOA_TYPE: "context: the profile's digest over UTF8(JCS(receipt without chain.hash and sig.value)); representation: 'sha256:' + lowercase hex; equals chain.hash for a valid receipt; binds the receipt object"},
           "cpb_refs_label": CPB_REFS_LABEL,
           "valid": verify(valid),
           "altered_receipt_digest_in_reference": verify(n1),

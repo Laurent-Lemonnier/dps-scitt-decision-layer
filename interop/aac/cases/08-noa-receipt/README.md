@@ -8,13 +8,14 @@ conformance vector at commit `6642fb2` (`valid-chain.json`, receipt seq 2 of thr
 
 ## The declaration for the receipt type (the consuming profile's, as CPB asks)
 
-- type token: `noa.receipt/0.1`, the format identifier the receipts carry in `spec` (provisional: the token is the
-  profile author's to name);
+- type token: `noa.receipt/0.1`, the `spec` identifier the receipts carry, confirmed as the token by the profile's
+  author on 29 October 2026; the wire format and hashing rule are documented as frozen at `6642fb2`;
 - digest context: the value the profile defines, `"sha256:"` followed by the lowercase hex of SHA-256 over
   UTF8(JCS(receipt with only `chain.hash` and `sig.value` removed)); for a valid receipt it equals `chain.hash`;
 - representation: the prefixed form, kept as the profile writes it, stated in the declaration rather than converted;
-- what it binds: the receipt object. Not the signed file, not a COSE Signed Statement carrying the receipt, not its
-  Transparency Receipt, which are different objects with different digests.
+- what it binds: the canonical receipt content with `chain.hash` and `sig.value` omitted. The reference does not
+  itself authenticate the receipt's signature, and it does not bind the serialized file, a COSE Signed Statement
+  carrying the receipt, or its Transparency Receipt, which are different objects with different digests.
 
 ## What was built and what verifies (`result.json`)
 
@@ -30,12 +31,21 @@ conformance vector at commit `6642fb2` (`valid-chain.json`, receipt seq 2 of thr
   receipt's bytes changed after the reference was made (a parameter hash) → the reference **Fails**, and the changed
   receipt no longer recomputes its own `chain.hash` either.
 
+## The receipt's own signature
+
+Checked separately from the references, as the profile's own check. `sig.value` is Ed25519 (RFC 8032, pure) over a
+53-byte message: UTF8(`"NOA-Receipt-v0.1-sig:"`), the 21-byte domain tag with its colon, followed by the raw 32-byte
+SHA-256 of UTF8(JCS(receipt without `chain.hash` and `sig.value`)), the same digest whose lowercase hex follows
+`sha256:` in `chain.hash`, not that hex text. Source: `docs/receipt-spec.md`, section "Hashing rule (frozen)", and
+`src/signing.ts` (`signingMessage`), both at `6642fb2`; the raw-versus-hex encoding is made explicit in
+NordenSoft/noa-mandate-core#75. With the test key of `keyring.json`, all three receipts of `valid-chain.json` verify;
+the tag followed by the hex digest, and the bare digest, do not; the receipt changed after the reference was made does
+not (`result.json`, `receipt_signature`). Thanks to Tora Toraman for stating the construction.
+
 ## What it does not do
 
-It does not verify the receipt's own signature: the vector states `sig.alg` ed25519 and `sig.kid`, but the bytes the
-signature covers are not stated in the draft text I hold, and none of the obvious constructions (the JCS body with or
-without `chain.hash` and `sig.value`, the hash, its hex) verified under the test key. That is the receipt profile's own
-check, to be run with its verifier; a reference that resolves shows only that the cited bytes have the digest it
-carries. It is also not registered at a Transparency Service: the registration policy is the operator's.
+A reference that resolves shows only that the cited bytes have the digest it carries; the signature above is a
+separate result and is reported as one. The statement is not registered at a Transparency Service: the registration
+policy is the operator's.
 
 Run: `PYTHONPATH=<capsule library site> venv-scitt/bin/python noa_case.py` from `interop/`.

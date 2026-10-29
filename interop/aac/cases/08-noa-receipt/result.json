@@ -4,6 +4,14 @@
  "receipt": "rcpt_0000000000000000000000000C",
  "receipt_spec": "noa.receipt/0.1",
  "noa_chain_recomputes": true,
+ "receipt_signature": {
+  "construction": "Ed25519 over UTF8('NOA-Receipt-v0.1-sig:') || raw SHA-256 of UTF8(JCS(receipt without chain.hash and sig.value)); 53 bytes",
+  "source": "NordenSoft/noa-mandate-core 6642fb2 docs/receipt-spec.md 'Hashing rule (frozen)', src/signing.ts signingMessage; raw-vs-hex stated in NordenSoft/noa-mandate-core#75",
+  "all_three_receipts_verify": true,
+  "negative_tag_then_hex_digest_verifies": false,
+  "negative_bare_digest_verifies": false,
+  "tampered_receipt_signature_verifies": false
+ },
  "declaration": {
   "noa.receipt/0.1": "context: the profile's digest over UTF8(JCS(receipt without chain.hash and sig.value)); representation: 'sha256:' + lowercase hex; equals chain.hash for a valid receipt; binds the receipt object"
  },

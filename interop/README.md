@@ -18,5 +18,10 @@ reach the published verdicts, and to say where it is not. Results as of 2026-10-
   vocabularies of Section 5, the recomputes of Section 4.6 (request digest, write chain, agreement, commitment, evaluation
   freshness, tier), the set checks of 5.9 and 5.10, and the parts of 4.7 that need no anchor. Report: `judge-20261029.json`.
 
+- `composition-who/README.md` — not a verifier of another author's vectors but a reading: the DPS action-binding
+  attachment and person approval against the producer and verifier requirements and the negative classes of the WHO
+  slot in draft-mih-sato-agent-accountability-composition-01, section 6.2, with the existing DPS cases named for each
+  class (`cases-map.json`) and the gaps stated as gaps.
+
 Both are offered to their authors for review. They are not conformance claims by the authors, and the README in each
 directory lists what was left out. Licence: Apache-2.0, as the rest of this repository.
