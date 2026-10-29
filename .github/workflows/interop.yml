@@ -1,0 +1,31 @@
+name: interop
+
+on:
+  push:
+    paths: ["interop/**", ".github/workflows/interop.yml"]
+  pull_request:
+    paths: ["interop/**", ".github/workflows/interop.yml"]
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * 1"   # weekly, so a change in the authors' vectors is noticed
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Replay the published vectors through the independent verifiers
+        run: bash interop/run.sh
+      - name: Keep the per-member report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gilda-judge-report
+          path: interop/gilda/judge-ci.json
+          if-no-files-found: ignore
