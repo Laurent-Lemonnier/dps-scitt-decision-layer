@@ -1,0 +1,34 @@
+ok  valid   001-allowed.json                         ALLOWED
+ok  valid   002-blocked.json                         BLOCKED
+ok  valid   003-suppressed.json                      SUPPRESSED
+ok  valid   004-passed.json                          PASSED
+ok  valid   005-multi-policy.json                    ALLOWED
+ok  valid   006-cost-prevented-nonzero.json          BLOCKED
+ok  valid   007-non-ascii-policy.json                BLOCKED
+ok  valid   008-cost-sub-milli.json                  BLOCKED
+ok  valid   009-cost-smallest-precision.json         BLOCKED
+ok  valid   010-timestamp-leap-second.json           ALLOWED
+ok  invalid 001-tampered-signature.json              signature check failed
+ok  invalid 002-tampered-outcome.json                signature check failed
+ok  invalid 003-tampered-public-key.json             public_key does not match the pinned key
+ok  invalid 004-missing-field.json                   missing field 'outcome'
+ok  invalid 005-unknown-field.json                   unknown field 'extra_metadata'
+ok  invalid 006-wrong-version.json                   v must be 1
+ok  invalid 007-bad-request-hash.json                request_hash must be 64 lowercase hex characters
+ok  invalid 008-invalid-outcome.json                 outcome not an ATTESTATION-v1 value
+ok  invalid 009-policy-not-sorted.json               policy_applied must be sorted by UTF-16 code unit
+ok  invalid 010-policy-not-strings.json              policy_applied must contain only strings
+ok  invalid 011-timestamp-no-offset.json             timestamp must be an RFC 3339 datetime with an explicit offset
+ok  invalid 012-timestamp-not-datetime.json          timestamp must be an RFC 3339 datetime with an explicit offset
+ok  invalid 013-negative-cost.json                   cost_prevented_eur must be a non-negative finite number
+ok  invalid 014-boolean-version.json                 v must be an integer
+ok  invalid 015-uncoerced-integer-float.json         signature check failed
+ok  invalid 016-signature-padded.json                signature decode error: not base64url
+ok  invalid 017-signature-standard-base64-alphabet.json signature decode error: not base64url
+ok  invalid 018-request-hash-trailing-newline.json   request_hash must be 64 lowercase hex characters
+ok  invalid 019-timestamp-trailing-newline.json      timestamp must be an RFC 3339 datetime with an explicit offset
+ok  invalid 020-signature-trailing-newline.json      signature decode error: not base64url
+ok  invalid 021-timestamp-non-ascii-digits.json      timestamp must be an RFC 3339 datetime with an explicit offset
+ok  invalid 022-outcome-not-a-string.json            outcome must be a string
+ok  invalid 023-policy-lone-surrogate.json           policy_applied member is not valid Unicode
+# 33 vectors, 0 mismatch(es)

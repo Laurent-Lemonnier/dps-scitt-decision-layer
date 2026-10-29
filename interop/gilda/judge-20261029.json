@@ -1,0 +1,2069 @@
+{
+ "corpus": "agent-audit-record-conformance",
+ "draft": "draft-gilda-audit-agent-audit-record-00",
+ "members": 141,
+ "agree": 141,
+ "firstCodeAgree": 81,
+ "rejectMembers": 81,
+ "datingNotAttempted": 3,
+ "rows": [
+  {
+   "draftId": "A1",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "every member present, permit beside occurred, all five tier clauses met"
+  },
+  {
+   "draftId": "A2",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "deny beside none, equal roots, empty write set"
+  },
+  {
+   "draftId": "A3",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A1 with deny beside occurred and agreement of disagree"
+  },
+  {
+   "draftId": "A4",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A1 plus a remediation event with enforcement of not-enforced"
+  },
+  {
+   "draftId": "A5",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "voluntary",
+   "agree": true,
+   "notes": [],
+   "row": "A1 with vantage of self, no prior commitment, tier of voluntary"
+  },
+  {
+   "draftId": "A6",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "voluntary",
+   "agree": true,
+   "notes": [],
+   "row": "A1 with binding of not-bindable, argumentsDigest absent from the record and from the request-digest preimage, tier of voluntary"
+  },
+  {
+   "draftId": "A7",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A2 plus one in-scope write inside the interval attributed to a different request, roots and chain moved to match"
+  },
+  {
+   "draftId": "A8",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A2 plus one in-scope unattributed write inside the interval, effect.observed of unknown"
+  },
+  {
+   "draftId": "A9",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A1 with permit beside an empty write set, equal roots, effect.observed of none"
+  },
+  {
+   "draftId": "A10",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A2 with evaluation of not-evaluated and unavailableInput of standing-source"
+  },
+  {
+   "draftId": "A11",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A1 plus oversight with act of check and the overseer's record digest"
+  },
+  {
+   "draftId": "A12",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A10 with unavailableInput of key-source"
+  },
+  {
+   "draftId": "A13",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A10 with unavailableInput of consumption-state"
+  },
+  {
+   "draftId": "A14",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A10 with unavailableInput naming all three inputs, each once, in neither the draft's order nor sorted order"
+  },
+  {
+   "draftId": "A15",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A11 with oversight act of observation"
+  },
+  {
+   "draftId": "A16",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A11 with oversight act of decision and recordDigest absent, which is optional"
+  },
+  {
+   "draftId": "A17",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A11 with oversight act of release"
+  },
+  {
+   "draftId": "A18",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A1 with evaluation.status of not-evaluated, policy-source never established, unavailableInput of policy-source and the allow-all fallback's decision.policyDigest"
+  },
+  {
+   "draftId": "A19",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A3 with evaluation.status of not-evaluated, key-source and consumption-state stale, and unavailableInput naming both"
+  },
+  {
+   "draftId": "A20",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A2 with evaluation.status of not-evaluated, a profile the request names not held, unavailableInput of policy-source and the deny-all fallback's decision.policyDigest"
+  },
+  {
+   "draftId": "F1",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "member-missing"
+   ],
+   "got": "malformed",
+   "codes": [
+    "member-missing"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "A1 with the whole agent member removed"
+  },
+  {
+   "draftId": "F2",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "delegation-subject-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "delegation-subject-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "subjectKind of none beside a named subject"
+  },
+  {
+   "draftId": "F3",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "arguments-digest-missing"
+   ],
+   "got": "malformed",
+   "codes": [
+    "arguments-digest-missing"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "digest-bound with argumentsDigest removed"
+  },
+  {
+   "draftId": "F3b",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "arguments-digest-forbidden"
+   ],
+   "got": "malformed",
+   "codes": [
+    "arguments-digest-forbidden"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "not-bindable carrying argumentsDigest of null"
+  },
+  {
+   "draftId": "F3c",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "arguments-digest-forbidden"
+   ],
+   "got": "malformed",
+   "codes": [
+    "arguments-digest-forbidden"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "not-bindable carrying argumentsDigest of the empty string"
+  },
+  {
+   "draftId": "F4",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "request-digest-mismatch"
+   ],
+   "got": "malformed",
+   "codes": [
+    "request-digest-mismatch"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "action changed, requestDigest left at its original value"
+  },
+  {
+   "draftId": "F5",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "external-anchor-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "external-anchor-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "beacon-anchored with externalAnchor removed"
+  },
+  {
+   "draftId": "F6",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "posture-agreement-underivable"
+   ],
+   "got": "malformed",
+   "codes": [
+    "posture-agreement-underivable"
+   ],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "two unequal postures declared as agree"
+  },
+  {
+   "draftId": "F7",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "remediation-order"
+   ],
+   "got": "malformed",
+   "codes": [
+    "remediation-order"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "enforcedAt one second before signalReceivedAt"
+  },
+  {
+   "draftId": "T1",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "effect-observed-underivable"
+   ],
+   "got": "malformed",
+   "codes": [
+    "effect-observed-underivable"
+   ],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "effect.observed edited to none, writes intact, signed again with the real key"
+  },
+  {
+   "draftId": "T2",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "signature-invalid"
+   ],
+   "got": "malformed",
+   "codes": [
+    "signature-invalid"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "serialized in declaration order, not RFC 8785 order"
+  },
+  {
+   "draftId": "T3",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "duplicate-member"
+   ],
+   "got": "malformed",
+   "codes": [
+    "duplicate-member"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "a member name repeated at depth three"
+  },
+  {
+   "draftId": "T4",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "nesting-too-deep"
+   ],
+   "got": "malformed",
+   "codes": [
+    "nesting-too-deep"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "nesting 129 levels deep"
+  },
+  {
+   "draftId": "T5",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "unsafe-integer"
+   ],
+   "got": "malformed",
+   "codes": [
+    "unsafe-integer"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "an integer of magnitude exactly 2^53"
+  },
+  {
+   "draftId": "D1",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "agreement-underivable"
+   ],
+   "got": "malformed",
+   "codes": [
+    "agreement-underivable"
+   ],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "agreement of disagree with both sides agreeing"
+  },
+  {
+   "draftId": "D2",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "agreement-reserved-value"
+   ],
+   "got": "malformed",
+   "codes": [
+    "agreement-reserved-value"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "agreement of one-sided with both values present"
+  },
+  {
+   "draftId": "D3",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "agreement-underivable"
+   ],
+   "got": "malformed",
+   "codes": [
+    "agreement-underivable"
+   ],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "agreement of disagree beside permit and none"
+  },
+  {
+   "draftId": "S1",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "subject-interval-mismatch"
+   ],
+   "got": "malformed",
+   "codes": [
+    "subject-interval-mismatch"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "second subject entry removed, interval left present"
+  },
+  {
+   "draftId": "S2",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "subject-after-root-mismatch"
+   ],
+   "got": "malformed",
+   "codes": [
+    "subject-after-root-mismatch"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "second subject entry's digest set to the before-state root"
+  },
+  {
+   "draftId": "I1r",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "subject-interval-mismatch"
+   ],
+   "got": "malformed",
+   "codes": [
+    "subject-interval-mismatch"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "interval removed, second subject entry left present"
+  },
+  {
+   "draftId": "TI1",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "tier-overclaim-vantage"
+   ],
+   "got": "malformed",
+   "codes": [
+    "tier-overclaim-vantage"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "authoritative declared with vantage of self"
+  },
+  {
+   "draftId": "TI2",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "tier-overclaim-commitment"
+   ],
+   "got": "malformed",
+   "codes": [
+    "tier-overclaim-commitment"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "authoritative declared with no prior commitment"
+  },
+  {
+   "draftId": "TI3",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "tier-overclaim-scope"
+   ],
+   "got": "malformed",
+   "codes": [
+    "tier-overclaim-scope"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "authoritative declared with an empty pathScope"
+  },
+  {
+   "draftId": "TI4",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "tier-overclaim-coverage"
+   ],
+   "got": "malformed",
+   "codes": [
+    "tier-overclaim-coverage"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "authoritative declared with a coverage gap inside pathScope"
+  },
+  {
+   "draftId": "TI5",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "tier-overclaim-binding"
+   ],
+   "got": "malformed",
+   "codes": [
+    "tier-overclaim-binding"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "authoritative declared on A6"
+  },
+  {
+   "draftId": "C1",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "commitment-key-is-agent-signer"
+   ],
+   "got": "malformed",
+   "codes": [
+    "commitment-key-is-agent-signer"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "commitment keyid added to agent.signers"
+  },
+  {
+   "draftId": "C2",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "commitment-order"
+   ],
+   "got": "malformed",
+   "codes": [
+    "commitment-order"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "committedAt one second after openedAt"
+  },
+  {
+   "draftId": "C3",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "commitment-digest-mismatch"
+   ],
+   "got": "malformed",
+   "codes": [
+    "commitment-digest-mismatch"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "witnessNonce changed, commitmentDigest left at its original value"
+  },
+  {
+   "draftId": "E1",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "effect-observed-underivable"
+   ],
+   "got": "malformed",
+   "codes": [
+    "effect-observed-underivable"
+   ],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "observed of none with a non-empty write set"
+  },
+  {
+   "draftId": "E2",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "write-chain-broken"
+   ],
+   "got": "malformed",
+   "codes": [
+    "write-chain-broken"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "a second write whose pre-state is not the first write's post-state"
+  },
+  {
+   "draftId": "E3",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "empty-tree-constant-mismatch"
+   ],
+   "got": "malformed",
+   "codes": [
+    "empty-tree-constant-mismatch"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "empty-tree under sha256 carrying the sha1 constant"
+  },
+  {
+   "draftId": "E4",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "write-chain-broken"
+   ],
+   "got": "malformed",
+   "codes": [
+    "write-chain-broken"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "the only write's pre-state is not the before-state root, its post-state is the after-state root"
+  },
+  {
+   "draftId": "E5",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "write-chain-broken"
+   ],
+   "got": "malformed",
+   "codes": [
+    "write-chain-broken"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "the only write starts from the before-state root and its post-state is not the after-state root"
+  },
+  {
+   "draftId": "E6",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "write-chain-broken"
+   ],
+   "got": "malformed",
+   "codes": [
+    "write-chain-broken"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "an empty write set beside an after-state root unequal to the before-state root, second subject moved to match"
+  },
+  {
+   "draftId": "V1",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "value-outside-vocabulary"
+   ],
+   "got": "malformed",
+   "codes": [
+    "value-outside-vocabulary"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "enforcement of quarantined, outside the closed set"
+  },
+  {
+   "draftId": "V2",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "path-scope-glob"
+   ],
+   "got": "malformed",
+   "codes": [
+    "path-scope-glob"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "a pathScope member carrying a glob metacharacter"
+  },
+  {
+   "draftId": "V3",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "write-scope-mismatch"
+   ],
+   "got": "malformed",
+   "codes": [
+    "write-scope-mismatch"
+   ],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "a write outside pathScope carrying inScope of true"
+  },
+  {
+   "draftId": "FE1",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "field-evidence-keys"
+   ],
+   "got": "malformed",
+   "codes": [
+    "field-evidence-keys"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "six of the seven fieldEvidence keys present"
+  },
+  {
+   "draftId": "FE2",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "field-evidence-self-substrate"
+   ],
+   "got": "malformed",
+   "codes": [
+    "field-evidence-self-substrate"
+   ],
+   "derivedTier": "voluntary",
+   "agree": true,
+   "notes": [],
+   "row": "substrate-covered declared beside vantage of self"
+  },
+  {
+   "draftId": "FR1",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A1 written by the second of two hops: each input fresh at decision.reportedAt, standing-source carried from the first hop with the source's lastResult unchanged"
+  },
+  {
+   "draftId": "FR2",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "FR1 with standing-source's age at decision.reportedAt exactly equal to its maxAge, 3600 seconds, so the input is fresh"
+  },
+  {
+   "draftId": "FR3",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A10 written by the second of two hops, the forwarded standing-source one second older than its maxAge"
+  },
+  {
+   "draftId": "FR4",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A10 written by the second of two hops, which received standing-source as never established, lastResult of none"
+  },
+  {
+   "draftId": "FR5",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "member-missing"
+   ],
+   "got": "malformed",
+   "codes": [
+    "member-missing"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "an entry with lastResult removed"
+  },
+  {
+   "draftId": "FR6",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "member-missing"
+   ],
+   "got": "malformed",
+   "codes": [
+    "member-missing"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "an entry with maxAge removed"
+  },
+  {
+   "draftId": "FR7",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "unavailableInput naming key-source, whose entry is fresh, in place of standing-source"
+  },
+  {
+   "draftId": "FR8",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "evaluated beside an entry one second older than its maxAge"
+  },
+  {
+   "draftId": "FR9",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-result-after-decision"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-result-after-decision"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "an entry whose lastResult is later than decision.reportedAt by 301 seconds, more than the skew tolerance"
+  },
+  {
+   "draftId": "FR10",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-input-repeated"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-input-repeated"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "one input named in two entries"
+  },
+  {
+   "draftId": "FR11",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-entry-malformed"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-entry-malformed"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "an entry carrying a fourth member, source, this document does not define"
+  },
+  {
+   "draftId": "FR12",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "value-outside-vocabulary"
+   ],
+   "got": "malformed",
+   "codes": [
+    "value-outside-vocabulary"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "an entry whose input is network, outside the closed set"
+  },
+  {
+   "draftId": "FR13",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-entry-malformed"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-entry-malformed"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "an entry with a negative maxAge"
+  },
+  {
+   "draftId": "EV1",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "not-evaluated with unavailableInput removed"
+  },
+  {
+   "draftId": "EV2",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "evaluated carrying unavailableInput of standing-source"
+  },
+  {
+   "draftId": "EV3",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "member-missing"
+   ],
+   "got": "malformed",
+   "codes": [
+    "member-missing"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "the evaluation member removed, the shape of a revision 01 record"
+  },
+  {
+   "draftId": "EV4",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "value-outside-vocabulary"
+   ],
+   "got": "malformed",
+   "codes": [
+    "value-outside-vocabulary"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "unavailableInput of network, outside the closed set"
+  },
+  {
+   "draftId": "EV5",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "not-evaluated with unavailableInput of the empty array"
+  },
+  {
+   "draftId": "EV6",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "not-evaluated with standing-source named twice"
+  },
+  {
+   "draftId": "EV7",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "not-evaluated with unavailableInput of the string standing-source, not an array"
+  },
+  {
+   "draftId": "EV8",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "evaluated carrying unavailableInput of null"
+  },
+  {
+   "draftId": "EV9",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "evaluated carrying unavailableInput of the empty array"
+  },
+  {
+   "draftId": "EV10",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "evaluated carrying unavailableInput of the empty string"
+  },
+  {
+   "draftId": "EV11",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "value-outside-vocabulary"
+   ],
+   "got": "malformed",
+   "codes": [
+    "value-outside-vocabulary"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "evaluation.status of partially-evaluated, outside the closed set"
+  },
+  {
+   "draftId": "EV12",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-malformed"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-malformed"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "evaluation carrying a free-text reason member this document does not define"
+  },
+  {
+   "draftId": "EV13",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "member-missing"
+   ],
+   "got": "malformed",
+   "codes": [
+    "member-missing"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "evaluation.inputs removed, the shape of a record under draft-gilda-wimse-agent-audit-record-02"
+  },
+  {
+   "draftId": "OV1",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "value-outside-vocabulary"
+   ],
+   "got": "malformed",
+   "codes": [
+    "value-outside-vocabulary"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "oversight act of approval, outside the closed set"
+  },
+  {
+   "draftId": "OV2",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "oversight-malformed"
+   ],
+   "got": "malformed",
+   "codes": [
+    "oversight-malformed"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "oversight carrying an overseer member the draft does not define"
+  },
+  {
+   "draftId": "OV3",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "member-missing"
+   ],
+   "got": "malformed",
+   "codes": [
+    "member-missing"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "oversight with act removed, recordDigest kept"
+  },
+  {
+   "draftId": "N1",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "an anchor token digest carried in correlation.externalAnchor, the proof not held: the verifier reads beacon-anchored as the producer's statement, accepts the record and does not date it from the anchor"
+  },
+  {
+   "draftId": "N2",
+   "kind": "indeterminate",
+   "expected": "indeterminate",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "enforcement forty days after the signal, ordering intact"
+  },
+  {
+   "draftId": "R1",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=well-formed"
+   ],
+   "row": "A1 retained by its producer: received of false and one anchor of origin retainer inside anchorWithin of issuedAt"
+  },
+  {
+   "draftId": "R2",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=well-formed"
+   ],
+   "row": "A1 received from another party, receivedAt between issuedAt and the retaining party's anchor obtained on delivery; the sender's own anchor, earlier, dates it"
+  },
+  {
+   "draftId": "R3",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating NOT ATTEMPTED (needs anchor validation): expected entry-received-after-anchor"
+   ],
+   "row": "receivedAt later than the retaining party's earliest anchor by 301 seconds, more than the skew tolerance"
+  },
+  {
+   "draftId": "R4",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=entry-retainer-anchor-missing"
+   ],
+   "row": "received of true and no anchor of origin retainer: the retaining party's anchor relabelled received"
+  },
+  {
+   "draftId": "R5",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=well-formed"
+   ],
+   "row": "R2 with the retaining party's anchor obtained before delivery and receivedAt inside the bracket: consistent, asserted, never established"
+  },
+  {
+   "draftId": "R6",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=entry-received-before-issued"
+   ],
+   "row": "receivedAt earlier than issuedAt by 301 seconds, more than the skew tolerance"
+  },
+  {
+   "draftId": "R7",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating NOT ATTEMPTED (needs anchor validation): expected entry-anchor-late"
+   ],
+   "row": "the retaining party's first anchor 601 seconds after issuedAt, later than anchorWithin plus the skew tolerance"
+  },
+  {
+   "draftId": "R8",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=well-formed"
+   ],
+   "row": "the only anchor's proof is over a different envelope digest: it validates for nothing here, dates nothing and makes nothing malformed"
+  },
+  {
+   "draftId": "R9",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=entry-received-at-inconsistent"
+   ],
+   "row": "receivedAt carried beside received of false"
+  },
+  {
+   "draftId": "FR13b",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-entry-malformed"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-entry-malformed"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "FR3 with key-source's maxAge of -1 and unavailableInput naming key-source and standing-source: the entry a negative maxAge makes stale is named, so only the sign of maxAge refuses the record"
+  },
+  {
+   "draftId": "FR16",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "member-missing"
+   ],
+   "got": "malformed",
+   "codes": [
+    "member-missing"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "FR1 with decision.reportedAt removed: no reference time to measure any input's age to"
+  },
+  {
+   "draftId": "FR17a",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "the first of two hops: standing-source read from its source at 10:00:00 under the hop's own maxAge of 7200, 3840 seconds old at its reportedAt of 11:04:00, fresh, evaluated"
+  },
+  {
+   "draftId": "FR17b",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "the second hop, receiving FR17a's standing-source: the source's lastResult of 10:00:00 copied unchanged under this hop's own maxAge of 3600, 3842 seconds old at 11:04:02, stale, not-evaluated naming standing-source, deny beside none"
+  },
+  {
+   "draftId": "FR17c",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "FR17b recorded as evaluated, the first hop's verdict carried over in place of this hop's own maxAge"
+  },
+  {
+   "draftId": "FR18",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the skew tolerance: not malformed, and an age below zero is at most maxAge, so fresh"
+  },
+  {
+   "draftId": "EV14",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "A2 recorded as not-evaluated with every entry fresh and unavailableInput of the empty array: it matches the empty derived set, so only the rule that not-evaluated names at least one input refuses it"
+  },
+  {
+   "draftId": "TI6",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "tier-overclaim-coverage"
+   ],
+   "got": "malformed",
+   "codes": [
+    "tier-overclaim-coverage"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "authoritative declared with scopeComplete of false and gaps naming only paths outside pathScope, which draft-gilda-audit-agent-audit-record-00 accepted"
+  },
+  {
+   "draftId": "V4",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "coverage-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "coverage-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "scopeComplete of true beside a gap inside pathScope, all other tier clauses met: TI4 with only scopeComplete changed from false to true"
+  },
+  {
+   "draftId": "V5",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "coverage-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "coverage-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "scopeComplete of true beside a gap inside pathScope, tier of voluntary"
+  },
+  {
+   "draftId": "FR14",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A2 judging two delegation paths, two values of standing-source each fresh at decision.reportedAt (ages 30 and 3600 seconds under a maxAge of 60 and of 7200), the entry carrying the first value's pair, the one that expires first"
+  },
+  {
+   "draftId": "FR15",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "evaluation-inconsistent"
+   ],
+   "got": "malformed",
+   "codes": [
+    "evaluation-inconsistent"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "the entry carrying the second value's lastResult beside the first value's maxAge, under evaluated: the pair the -00 rule writes, age 3600 under 60"
+  },
+  {
+   "draftId": "CS1",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "a consumption entry under a limit of 50000: consumed 30000, nothing held, requested 12000, so 42000 of 50000"
+  },
+  {
+   "draftId": "CS2",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "CS1 with requested 25000, 55000 of 50000, still a permit: valid and findable, a decision point exceeding its authority"
+  },
+  {
+   "draftId": "CS3",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "consumption-reserved-mismatch"
+   ],
+   "got": "malformed",
+   "codes": [
+    "consumption-reserved-mismatch"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "CS1 with reserved 12000 and nothing held"
+  },
+  {
+   "draftId": "CS4",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "the retry of the first call: operationKey and requestDigest equal a held entry of 12000, within the limit (42000) only because it is not counted twice"
+  },
+  {
+   "draftId": "CS5",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "consumption-value-invalid"
+   ],
+   "got": "malformed",
+   "codes": [
+    "consumption-value-invalid"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "CS1 with requested of -1"
+  },
+  {
+   "draftId": "CS6",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "consumption-misplaced"
+   ],
+   "got": "malformed",
+   "codes": [
+    "consumption-misplaced"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "CS1 with the consumption member also on the policy-source entry"
+  },
+  {
+   "draftId": "CS7",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "set=['consumption-set-stale-revision']"
+   ],
+   "row": "the retry of the first call, which reads revision 42 and holds it, then a new operation that reads revision 41, omits the held call and is permitted: each record valid, the pair spends the limit twice"
+  },
+  {
+   "draftId": "CS8",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "set=['consumption-set-release-unshown']"
+   ],
+   "row": "a record reading revision 42 holds an earlier call; the next, reading revision 43, no longer holds it, and no record of that operation shows none or occurred: each record valid, the release is unexplained"
+  },
+  {
+   "draftId": "CS9",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "member-missing"
+   ],
+   "got": "malformed",
+   "codes": [
+    "member-missing"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "CS1 with stateRevision removed"
+  },
+  {
+   "draftId": "CS10",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "consumption-key-reused"
+   ],
+   "got": "malformed",
+   "codes": [
+    "consumption-key-reused"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "CS4 with the held entry's requestDigest another request's: one operation key reused for a different request"
+  },
+  {
+   "draftId": "CS11",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "CS4 under another operationKey with consumed 20000: the same intended payment again, a new operation counted (20000 + 12000 + 12000 = 44000 of 50000)"
+  },
+  {
+   "draftId": "CS12",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "CS4 under another operationKey: counted it is 54000 of 50000, and read as a retry of the held call it would be 42000"
+  },
+  {
+   "draftId": "CS13",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "consumption-held-key-repeated"
+   ],
+   "got": "malformed",
+   "codes": [
+    "consumption-held-key-repeated"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "CS4 with two held entries under one operationKey, 12000 each, summing to reserved"
+  },
+  {
+   "draftId": "CS14",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "member-missing"
+   ],
+   "got": "malformed",
+   "codes": [
+    "member-missing"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "CS1 with decision.operationKey removed"
+  },
+  {
+   "draftId": "CS15",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "CS1 with limitDigest the digest of a limit document the authority names: not delegation.authorityDigest, and valid"
+  },
+  {
+   "draftId": "CS16",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "CS1 with limitDigest equal to delegation.authorityDigest, the authority document stating the limit itself"
+  },
+  {
+   "draftId": "CS17",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "set=['consumption-set-stale-revision']"
+   ],
+   "row": "CS7 where the second operation is the same intended payment, an identical requestDigest under another operationKey: the set still fails, so the check keys on the operation key and not on the request digest"
+  },
+  {
+   "draftId": "A21",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A1 with agent.authentication of api-key, a bearer secret presented with the request that is not an OAuth access token; authentication is outside the request digest"
+  },
+  {
+   "draftId": "SQ1",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [],
+   "row": "A1 with sequence carrying a boundary and a seq of 1, the first record of its series"
+  },
+  {
+   "draftId": "SQ2",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "sequence-malformed"
+   ],
+   "got": "malformed",
+   "codes": [
+    "sequence-malformed"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "sequence carrying a count member this document does not define"
+  },
+  {
+   "draftId": "SQ3",
+   "kind": "reject",
+   "expected": "malformed",
+   "expectedCodes": [
+    "sequence-malformed"
+   ],
+   "got": "malformed",
+   "codes": [
+    "sequence-malformed"
+   ],
+   "derivedTier": null,
+   "agree": true,
+   "notes": [],
+   "row": "sequence with a seq of 0"
+  },
+  {
+   "draftId": "SQ4",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "set=valid"
+   ],
+   "row": "records of one series with seq 1 and 3 held, seq 2 not held: each record valid, the set names seq 2 as issued and not received"
+  },
+  {
+   "draftId": "SQ5",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "set=['sequence-duplicate']"
+   ],
+   "row": "two records of one series with seq 1 and different envelope digests: each record valid, the set fails the check"
+  },
+  {
+   "draftId": "R10",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=well-formed"
+   ],
+   "row": "the retaining party's anchor is opentimestamps, its block header time 600 seconds earlier than receivedAt: inside the 7200 seconds an opentimestamps time allows"
+  },
+  {
+   "draftId": "R11",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating NOT ATTEMPTED (needs anchor validation): expected entry-received-after-anchor"
+   ],
+   "row": "the block header time earlier than receivedAt by 7201 seconds, more than the 7200 seconds an opentimestamps time allows"
+  },
+  {
+   "draftId": "R12",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=well-formed"
+   ],
+   "row": "anchors holding a pending OpenTimestamps proof followed by its upgraded, complete proof: dated at the upgraded proof's block time, the pending element dating nothing"
+  },
+  {
+   "draftId": "R13",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=well-formed"
+   ],
+   "row": "R1 for a record carrying delegation.rootDigest, with a delegation-root element whose digest equals it: the root established, its algorithm read off the element"
+  },
+  {
+   "draftId": "R14",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=well-formed"
+   ],
+   "row": "the delegation-root element omitted: the root not established, never a pass"
+  },
+  {
+   "draftId": "R15",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=entry-delegation-root-mismatch"
+   ],
+   "row": "the delegation-root element carries another key set, whose digest is unequal to delegation.rootDigest"
+  },
+  {
+   "draftId": "R16",
+   "kind": "accept",
+   "expected": "valid",
+   "expectedCodes": [],
+   "got": "valid",
+   "codes": [],
+   "derivedTier": "authoritative",
+   "agree": true,
+   "notes": [
+    "dating(partial)=well-formed"
+   ],
+   "row": "the only anchor an opentimestamps proof whose path runs from envelopeDigest through a Merkle tree the retaining party built and a Bitcoin transaction carrying its root to the block header"
+  }
+ ]
+}
