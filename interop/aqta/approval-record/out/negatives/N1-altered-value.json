@@ -1,0 +1,65 @@
+{
+ "what": "the request and the attempt carry a specification (pull_number 4522) that differs from the one the person was shown and approved (4521); the action record's args_hash is the executed one",
+ "result": {
+  "seal_action_record": "valid",
+  "dps_action_binding": {
+   "specification_digests": [
+    "verified",
+    []
+   ],
+   "specification_statements": [
+    "verified",
+    []
+   ],
+   "record_statements": [
+    "verified",
+    []
+   ],
+   "action_binding": [
+    "failed",
+    [
+     "q1: the requested specification differs from the one approved"
+    ]
+   ],
+   "stage_order": [
+    "verified",
+    []
+   ],
+   "authorisation_recheck": [
+    "verified",
+    []
+   ],
+   "observed_results": [
+    "verified",
+    []
+   ],
+   "rationale_provenance": [
+    "verified",
+    []
+   ]
+  },
+  "dps_executed": [
+   [
+    1,
+    "unbound"
+   ]
+  ],
+  "dps_action_binding_failed": [
+   "action_binding"
+  ],
+  "dps_action_binding_findings": {
+   "action_binding": [
+    "q1: the requested specification differs from the one approved"
+   ]
+  },
+  "dps_person_approval": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified"
+  },
+  "dps_person_approval_findings": {},
+  "composition_args_hash_bound": false
+ }
+}

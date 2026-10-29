@@ -38,6 +38,19 @@ Output in `out/`; the run's verdicts in `out/summary.json`.
   designated by the policy, whose digest is carried; the view was rendered from the canonical arguments and its digest
   is signed; the sidecar's digest equals the SHA-256 of the assertion's RFC 8785 bytes as issued.
 
+## The failing cases (`negatives.py`, asked for by the author on 2026-10-29)
+
+Each is the valid example changed in one place, run through the same three verifications; `out/negatives/summary.json`
+records where it fails and what the check says. The Seal action record itself stays valid in every case: it attests
+what the enforcement point recorded, and the failure is found on the approval side, which is the point.
+
+| Case | Change | Where it fails | What the check says |
+|---|---|---|---|
+| N1 altered value | the request and the attempt carry pull_number 4522; the person approved 4521 | DPS action binding, dimension `action_binding`; the composition's args_hash binding | "q1: the requested specification differs from the one approved"; the executed specification is reported `unbound` |
+| N2 reused single-use approval | a second request, recheck, attempt and result rest on the same approval (`request_limit` 1) | DPS action binding, dimension `action_binding` | "q2: o1 covers 1 request(s), already used by q1"; "specification 0: requested 2 times; the most any approval or change of it covers is 1" |
+| N3 approver outside the trust policy | the outcome is signed by a key the verifier's policy does not list | DPS signatures, dimension `signature` (then `key_state` and `identity` not checked) | the key reference is not in the policy; the assertion is not verified |
+| N3b key in the wrong role | the same key, listed in the policy but in role `organisation` | DPS signatures, dimensions `signature` and `identity` | an organisation's key cannot give a person's approval |
+
 ## What it shows, and what it does not
 
 It shows that the approval record §8.3 asks for exists today in a form with a published verifier and test suite, that

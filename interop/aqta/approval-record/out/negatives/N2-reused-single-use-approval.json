@@ -1,0 +1,67 @@
+{
+ "what": "a second request (q2), recheck, attempt and result rest on approval o1, whose request_limit is 1",
+ "result": {
+  "seal_action_record": "valid",
+  "dps_action_binding": {
+   "specification_digests": [
+    "verified",
+    []
+   ],
+   "specification_statements": [
+    "verified",
+    []
+   ],
+   "record_statements": [
+    "verified",
+    []
+   ],
+   "action_binding": [
+    "failed",
+    [
+     "q2: o1 covers 1 request(s), already used by q1",
+     "specification 0: requested 2 times; the most any approval or change of it covers is 1"
+    ]
+   ],
+   "stage_order": [
+    "verified",
+    []
+   ],
+   "authorisation_recheck": [
+    "verified",
+    []
+   ],
+   "observed_results": [
+    "verified",
+    []
+   ],
+   "rationale_provenance": [
+    "verified",
+    []
+   ]
+  },
+  "dps_executed": [
+   [
+    0,
+    "shown_to_reviewer"
+   ]
+  ],
+  "dps_action_binding_failed": [
+   "action_binding"
+  ],
+  "dps_action_binding_findings": {
+   "action_binding": [
+    "q2: o1 covers 1 request(s), already used by q1",
+    "specification 0: requested 2 times; the most any approval or change of it covers is 1"
+   ]
+  },
+  "dps_person_approval": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified"
+  },
+  "dps_person_approval_findings": {},
+  "composition_args_hash_bound": true
+ }
+}

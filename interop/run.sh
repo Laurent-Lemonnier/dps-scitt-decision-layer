@@ -34,7 +34,8 @@ fi
 git -C aqta/approval-record/dps-standard checkout --quiet "$DPS_STANDARD_COMMIT"
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 aqta/approval-record/build.py > aqta/approval-record/out/build-ci.log
 grep -q '"all_verified": true' aqta/approval-record/out/build-ci.log || { echo "approval record: not all verified"; tail -20 aqta/approval-record/out/build-ci.log; exit 1; }
-echo "# action record valid under the Seal text; DPS action binding and person approval verified; 10 Section 8.2 checks true"
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 aqta/approval-record/negatives.py > aqta/approval-record/out/negatives-ci.log || { echo "approval record: a negative case did not fail where it should"; tail -30 aqta/approval-record/out/negatives-ci.log; exit 1; }
+echo "# action record valid under the Seal text; DPS action binding and person approval verified; 10 Section 8.2 checks true; 4 failing cases fail where they should"
 
 echo "== draft-fassbender-scitt-time-anchor-08, Appendix D vectors, route 2 (no OTS software)"
 CP=957289:000000000000000000018e5b8c68a63c45b3eeac3a05ecf621a3b3f7890e3534

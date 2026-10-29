@@ -1,0 +1,58 @@
+{
+ "N1-altered-value": {
+  "what": "the request and the attempt carry a specification (pull_number 4522) that differs from the one the person was shown and approved (4521); the action record's args_hash is the executed one",
+  "seal_action_record": "valid",
+  "dps_action_binding_failed": [
+   "action_binding"
+  ],
+  "dps_person_approval": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified"
+  },
+  "composition_args_hash_bound": false
+ },
+ "N2-reused-single-use-approval": {
+  "what": "a second request (q2), recheck, attempt and result rest on approval o1, whose request_limit is 1",
+  "seal_action_record": "valid",
+  "dps_action_binding_failed": [
+   "action_binding"
+  ],
+  "dps_person_approval": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified"
+  },
+  "composition_args_hash_bound": true
+ },
+ "N3-approver-outside-trust-policy": {
+  "what": "the approval is a valid Ed25519 signature by a key (someone-else-key-1) that the verifier's trust policy does not list",
+  "seal_action_record": "valid",
+  "dps_action_binding_failed": [],
+  "dps_person_approval": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "not_checked"
+  },
+  "composition_args_hash_bound": true
+ },
+ "N3b-approver-key-in-wrong-role": {
+  "what": "the same signature, the key listed in the policy but in role organisation: an organisation's key cannot approve as a person",
+  "seal_action_record": "valid",
+  "dps_action_binding_failed": [],
+  "dps_person_approval": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "failed"
+  },
+  "composition_args_hash_bound": true
+ }
+}

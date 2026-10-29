@@ -1,0 +1,64 @@
+{
+ "what": "the same signature, the key listed in the policy but in role organisation: an organisation's key cannot approve as a person",
+ "result": {
+  "seal_action_record": "valid",
+  "dps_action_binding": {
+   "specification_digests": [
+    "verified",
+    []
+   ],
+   "specification_statements": [
+    "verified",
+    []
+   ],
+   "record_statements": [
+    "verified",
+    []
+   ],
+   "action_binding": [
+    "verified",
+    []
+   ],
+   "stage_order": [
+    "verified",
+    []
+   ],
+   "authorisation_recheck": [
+    "verified",
+    []
+   ],
+   "observed_results": [
+    "verified",
+    []
+   ],
+   "rationale_provenance": [
+    "verified",
+    []
+   ]
+  },
+  "dps_executed": [
+   [
+    0,
+    "shown_to_reviewer"
+   ]
+  ],
+  "dps_action_binding_failed": [],
+  "dps_action_binding_findings": {},
+  "dps_person_approval": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "failed"
+  },
+  "dps_person_approval_findings": {
+   "signature": [
+    "someone-else-key-1 is a key in role organisation; only a key in role person makes this assertion"
+   ],
+   "identity": [
+    "someone-else-key-1 is a key in role organisation; it binds no person"
+   ]
+  },
+  "composition_args_hash_bound": true
+ }
+}

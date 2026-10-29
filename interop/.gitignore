@@ -2,6 +2,7 @@ attestation-spec/
 aqta/attestation-spec/
 aqta/approval-record/dps-standard/
 aqta/approval-record/out/build-ci.log
+aqta/approval-record/out/negatives-ci.log
 aer1/zambo/
 aer1/judge-ci.json
 gilda/judge-ci.json
