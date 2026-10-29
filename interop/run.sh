@@ -25,6 +25,17 @@ python3 aqta/aqta_verify_independent.py --profile attestation --key "$AQTA_ATTES
 echo "== Seal ACTION-v1"
 python3 aqta/aqta_verify_independent.py --profile action --key "$AQTA_ACTION_KEY" "$V"/action/valid/*.json "$V"/action/invalid/*.json | tail -1
 
+echo "== Seal ACTION-v1 Section 8.3: the approval record as a DPS signed outcome (aqta/approval-record)"
+python3 -m pip install --quiet jsonschema "asn1crypto==1.5.1"
+DPS_STANDARD_COMMIT="${DPS_STANDARD_COMMIT:-$(cat aqta/approval-record/DPS_STANDARD_COMMIT)}"
+if [ ! -d aqta/approval-record/dps-standard ]; then
+  git clone --quiet https://github.com/decision-provenance-standard/standard.git aqta/approval-record/dps-standard
+fi
+git -C aqta/approval-record/dps-standard checkout --quiet "$DPS_STANDARD_COMMIT"
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 aqta/approval-record/build.py > aqta/approval-record/out/build-ci.log
+grep -q '"all_verified": true' aqta/approval-record/out/build-ci.log || { echo "approval record: not all verified"; tail -20 aqta/approval-record/out/build-ci.log; exit 1; }
+echo "# action record valid under the Seal text; DPS action binding and person approval verified; 10 Section 8.2 checks true"
+
 echo "== draft-fassbender-scitt-time-anchor-08, Appendix D vectors, route 2 (no OTS software)"
 CP=957289:000000000000000000018e5b8c68a63c45b3eeac3a05ecf621a3b3f7890e3534
 for n in 1 2 3 4; do

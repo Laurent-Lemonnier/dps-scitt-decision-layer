@@ -1,0 +1,93 @@
+{
+ "seal_action_record": "valid",
+ "dps_action_binding": {
+  "specification_digests": [
+   "verified",
+   []
+  ],
+  "specification_statements": [
+   "verified",
+   []
+  ],
+  "record_statements": [
+   "verified",
+   []
+  ],
+  "reviews": [
+   [
+    "v1",
+    "as_proposed",
+    null
+   ]
+  ],
+  "action_binding": [
+   "verified",
+   []
+  ],
+  "standing": [],
+  "standing_detail": {},
+  "executed": [
+   [
+    0,
+    "shown_to_reviewer"
+   ]
+  ],
+  "stage_order": [
+   "verified",
+   []
+  ],
+  "authorisation_recheck": [
+   "verified",
+   []
+  ],
+  "observed_results": [
+   "verified",
+   []
+  ],
+  "execution_state": "attempted",
+  "observed": [
+   [
+    "x1",
+    "succeeded",
+    "target_response"
+   ]
+  ],
+  "rationale_provenance": [
+   "verified",
+   []
+  ],
+  "per_spec": [
+   [
+    [
+     "verified",
+     []
+    ],
+    [
+     "verified",
+     []
+    ]
+   ]
+  ]
+ },
+ "dps_trust_policy": "verified",
+ "dps_person_approval": {
+  "status": "verified",
+  "signature": "verified",
+  "subject": "verified",
+  "key_state": "verified",
+  "identity": "verified"
+ },
+ "section_8_2_properties": {
+  "exact_values: action.args_hash == sha256(canonical args) == spec.parameters.args_hash": true,
+  "exact_values: action.tool/org_id == spec operation/parameters.org_id": true,
+  "exact_values: approval signed the digest of those bytes": true,
+  "single_use: the approval states request_limit 1 and one request rests on it": true,
+  "expiry: approval precedes the action record; the key's validity window is in the policy": true,
+  "policy_version: spec.policy_version names the policy the record applied": true,
+  "independence: approver key holder is not the agent nor the requesting service": true,
+  "designated_approver: key_ref is in the trust policy in role person; policy digest carried": true,
+  "rendering: the view the approver was shown is derived from the canonical args and its digest is signed": true,
+  "reference: composition.approval_record.sha256 == sha256(RFC 8785 of the assertion as issued)": true
+ },
+ "all_verified": true
+}
