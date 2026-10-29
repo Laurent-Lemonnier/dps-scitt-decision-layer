@@ -7,6 +7,7 @@ reach the published verdicts, and to say where it is not. Results as of 2026-10-
 | Draft | Vectors | Result | Not covered |
 |---|---|---|---|
 | draft-chueayen-attestation-receipts-05 (Seal ATTESTATION-v1, ACTION-v1) | 33 + 34, release 1.4.0 | 33/33 and 34/34 verdicts match `valid/` and `invalid/` | the chain, complete, transparency, witnessed, acceptance and bytes suites; one ambiguity found in ATTESTATION-v1 §4 (see `aqta/README.md`) |
+| draft-fassbender-scitt-time-anchor-08 (Appendix D) | 4 proofs + the D.6 negative and unverifiable cases | all 4 valid at height 957289 by route 2 (replay without OTS software, against a header set the verifier checks for proof-of-work and linkage); D.6 cases give invalid and unverifiable | the result is conditional on the checkpoint the verifier holds (block 957289's hash, from two explorers), not on a node of its own; see `umarise/README.md` |
 | draft-gilda-audit-agent-audit-record-02 (corpus v0.28.0) | 141 members | 141/141 agree on verdict, refusal codes, derived tier, withinLimit and the set checks; first refusal code agrees on 81/81 reject members | anchor validation of retained records (Section 4.7.2), so R3, R7, R11 dating and `datedAt` were not attempted |
 
 - `aqta/aqta_verify_independent.py` — Ed25519 over the canonical payload of §6, UTF-16 key order, literal UTF-8,
