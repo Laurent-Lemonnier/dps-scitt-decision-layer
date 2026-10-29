@@ -51,7 +51,7 @@ nochain=$(python3 umarise/verify_anchor.py --artifact umarise/vectors/vector1.tx
 grep -q '"result": "unverifiable"' <<<"$nochain" || { echo "D.6 no chain: not unverifiable: $nochain"; exit 1; }
 echo "# 4 vectors valid at height 957289; D.6 negative invalid; no validated chain unverifiable"
 
-echo "== draft-zambo-aer1-26, conformance kit v1.5.7 (receipt, unicode, id-binding, anchor suites)"
+echo "== draft-zambo-aer1-26, conformance kit v1.5.7 (all seven vector suites)"
 AER1_REPO=https://gitlab.com/rambozambodotdev/zambo.git
 AER1_COMMIT="${AER1_COMMIT:-$(cat aer1/PINNED_COMMIT)}"
 if [ ! -d aer1/zambo ]; then

@@ -1,6 +1,6 @@
 {
- "agree": 67,
- "total": 67,
+ "agree": 119,
+ "total": 119,
  "rows": [
   {
    "suite": "valid",
@@ -681,6 +681,456 @@
    "name": "anchor-other-profile",
    "expected": "absent",
    "verdict": "absent",
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-valid-3",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": "historical -06 construction",
+   "declared": null,
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-single-entry-valid",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": "historical -06 construction",
+   "declared": null,
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-tampered-middle",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 2 prev_digest does not match the digest of entry 1 bytes",
+   "declared": "entry2 prev_digest does not match digest of entry1 bytes (link broken)",
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-truncated-no-close",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "last entry lacks close=true",
+   "declared": "last entry lacks close=true",
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-reordered",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 1 prev_digest does not match the digest of entry 0 bytes",
+   "declared": "link broken (prev_digest mismatch in timeline order)",
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-bad-genesis",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 0 prev_digest is not genesis (64 zeros)",
+   "declared": "entry0 prev_digest is not genesis (64 zeros)",
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-close-wrong-type",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "close is not boolean",
+   "declared": "close is not boolean true",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-valid-5",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": null,
+   "declared": "",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-valid-single",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": null,
+   "declared": "",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-truncation-limit-prefix",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": null,
+   "declared": "",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-relabel-provenance",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 3 prev_digest does not match the digest of entry 2",
+   "declared": "prev_digest does not match",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-relabel-tool-id",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 3 prev_digest does not match the digest of entry 2",
+   "declared": "prev_digest does not match",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-close-middle",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "close:true before the last entry",
+   "declared": "close:true before the last entry",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-close-wrong-type",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "close is not a boolean",
+   "declared": "close is not a boolean",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-delete-identical-pair",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq breaks contiguity",
+   "declared": "breaks contiguity",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-insert-duplicate",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq breaks contiguity",
+   "declared": "breaks contiguity",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-splice-cross-job",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "timeline mixes jobs",
+   "declared": "mixes jobs",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-bad-genesis",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 0 prev_digest is not 64 zero characters",
+   "declared": "not 64 zero characters",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-gap",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq breaks contiguity",
+   "declared": "breaks contiguity",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-mixed-job-id",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "timeline mixes jobs",
+   "declared": "prev_digest does not match",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-bad-base64",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "canonical_bytes is not valid base64",
+   "declared": "not valid base64",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-v06-chain-rejected",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq is not an integer",
+   "declared": "missing tool",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-float-valid",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": null,
+   "declared": "",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-bool-invalid",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq is not an integer",
+   "declared": "seq is not an integer",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-fraction-invalid",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq is not an integer",
+   "declared": "seq is not an integer",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-negative-invalid",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "first seq is not 1 (breaks contiguity)",
+   "declared": "breaks contiguity",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-string-invalid",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq is not an integer",
+   "declared": "seq is not an integer",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-null-invalid",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq is not an integer",
+   "declared": "seq is not an integer",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-missing-invalid",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq is not an integer",
+   "declared": "seq is not an integer",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "x-genesis-single",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 0 prev_digest is not 64 zero characters",
+   "declared": null,
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "x-encoding-reference",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": null,
+   "declared": null,
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "x-encoding-draft-literal",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 1 prev_digest does not match the digest of entry 0",
+   "declared": null,
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "ax-genesis-single",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 0 prev_digest is not 64 zero characters",
+   "declared": "entry 0 prev_digest is not 64 zero characters",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "ax-esc-hex-upper",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 1 prev_digest does not match the digest of entry 0",
+   "declared": "entry 1 prev_digest does not match the digest of entry 0",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "ax-esc-long-escape",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 1 prev_digest does not match the digest of entry 0",
+   "declared": "entry 1 prev_digest does not match the digest of entry 0",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-valid-1",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": null,
+   "declared": "Correct commitment over a valid chain: digest, count, job, and timestamp all bind.",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-digest-mismatch",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "final_entry_digest does not match the recomputed digest of the last entry",
+   "declared": "final_entry_digest does not match the recomputed digest of the last entry (rewritten final entry).",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-count-mismatch",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry_count does not match the timeline length",
+   "declared": "entry_count does not match the timeline length (truncated chain re-linked).",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-job-mismatch",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "commitment job_id does not match the timeline's job_id",
+   "declared": "commitment job_id does not match the timeline's job_id (spliced jobs).",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-malformed-missing",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "commitment lacks final_entry_digest",
+   "declared": "Commitment object missing final_entry_digest entirely.",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-malformed-types",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "final_entry_digest is not 64 lowercase hex characters",
+   "declared": "Commitment with wrong member types: uppercase digest, string count, bad timestamp.",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-not-an-object",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "commitment is not an object",
+   "declared": "Commitment is not a JSON object at all.",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "x-entry-count-float",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry_count is not a JSON integer",
+   "declared": "entry_count written as a float with an integer value",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "canonical-5-step",
+   "expected": "valid",
+   "verdict": "valid",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "legacy-construction-rejected",
+   "expected": "a4b2fcb4684c",
+   "verdict": "a4b2fcb4684c",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "odd-duplication-3",
+   "expected": "4860e25bbc8d",
+   "verdict": "4860e25bbc8d",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "ordering-matters",
+   "expected": "362530ecc354",
+   "verdict": "362530ecc354",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "single-leaf",
+   "expected": "609eb71e8855",
+   "verdict": "609eb71e8855",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "empty",
+   "expected": "e3b0c44298fc",
+   "verdict": "e3b0c44298fc",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "worked-example-byte-exact",
+   "expected": "7c4817ca249e",
+   "verdict": "7c4817ca249e",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "duplicate-receipt-id-collision",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "one-step-single-receipt",
+   "expected": "valid",
+   "verdict": "valid",
    "agree": true
   }
  ]

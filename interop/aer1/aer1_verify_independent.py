@@ -8,7 +8,7 @@ names the vectors), and the "disinterested tier" anchor shape (aer-1/profiles/
 disinterested-tier.md). The id_verdict and anchor-outcome vocabularies are the
 draft's (Section 6).
 
-Scope: the receipt-level fixtures (test-vectors/valid, invalid, invalid-profile,
+
 anchored), unicode-vectors.json, id-binding-vectors.json and anchor-vectors.json.
 The chain, commitment and Merkle suites are not covered by this file.
 
@@ -256,6 +256,133 @@ def structural(rec, strict_id=False):
         return f"rejected: {e}", str(e), None
 
 
+# ---------------------------------------------------------------- timelines (Section 7), commitments (7.3), Merkle (8.1)
+
+GENESIS = "0" * 64
+
+
+def entry_digest_v07(e):
+    """Section 7.1: SHA-256 over the Section 7.1 serialization of the eight members."""
+    seq = e.get("seq")
+    if isinstance(seq, bool) or seq is None or isinstance(seq, str):
+        raise Reject("seq is not an integer")
+    if isinstance(seq, float):
+        if seq != int(seq):
+            raise Reject("seq is not an integer")
+        seq = int(seq)
+    if not isinstance(seq, int):
+        raise Reject("seq is not an integer")
+    for m in ("prev_digest", "job_id", "id", "tool", "provenance_class"):
+        if not isinstance(e.get(m), str) or not e.get(m):
+            raise Reject(f"missing or empty {m}")
+    close = e.get("close", False)
+    if not isinstance(close, bool):
+        raise Reject("close is not a boolean")
+    try:
+        raw = base64.b64decode(e["canonical_bytes"], validate=True)
+    except Exception:
+        raise Reject("canonical_bytes is not valid base64")
+    obj = {"close": close, "id": e["id"], "job_id": e["job_id"], "output_hash": sha256_hex(raw),
+           "prev_digest": e["prev_digest"], "provenance_class": e["provenance_class"], "seq": seq, "tool": e["tool"]}
+    return sha256_hex(canonical_json(obj).encode("utf-8")), seq, close
+
+
+def verify_timeline_v07(timeline):
+    """Section 7.2 rules under the -07 construction; returns the last entry's digest."""
+    if not isinstance(timeline, list) or not timeline:
+        raise Reject("timeline is empty")
+    prev, last_digest, job = None, None, None
+    for i, e in enumerate(timeline):
+        if not isinstance(e, dict):
+            raise Reject("entry is not an object")
+        digest, seq, close = entry_digest_v07(e)
+        if i == 0:
+            if e["prev_digest"] != GENESIS:
+                raise Failed("entry 0 prev_digest is not 64 zero characters")
+            if seq != 1:
+                raise Failed("first seq is not 1 (breaks contiguity)")
+            job = e["job_id"]
+        else:
+            if e["prev_digest"] != last_digest:
+                raise Failed(f"entry {i} prev_digest does not match the digest of entry {i - 1}")
+            if seq != prev + 1:
+                raise Failed("seq breaks contiguity")
+            if e["job_id"] != job:
+                raise Failed("timeline mixes jobs")
+        if close and i != len(timeline) - 1:
+            raise Failed("close:true before the last entry")
+        prev, last_digest = seq, digest
+    if timeline[-1].get("close") is not True:
+        raise Failed("last entry lacks close:true")
+    return last_digest
+
+
+def verify_timeline_v06(timeline):
+    """The historical -06 construction (Section 7.4): entry digest over the decoded canonical bytes
+    alone. Reported as historical, never as verifying under the current construction."""
+    if not isinstance(timeline, list) or not timeline:
+        raise Reject("timeline is empty")
+    last = None
+    for i, e in enumerate(timeline):
+        try:
+            raw = base64.b64decode(e["canonical_bytes"], validate=True)
+        except Exception:
+            raise Reject("canonical_bytes is not valid base64")
+        if i == 0 and e.get("prev_digest") != GENESIS:
+            raise Failed("entry 0 prev_digest is not genesis (64 zeros)")
+        if i > 0 and e.get("prev_digest") != last:
+            raise Failed(f"entry {i} prev_digest does not match the digest of entry {i - 1} bytes")
+        if "close" in e and not isinstance(e["close"], bool):
+            raise Failed("close is not boolean")
+        if e.get("close") is True and i != len(timeline) - 1:
+            raise Failed("close:true before the last entry")
+        last = sha256_hex(raw)
+    if timeline[-1].get("close") is not True:
+        raise Failed("last entry lacks close=true")
+    return last
+
+
+def verify_commitment(commitment, timeline):
+    """Section 7.3: a commitment published outside the chain binds the final entry digest, the count
+    and the job. KIT: entry_count written as a float (5.0) is rejected by the kit although 7.3 says
+    "a JSON number with an integer value"; the kit reading is applied and the discrepancy noted."""
+    if not isinstance(commitment, dict):
+        raise Reject("commitment is not an object")
+    for m in ("job_id", "final_entry_digest", "entry_count", "published_at"):
+        if m not in commitment:
+            raise Reject(f"commitment lacks {m}")
+    fd = commitment["final_entry_digest"]
+    if not isinstance(fd, str) or not re.fullmatch(r"[0-9a-f]{64}", fd):
+        raise Reject("final_entry_digest is not 64 lowercase hex characters")
+    n = commitment["entry_count"]
+    if isinstance(n, bool) or not isinstance(n, int):
+        raise Reject("entry_count is not a JSON integer")
+    check_timestamp(commitment["published_at"], "published_at")
+    last = verify_timeline_v07(timeline)
+    if fd != last:
+        raise Failed("final_entry_digest does not match the recomputed digest of the last entry")
+    if n != len(timeline):
+        raise Failed("entry_count does not match the timeline length")
+    if commitment["job_id"] != timeline[0]["job_id"]:
+        raise Failed("commitment job_id does not match the timeline's job_id")
+
+
+def merkle_root(leaves):
+    """Section 8.1 tree over 32-byte leaf digests: pair in order, duplicate an odd last node, repeat."""
+    if not leaves:
+        return sha256_hex(b"")       # KIT: the empty case; the draft's steps array is never empty
+    level = list(leaves)
+    while len(level) > 1:
+        if len(level) % 2:
+            level.append(level[-1])
+        level = [hashlib.sha256(level[i] + level[i + 1]).digest() for i in range(0, len(level), 2)]
+    return level[0].hex()
+
+
+def merkle_root_receipt_id_v0(receipt_ids):
+    return merkle_root([hashlib.sha256(r.encode("utf-8")).digest() for r in receipt_ids])
+
+
 # ---------------------------------------------------------------- judge
 
 def judge(kit, report_path=None):
@@ -314,6 +441,46 @@ def judge(kit, report_path=None):
         rep = anchor_report(rec, raw, v.get("evaluate", True))
         ok = rep["present"] == v["expected_present"] and rep["evaluated"] == v["expected_evaluated"] and rep["outcome"] == v["expected_anchor_outcome"]
         rows.append({"suite": "anchor", "name": v["name"], "expected": v["expected_anchor_outcome"], "verdict": rep["outcome"], "agree": ok})
+    # chain-vectors.json: the historical -06 construction
+    for v in json.load(open(os.path.join(kit, "chain-vectors.json")))["vectors"]:
+        try:
+            verify_timeline_v06(v["timeline"]); got, reason = "valid", "historical -06 construction"
+        except (Failed, Reject) as e:
+            got, reason = "invalid", str(e)
+        rows.append({"suite": "chain-06", "name": v["name"], "expected": v["expected_verdict"], "verdict": got, "reason": reason,
+                     "declared": v.get("expected_failure"), "agree": got == v["expected_verdict"]})
+    # chain-vectors-v07.json: the current construction (7.1, 7.2)
+    for v in json.load(open(os.path.join(kit, "chain-vectors-v07.json")))["vectors"]:
+        try:
+            verify_timeline_v07(v["timeline"]); got, reason = "valid", None
+        except (Failed, Reject) as e:
+            got, reason = "invalid", str(e)
+        rows.append({"suite": "chain-07", "name": v["name"], "expected": v["expected_verdict"], "verdict": got, "reason": reason,
+                     "declared": v.get("expected_failure"), "agree": got == v["expected_verdict"]})
+    # commitment-vectors.json (7.3)
+    for v in json.load(open(os.path.join(kit, "commitment-vectors.json")))["vectors"]:
+        try:
+            verify_commitment(v["commitment"], v["timeline"]); got, reason = "valid", None
+        except (Failed, Reject) as e:
+            got, reason = "invalid", str(e)
+        rows.append({"suite": "commitment", "name": v["name"], "expected": v["expected_verdict"], "verdict": got, "reason": reason,
+                     "declared": v.get("desc"), "agree": got == v["expected_verdict"]})
+    # merkle-vectors.json (8.1, receipt-id-v0 construction)
+    for v in json.load(open(os.path.join(kit, "merkle-vectors.json")))["vectors"]:
+        if "leaves" in v:   # leaf pre-images given ("seq:receipt_hash", the old page construction, or the seq-output-v1 form)
+            root = merkle_root([hashlib.sha256(x["preimage"].encode("utf-8")).digest() for x in v["leaves"]])
+        else:
+            root = merkle_root_receipt_id_v0(v["receipt_ids"])
+        ok = root == v["expected_root"]
+        if "must_not_equal" in v:
+            ok = ok and root != v["must_not_equal"]
+        wf = None
+        if "expected_workflow_verdict" in v:
+            ids = v.get("receipt_ids", [])
+            wf = "valid" if ok and len(set(ids)) == len(ids) else "invalid"   # Section 8.2 duplicate receipt_id rule
+            ok = ok and wf == v["expected_workflow_verdict"]
+        rows.append({"suite": "merkle", "name": v["name"], "expected": v.get("expected_workflow_verdict") or v["expected_root"][:12],
+                     "verdict": wf or root[:12], "agree": ok})
     n = len(rows)
     agree = sum(1 for r in rows if r["agree"])
     for r in rows:
@@ -322,7 +489,7 @@ def judge(kit, report_path=None):
     by = {}
     for r in rows:
         by.setdefault(r["suite"], [0, 0]); by[r["suite"]][1] += 1; by[r["suite"]][0] += r["agree"]
-    print("# AER-1 receipt-level, unicode, id-binding and anchor suites: " + ", ".join(f"{k} {a}/{b}" for k, (a, b) in by.items()) + f"; total {agree}/{n}")
+    print("# AER-1 kit suites: " + ", ".join(f"{k} {a}/{b}" for k, (a, b) in by.items()) + f"; total {agree}/{n}")
     if report_path:
         json.dump({"agree": agree, "total": n, "rows": rows}, open(report_path, "w"), indent=1)
     return 0 if agree == n else 1

@@ -13,15 +13,19 @@ draft's Implementation Status names as the frozen reference for -26).
 | `unicode-vectors.json` (Section 4) | 3 | 3/3 |
 | `id-binding-vectors.json` (Section 6, `id_verdict`) | 6 | 6/6, all five id states |
 | `anchor-vectors.json` (Section 6, per-anchor report) | 6 | 6/6, all five anchor outcomes, `present`/`evaluated` kept distinct |
-| **Total covered** | **67** | **67/67** |
+| `chain-vectors.json` (the historical -06 construction, Section 7.4) | 7 | 7/7, reported as historical |
+| `chain-vectors-v07.json` (Sections 7.1, 7.2) | 28 | 28/28 |
+| `commitment-vectors.json` (Section 7.3) | 8 | 8/8 |
+| `merkle-vectors.json` (Section 8.1, receipt-id-v0; 8.2 duplicate id rule) | 9 | 9/9 |
+| **Total** | **119** | **119/119** |
 
-Not covered by this file: the chain (`chain-vectors.json`, `chain-vectors-v07.json`), chain-commitment and Merkle suites
-(52 vectors of the kit's 124). Their rules are in Sections 7.1 to 7.3 and 8.1; a second pass can add them.
+The kit's own count is 124 vectors and 127 checks; the five not in the seven files above are its frozen-corpus
+manifests and the cross-runner checks, which this file does not replay.
 
 Report: `judge-20261029.json` (one row per vector: expected, verdict, reason, the fixture's own `rejected_by`, legacy
 members read, profile result).
 
-## What the reading found: two places where the kit and the draft text differ
+## What the reading found: three places where the kit and the draft text differ
 
 1. **Section 6 step 4 says "A '0.4' receipt without metadata_hash MUST fail."** The kit lists three 0.4 fixtures
    without `metadata_hash` as valid (`bound-04`, `optional-members-18`, `input-hash-multikey-20`); they are bound by
@@ -36,6 +40,10 @@ members read, profile result).
    receipt is legacy as a whole when it carries `timestamp` instead of `created_at`, and only then are the bare-string
    tool and a non-"verified" status read in legacy form. The draft text would admit a bare-string tool beside
    `created_at`. One sentence in step 4 would settle it.
+
+3. **Section 7.3 says `entry_count` is "a JSON number with an integer value"**, the same wording Section 7.1 uses for
+   `seq`, where it explicitly accepts `1.0`. The kit's `x-entry-count-float` vector rejects an `entry_count` of `5.0`.
+   Either 7.3 should say "a JSON integer", or the vector should be valid; this file follows the kit.
 
 Rules applied that the draft does not state, taken from the kit's own documents and marked `KIT` in the code:
 the payload binding of the outer `receipt_schema_version` and `provenance_class` to the values inside the canonical
