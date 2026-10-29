@@ -1,0 +1,55 @@
+{
+ "seal_action_records": {
+  "valid": 40,
+  "of": 40,
+  "allowed": 35,
+  "blocked": 5,
+  "invalid": []
+ },
+ "schema_errors": {
+  "record": [],
+  "attachment": [],
+  "signatures": [],
+  "trust_policy": []
+ },
+ "dps_action_binding": {
+  "specification_digests": "verified",
+  "specification_statements": "verified",
+  "record_statements": "verified",
+  "action_binding": "verified",
+  "stage_order": "verified",
+  "authorisation_recheck": "verified",
+  "observed_results": "verified",
+  "rationale_provenance": "verified"
+ },
+ "dps_action_binding_findings": {},
+ "dps_per_spec": "verified",
+ "dps_executed_how": {
+  "shown_to_reviewer": 10,
+  "via_standing_approval": 25
+ },
+ "dps_execution_state": "attempted",
+ "dps_trust_policy": "verified",
+ "dps_person_signatures": {
+  "verified": 13,
+  "of": 13,
+  "failed": []
+ },
+ "capsules": {
+  "parsed": 41,
+  "verified": 41,
+  "references_resolved": 41,
+  "of": 41,
+  "problems": []
+ },
+ "joins": {
+  "every ALLOWED Seal record has its DPS attempt, with the same tool and args_hash, and an observed result": true,
+  "no BLOCKED Seal record's arguments were requested in the DPS attachment": true,
+  "every executed capsule cites the executed specification and the observed evidence, and says a person disposed of it only where an approval of that exact specification exists": true,
+  "every BLOCKED Seal record has a capsule with a never-dispatch verdict and no effect": true,
+  "the DPS report says how each execution was authorised, as the stages record it (shown to a reviewer, or via a standing approval)": true,
+  "every operation the routine policy lists under exact_approval_for rests on an exact approval, never on bounds": true,
+  "every specification and every bound names the routine policy by the digest of the policy held": true
+ },
+ "all_verified": true
+}

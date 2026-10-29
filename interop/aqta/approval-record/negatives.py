@@ -80,7 +80,7 @@ def sign_action(act, key):
     return a
 
 
-sig_att = {"profile": "dps-signatures", "profile_version": "0.2.0", "person_signatures": [ps], "organisation_seals": [], "timestamps": []}
+sig_att = {"profile": "dps-signatures", "profile_version": "0.2.0", "person_signatures": [ps]}
 cases = {}
 
 # ---- N1: the executed arguments differ from the approved ones (pull_number 4521 -> 4522)

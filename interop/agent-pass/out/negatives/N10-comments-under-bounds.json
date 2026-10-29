@@ -1,0 +1,13 @@
+{
+ "what": "two comments approved as bounds (two posts, two texts) and published with the texts swapped",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "detail": {
+  "joins": [
+   "every operation the routine policy lists under exact_approval_for rests on an exact approval, never on bounds"
+  ]
+ }
+}

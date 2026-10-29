@@ -199,8 +199,7 @@ ps = {"profile": "dps-signatures", "profile_version": "0.2.0", "assertion": "per
       "signature": {"algorithm": "Ed25519", "key_ref": "release-manager-claims-key-1", "value_b64": ""}}
 signed = SIG.person_signed_bytes(ps)
 ps["signature"]["value_b64"] = base64.b64encode(approver.sign(signed)).decode("ascii")
-sig_attachment = {"profile": "dps-signatures", "profile_version": "0.2.0", "person_signatures": [ps],
-                  "organisation_seals": [], "timestamps": []}
+sig_attachment = {"profile": "dps-signatures", "profile_version": "0.2.0", "person_signatures": [ps]}
 approval_canonical = jcs(ps)                       # the canonical bytes the action record would reference
 approval_hash = sha256(approval_canonical)
 

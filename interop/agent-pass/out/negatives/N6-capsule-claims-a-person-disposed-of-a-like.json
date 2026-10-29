@@ -1,0 +1,13 @@
+{
+ "what": "a like's capsule says human_disposed true, though only bounds were approved",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "detail": {
+  "joins": [
+   "every executed capsule cites the executed specification and the observed evidence, and says a person disposed of it only where an approval of that exact specification exists"
+  ]
+ }
+}

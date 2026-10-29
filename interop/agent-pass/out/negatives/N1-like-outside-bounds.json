@@ -1,0 +1,18 @@
+{
+ "what": "a like on a post the standing approval does not list",
+ "caught_by": [
+  "dps_action_binding"
+ ],
+ "expected_place": "dps_action_binding",
+ "as_expected": true,
+ "detail": {
+  "dps_action_binding": {
+   "action_binding": [
+    "failed",
+    [
+     "q0: outside the bounds of saL: parameter post_ref is outside its constraint"
+    ]
+   ]
+  }
+ }
+}

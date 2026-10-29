@@ -1,0 +1,26 @@
+{
+ "what": "the holder withdraws the likes' standing approval at 10:36:30Z; the routine goes on liking",
+ "caught_by": [
+  "dps_action_binding"
+ ],
+ "expected_place": "dps_action_binding",
+ "as_expected": true,
+ "detail": {
+  "dps_action_binding": {
+   "action_binding": [
+    "failed",
+    [
+     "q10: rests on saL after rvL revoked it",
+     "q11: rests on saL after rvL revoked it"
+    ]
+   ],
+   "authorisation_recheck": [
+    "failed",
+    [
+     "x10: the recheck authorised a request under saL after rvL revoked it",
+     "x11: the recheck authorised a request under saL after rvL revoked it"
+    ]
+   ]
+  }
+ }
+}

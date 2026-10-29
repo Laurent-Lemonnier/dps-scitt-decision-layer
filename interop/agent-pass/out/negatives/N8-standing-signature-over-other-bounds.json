@@ -1,0 +1,19 @@
+{
+ "what": "the holder's signature names bounds of 30 likes, the stage carries 20",
+ "caught_by": [
+  "dps_person_signatures"
+ ],
+ "expected_place": "dps_person_signatures",
+ "as_expected": true,
+ "detail": {
+  "dps_person_signatures": [
+   {
+    "stage": "saL",
+    "signature": "verified",
+    "subject": "failed",
+    "key_state": "verified",
+    "identity": "verified"
+   }
+  ]
+ }
+}

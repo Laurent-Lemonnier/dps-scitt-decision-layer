@@ -1,0 +1,18 @@
+{
+ "what": "the comment the holder rejected is requested and published, citing the rejection",
+ "caught_by": [
+  "dps_action_binding"
+ ],
+ "expected_place": "dps_action_binding",
+ "as_expected": true,
+ "detail": {
+  "dps_action_binding": {
+   "action_binding": [
+    "failed",
+    [
+     "q27: rests on o7 (rejected); only an approval or an authorised change authorises a request"
+    ]
+   ]
+  }
+ }
+}

@@ -37,6 +37,12 @@ grep -q '"all_verified": true' aqta/approval-record/out/build-ci.log || { echo "
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 aqta/approval-record/negatives.py > aqta/approval-record/out/negatives-ci.log || { echo "approval record: a negative case did not fail where it should"; tail -30 aqta/approval-record/out/negatives-ci.log; exit 1; }
 echo "# action record valid under the Seal text; DPS action binding and person approval verified; 10 Section 8.2 checks true; 8 failing cases (N1-N7) fail where they should; N7b (authority_ref relabelled) verifies by design"
 
+echo "== One agent pass, three layers (agent-pass): DPS standing and exact approvals, Seal ACTION-v1, Agent Action Capsule"
+python3 -m pip install --quiet "agent-action-capsule==0.12.0"
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 agent-pass/build.py > agent-pass/out/build-ci.log || { echo "agent pass: not all verified"; tail -30 agent-pass/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 agent-pass/negatives.py > agent-pass/out/negatives-ci.log || { echo "agent pass: a failing case was not caught where expected"; cat agent-pass/out/negatives-ci.log; exit 1; }
+echo "# 40 Seal records valid; 8 DPS dimensions and 13 person signatures verified; 41 capsules verified; 7 joins true; 10 failing cases caught where expected"
+
 echo "== draft-fassbender-scitt-time-anchor-08, Appendix D vectors, route 2 (no OTS software)"
 CP=957289:000000000000000000018e5b8c68a63c45b3eeac3a05ecf621a3b3f7890e3534
 for n in 1 2 3 4; do

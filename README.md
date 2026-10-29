@@ -20,10 +20,11 @@ The Decision Provenance Standard, Yohay Etsion, 2026, CC-BY 4.0, https://decisio
 | Item | State |
 |---|---|
 | Draft | `-00` posted on the IETF Datatracker on 26 October 2026 and announced on scitt@ietf.org; `-01` due before the 2 November cutoff, with a Related Work section (the SCITT group holds some thirty drafts on agent decision records) and an Implementation Status section (RFC 7942) that names the Standard's reference checks and the interop below |
-| Standard | all four extensions written against the Standard's main branch; the commit each artefact is pinned to is stated in its directory. Open question to the Steward: [#93](https://github.com/decision-provenance-standard/standard/issues/93), a designating-policy digest and a short validity on a person's approval |
+| Standard | all four extensions written against the Standard's main branch (`007f8c9`); the commit each artefact is pinned to is stated in its directory. [#93](https://github.com/decision-provenance-standard/standard/issues/93) answered by the Steward with no change to the Standard: the designating policy is signed through the specification (`policy_version` = SHA-256 of the issuer's policy), and a short validity is checked at the recheck |
 | Interop with the Agent Action Capsule (Steven Mih) | seven cases, both sides passing, including the two COSE forms; the service's transparency receipt read by the Standard's anchoring check; see `interop/aac/` |
 | Independent verifiers of neighbouring drafts | written from the drafts' text and run on their published vectors: Seal (Chueayen) 67/67, VERIFY-ANCHOR (Fassbender) 4/4, AER-1 (Zambo) 119/119, agent audit record (Gilda) 141/141; discrepancies found are listed in each README and reported to the authors |
-| Seal Section 8.3 | the approval record that draft calls for, as a DPS signed outcome, with the failing cases its author asked for; see `interop/aqta/approval-record/` |
+| Seal Section 8.3 | the approval record that draft calls for, as a DPS signed outcome, with the failing cases its author asked for and those the Steward listed on #93; see `interop/aqta/approval-record/` |
+| One agent pass, three layers | a synthetic pass of 35 actions and 5 refusals carried by the DPS (two standing approvals of exact lists, ten exact approvals of comments, one rejection, 13 signatures), Seal ACTION-v1 (40 records) and the capsule (41), with the joins across them and 10 failing cases; see `interop/agent-pass/` |
 | IETF 127 (San Francisco, 14–20 November) | Hackathon 14–15 November (capsule interop, remote); AUDIT BoF Tuesday 17 November; SCITT session Wednesday 18 November |
 
 Everything under `interop/` is replayed by the CI from a clean machine on every push and weekly (`interop/run.sh`).
@@ -56,6 +57,8 @@ Everything under `interop/` is replayed by the CI from a clean machine on every 
 - `interop/aqta/`, `interop/umarise/`, `interop/aer1/`, `interop/gilda/`: verifiers written from the text of four
   neighbouring drafts, their replays and what each left out; `interop/README.md` has the table.
   `interop/aqta/approval-record/`: the Seal §8.3 example and its failing cases.
+- `interop/agent-pass/`: one agent pass carried three ways (WHO: DPS standing and exact approvals; CAN: Seal
+  ACTION-v1; WHAT: Agent Action Capsule), the joins across them, and its failing cases.
 - `draft/`: the draft's source (kramdown-rfc), written against the Standard's main branch at the commit it names.
 
 ## Running
@@ -65,7 +68,7 @@ pip install jsonschema agent-action-capsule==0.12.0 cbor2
 git clone https://github.com/decision-provenance-standard/standard ../standard   # or set DPS_REPO / DPS_STANDARD
 python examples/release-decision/build.py
 python demo/build_demo.py
-bash interop/run.sh        # the four verifiers and the Seal example, as the CI runs them
+bash interop/run.sh        # the four verifiers, the Seal example and the agent pass, as the CI runs them
 ```
 
 ## Licence

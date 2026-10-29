@@ -1,0 +1,18 @@
+{
+ "what": "a like requested and attempted at 12:40Z, after the bounds' valid_until (12:25Z)",
+ "caught_by": [
+  "dps_action_binding"
+ ],
+ "expected_place": "dps_action_binding",
+ "as_expected": true,
+ "detail": {
+  "dps_action_binding": {
+   "action_binding": [
+    "failed",
+    [
+     "q19: dated outside the period of saL (2026-11-05T10:25:00Z to 2026-11-05T12:25:00Z)"
+    ]
+   ]
+  }
+ }
+}

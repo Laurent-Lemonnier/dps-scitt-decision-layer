@@ -1,0 +1,189 @@
+{
+ "N1-like-outside-bounds": {
+  "what": "a like on a post the standing approval does not list",
+  "caught_by": [
+   "dps_action_binding"
+  ],
+  "expected_place": "dps_action_binding",
+  "as_expected": true,
+  "detail": {
+   "dps_action_binding": {
+    "action_binding": [
+     "failed",
+     [
+      "q0: outside the bounds of saL: parameter post_ref is outside its constraint"
+     ]
+    ]
+   }
+  }
+ },
+ "N2-twenty-first-like": {
+  "what": "a 21st like under bounds that allow 20 (the first post liked twice)",
+  "caught_by": [
+   "dps_action_binding",
+   "joins"
+  ],
+  "expected_place": "dps_action_binding",
+  "as_expected": true,
+  "detail": {
+   "dps_action_binding": {
+    "action_binding": [
+     "failed",
+     [
+      "q99: saL covers 20 request(s), already used by q0, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, q18, q19"
+     ]
+    ]
+   },
+   "joins": [
+    "the DPS report says how each execution was authorised, as the stages record it (shown to a reviewer, or via a standing approval)"
+   ]
+  }
+ },
+ "N3-like-after-the-period": {
+  "what": "a like requested and attempted at 12:40Z, after the bounds' valid_until (12:25Z)",
+  "caught_by": [
+   "dps_action_binding"
+  ],
+  "expected_place": "dps_action_binding",
+  "as_expected": true,
+  "detail": {
+   "dps_action_binding": {
+    "action_binding": [
+     "failed",
+     [
+      "q19: dated outside the period of saL (2026-11-05T10:25:00Z to 2026-11-05T12:25:00Z)"
+     ]
+    ]
+   }
+  }
+ },
+ "N4-comment-changed-after-approval": {
+  "what": "the comment published is not the text the holder approved",
+  "caught_by": [
+   "dps_action_binding"
+  ],
+  "expected_place": "dps_action_binding",
+  "as_expected": true,
+  "detail": {
+   "dps_action_binding": {
+    "action_binding": [
+     "failed",
+     [
+      "q25: the requested specification differs from the one approved"
+     ]
+    ]
+   }
+  }
+ },
+ "N5-likes-after-revocation": {
+  "what": "the holder withdraws the likes' standing approval at 10:36:30Z; the routine goes on liking",
+  "caught_by": [
+   "dps_action_binding"
+  ],
+  "expected_place": "dps_action_binding",
+  "as_expected": true,
+  "detail": {
+   "dps_action_binding": {
+    "action_binding": [
+     "failed",
+     [
+      "q10: rests on saL after rvL revoked it",
+      "q11: rests on saL after rvL revoked it"
+     ]
+    ],
+    "authorisation_recheck": [
+     "failed",
+     [
+      "x10: the recheck authorised a request under saL after rvL revoked it",
+      "x11: the recheck authorised a request under saL after rvL revoked it"
+     ]
+    ]
+   }
+  }
+ },
+ "N6-capsule-claims-a-person-disposed-of-a-like": {
+  "what": "a like's capsule says human_disposed true, though only bounds were approved",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "every executed capsule cites the executed specification and the observed evidence, and says a person disposed of it only where an approval of that exact specification exists"
+   ]
+  }
+ },
+ "N7-blocked-member-invited-anyway": {
+  "what": "an invitation sent to the member the routine's rule R-DECLINED had blocked",
+  "caught_by": [
+   "dps_action_binding",
+   "joins"
+  ],
+  "expected_place": "dps_action_binding",
+  "as_expected": true,
+  "detail": {
+   "dps_action_binding": {
+    "action_binding": [
+     "failed",
+     [
+      "q20: outside the bounds of saI: parameter profile_ref is outside its constraint"
+     ]
+    ]
+   },
+   "joins": [
+    "no BLOCKED Seal record's arguments were requested in the DPS attachment"
+   ]
+  }
+ },
+ "N8-standing-signature-over-other-bounds": {
+  "what": "the holder's signature names bounds of 30 likes, the stage carries 20",
+  "caught_by": [
+   "dps_person_signatures"
+  ],
+  "expected_place": "dps_person_signatures",
+  "as_expected": true,
+  "detail": {
+   "dps_person_signatures": [
+    {
+     "stage": "saL",
+     "signature": "verified",
+     "subject": "failed",
+     "key_state": "verified",
+     "identity": "verified"
+    }
+   ]
+  }
+ },
+ "N9-rejected-comment-published": {
+  "what": "the comment the holder rejected is requested and published, citing the rejection",
+  "caught_by": [
+   "dps_action_binding"
+  ],
+  "expected_place": "dps_action_binding",
+  "as_expected": true,
+  "detail": {
+   "dps_action_binding": {
+    "action_binding": [
+     "failed",
+     [
+      "q27: rests on o7 (rejected); only an approval or an authorised change authorises a request"
+     ]
+    ]
+   }
+  }
+ },
+ "N10-comments-under-bounds": {
+  "what": "two comments approved as bounds (two posts, two texts) and published with the texts swapped",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "every operation the routine policy lists under exact_approval_for rests on an exact approval, never on bounds"
+   ]
+  }
+ }
+}

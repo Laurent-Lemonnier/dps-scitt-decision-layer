@@ -1,0 +1,22 @@
+{
+ "what": "a 21st like under bounds that allow 20 (the first post liked twice)",
+ "caught_by": [
+  "dps_action_binding",
+  "joins"
+ ],
+ "expected_place": "dps_action_binding",
+ "as_expected": true,
+ "detail": {
+  "dps_action_binding": {
+   "action_binding": [
+    "failed",
+    [
+     "q99: saL covers 20 request(s), already used by q0, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, q18, q19"
+    ]
+   ]
+  },
+  "joins": [
+   "the DPS report says how each execution was authorised, as the stages record it (shown to a reviewer, or via a standing approval)"
+  ]
+ }
+}
