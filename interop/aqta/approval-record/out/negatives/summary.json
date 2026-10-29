@@ -12,6 +12,12 @@
    "key_state": "verified",
    "identity": "verified"
   },
+  "policy_checks": {
+   "policy_digest": "verified",
+   "approval_age": "verified",
+   "valid_until": "verified",
+   "designated_approver": "verified"
+  },
   "composition_args_hash_bound": false
  },
  "N2-reused-single-use-approval": {
@@ -27,6 +33,12 @@
    "key_state": "verified",
    "identity": "verified"
   },
+  "policy_checks": {
+   "policy_digest": "verified",
+   "approval_age": "verified",
+   "valid_until": "verified",
+   "designated_approver": "verified"
+  },
   "composition_args_hash_bound": true
  },
  "N3-approver-outside-trust-policy": {
@@ -39,6 +51,12 @@
    "subject": "verified",
    "key_state": "not_checked",
    "identity": "not_checked"
+  },
+  "policy_checks": {
+   "policy_digest": "verified",
+   "approval_age": "verified",
+   "valid_until": "verified",
+   "designated_approver": "verified"
   },
   "composition_args_hash_bound": true
  },
@@ -53,6 +71,108 @@
    "key_state": "not_checked",
    "identity": "failed"
   },
+  "policy_checks": {
+   "policy_digest": "verified",
+   "approval_age": "verified",
+   "valid_until": "verified",
+   "designated_approver": "verified"
+  },
   "composition_args_hash_bound": true
+ },
+ "N4-policy-digest-mismatch": {
+  "what": "the policy held allows a day where the signed one allowed 900 s: its digest is not the specification's policy_version",
+  "seal_action_record": "valid",
+  "dps_action_binding_failed": [],
+  "dps_person_approval": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified"
+  },
+  "policy_checks": {
+   "policy_digest": "failed: the policy held is not the one the specification names",
+   "approval_age": "verified",
+   "valid_until": "verified",
+   "designated_approver": "verified"
+  },
+  "composition_args_hash_bound": true
+ },
+ "N5-policy-not-held": {
+  "what": "the verifier holds no copy of the issuer's policy: what it alone can show is not checked, never verified",
+  "seal_action_record": "valid",
+  "dps_action_binding_failed": [],
+  "dps_person_approval": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified"
+  },
+  "policy_checks": {
+   "policy_digest": "not_checked: the policy is not held",
+   "approval_age": "not_checked: the policy is not held",
+   "valid_until": "verified",
+   "designated_approver": "not_checked: the policy is not held"
+  },
+  "composition_args_hash_bound": true
+ },
+ "N6-attempt-after-policy-limit": {
+  "what": "the attempt is 28 minutes after the approval: past the signed policy's 900 s and past valid_until; the executor's recheck recorded 'authorised' anyway",
+  "seal_action_record": "valid",
+  "dps_action_binding_failed": [],
+  "dps_person_approval": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified"
+  },
+  "policy_checks": {
+   "policy_digest": "verified",
+   "approval_age": "failed: attempt 1680 s after the approval, the policy allows 900",
+   "valid_until": "failed: attempt after valid_until",
+   "designated_approver": "verified"
+  },
+  "composition_args_hash_bound": true
+ },
+ "N7-policy-relabelled-in-specification": {
+  "what": "the issuer rewrites the attachment so that the specification names another policy; the person's signature still covers the original digests",
+  "seal_action_record": "valid",
+  "dps_action_binding_failed": [],
+  "dps_person_approval": {
+   "status": "failed",
+   "signature": "verified",
+   "subject": "failed",
+   "key_state": "verified",
+   "identity": "verified"
+  },
+  "policy_checks": {
+   "policy_digest": "verified",
+   "approval_age": "verified",
+   "valid_until": "verified",
+   "designated_approver": "verified"
+  },
+  "composition_args_hash_bound": true
+ },
+ "N7b-authority-ref-relabelled": {
+  "what": "authority_ref changed after signing: the person's signature stays verified, by design; authority_ref is the issuer's statement and only policy_version is under the signature",
+  "seal_action_record": "valid",
+  "dps_action_binding_failed": [],
+  "dps_person_approval": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified"
+  },
+  "policy_checks": {
+   "policy_digest": "verified",
+   "approval_age": "verified",
+   "valid_until": "verified",
+   "designated_approver": "verified"
+  },
+  "composition_args_hash_bound": true,
+  "documented_pass": true
  }
 }

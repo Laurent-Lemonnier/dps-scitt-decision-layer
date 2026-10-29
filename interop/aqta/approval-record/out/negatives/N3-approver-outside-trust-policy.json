@@ -59,6 +59,12 @@
     "the key is not in the trust policy, so it binds no one"
    ]
   },
-  "composition_args_hash_bound": true
+  "composition_args_hash_bound": true,
+  "policy_checks": {
+   "policy_digest": "verified",
+   "approval_age": "verified",
+   "valid_until": "verified",
+   "designated_approver": "verified"
+  }
  }
 }

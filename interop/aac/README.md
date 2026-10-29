@@ -3,7 +3,7 @@
 Five cases for an interop between two independent implementations: the library of the Agent Action Capsule
 (draft-mih-scitt-agent-action-capsule, 0.12.0) with its CPB typed digest references on one side, and the reference
 checks of the Decision Provenance Standard (record schema 5.2.0, action binding 0.3.0, signatures 0.2.0, at the
-repository's main `bcbe8a6`) on the other. Each case is a folder holding a capsule, the decision record and the
+repository's main `007f8c9`, 28 October 2026, re-run on 29 October) on the other. Each case is a folder holding a capsule, the decision record and the
 action-binding attachment it cites, the signatures attachment and trust policy that travel beside when there are any,
 `expected.json` (what each side is expected to report, with the reason) and `result.json` (what each side reported).
 
@@ -26,7 +26,7 @@ capsule's `approver` and `human_disposed` stay the producer's claim whatever the
 
 ```
 export PYTHONPATH=/root/claude-ops/ietf/demo/venv312/site   # the capsule library 0.12.0
-P=/root/claude-ops/dps/venv/bin/python                       # jsonschema, cryptography; the Standard at dps/wt-main
+P=/root/claude-ops/dps/venv/bin/python                       # jsonschema, cryptography; the Standard at dps/wt-007f8c9 (or DPS_STANDARD)
 $P build_cases.py          # rebuilds cases/ from the invoice example (signed) and the release example (unsigned)
 $P check_case.py cases/0*  # both sides on every case; PASS when result matches expected
 PYTHONPATH=/root/claude-ops/ietf/demo/venv312/site ./venv-scitt/bin/python cose_case.py   # case 07, both COSE forms (scitt-cose, cbor2)

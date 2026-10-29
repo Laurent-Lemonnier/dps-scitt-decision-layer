@@ -27,7 +27,9 @@ import importlib
 parse = importlib.import_module("agent_action_capsule.parse")
 verify = importlib.import_module("agent_action_capsule.verify")
 
-DPS = pathlib.Path("/root/claude-ops/dps/wt-main")
+import os
+# the Standard's checkout the DPS side runs (main at 007f8c9 since 29 October 2026: #87 and #91 merged)
+DPS = pathlib.Path(os.environ.get("DPS_STANDARD", "/root/claude-ops/dps/wt-007f8c9"))
 NS = "org.decisionprovenancestandard"
 ZEROS = "0" * 64
 

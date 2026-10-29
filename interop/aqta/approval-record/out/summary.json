@@ -77,15 +77,21 @@
   "key_state": "verified",
   "identity": "verified"
  },
+ "policy_checks": {
+  "policy_digest": "verified",
+  "approval_age": "verified",
+  "valid_until": "verified",
+  "designated_approver": "verified"
+ },
  "section_8_2_properties": {
   "exact_values: action.args_hash == sha256(canonical args) == spec.parameters.args_hash": true,
   "exact_values: action.tool/org_id == spec operation/parameters.org_id": true,
   "exact_values: approval signed the digest of those bytes": true,
   "single_use: the approval states request_limit 1 and one request rests on it": true,
-  "expiry: approval precedes the action record; the key's validity window is in the policy": true,
-  "policy_version: spec.policy_version names the policy the record applied": true,
+  "expiry: the attempt is within the policy's age limit and the specification's valid_until, both signed": true,
+  "policy_version: spec.policy_version is the digest of the issuer's policy held, and that policy is the one the record applied": true,
   "independence: approver key holder is not the agent nor the requesting service": true,
-  "designated_approver: key_ref is in the trust policy in role person; policy digest carried": true,
+  "designated_approver: the signed policy names the approver, and the verifier's trust policy maps the key to that person": true,
   "rendering: the view the approver was shown is derived from the canonical args and its digest is signed": true,
   "reference: composition.approval_record.sha256 == sha256(RFC 8785 of the assertion as issued)": true
  },

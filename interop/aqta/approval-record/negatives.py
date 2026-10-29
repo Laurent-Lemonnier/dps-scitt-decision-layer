@@ -31,10 +31,22 @@ sha256, compact, jcs, b64url, raw_public = ns["sha256"], ns["compact"], ns["jcs"
 approver, issuer = ns["approver"], ns["issuer"]
 record, attachment, policy, ps, action = ns["record"], ns["attachment"], ns["policy"], ns["ps"], ns["action"]
 record_bytes, spec, spec_bytes = ns["record_bytes"], ns["spec"], ns["spec_bytes"]
+issuer_policy, issuer_policy_bytes, policy_checks = ns["issuer_policy"], ns["issuer_policy_bytes"], ns["policy_checks"]
 OUT = HERE / "out" / "negatives"
 
 
-def run_all(att, sig_att, pol, act, pinned_key):
+def run_all(att, sig_att, pol, act, pinned_key, policy_held=None, use_issuer_policy=True):
+    res = _run_all(att, sig_att, pol, act, pinned_key)
+    held = issuer_policy_bytes if (use_issuer_policy and policy_held is None) else policy_held
+    spec_read = json.loads(base64.b64decode(att["action_specifications"][0]["content"]["bytes_b64"]))
+    attempts = [s for s in att["stages"] if s["kind"] == "attempt"]
+    outcome = next(s for s in att["stages"] if s["stage_id"] == "o1")
+    res["policy_checks"] = policy_checks(spec_read, held, sig_att["person_signatures"][0]["signed_at"], attempts[-1]["at"],
+                                         outcome["actor_ref"])
+    return res
+
+
+def _run_all(att, sig_att, pol, act, pinned_key):
     res = {}
     try:
         AQ.verify_action(json.loads(compact(act)), pinned_key)
@@ -95,7 +107,7 @@ stages = att2["stages"]
 i = next(i for i, s in enumerate(stages) if s["stage_id"] == "r1")
 q2 = {"stage_id": "q2", "kind": "request", "at": "2026-10-29T16:20:00Z", "request_id": "urn:aqta:action:6f1c2d3e-4a5b-4c6d-8e9f-0a1b2c3d4e60",
       "authorised_by": "o1", "spec_digest": spec["parameters"] and sha256(spec_bytes), "requested_by": "urn:isoluce:service:release-assistant"}
-c2 = {"stage_id": "c2", "kind": "recheck", "at": "2026-10-29T16:20:05Z", "request_ref": "q2", "result": "authorised", "authority_source_ref": "urn:isoluce:trust-policy:verifier-1"}
+c2 = {"stage_id": "c2", "kind": "recheck", "at": "2026-10-29T16:20:05Z", "request_ref": "q2", "result": "authorised", "authority_source_ref": issuer_policy["policy_id"] + "#" + issuer_policy["version"]}
 x2 = {"stage_id": "x2", "kind": "attempt", "at": "2026-10-29T16:20:10Z", "request_ref": "q2", "recheck_ref": "c2", "spec_digest": sha256(spec_bytes),
       "executor_ref": "urn:aqta:enforcement-point:seal", "trace_refs": ["urn:aqta:action:6f1c2d3e-4a5b-4c6d-8e9f-0a1b2c3d4e60"]}
 r2 = {"stage_id": "r2", "kind": "result", "at": "2026-10-29T16:20:30Z", "attempt_ref": "x2", "observed": "succeeded", "basis": "target_response",
@@ -119,16 +131,66 @@ pol3["keys"].append({"key_ref": "someone-else-key-1", "holder": "Some issuer", "
 cases["N3b-approver-key-in-wrong-role"] = {"what": "the same signature, the key listed in the policy but in role organisation: an organisation's key cannot approve as a person",
                                            "result": run_all(attachment, sig3, pol3, action, action["public_key"])}
 
+# ---- the cases the Standard's Steward listed on issue 93 (29 October 2026)
+# N4: the verifier holds a policy whose bytes are not the ones the specification names (edited after the approval)
+edited = dict(issuer_policy, max_approval_age_seconds=86400)
+cases["N4-policy-digest-mismatch"] = {"what": "the policy held allows a day where the signed one allowed 900 s: its digest is not the specification's policy_version",
+                                      "result": run_all(attachment, sig_att, policy, action, action["public_key"], policy_held=compact(edited))}
+# N5: the verifier does not hold the policy
+cases["N5-policy-not-held"] = {"what": "the verifier holds no copy of the issuer's policy: what it alone can show is not checked, never verified",
+                               "result": run_all(attachment, sig_att, policy, action, action["public_key"], use_issuer_policy=False)}
+# N6: the attempt comes after the policy's age limit and after the specification's valid_until; the recheck still says authorised
+att6 = copy.deepcopy(attachment)
+late = {"q1": "2026-10-29T16:39:30Z", "c1": "2026-10-29T16:39:40Z", "x1": "2026-10-29T16:40:00Z", "r1": "2026-10-29T16:40:20Z"}
+for s in att6["stages"]:
+    if s["stage_id"] in late:
+        s["at"] = late[s["stage_id"]]
+act6 = sign_action(dict(action, timestamp="2026-10-29T16:40:00.000Z"), issuer)
+cases["N6-attempt-after-policy-limit"] = {"what": "the attempt is 28 minutes after the approval: past the signed policy's 900 s and past valid_until; the executor's recheck recorded 'authorised' anyway",
+                                          "result": run_all(att6, sig_att, policy, act6, act6["public_key"])}
+# N7: relabelling the policy in the specification after the person signed
+spec7 = copy.deepcopy(spec); spec7["policy_version"] = "sha256:" + sha256(compact(edited))
+spec7_bytes = compact(spec7); spec7_digest = sha256(spec7_bytes)
+att7 = copy.deepcopy(attachment)
+old_digest = att7["action_specifications"][0]["spec_digest"]
+att7["action_specifications"][0].update({"spec_digest": spec7_digest,
+                                         "content": {"availability": "available", "bytes_b64": base64.b64encode(spec7_bytes).decode("ascii")},
+                                         "summary": dict(att7["action_specifications"][0]["summary"], policy_version=spec7["policy_version"])})
+for s in att7["stages"]:
+    for k in ("spec_digest", "shown_spec_digest", "approved_spec_digest"):
+        if s.get(k) == old_digest:
+            s[k] = spec7_digest
+cases["N7-policy-relabelled-in-specification"] = {"what": "the issuer rewrites the attachment so that the specification names another policy; the person's signature still covers the original digests",
+                                                  "result": run_all(att7, sig_att, policy, action, action["public_key"], policy_held=compact(edited))}
+# N7b (documented, not a failure): the outcome's authority_ref changed after signing. It is the issuer's statement,
+# outside the person's signature, as the Steward checked on main; the policy the signature covers is the one above.
+att7b = copy.deepcopy(attachment)
+next(s for s in att7b["stages"] if s["stage_id"] == "o1")["authority"]["authority_ref"] = "urn:isoluce:policy:something-else#2026-10-29"
+cases["N7b-authority-ref-relabelled"] = {"what": "authority_ref changed after signing: the person's signature stays verified, by design; authority_ref is the issuer's statement and only policy_version is under the signature",
+                                         "documented_pass": True,
+                                         "result": run_all(att7b, sig_att, policy, action, action["public_key"])}
+
 OUT.mkdir(parents=True, exist_ok=True)
 for name, c in cases.items():
     (OUT / f"{name}.json").write_text(json.dumps(c, indent=1, ensure_ascii=False))
 summary = {name: {"what": c["what"], "seal_action_record": c["result"]["seal_action_record"],
                   "dps_action_binding_failed": c["result"]["dps_action_binding_failed"],
                   "dps_person_approval": c["result"]["dps_person_approval"],
-                  "composition_args_hash_bound": c["result"]["composition_args_hash_bound"]} for name, c in cases.items()}
+                  "policy_checks": c["result"]["policy_checks"],
+                  "composition_args_hash_bound": c["result"]["composition_args_hash_bound"],
+                  **({"documented_pass": True} if c.get("documented_pass") else {})} for name, c in cases.items()}
 (OUT / "summary.json").write_text(json.dumps(summary, indent=1, ensure_ascii=False))
 print(json.dumps(summary, indent=1, ensure_ascii=False))
-# every negative must fail somewhere on the DPS side or in the composition binding, and never in the Seal record itself
-ok = all((c["result"]["dps_action_binding_failed"] or c["result"]["dps_person_approval"]["status"] != "verified"
-          or not c["result"]["composition_args_hash_bound"]) for c in cases.values())
+
+
+def caught(r):
+    """A negative is caught when a check fails, or when what it alone could show is reported not checked."""
+    return bool(r["dps_action_binding_failed"] or r["dps_person_approval"]["status"] != "verified"
+                or not r["composition_args_hash_bound"]
+                or any(not v.startswith("verified") for v in r["policy_checks"].values()))
+
+
+# every negative is caught, never in the Seal record itself; the documented case passes everything
+ok = all(caught(c["result"]) for c in cases.values() if not c.get("documented_pass")) and \
+    all(not caught(c["result"]) for c in cases.values() if c.get("documented_pass"))
 sys.exit(0 if ok else 1)

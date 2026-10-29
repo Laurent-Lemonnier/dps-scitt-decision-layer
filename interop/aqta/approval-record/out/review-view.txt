@@ -1,4 +1,5 @@
 Merge pull request #4521 of isoluce/claims-intake into main (squash)
 head commit 5d1c9f0e7b2a4c6d8f1a3b5c7d9e0f2a4b6c8d0e
 argument digest sha256:f6ee5baa5ba9e88f95e696e5b0ea27b79845e040b012be8af082eab7000363c3
-policy urn:isoluce:policy:production_change_review:2026-10-01
+policy urn:isoluce:policy:production_change_review version 2026-10-01 (sha256:6f89d3c6338be7291113bf0e99c676992c3a2493ce271b12d7d7ec08f756b9e8)
+valid until 2026-10-29T16:27:00Z

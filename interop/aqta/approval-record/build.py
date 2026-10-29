@@ -3,7 +3,10 @@
 record (Seal, Aqta) whose ALLOWED decision rests on an approval bound to exact values, where the
 approval record is the signed outcome stage of a Decision Provenance Standard action-binding
 attachment (action binding 0.3.0 + signatures 0.2.0), referenced by the SHA-256 of its canonical
-bytes, together with the digest of the policy that designates the approver (Section 8.2,
+bytes. The policy that designates the approver (Section 8.2, "Designated approver") is the issuer's
+document, signed through the specification: its digest is the specification's policy_version, as the
+Standard's Steward read it on issue 93 (29 October 2026); a short validity is the policy's age limit
+and the specification's valid_until, checked at the recheck (Section 8.2,
 "Designated approver").
 
 Builds every artefact from two test keys (never use them for anything real), then verifies:
@@ -84,20 +87,39 @@ args = {"repo": "isoluce/claims-intake", "pull_number": "4521", "merge_method": 
 args_bytes = jcs(args)
 args_hash = sha256(args_bytes)
 ORG, TOOL, POLICY = "org-isoluce", "github.merge_pull_request", "production_change_review"
-POLICY_VERSION = "urn:isoluce:policy:production_change_review:2026-10-01"
+
+# ---- the designating policy: the issuer's document that names who may approve this operation for
+# this target (the Steward's reading on issue 93 of the Standard's repository, 29 October 2026).
+# Not the verifier's trust policy. Its digest is written as the specification's policy_version, so
+# the person's approval, which signs the specification's digest, signs the policy's words too.
+issuer_policy = {
+    "policy_id": "urn:isoluce:policy:production_change_review", "version": "2026-10-01",
+    "applies_to": {"operation": TOOL, "target_prefix": f"{ORG}/"},
+    "approvers": [{"actor_ref": "release-manager-claims", "role": "release manager, claims platform"}],
+    "independence": "the approver is neither the proposing agent nor the requesting service",
+    "single_use": True,
+    "max_approval_age_seconds": 900,
+    "recheck": "the executor rechecks this policy before each attempt, on its own clock, and refuses an approval "
+               "older than max_approval_age_seconds or past the specification's valid_until",
+}
+issuer_policy_bytes = compact(issuer_policy)
+POLICY_VERSION = "sha256:" + sha256(issuer_policy_bytes)
+APPROVED_AT, VALID_UNTIL = "2026-10-29T16:12:00Z", "2026-10-29T16:27:00Z"
 
 # ---- what the approver was shown: rendered by the enforcement point from the canonical argument
 # object, never from text supplied by the agent (Section 8.2, "Rendering from the canonical action")
 view = ("Merge pull request #4521 of isoluce/claims-intake into main (squash)\n"
         f"head commit {args['head_sha']}\nargument digest sha256:{args_hash}\n"
-        f"policy {POLICY_VERSION}\n").encode("utf-8")
+        f"policy {issuer_policy['policy_id']} version {issuer_policy['version']} ({POLICY_VERSION})\n"
+        f"valid until {VALID_UNTIL}\n").encode("utf-8")
 view_digest = sha256(view)
 
 # ---- the DPS action specification: the exact values the approval binds (org, tool, args_hash,
-# policy version), plus the arguments themselves
+# the policy by the digest of its bytes, and the deadline the deployer made material), plus the arguments
 spec = {"operation": TOOL, "target": f"{ORG}/isoluce/claims-intake",
         "parameters": {"org_id": ORG, "args_hash": args_hash, "args": args},
-        "input_version_refs": ["urn:isoluce:ci:run:9142"], "policy_version": POLICY_VERSION}
+        "input_version_refs": ["urn:isoluce:ci:run:9142"], "policy_version": POLICY_VERSION,
+        "valid_until": VALID_UNTIL}
 spec_bytes = compact(spec)
 spec_digest = sha256(spec_bytes)
 
@@ -144,14 +166,14 @@ attachment = {
         {"stage_id": "o1", "kind": "outcome", "at": "2026-10-29T16:12:00Z", "review_ref": "v1", "outcome": "approved",
          "actor_ref": "release-manager-claims", "method": "Ed25519 signature over the DPS person_approval assertion",
          "approved_spec_digest": spec_digest, "request_limit": 1,
-         "authority": {"authority_ref": "urn:isoluce:charter:CH-ISOLUCE-RELEASE-1#production-change-approval"},
+         "authority": {"authority_ref": issuer_policy["policy_id"] + "#" + issuer_policy["version"]},
          "rationale": {"timing": "contemporaneous", "ai_assisted": False, "recorded_at": "2026-10-29T16:12:00Z",
                        "text_ref": "urn:isoluce:rationale:0517"},
          "core_ref": {"field": "affirmation_record"}},
         {"stage_id": "q1", "kind": "request", "at": "2026-10-29T16:12:30Z", "request_id": f"urn:aqta:action:{ACTION_ID}",
          "authorised_by": "o1", "spec_digest": spec_digest, "requested_by": "urn:isoluce:service:release-assistant"},
         {"stage_id": "c1", "kind": "recheck", "at": "2026-10-29T16:12:40Z", "request_ref": "q1", "result": "authorised",
-         "authority_source_ref": "urn:isoluce:trust-policy:verifier-1"},
+         "authority_source_ref": issuer_policy["policy_id"] + "#" + issuer_policy["version"]},
         {"stage_id": "x1", "kind": "attempt", "at": "2026-10-29T16:12:45Z", "request_ref": "q1", "recheck_ref": "c1",
          "spec_digest": spec_digest, "executor_ref": "urn:aqta:enforcement-point:seal", "trace_refs": [f"urn:aqta:action:{ACTION_ID}"]},
         {"stage_id": "r1", "kind": "result", "at": "2026-10-29T16:13:02Z", "attempt_ref": "x1", "observed": "succeeded",
@@ -197,12 +219,40 @@ composition = {
     "approval_record": {"format": "dps-signatures 0.2.0 person_approval over dps-action-binding 0.3.0 stage o1",
                         "canonical_bytes": "RFC 8785 serialisation of the assertion object as issued",
                         "sha256": approval_hash, "decision_id": record["decision_id"], "stage_id": "o1"},
-    "designating_policy": {"format": "dps-anchoring-trust-policy 0.2.0", "sha256": sha256(policy_bytes),
-                           "key_ref": "release-manager-claims-key-1", "role": "person"},
-    "binding": {"exact_values": "the approved specification carries org_id, tool, args_hash and the policy version; "
-                                "its digest is what the review showed and what the approval signed",
+    "designating_policy": {"document": "policy.json", "policy_id": issuer_policy["policy_id"],
+                           "version": issuer_policy["version"], "digest": POLICY_VERSION,
+                           "signed_via": "the specification's policy_version, under the person's approval "
+                                         "(shown_spec_digest and approved_spec_digest); nothing beside it is signed"},
+    "binding": {"exact_values": "the approved specification carries org_id, tool, args_hash, the policy by the digest "
+                                "of its bytes and valid_until; its digest is what the review showed and what the "
+                                "approval signed",
                 "spec_digest": spec_digest, "shown_view_digest": view_digest},
 }
+
+
+def policy_checks(spec_read, policy_held, approved_at, attempt_at, outcome_actor):
+    """What a verifier holding the issuer's policy can check, each result on its own: the policy is the one the
+    specification signs; the attempt is within the policy's age limit and the specification's valid_until; the
+    approver is one the policy names. A policy the verifier does not hold leaves the first three not checked,
+    never verified."""
+    from datetime import datetime
+    t = lambda s: datetime.fromisoformat(s.replace("Z", "+00:00"))
+    if policy_held is None:
+        return {"policy_digest": "not_checked: the policy is not held",
+                "approval_age": "not_checked: the policy is not held",
+                "valid_until": "verified" if t(attempt_at) <= t(spec_read["valid_until"]) else "failed: attempt after valid_until",
+                "designated_approver": "not_checked: the policy is not held"}
+    doc = json.loads(policy_held)
+    age = (t(attempt_at) - t(approved_at)).total_seconds()
+    return {
+        "policy_digest": "verified" if "sha256:" + sha256(policy_held) == spec_read["policy_version"]
+                         else "failed: the policy held is not the one the specification names",
+        "approval_age": "verified" if age <= doc["max_approval_age_seconds"]
+                        else f"failed: attempt {int(age)} s after the approval, the policy allows {doc['max_approval_age_seconds']}",
+        "valid_until": "verified" if t(attempt_at) <= t(spec_read["valid_until"]) else "failed: attempt after valid_until",
+        "designated_approver": "verified" if any(a["actor_ref"] == outcome_actor for a in doc["approvers"])
+                               else "failed: the policy does not name this approver",
+    }
 
 # ---- write everything
 out = HERE / "out"
@@ -211,7 +261,8 @@ for name, data in [("decision-record.json", record_bytes), ("action-binding-atta
                    ("signatures-attachment.json", compact(sig_attachment)), ("trust-policy.json", policy_bytes),
                    ("action-record.json", compact(action)), ("composition.json", compact(composition)),
                    ("specification.bytes.json", spec_bytes), ("arguments.canonical.json", args_bytes),
-                   ("review-view.txt", view), ("approval.canonical.json", approval_canonical)]:
+                   ("review-view.txt", view), ("approval.canonical.json", approval_canonical),
+                   ("policy.json", issuer_policy_bytes)]:
     (out / name).write_bytes(data)
 (out / "approval.canonical.json").write_bytes(approval_canonical)
 
@@ -235,16 +286,19 @@ results["dps_person_approval"] = {k: persons[0][k]["status"] if isinstance(perso
 # 4. the bindings Section 8.2 asks for
 spec_read = json.loads(base64.b64decode(attachment["action_specifications"][0]["content"]["bytes_b64"]))
 o1 = next(s for s in attachment["stages"] if s["stage_id"] == "o1")
+x1 = next(s for s in attachment["stages"] if s["stage_id"] == "x1")
+pc = policy_checks(spec_read, issuer_policy_bytes, ps["signed_at"], x1["at"], o1["actor_ref"])
+results["policy_checks"] = pc
 checks = {
     "exact_values: action.args_hash == sha256(canonical args) == spec.parameters.args_hash":
         action["args_hash"] == sha256(args_bytes) == spec_read["parameters"]["args_hash"],
     "exact_values: action.tool/org_id == spec operation/parameters.org_id": action["tool"] == spec_read["operation"] and action["org_id"] == spec_read["parameters"]["org_id"],
     "exact_values: approval signed the digest of those bytes": ps["approved_spec_digest"] == sha256(spec_bytes) == o1["approved_spec_digest"],
     "single_use: the approval states request_limit 1 and one request rests on it": o1.get("request_limit") == 1 and sum(1 for s in attachment["stages"] if s.get("authorised_by") == "o1") == 1,
-    "expiry: approval precedes the action record; the key's validity window is in the policy": ps["signed_at"] < action["timestamp"],
-    "policy_version: spec.policy_version names the policy the record applied": POLICY in spec_read["policy_version"] and action["policy_applied"] == [POLICY],
+    "expiry: the attempt is within the policy's age limit and the specification's valid_until, both signed": all(v == "verified" for k, v in pc.items() if k in ("approval_age", "valid_until")),
+    "policy_version: spec.policy_version is the digest of the issuer's policy held, and that policy is the one the record applied": pc["policy_digest"] == "verified" and json.loads(issuer_policy_bytes)["policy_id"].endswith(":" + POLICY) and action["policy_applied"] == [POLICY],
     "independence: approver key holder is not the agent nor the requesting service": policy["keys"][0]["holder"] != action["agent"] and policy["keys"][0]["holder"] not in attachment["stages"][3]["requested_by"],
-    "designated_approver: key_ref is in the trust policy in role person; policy digest carried": policy["keys"][0]["role"] == "person" and composition["designating_policy"]["sha256"] == sha256(policy_bytes),
+    "designated_approver: the signed policy names the approver, and the verifier's trust policy maps the key to that person": pc["designated_approver"] == "verified" and policy["keys"][0]["role"] == "person" and results["dps_person_approval"]["identity"] == "verified",
     "rendering: the view the approver was shown is derived from the canonical args and its digest is signed": args_hash in view.decode() and ps["shown_view_digest"] == sha256(view),
     "reference: composition.approval_record.sha256 == sha256(RFC 8785 of the assertion as issued)": composition["approval_record"]["sha256"] == sha256(jcs(json.loads((out / "signatures-attachment.json").read_bytes())["person_signatures"][0])),
 }

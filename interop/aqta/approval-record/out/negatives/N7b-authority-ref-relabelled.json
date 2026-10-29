@@ -1,0 +1,64 @@
+{
+ "what": "authority_ref changed after signing: the person's signature stays verified, by design; authority_ref is the issuer's statement and only policy_version is under the signature",
+ "documented_pass": true,
+ "result": {
+  "seal_action_record": "valid",
+  "dps_action_binding": {
+   "specification_digests": [
+    "verified",
+    []
+   ],
+   "specification_statements": [
+    "verified",
+    []
+   ],
+   "record_statements": [
+    "verified",
+    []
+   ],
+   "action_binding": [
+    "verified",
+    []
+   ],
+   "stage_order": [
+    "verified",
+    []
+   ],
+   "authorisation_recheck": [
+    "verified",
+    []
+   ],
+   "observed_results": [
+    "verified",
+    []
+   ],
+   "rationale_provenance": [
+    "verified",
+    []
+   ]
+  },
+  "dps_executed": [
+   [
+    0,
+    "shown_to_reviewer"
+   ]
+  ],
+  "dps_action_binding_failed": [],
+  "dps_action_binding_findings": {},
+  "dps_person_approval": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified"
+  },
+  "dps_person_approval_findings": {},
+  "composition_args_hash_bound": true,
+  "policy_checks": {
+   "policy_digest": "verified",
+   "approval_age": "verified",
+   "valid_until": "verified",
+   "designated_approver": "verified"
+  }
+ }
+}

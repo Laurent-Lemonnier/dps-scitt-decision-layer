@@ -62,6 +62,12 @@
    "identity": "verified"
   },
   "dps_person_approval_findings": {},
-  "composition_args_hash_bound": true
+  "composition_args_hash_bound": true,
+  "policy_checks": {
+   "policy_digest": "verified",
+   "approval_age": "verified",
+   "valid_until": "verified",
+   "designated_approver": "verified"
+  }
  }
 }
