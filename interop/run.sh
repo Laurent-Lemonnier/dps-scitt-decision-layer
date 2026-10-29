@@ -40,6 +40,15 @@ nochain=$(python3 umarise/verify_anchor.py --artifact umarise/vectors/vector1.tx
 grep -q '"result": "unverifiable"' <<<"$nochain" || { echo "D.6 no chain: not unverifiable: $nochain"; exit 1; }
 echo "# 4 vectors valid at height 957289; D.6 negative invalid; no validated chain unverifiable"
 
+echo "== draft-zambo-aer1-26, conformance kit v1.5.7 (receipt, unicode, id-binding, anchor suites)"
+AER1_REPO=https://gitlab.com/rambozambodotdev/zambo.git
+AER1_COMMIT="${AER1_COMMIT:-$(cat aer1/PINNED_COMMIT)}"
+if [ ! -d aer1/zambo ]; then
+  git clone --quiet "$AER1_REPO" aer1/zambo
+fi
+git -C aer1/zambo checkout --quiet "$AER1_COMMIT"
+python3 aer1/aer1_verify_independent.py --kit aer1/zambo/aer-1 --report aer1/judge-ci.json | tail -1
+
 echo "== draft-gilda-audit-agent-audit-record, corpus vectors-agent-audit-record from agent-evidence-vectors ${GILDA_VERSION}"
 CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-agent-audit-record'))")
 python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report gilda/judge-ci.json | tail -1
