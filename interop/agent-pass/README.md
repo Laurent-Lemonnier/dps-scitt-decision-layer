@@ -35,7 +35,7 @@ approval. That matters: bounds constrain each parameter on its own, so they cann
 
 ## What verifies (`out/summary.json`)
 
-- Schemas: the record (Core v5.0), the attachment, the signatures attachment and the trust policy, no error.
+- Schemas: the record (Core v1.3 rev. 11, reference files 5.2.0), the attachment, the signatures attachment and the trust policy, no error.
 - Seal: 40 of 40 records valid under the ACTION-v1 verifier written from the text (`../aqta/aqta_verify_independent.py`),
   35 `ALLOWED`, 5 `BLOCKED`.
 - DPS action binding: all eight dimensions verified, every specification verified, the record's review log backing

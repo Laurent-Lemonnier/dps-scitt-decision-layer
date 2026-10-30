@@ -35,7 +35,7 @@ HERE = pathlib.Path(__file__).resolve().parent
 REPO = pathlib.Path(os.environ.get("DPS_STANDARD") or (HERE / "dps-standard" if (HERE / "dps-standard").exists()
                                                        else "/root/claude-ops/dps/standard"))
 AQTA = HERE.parent / "aqta_verify_independent.py"             # our ACTION-v1 verifier, written from the text
-# a schema-valid Core v5.0 record to model the decision on: this repository's release example
+# a schema-valid decision record (Core v1.3 rev. 11, reference files 5.2.0) to model the decision on: this repository's release example
 _candidates = [HERE.parents[2] / "examples/release-decision/decision-record.json",
                HERE.parents[3] / "exemple-release/decision-record.json"]
 TEMPLATE = pathlib.Path(os.environ.get("DPS_RECORD_TEMPLATE") or next(p for p in _candidates if p.exists()))
@@ -123,7 +123,7 @@ spec = {"operation": TOOL, "target": f"{ORG}/isoluce/claims-intake",
 spec_bytes = compact(spec)
 spec_digest = sha256(spec_bytes)
 
-# ---- the decision record (Core v5.0), modelled on the repository's examples
+# ---- the decision record (Core v1.3 rev. 11, reference files 5.2.0), modelled on the repository's examples
 record = json.loads(TEMPLATE.read_bytes())
 record.update({
     "decision_id": "DR-2026-0517", "created_at": "2026-10-29T16:00:00Z",

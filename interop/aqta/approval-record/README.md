@@ -23,7 +23,7 @@ policy's age limit and the specification's `valid_until`, checked at the recheck
 | `out/policy.json` | **the designating policy**: the issuer's production change policy, naming the approver, independence, single use, an age limit of 900 s and the recheck rule; its SHA-256 is the specification's `policy_version` |
 | `out/review-view.txt` | what the approver was shown: rendered by the enforcement point from the canonical arguments, carrying `args_hash`, the policy's identifier and digest, and `valid_until` (§8.2, "Rendering from the canonical action"); its digest is signed |
 | `out/specification.bytes.json` | the DPS action specification: operation = tool, `parameters.org_id`, `parameters.args_hash`, the arguments, `policy_version` = the policy's digest, `valid_until`. Its digest is what the review showed and what the approval signed |
-| `out/decision-record.json` | the Core v5.0 decision record (options, rationale, accountable owner, affirmation) |
+| `out/decision-record.json` | the decision record (Core v1.3 rev. 11, reference files 5.2.0) (options, rationale, accountable owner, affirmation) |
 | `out/action-binding-attachment.json` | proposal → review (shown digest, view digest) → outcome `approved` by a named person, `request_limit` 1, `authority_ref` naming the same policy → request → recheck against the policy → attempt (the Seal action id) → result |
 | `out/signatures-attachment.json` | **the approval record**: the person's Ed25519 `person_approval` over decision id, stage, outcome, shown digest, view digest, approved digest, time |
 | `out/approval.canonical.json` | the RFC 8785 bytes of that assertion as issued; `sha256` of them is the reference an action record would carry |

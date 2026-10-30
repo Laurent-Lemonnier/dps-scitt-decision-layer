@@ -9,7 +9,7 @@ call (`OBSERVED VIA GATEWAY`). Two documents record it, each under its own text,
 
 | Side | Text | Here |
 |---|---|---|
-| Decision | Decision Provenance Standard, action binding 0.3.0 and signatures 0.2.0, main at `007f8c9` | the Core v5.0 record; the attachment (proposal, review, approval, request, recheck, attempt, observed result) sealed by the merchant (`issuer_signature`); the support lead's `person_approval` |
+| Decision | Decision Provenance Standard, action binding 0.3.0 and signatures 0.2.0, main at `007f8c9` | the decision record (Core v1.3 rev. 11, reference files 5.2.0); the attachment (proposal, review, approval, request, recheck, attempt, observed result) sealed by the merchant (`issuer_signature`); the support lead's `person_approval` |
 | Execution | draft-zambo-aer1-26, receipt schema 0.4, kit v1.5.7 (`7d5947d`) | the gateway's receipt: canonical bytes `{caller, inputs, issuer_claims, outputs, receipt_schema_version, tool}`, `output_hash`, `metadata_hash`, `input_hash`, `execution_context` |
 
 Synthetic data and test keys.

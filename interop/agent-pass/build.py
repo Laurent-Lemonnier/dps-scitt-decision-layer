@@ -280,7 +280,7 @@ def build():
 
 def assemble(b):
     """Bytes and documents from the parts: record, attachment, signatures, trust policy, Seal records, capsules."""
-    record = json.loads(TEMPLATE.read_bytes())    # a schema-valid Core v5.0 record; every field below is this pass's
+    record = json.loads(TEMPLATE.read_bytes())    # a schema-valid decision record (Core v1.3 rev. 11, reference files 5.2.0); every field below is this pass's
     record.update({
         "decision_id": "DR-2026-1105", "created_at": at(55), "charter_id": "CH-EXAMPLE-ENGAGEMENT-1",
         "record_type": "decision", "record_state": "closed", "dispatch_mode": "mode-1-with-embedded-mode-2-summary",
