@@ -6,6 +6,10 @@ nothing from the agent-evidence-vectors package and shares no code with its
 reference rail. The refusal codes are the names the corpus publishes, so that
 two implementations can compare where they stopped.
 
+Local candidate addition (2026-10-30): the judge also checks manifest-side
+aggregation values against the signed entry, using the pinned Section 5.4
+rule. That separate check is not part of the original verifier's provenance.
+
 Scope (29/10/2026): single records (statements/), sets (sets/) and the verdict
 of retained records (retained/). Of the dating check of Section 4.7.1 it does
 the parts that need no anchor validation (received/receivedAt consistency,
@@ -25,6 +29,10 @@ import math
 import os
 import re
 import sys
+from fractions import Fraction
+
+# Local candidate addition, 2026-10-30: check supplied aggregation inputs
+# separately from signed-record validity. Not part of the 2026-10-29 replay.
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
@@ -630,14 +638,81 @@ def verify_retained(env, entry, keys):
 
 # ---------------------------------------------------------------- judge
 
+def aggregation_time(value):
+    """RFC 3339 instant as exact seconds (retain fractional-second precision)."""
+    # Reuse the verifier's date syntax, but do not truncate fractions to
+    # datetime's microseconds or add a potentially overflowing timedelta.
+    fraction = re.search(r"\.([0-9]+)(?=Z|[+-])", value) if isinstance(value, str) else None
+    whole = re.sub(r"\.[0-9]+(?=Z|[+-])", "", value) if fraction else value
+    delta = t(whole) - datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
+    return Fraction(delta.days * 86400 + delta.seconds) + (
+        Fraction(int(fraction[1]), 10 ** len(fraction[1])) if fraction else 0)
+
+
+def select_aggregation_pair(values):
+    """Section 5.4, independently implemented from REVISION-01-PIN.json.
+
+    Select one whole pair; this does not establish that the producer actually
+    used these values. No reference implementation or expected pair is used.
+    """
+    if not isinstance(values, list) or not values:
+        raise ValueError("aggregation.values must be a non-empty list")
+    candidates, never_held = [], []
+    for value in values:
+        if not isinstance(value, dict) or not nonneg_int(value.get("maxAge")) \
+                or value["maxAge"] >= SAFE_INT or "lastResult" not in value:
+            raise ValueError("invalid aggregation value")
+        pair = {"lastResult": value["lastResult"], "maxAge": value["maxAge"]}
+        if pair["lastResult"] == "none":
+            never_held.append(pair)
+        else:
+            instant = aggregation_time(pair["lastResult"])
+            candidates.append((instant + pair["maxAge"], instant, pair))
+    if never_held:
+        return min(never_held, key=lambda pair: pair["maxAge"])
+    return min(candidates, key=lambda item: item[:2])[2]
+
+
+def check_aggregation(rep, aggregation):
+    """Compare supplied sources to a valid signed record, without changing it.
+
+    `match` concerns only the supplied values and the named signed fields.
+    Sources are manifest-side inputs, not authenticated by the record signature.
+    """
+    if rep.verdict != "valid" or rep.statement is None:
+        return {"status": "not-checked", "reason": "record-not-valid"}
+    try:
+        if not isinstance(aggregation, dict) or aggregation.get("input") not in VOCAB["evaluation.input"]:
+            raise ValueError("invalid aggregation input")
+        selected = select_aggregation_pair(aggregation["values"])
+        p = rep.statement["predicate"]
+        entries = [e for e in p["evaluation"]["inputs"] if e["input"] == aggregation["input"]]
+        result = {"input": aggregation["input"], "selected": selected}
+        if aggregation_time(aggregation["reportedAt"]) != aggregation_time(p["decision"]["reportedAt"]):
+            return dict(result, status="mismatch", reason="reportedAt-mismatch")
+        if len(entries) != 1:
+            return dict(result, status="mismatch", reason="input-entry-missing-or-repeated")
+        carried = {k: entries[0][k] for k in ("lastResult", "maxAge")}
+        same_time = (selected["lastResult"] == carried["lastResult"] if
+                     "none" in (selected["lastResult"], carried["lastResult"]) else
+                     aggregation_time(selected["lastResult"]) == aggregation_time(carried["lastResult"]))
+        return dict(result, carried=carried, status="match" if
+                    same_time and selected["maxAge"] == carried["maxAge"] else "mismatch")
+    except (KeyError, TypeError, ValueError, OverflowError, Malformed):
+        return {"status": "invalid-input", "reason": "invalid-aggregation-data"}
+
+
 def judge(corpus, report_path=None):
-    m = json.load(open(os.path.join(corpus, "MANIFEST.json")))
+    with open(os.path.join(corpus, "MANIFEST.json")) as stream:
+        m = json.load(stream)
     keys = {v["keyid"]: bytes.fromhex(v["publicKey"]) for v in m["keys"].values()}
     rows, agree, first_agree = [], 0, 0
     partial = 0
+    aggregation_members, aggregation_matched = 0, 0
     for v in m["vectors"]:
         exp = v["expected"]
-        doc = json.load(open(os.path.join(corpus, v["file"])))
+        with open(os.path.join(corpus, v["file"])) as stream:
+            doc = json.load(stream)
         notes = []
         if "records" in doc:
             reps, setres = verify_set(doc["records"], keys)
@@ -684,22 +759,35 @@ def judge(corpus, report_path=None):
             ok = ok and exp["derivedTier"] == tier
         if "withinLimit" in exp and "records" not in doc:
             ok = ok and exp["withinLimit"] == rep.within_limit
+        aggregation = {"status": "not-applicable"}
+        if "aggregation" in v:
+            aggregation_members += 1
+            aggregation = (check_aggregation(rep, v["aggregation"]) if
+                           "records" not in doc and "envelope" not in doc else
+                           {"status": "not-checked", "reason": "single-envelope-only"})
+            aggregation_matched += aggregation["status"] == "match"
         agree += ok
         rows.append({"draftId": v["draftId"], "kind": v["kind"], "expected": exp.get("verdict", v["kind"]), "expectedCodes": sorted(exp_codes),
-                     "got": verdict, "codes": codes, "derivedTier": tier, "agree": ok, "notes": notes, "row": v["row"]})
+                     "got": verdict, "codes": codes, "derivedTier": tier, "agree": ok, "notes": notes, "row": v["row"],
+                     "aggregation": aggregation})
     n = len(rows)
     out = {"corpus": m["suite"], "draft": m["draft"], "members": n, "agree": agree,
            "firstCodeAgree": first_agree, "rejectMembers": sum(1 for r in rows if r["expectedCodes"]),
-           "datingNotAttempted": partial, "rows": rows}
+           "datingNotAttempted": partial, "rows": rows,
+           "aggregationMembers": aggregation_members, "aggregationMatched": aggregation_matched}
     for r in rows:
         if not r["agree"]:
             print(f"DISAGREE {r['draftId']:6} expected {r['expected']:9} {r['expectedCodes']} | got {r['got']:9} {r['codes']} {' '.join(r['notes'])} | {r['row'][:70]}")
+        if r["aggregation"]["status"] not in ("match", "not-applicable"):
+            print(f"AGGREGATION {r['draftId']}: {r['aggregation']}")
     print(f"# {m['suite']}: {agree}/{n} members agree with MANIFEST (verdict, codes, derivedTier, withinLimit, set); "
           f"first refusal code agrees on {first_agree}/{out['rejectMembers']} reject members; "
-          f"{partial} retained members' dating not attempted (anchor validation out of scope today)")
+          f"{partial} retained members' dating not attempted (anchor validation out of scope today); "
+          f"aggregation correspondence {aggregation_matched}/{aggregation_members}")
     if report_path:
-        json.dump(out, open(report_path, "w"), indent=1)
-    return 0 if agree == n else 1
+        with open(report_path, "w") as stream:
+            json.dump(out, stream, indent=1)
+    return 0 if agree == n and aggregation_matched == aggregation_members else 1
 
 
 if __name__ == "__main__":
