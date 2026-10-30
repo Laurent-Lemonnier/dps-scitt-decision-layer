@@ -76,3 +76,5 @@ echo "# receipt verified (independent and kit), DPS attachment, seal and approva
 echo "== draft-gilda-audit-agent-audit-record, corpus vectors-agent-audit-record from agent-evidence-vectors ${GILDA_VERSION}"
 CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-agent-audit-record'))")
 python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report gilda/judge-ci.json | tail -1
+# Local candidate addition (2026-10-30): source-to-record aggregation controls.
+GILDA_CORPUS="$CORPUS" python3 -m unittest discover -s gilda -p 'test_gilda_aggregation.py' -v
