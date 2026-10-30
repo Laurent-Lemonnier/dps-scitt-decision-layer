@@ -27,7 +27,7 @@ Synthetic data and test keys.
   digest, the `request_id`). Section 3.2 puts `execution_context` outside `metadata_hash`: "anyone holding the
   receipt can add, change, or drop it without affecting any verification outcome". The report shows it as the
   producer's assertion, consistent or not, and nothing rests on it. Section 3.2 names no member for a decision record;
-  `decision_record` is this example's choice.
+  `decision_record` is this example's choice, which the AER-1 author agreed to keep (30 October 2026).
 
 ## What verifies (`out/summary.json`)
 
@@ -65,6 +65,11 @@ verification to fail". At the pinned kit commit, no code recomputes it (`aer-1/c
 binds: `created_at` moved, `id` replaced, tool version changed, `metadata_hash` zeroed. The independent verifier fails
 all four; the kit's checks pass all four, and its reference verifier reports the id as "a label outside the
 commitment". The CI asserts the first and records the second.
+
+The author confirmed the finding on 30 October 2026 and reports the recomputation added to the kit's runners (aer1-kit
+commit 5d1504b, crediting it), with probes modelled on these four, which now fail there on the metadata mismatch alone,
+and this example's receipt as a second control. That commit is not yet in the public repository the CI clones; the pin
+stays at `7d5947d` until it is, and the probes keep recording the earlier behaviour.
 
 ## What it shows, and what it does not
 
