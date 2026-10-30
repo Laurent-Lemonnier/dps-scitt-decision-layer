@@ -1,0 +1,19 @@
+{
+ "what": "the receipt's created_at is moved; metadata_hash not recomputed",
+ "caught_by": [
+  "aer1",
+  "joins"
+ ],
+ "expected_place": "aer1",
+ "as_expected": true,
+ "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+ "detail": {
+  "aer1": {
+   "independent": "verification failed",
+   "kit": {}
+  },
+  "joins": [
+   "the receipt's created_at falls between the DPS attempt and the observed result (issuer and gateway clocks)"
+  ]
+ }
+}

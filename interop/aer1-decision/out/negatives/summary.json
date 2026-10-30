@@ -1,0 +1,151 @@
+{
+ "N1-output-altered": {
+  "what": "the receipt's outputs say 150.00 EUR; output_hash not recomputed",
+  "caught_by": [
+   "aer1"
+  ],
+  "expected_place": "aer1",
+  "as_expected": true,
+  "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+  "detail": {
+   "aer1": {
+    "independent": "verification failed",
+    "kit": {
+     "core": [
+      "output_hash does not match sha256(canonical_bytes)"
+     ],
+     "reference_verifier": [
+      "sha256(canonical_bytes) equals output_hash: committed=sha256:3ca5904b8b289d39084aa7283dab547639a590e5f128b6a75a9faafe9c57a59d recomputed=sha256:5e6555c9e621d685a74c1b3ded29fa7a29e6b9be0163c8de4f059e7b18796fe1",
+      "provenance binding: outer provenance_class matches committed claim: skipped: SHA-256 commitment failed, binding cannot pass"
+     ]
+    }
+   }
+  }
+ },
+ "N2-receipt-reissued-with-other-output": {
+  "what": "the receipt is issued again with a different refund reference; it verifies, but the DPS result names the first output_hash",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+  "detail": {
+   "joins": [
+    "the DPS result's evidence names the receipt's output_hash, which commits to the canonical bytes"
+   ]
+  }
+ },
+ "N3-receipt-of-another-request": {
+  "what": "a receipt of the same refund under another idempotency key, cited as this attempt's",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+  "detail": {
+   "joins": [
+    "the receipt's recorded idempotency key is the DPS request_id (bound by output_hash)"
+   ]
+  }
+ },
+ "N4-executed-input-not-approved": {
+  "what": "the gateway recorded 150.00 EUR; the person approved 120.00 EUR",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+  "detail": {
+   "joins": [
+    "the receipt's recorded input is the approved specification's parameters, exactly (bound by output_hash)"
+   ]
+  }
+ },
+ "N5-attempt-cites-another-receipt-unsealed": {
+  "what": "the attempt is edited to cite another receipt id after the issuer sealed it",
+  "caught_by": [
+   "dps_issuer_seal",
+   "joins"
+  ],
+  "expected_place": "dps_issuer_seal",
+  "as_expected": true,
+  "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+  "detail": {
+   "dps_issuer_seal": {
+    "status": "failed",
+    "key_state": "not_checked",
+    "holder": "Example Merchant",
+    "attests": "issuer_recorded_claims_only"
+   },
+   "joins": [
+    "the DPS attempt cites the receipt by its id (in the receipt's metadata block)"
+   ]
+  }
+ },
+ "N5b-attempt-cites-another-receipt-resealed": {
+  "what": "the issuer edits the attempt to cite another receipt id and seals again",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+  "detail": {
+   "joins": [
+    "the DPS attempt cites the receipt by its id (in the receipt's metadata block)"
+   ]
+  }
+ },
+ "N6-metadata-altered": {
+  "what": "the receipt's created_at is moved; metadata_hash not recomputed",
+  "caught_by": [
+   "aer1",
+   "joins"
+  ],
+  "expected_place": "aer1",
+  "as_expected": true,
+  "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+  "detail": {
+   "aer1": {
+    "independent": "verification failed",
+    "kit": {}
+   },
+   "joins": [
+    "the receipt's created_at falls between the DPS attempt and the observed result (issuer and gateway clocks)"
+   ]
+  }
+ },
+ "N7-receipt-before-the-attempt": {
+  "what": "the receipt is issued at 14:06Z, before the approval and the attempt (hashes recomputed)",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+  "detail": {
+   "joins": [
+    "the receipt's created_at falls between the DPS attempt and the observed result (issuer and gateway clocks)"
+   ]
+  }
+ },
+ "N8-pointer-to-another-record": {
+  "what": "execution_context names another decision record: everything verifies, the pointer is reported inconsistent",
+  "caught_by": [],
+  "expected_place": "documented",
+  "as_expected": true,
+  "execution_context_pointer": "inconsistent with the bound values: producer-asserted, outside metadata_hash (Section 3.2); the binding does not rest on it",
+  "detail": {}
+ },
+ "N9-pointer-dropped": {
+  "what": "execution_context carries no decision_record: everything verifies, the pointer is reported absent",
+  "caught_by": [],
+  "expected_place": "documented",
+  "as_expected": true,
+  "execution_context_pointer": "absent (Section 3.2: an omitted member is unknown, never evidence of tampering)",
+  "detail": {}
+ }
+}

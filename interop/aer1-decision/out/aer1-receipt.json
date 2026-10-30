@@ -1,0 +1,30 @@
+{
+ "id": "d9f0200e-793e-4fec-a4ae-0687e0d92cac",
+ "receipt_schema_version": "0.4",
+ "created_at": "2026-10-28T14:08:11.250Z",
+ "tool": {
+  "name": "payments_refund_create",
+  "version": "1.2.0",
+  "scope": "merchant"
+ },
+ "provenance_class": "OBSERVED VIA GATEWAY",
+ "canonical_byte_length": 640,
+ "canonical_bytes": "eyJjYWxsZXIiOnsiaWQiOiJzaGEyNTY6YTJkOTVhNWIwZDJhOTE1NTk5YWY5YjBlMGRkODQzYWQ3YTRmMTgzYTllZGNkM2Y2OTFhOGZiNTU2NzMwNzUxMiIsInR5cGUiOiJzZXJ2aWNlIn0sImlucHV0cyI6eyJhbW91bnRfbWlub3IiOjEyMDAwLCJjdXJyZW5jeSI6IkVVUiIsImlkZW1wb3RlbmN5X2tleSI6InVybjpleGFtcGxlOnJlZnVuZC1yZXF1ZXN0OjhjOGY2NThkLTY4NDAtNTMyYS05OTRjLTBhZTUwZDE1MWQxNyIsIm9yZGVyX3JlZiI6InVybjpleGFtcGxlOm9yZGVyOjg4MTIiLCJyZWFzb24iOiJkdXBsaWNhdGUgY2hhcmdlIG9mIDIwMjYtMTEtMDIifSwiaXNzdWVyX2NsYWltcyI6eyJwcm92ZW5hbmNlX2NsYXNzIjoiT0JTRVJWRUQgVklBIEdBVEVXQVkifSwib3V0cHV0cyI6eyJhbW91bnRfbWlub3IiOjEyMDAwLCJjdXJyZW5jeSI6IkVVUiIsImlkZW1wb3RlbmN5X2tleSI6InVybjpleGFtcGxlOnJlZnVuZC1yZXF1ZXN0OjhjOGY2NThkLTY4NDAtNTMyYS05OTRjLTBhZTUwZDE1MWQxNyIsInJlZnVuZF9yZWYiOiJ1cm46ZXhhbXBsZTpyZWZ1bmQ6Ui01NTEyMCIsInN0YXR1cyI6InN1Y2NlZWRlZCJ9LCJyZWNlaXB0X3NjaGVtYV92ZXJzaW9uIjoiMC40IiwidG9vbCI6InBheW1lbnRzX3JlZnVuZF9jcmVhdGUifQ==",
+ "output_hash": "sha256:3ca5904b8b289d39084aa7283dab547639a590e5f128b6a75a9faafe9c57a59d",
+ "verification_status": "verified",
+ "input_hash": "sha256:7920ef2d5ed53335a2a62ad89a7043f22c200b8aeaae2fd787d1894812d880d1",
+ "metadata_hash": "sha256:699b4204ac4511da1d18686888c0b22befa892b252837e9ca7efb90c79060b25",
+ "execution_context": {
+  "framework": {
+   "name": "example-agent-runtime",
+   "version": "3.1"
+  },
+  "source": "urn:example:payments:merchant-7",
+  "model": null,
+  "decision_record": {
+   "decision_id": "DR-2026-1104",
+   "record_digest": "sha256:3615cd70b71727c65bcafddcbed963f722220769eb6c70266bda291839454b7d",
+   "request_id": "urn:example:refund-request:8c8f658d-6840-532a-994c-0ae50d151d17"
+  }
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "created_at moved": {
+  "independent": "verification failed",
+  "independent_reason": "metadata_hash does not match the recomputed metadata block",
+  "kit": {
+   "conformance.check": "pass",
+   "conformance.check_version_and_binding": "pass",
+   "aer1_verify.verify": "pass",
+   "aer1_verify id_state": "unverified"
+  }
+ },
+ "id replaced": {
+  "independent": "verification failed",
+  "independent_reason": "metadata_hash does not match the recomputed metadata block",
+  "kit": {
+   "conformance.check": "pass",
+   "conformance.check_version_and_binding": "pass",
+   "aer1_verify.verify": "pass",
+   "aer1_verify id_state": "unverified"
+  }
+ },
+ "tool version changed": {
+  "independent": "verification failed",
+  "independent_reason": "metadata_hash does not match the recomputed metadata block",
+  "kit": {
+   "conformance.check": "pass",
+   "conformance.check_version_and_binding": "pass",
+   "aer1_verify.verify": "pass",
+   "aer1_verify id_state": "unverified"
+  }
+ },
+ "metadata_hash zeroed": {
+  "independent": "verification failed",
+  "independent_reason": "metadata_hash does not match the recomputed metadata block",
+  "kit": {
+   "conformance.check": "pass",
+   "conformance.check_version_and_binding": "pass",
+   "aer1_verify.verify": "pass",
+   "aer1_verify id_state": "unverified"
+  }
+ }
+}

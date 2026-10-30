@@ -1,0 +1,8 @@
+{
+ "what": "execution_context names another decision record: everything verifies, the pointer is reported inconsistent",
+ "caught_by": [],
+ "expected_place": "documented",
+ "as_expected": true,
+ "execution_context_pointer": "inconsistent with the bound values: producer-asserted, outside metadata_hash (Section 3.2); the binding does not rest on it",
+ "detail": {}
+}

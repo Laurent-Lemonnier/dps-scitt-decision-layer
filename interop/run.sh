@@ -67,6 +67,12 @@ fi
 git -C aer1/zambo checkout --quiet "$AER1_COMMIT"
 python3 aer1/aer1_verify_independent.py --kit aer1/zambo/aer-1 --report aer1/judge-ci.json | tail -1
 
+echo "== A decision record and an AER-1 receipt, composed (aer1-decision), at the author's request"
+mkdir -p aer1-decision/out
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" AER1_KIT="$PWD/aer1/zambo/aer-1" python3 aer1-decision/build.py > aer1-decision/out/build-ci.log || { echo "aer1-decision: not all verified"; tail -30 aer1-decision/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" AER1_KIT="$PWD/aer1/zambo/aer-1" python3 aer1-decision/negatives.py > aer1-decision/out/negatives-ci.log || { echo "aer1-decision: a failing case was not caught where expected"; cat aer1-decision/out/negatives-ci.log; exit 1; }
+echo "# receipt verified (independent and kit), DPS attachment, seal and approval verified, 5 joins true; 10 failing cases as expected; 4 metadata probes failed by the independent verifier (kit results recorded)"
+
 echo "== draft-gilda-audit-agent-audit-record, corpus vectors-agent-audit-record from agent-evidence-vectors ${GILDA_VERSION}"
 CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-agent-audit-record'))")
 python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report gilda/judge-ci.json | tail -1

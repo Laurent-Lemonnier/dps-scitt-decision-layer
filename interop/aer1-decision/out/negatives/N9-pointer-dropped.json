@@ -1,0 +1,8 @@
+{
+ "what": "execution_context carries no decision_record: everything verifies, the pointer is reported absent",
+ "caught_by": [],
+ "expected_place": "documented",
+ "as_expected": true,
+ "execution_context_pointer": "absent (Section 3.2: an omitted member is unknown, never evidence of tampering)",
+ "detail": {}
+}

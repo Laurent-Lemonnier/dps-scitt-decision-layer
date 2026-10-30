@@ -1,0 +1,55 @@
+{
+ "schema_errors": {
+  "record": [],
+  "attachment": [],
+  "signatures": [],
+  "trust_policy": []
+ },
+ "aer1_independent": {
+  "verdict": "pass",
+  "reason": null,
+  "metadata_bound": true,
+  "input_hash": "confirmed"
+ },
+ "aer1_kit": {
+  "core": "pass",
+  "version_and_binding": "pass",
+  "reference_profile": "pass",
+  "reference_verifier": "pass"
+ },
+ "aer1_kit_id_state": "unverified",
+ "dps_trust_policy": "verified",
+ "dps_action_binding": {
+  "specification_digests": "verified",
+  "specification_statements": "verified",
+  "record_statements": "verified",
+  "action_binding": "verified",
+  "stage_order": "verified",
+  "authorisation_recheck": "verified",
+  "observed_results": "verified",
+  "rationale_provenance": "verified"
+ },
+ "dps_action_binding_findings": {},
+ "dps_issuer_seal": {
+  "status": "verified",
+  "key_state": "verified",
+  "holder": "Example Merchant",
+  "attests": "issuer_recorded_claims_only"
+ },
+ "dps_person_approval": {
+  "status": "verified",
+  "signature": "verified",
+  "subject": "verified",
+  "key_state": "verified",
+  "identity": "verified"
+ },
+ "joins": {
+  "the DPS attempt cites the receipt by its id (in the receipt's metadata block)": true,
+  "the DPS result's evidence names the receipt's output_hash, which commits to the canonical bytes": true,
+  "the receipt's recorded input is the approved specification's parameters, exactly (bound by output_hash)": true,
+  "the receipt's recorded idempotency key is the DPS request_id (bound by output_hash)": true,
+  "the receipt's created_at falls between the DPS attempt and the observed result (issuer and gateway clocks)": true
+ },
+ "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+ "all_verified": true
+}

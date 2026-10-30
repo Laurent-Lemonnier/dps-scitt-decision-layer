@@ -1,0 +1,21 @@
+{
+ "what": "the attempt is edited to cite another receipt id after the issuer sealed it",
+ "caught_by": [
+  "dps_issuer_seal",
+  "joins"
+ ],
+ "expected_place": "dps_issuer_seal",
+ "as_expected": true,
+ "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+ "detail": {
+  "dps_issuer_seal": {
+   "status": "failed",
+   "key_state": "not_checked",
+   "holder": "Example Merchant",
+   "attests": "issuer_recorded_claims_only"
+  },
+  "joins": [
+   "the DPS attempt cites the receipt by its id (in the receipt's metadata block)"
+  ]
+ }
+}

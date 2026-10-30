@@ -25,7 +25,7 @@ manifests and the cross-runner checks, which this file does not replay.
 Report: `judge-20261029.json` (one row per vector: expected, verdict, reason, the fixture's own `rejected_by`, legacy
 members read, profile result).
 
-## What the reading found: three places where the kit and the draft text differ
+## What the reading found: four places where the kit and the draft text differ
 
 1. **Section 6 step 4 says "A '0.4' receipt without metadata_hash MUST fail."** The kit lists three 0.4 fixtures
    without `metadata_hash` as valid (`bound-04`, `optional-members-18`, `input-hash-multikey-20`); they are bound by
@@ -45,6 +45,15 @@ members read, profile result).
    `seq`, where it explicitly accepts `1.0`. The kit's `x-entry-count-float` vector rejects an `entry_count` of `5.0`.
    Either 7.3 should say "a JSON integer", or the vector should be valid; this file follows the kit.
 
+4. **Section 6 step 4: "When the receipt carries metadata_hash, or when receipt_schema_version is "0.4" or later,
+   recompute the metadata block from the receipt's stored member values per Section 3.1 and compare; a mismatch MUST
+   cause verification to fail."** At the pinned commit, no code in the kit recomputes the metadata block: not
+   `aer-1/conformance.py`, not `aer-1/conformance.js`, not `aer1-verifier/aer1_verify.py` (the reference verifier
+   reports the id as "a label outside the commitment"); and one vector in the corpus carries `metadata_hash` (`valid/real-04`), no invalid one.
+   A 0.4 receipt whose `created_at`, `id` or tool version is changed after issuance, or whose `metadata_hash` is
+   zeroed, passes them; this file fails it, as the step requires. Found on 29 October 2026 while building `../aer1-decision/`;
+   the probes and their results are in `../aer1-decision/out/negatives/metadata-probes.json`. Here this file follows the text, not the kit.
+
 Rules applied that the draft does not state, taken from the kit's own documents and marked `KIT` in the code:
 the payload binding of the outer `receipt_schema_version` and `provenance_class` to the values inside the canonical
 bytes (kit verifier README, rule 11; vectors `version-downgrade`, `tampered-provenance`); the reference-producer
@@ -58,3 +67,6 @@ An AER-1 receipt is the execution layer: what ran, its exact output bytes, under
 binding records the decision above it: what a named person was shown and approved, by digest, before the call. The
 natural composition is a DPS execution attempt stage carrying the AER-1 receipt `id` and `output_hash`, and the AER-1
 `execution_context` (or `field_provenance`) naming the DPS decision record by `decision_id` and seal digest.
+Built and checked in `../aer1-decision/`, at the author's request: what binds there is the receipt's id and
+output_hash cited by the DPS attempt, and the DPS request_id and the approved values in the receipt's recorded input
+(under output_hash); `execution_context` is outside metadata_hash (Section 3.2) and is reported as a pointer only.

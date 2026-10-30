@@ -1,0 +1,4 @@
+Refund order urn:example:order:8812: 120.00 EUR, reason: duplicate charge of 2026-11-02
+merchant urn:example:payments:merchant-7; ticket urn:example:ticket:4410
+policy urn:example:policy:refunds#2026-10-01 (sha256:91ea02874a8e192a84c8db6e26916dc388874c793045caa251f9849f032907e6)
+valid until 2026-10-28T14:37:00Z
