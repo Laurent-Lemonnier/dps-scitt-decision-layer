@@ -50,7 +50,7 @@ policy's age limit and the specification's `valid_until`, checked at the recheck
 Each is the valid example changed in one place, run through the same verifications; `out/negatives/summary.json`
 records where it fails and what the check says. The Seal action record itself stays valid in every case: it attests
 what the enforcement point recorded, and the failure is found on the approval side, which is the point. N1–N3b were
-asked for by the Seal author; N4–N7b are the cases the Standard's Steward listed on issue 93.
+asked for by the Seal author; N4–N7b are the cases proposed on issue 93, which the Standard's Steward agreed fit.
 
 | Case | Change | Where it is caught | What the check says |
 |---|---|---|---|

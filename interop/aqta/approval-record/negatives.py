@@ -131,7 +131,7 @@ pol3["keys"].append({"key_ref": "someone-else-key-1", "holder": "Some issuer", "
 cases["N3b-approver-key-in-wrong-role"] = {"what": "the same signature, the key listed in the policy but in role organisation: an organisation's key cannot approve as a person",
                                            "result": run_all(attachment, sig3, pol3, action, action["public_key"])}
 
-# ---- the cases the Standard's Steward listed on issue 93 (29 October 2026)
+# ---- the cases proposed on issue 93, which the Standard's Steward agreed fit (29 October 2026)
 # N4: the verifier holds a policy whose bytes are not the ones the specification names (edited after the approval)
 edited = dict(issuer_policy, max_approval_age_seconds=86400)
 cases["N4-policy-digest-mismatch"] = {"what": "the policy held allows a day where the signed one allowed 900 s: its digest is not the specification's policy_version",
