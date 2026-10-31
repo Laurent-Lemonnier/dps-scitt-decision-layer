@@ -22,8 +22,10 @@ reach the published verdicts, and to say where it is not. Results as of 2026-10-
 
 - `composition-who/README.md` — not a verifier of another author's vectors but a reading: the DPS action-binding
   attachment and person approval against the producer and verifier requirements and the negative classes of the WHO
-  slot in draft-mih-sato-agent-accountability-composition-01, section 6.2, with the existing DPS cases named for each
-  class (`cases-map.json`) and the gaps stated as gaps.
+  slot in draft-mih-sato-agent-accountability-composition, section 6.2, with the existing DPS cases named for each
+  class (`cases-map.json`) and the gaps stated as gaps. Read on 29 October against -01, revised on 31 October against
+  the -02 candidate at commit f79f9d1 at a co-author's request: one producer rule is new there, the commitment to the
+  principal at the seam, and it is recorded as a gap.
 
 Both are offered to their authors for review. They are not conformance claims by the authors, and the README in each
 directory lists what was left out. Licence: Apache-2.0, as the rest of this repository.

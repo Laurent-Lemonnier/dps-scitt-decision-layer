@@ -1,7 +1,7 @@
 {
- "about": "Negative classes of draft-mih-sato-agent-accountability-composition-01 section 6.2 (WHO slot) mapped to existing test cases of the Decision Provenance Standard, action binding 0.3.0 and signatures 0.2.0, at main commit 007f8c9 (28 October 2026). Case identifiers are those of the cases.json files named; each was checked to exist and the two suites pass on this commit. INTEROP cases are outside the Standard (/root/claude-ops/interop/cases). Status: covered, covered_with_note, partial, not_applicable.",
+ "about": "Negative classes of the WHO slot (section 6.2) of draft-mih-sato-agent-accountability-composition, -02 candidate at commit f79f9d1d652151ab8fa55485d97331be023692c7 (31 October 2026; the classes are unchanged from -01, read on 29 October) mapped to existing test cases of the Decision Provenance Standard, action binding 0.3.0 and signatures 0.2.0, at main commit 007f8c9 (28 October 2026). Case identifiers are those of the cases.json files named; each was checked to exist and the two suites pass on this commit. INTEROP cases are outside the Standard (/root/claude-ops/interop/cases). Status: covered, covered_with_note, partial, not_applicable.",
  "standard_commit": "007f8c9",
- "draft": "draft-mih-sato-agent-accountability-composition-01, section 6.2",
+ "draft": "draft-mih-sato-agent-accountability-composition, -02 candidate at commit f79f9d1d652151ab8fa55485d97331be023692c7, section 6.2",
  "files_short": {
   "AB": "extensions/action-binding/tests/cases.json",
   "SIG": "extensions/signatures/tests/cases.json",
@@ -222,5 +222,6 @@
     "05-reencoded-record"
    ]
   }
- ]
+ ],
+ "draft_commit": "f79f9d1d652151ab8fa55485d97331be023692c7"
 }
