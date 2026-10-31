@@ -1,0 +1,5 @@
+# 31 October 2026 — gilda_verify_independent.py extended (anchors, dating, -03 rules); runs:
+## corpus 0.31.0 (draft -03 posted; venv-gilda031)
+# agent-audit-record-conformance: 184/184 members agree with MANIFEST (verdict, codes, derivedTier, withinLimit, set, dating: codes, datedAt, entry, receipt, delegation root); first refusal code agrees on 101/101 reject members; 0 retained members with an anchor not attempted (rfc3161 only)
+## corpus 0.28.0 (CI pin; venv312)
+# agent-audit-record-conformance: 141/141 members agree with MANIFEST (verdict, codes, derivedTier, withinLimit, set, dating: codes, datedAt, entry, receipt, delegation root); first refusal code agrees on 81/81 reject members; 0 retained members with an anchor not attempted (rfc3161 only)

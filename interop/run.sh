@@ -10,7 +10,7 @@ AQTA_REPO=https://github.com/Aqta-ai/attestation-spec.git
 AQTA_COMMIT="${AQTA_COMMIT:-$(cat aqta/PINNED_COMMIT)}"
 AQTA_ATTESTATION_KEY=alWzEnrA_z9McN9z_MFfQCnH9mVgOwRZ26wrI7oix4E   # test-vectors/README.md
 AQTA_ACTION_KEY=pOaccW6Csyo1POtxjixPH80oux9--YC1tzzaENT4vQ0        # test-vectors/action/README.md
-GILDA_VERSION=0.28.0
+GILDA_VERSION=0.31.0
 
 python3 -m pip install --quiet "cryptography>=42" "agent-evidence-vectors==${GILDA_VERSION}"
 
@@ -73,6 +73,6 @@ DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" AER1_KIT="$PWD/aer1/zambo/
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" AER1_KIT="$PWD/aer1/zambo/base" python3 aer1-decision/negatives.py > aer1-decision/out/negatives-ci.log || { echo "aer1-decision: a failing case was not caught where expected"; cat aer1-decision/out/negatives-ci.log; exit 1; }
 echo "# receipt verified (independent and kit), DPS attachment, seal and approval verified, 5 joins true; 10 failing cases as expected; 4 metadata probes failed by the independent verifier and by the kit runner at this pin"
 
-echo "== draft-gilda-audit-agent-audit-record, corpus vectors-agent-audit-record from agent-evidence-vectors ${GILDA_VERSION}"
+echo "== draft-gilda-audit-agent-audit-record-03, corpus vectors-agent-audit-record from agent-evidence-vectors ${GILDA_VERSION} (anchors validated offline against the manifest's tree heads and test-chain headers; dating complete)"
 CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-agent-audit-record'))")
 python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report gilda/judge-ci.json | tail -1

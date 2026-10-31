@@ -1,0 +1,24 @@
+{
+ "set": "hs51-set2",
+ "corpus": "agent-evidence-vectors 0.31.0, corpora/vectors-recorded",
+ "subject": "log/checkpoint.json",
+ "subject_sha256": "afd5d289c7a289083be56849a73b9f9bef51877c9d6122cf507a6a1ca6115e31",
+ "proof": "log/checkpoint.stamp.ots",
+ "proof_sha256": "77e0b7aee9ff39224fa0c2963e540d1ddaa7e3e04f2c95f5f0ac9c08a64aa9b7",
+ "sums_sha256": "53b4ddb5b6a9c9908ef02e9d0d47717d7bc779171bb2611b664bc21ac1b93fdd",
+ "route": "replay without OpenTimestamps software (umarise/verify_anchor.py), against 27 mainnet headers 972540-972566 fetched on 2026-10-31 from blockstream.info and mempool.space (block hashes agree on all 27), proof-of-work and linkage checked by the verifier, checkpoint 972540",
+ "result": {
+  "result": "valid",
+  "steps": [
+   "branch height 972551: verified",
+   "branch height 972552: verified"
+  ],
+  "block_height_H": 972551,
+  "block_time_RWCP": 1792632805,
+  "confirmations_established": 16
+ },
+ "block_time_utc": "2026-10-22T01:33:25Z",
+ "checkpoint_as_of": "2026-10-21T22:11:06Z (as_of 1792627866 in checkpoint.json)",
+ "what_it_shows": "the bytes of checkpoint.json existed before block 972551 was mined (header time 2026-10-22T01:33:25Z, the miner's statement); nothing about the log's contents or the settlement",
+ "corpus_own_check": "agent-evidence-vectors recorded check: verified, pinned (sums and binding only; it does not verify the Bitcoin attestation)"
+}
