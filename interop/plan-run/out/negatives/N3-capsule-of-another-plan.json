@@ -1,0 +1,13 @@
+{
+ "what": "a capsule citing this decision executes a step of another client's plan",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "detail": {
+  "joins": [
+   "no capsule run under this decision is a step outside the plan"
+  ]
+ }
+}

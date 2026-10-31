@@ -1,0 +1,112 @@
+{
+ "N15-resumed-without-the-decision": {
+  "what": "the steps after the checkpoint cite the plan's approval only: nothing says who decided to resume",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "every step after the checkpoint cites the checkpoint decision as ran_under, and no step before it does"
+   ]
+  }
+ },
+ "N16-decided-on-another-state": {
+  "what": "the checkpoint decision names the context state before step 0, not the state after it",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "the checkpoint decision's specification names, by digest, the state of the run's context after step 0 as the manifest records it, the adjudication held and its claim; the manifest's checkpoint entry names the same"
+   ]
+  }
+ },
+ "N17-adjudication-of-another-claim": {
+  "what": "the specification names another claim than the one the adjudication held is about",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "the checkpoint decision's specification names, by digest, the state of the run's context after step 0 as the manifest records it, the adjudication held and its claim; the manifest's checkpoint entry names the same"
+   ]
+  }
+ },
+ "N18-decided-after-the-step-ran": {
+  "what": "the checkpoint decision is approved after the CRM record was created",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "the checkpoint decision was approved after step 0's capsule and before step 1's, and the resumption was requested after the approval (the issuer's times)"
+   ]
+  }
+ },
+ "N19-witnesses-agree": {
+  "what": "the two witness worlds give the claim the same value: a determined claim presented as undetermined",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "the adjudication is undecided on its own terms: its claim, evidence, witness and limitations digests recompute from the objects beside it, both witnesses are compatible with the closed evidence under the fixture's relation, and they give the claim different values"
+   ]
+  }
+ },
+ "N20-adjudication-digests-do-not-recompute": {
+  "what": "the adjudication's evidence digest is not that of the evidence beside it",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "the adjudication is undecided on its own terms: its claim, evidence, witness and limitations digests recompute from the objects beside it, both witnesses are compatible with the closed evidence under the fixture's relation, and they give the claim different values"
+   ]
+  }
+ },
+ "N21-approval-over-another-resumption": {
+  "what": "the manager's signature names another specification than the one the stage approved",
+  "caught_by": [
+   "checkpoint_signatures"
+  ],
+  "expected_place": "checkpoint_signatures",
+  "as_expected": true,
+  "detail": {
+   "checkpoint_signatures": [
+    {
+     "signature": "failed",
+     "subject": "failed",
+     "key_state": "not_checked",
+     "identity": "not_checked"
+    }
+   ]
+  }
+ },
+ "N22-step-before-the-checkpoint-cites-it": {
+  "what": "step 0's capsule cites the checkpoint decision, which did not exist when it ran",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "the DPS result names the run manifest held, by its digest",
+    "every step after the checkpoint cites the checkpoint decision as ran_under, and no step before it does"
+   ]
+  }
+ }
+}

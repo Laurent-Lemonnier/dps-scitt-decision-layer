@@ -43,6 +43,18 @@ DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 agent-pass/build.p
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 agent-pass/negatives.py > agent-pass/out/negatives-ci.log || { echo "agent pass: a failing case was not caught where expected"; cat agent-pass/out/negatives-ci.log; exit 1; }
 echo "# 40 Seal records valid; 8 DPS dimensions and 13 person signatures verified; 41 capsules verified; 7 joins true; 10 failing cases caught where expected"
 
+echo "== One plan approved as a whole, executed as steps (plan-run): one DPS exact approval, N capsules, a run manifest between them"
+mkdir -p plan-run/out
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-run/build.py > plan-run/out/build-ci.log || { echo "plan run: not all verified"; tail -30 plan-run/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-run/negatives.py > plan-run/out/negatives-ci.log || { echo "plan run: a failing case was not caught where expected"; cat plan-run/out/negatives-ci.log; exit 1; }
+echo "# 8 DPS dimensions, the issuer's seal and the person's approval of the plan verified; 3 capsules verified; 10 joins true (membership, completeness, order, resolved arguments, context chain); 14 failing cases caught where expected"
+
+echo "== A human checkpoint in the middle of the plan, under an undecided claim (plan-checkpoint): a second decision record on a context state and an adjudication in the shape of P10"
+mkdir -p plan-checkpoint/out
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-checkpoint/build.py > plan-checkpoint/out/build-ci.log || { echo "plan checkpoint: not all verified"; tail -30 plan-checkpoint/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-checkpoint/negatives.py > plan-checkpoint/out/negatives-ci.log || { echo "plan checkpoint: a failing case was not caught where expected"; cat plan-checkpoint/out/negatives-ci.log; exit 1; }
+echo "# the plan's checks again, the checkpoint record's dimensions, seal and approval verified, 15 joins true; 8 failing cases caught where expected; the adjudication is synthetic and says so"
+
 echo "== draft-fassbender-scitt-time-anchor-08, Appendix D vectors, route 2 (no OTS software)"
 CP=957289:000000000000000000018e5b8c68a63c45b3eeac3a05ecf621a3b3f7890e3534
 for n in 1 2 3 4; do

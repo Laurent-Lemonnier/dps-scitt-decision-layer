@@ -1,0 +1,219 @@
+{
+ "N1-step-missing": {
+  "what": "the CRM step (1) has no capsule: the manifest lists it, nothing executed it",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "the DPS result names the run manifest held, by its digest",
+    "every step of the approved plan has exactly one capsule whose request is that step, with the arguments the plan resolves from the outputs recorded, and the manifest lists that capsule at that index",
+    "the steps ran in plan order: the manifest lists them in it, each capsule follows the previous step's capsule, and the issuer's times do not go backwards",
+    "an argument resolved from an earlier step's output equals the output that step recorded, which its own capsule committed to (response_digest)",
+    "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+   ]
+  }
+ },
+ "N2-steps-reordered": {
+  "what": "the message (2) is sent before the CRM record (1) exists; the capsules and the manifest say so",
+  "caught_by": [
+   "capsules",
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "capsules": [
+    "urn:example:plan-run:2026-11-06-0471:step:1: a reference does not resolve against the bytes held"
+   ],
+   "joins": [
+    "the steps ran in plan order: the manifest lists them in it, each capsule follows the previous step's capsule, and the issuer's times do not go backwards",
+    "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+   ]
+  }
+ },
+ "N3-capsule-of-another-plan": {
+  "what": "a capsule citing this decision executes a step of another client's plan",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "no capsule run under this decision is a step outside the plan"
+   ]
+  }
+ },
+ "N4-step-arguments-changed": {
+  "what": "the CRM record is created with another legal name than the plan approved",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "every step of the approved plan has exactly one capsule whose request is that step, with the arguments the plan resolves from the outputs recorded, and the manifest lists that capsule at that index",
+    "no capsule run under this decision is a step outside the plan"
+   ]
+  }
+ },
+ "N5-plan-hash-not-of-the-steps": {
+  "what": "the plan the person approved carries a plan_hash that is not the hash of its steps",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "the approved plan's plan_hash is the hash of its executable steps, as the policy defines it"
+   ]
+  }
+ },
+ "N6-manifest-not-the-one-named": {
+  "what": "the DPS result names another manifest than the one held",
+  "caught_by": [
+   "dps_issuer_seal",
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "dps_issuer_seal": {
+    "status": "failed",
+    "key_state": "not_checked",
+    "holder": "Example Brokerage",
+    "attests": "issuer_recorded_claims_only"
+   },
+   "joins": [
+    "the DPS result names the run manifest held, by its digest"
+   ]
+  }
+ },
+ "N7-recorded-output-substituted": {
+  "what": "the manifest records another document than step 0's capsule committed to; the CRM record and the message carry that other document",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "an argument resolved from an earlier step's output equals the output that step recorded, which its own capsule committed to (response_digest)",
+    "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+   ]
+  }
+ },
+ "N8-step-executed-twice": {
+  "what": "the CRM step runs twice: two capsules, one plan step",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "every step of the approved plan has exactly one capsule whose request is that step, with the arguments the plan resolves from the outputs recorded, and the manifest lists that capsule at that index"
+   ]
+  }
+ },
+ "N9-person-disposed-of-a-resolved-step": {
+  "what": "the message's capsule says a person disposed of it, though two of its arguments were resolved at run time",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "the DPS result names the run manifest held, by its digest",
+    "a capsule says a person disposed of a step only where every argument of that step was literal in the plan approved"
+   ]
+  }
+ },
+ "N10-plan-run-twice": {
+  "what": "a second request of the plan under the same approval, which allows one",
+  "caught_by": [
+   "dps_action_binding"
+  ],
+  "expected_place": "dps_action_binding",
+  "as_expected": true,
+  "detail": {
+   "dps_action_binding": {
+    "action_binding": [
+     "failed",
+     [
+      "q1: o0 covers 1 request(s), already used by q0",
+      "specification 0: requested 2 times; the most any approval or change of it covers is 1"
+     ]
+    ]
+   }
+  }
+ },
+ "N11-fourth-step": {
+  "what": "a fourth step, not in the plan, runs after the third and cites the decision",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "no capsule run under this decision is a step outside the plan"
+   ]
+  }
+ },
+ "N12-capsule-cites-another-record": {
+  "what": "the CRM step's capsule cites a decision record that is not the one held",
+  "caught_by": [
+   "capsules",
+   "joins"
+  ],
+  "expected_place": "capsules",
+  "as_expected": true,
+  "detail": {
+   "capsules": [
+    "urn:example:plan-run:2026-11-06-0471:step:1: a reference does not resolve against the bytes held"
+   ],
+   "joins": [
+    "the DPS result names the run manifest held, by its digest",
+    "every step of the approved plan has exactly one capsule whose request is that step, with the arguments the plan resolves from the outputs recorded, and the manifest lists that capsule at that index",
+    "the steps ran in plan order: the manifest lists them in it, each capsule follows the previous step's capsule, and the issuer's times do not go backwards",
+    "an argument resolved from an earlier step's output equals the output that step recorded, which its own capsule committed to (response_digest)",
+    "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+   ]
+  }
+ },
+ "N13-capsule-cites-a-stale-context": {
+  "what": "the message's capsule cites the context before the CRM step, not the state after it",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "the DPS result names the run manifest held, by its digest",
+    "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+   ]
+  }
+ },
+ "N14-context-link-broken": {
+  "what": "the manifest's context after the CRM step is not the state before it plus that step's outputs",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "detail": {
+   "joins": [
+    "the DPS result names the run manifest held, by its digest",
+    "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+   ]
+  }
+ }
+}

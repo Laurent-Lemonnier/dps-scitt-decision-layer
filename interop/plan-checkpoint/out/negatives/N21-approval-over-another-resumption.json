@@ -1,0 +1,18 @@
+{
+ "what": "the manager's signature names another specification than the one the stage approved",
+ "caught_by": [
+  "checkpoint_signatures"
+ ],
+ "expected_place": "checkpoint_signatures",
+ "as_expected": true,
+ "detail": {
+  "checkpoint_signatures": [
+   {
+    "signature": "failed",
+    "subject": "failed",
+    "key_state": "not_checked",
+    "identity": "not_checked"
+   }
+  ]
+ }
+}

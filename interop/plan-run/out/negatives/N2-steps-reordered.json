@@ -1,0 +1,18 @@
+{
+ "what": "the message (2) is sent before the CRM record (1) exists; the capsules and the manifest say so",
+ "caught_by": [
+  "capsules",
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "detail": {
+  "capsules": [
+   "urn:example:plan-run:2026-11-06-0471:step:1: a reference does not resolve against the bytes held"
+  ],
+  "joins": [
+   "the steps ran in plan order: the manifest lists them in it, each capsule follows the previous step's capsule, and the issuer's times do not go backwards",
+   "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+  ]
+ }
+}

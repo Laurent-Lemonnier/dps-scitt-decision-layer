@@ -1,0 +1,13 @@
+{
+ "what": "a fourth step, not in the plan, runs after the third and cites the decision",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "detail": {
+  "joins": [
+   "no capsule run under this decision is a step outside the plan"
+  ]
+ }
+}

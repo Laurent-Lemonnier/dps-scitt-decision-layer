@@ -1,0 +1,13 @@
+{
+ "what": "the adjudication's evidence digest is not that of the evidence beside it",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "detail": {
+  "joins": [
+   "the adjudication is undecided on its own terms: its claim, evidence, witness and limitations digests recompute from the objects beside it, both witnesses are compatible with the closed evidence under the fixture's relation, and they give the claim different values"
+  ]
+ }
+}
