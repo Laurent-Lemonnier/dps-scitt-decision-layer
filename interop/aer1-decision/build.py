@@ -38,7 +38,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = pathlib.Path(os.environ.get("DPS_STANDARD") or (HERE / "dps-standard" if (HERE / "dps-standard").exists()
                                                        else "/root/claude-ops/dps/wt-007f8c9"))
-KIT = pathlib.Path(os.environ.get("AER1_KIT") or HERE.parent / "aer1" / "zambo" / "aer-1")
+KIT = pathlib.Path(os.environ.get("AER1_KIT") or HERE.parent / "aer1" / "zambo" / "base")
 _candidates = [HERE.parents[1] / "examples/release-decision/decision-record.json",
                HERE.parents[2] / "exemple-release/decision-record.json"]
 TEMPLATE = pathlib.Path(os.environ.get("DPS_RECORD_TEMPLATE") or next(p for p in _candidates if p.exists()))

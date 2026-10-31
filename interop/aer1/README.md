@@ -1,4 +1,4 @@
-# Independent verifier for AER-1 receipts (draft-zambo-aer1-26, kit v1.5.7) — 2026-10-29
+# Independent verifier for AER-1 receipts (draft-zambo-aer1-26, kit v1.5.7, re-run at `5d1504b`) — 2026-10-29, 2026-10-31
 
 `aer1_verify_independent.py` is written from the draft text (Sections 3 to 6, 10) and shares no code with the kit's
 runners. Run against the conformance kit `gitlab.com/rambozambodotdev/zambo` at commit 7d5947d (kit v1.5.7, which the
@@ -47,16 +47,18 @@ members read, profile result).
 
 4. **Section 6 step 4: "When the receipt carries metadata_hash, or when receipt_schema_version is "0.4" or later,
    recompute the metadata block from the receipt's stored member values per Section 3.1 and compare; a mismatch MUST
-   cause verification to fail."** At the pinned commit, no code in the kit recomputes the metadata block: not
+   cause verification to fail."** At `7d5947d`, no code in the kit recomputed the metadata block: not
    `aer-1/conformance.py`, not `aer-1/conformance.js`, not `aer1-verifier/aer1_verify.py` (the reference verifier
    reports the id as "a label outside the commitment"); and one vector in the corpus carries `metadata_hash` (`valid/real-04`), no invalid one.
    A 0.4 receipt whose `created_at`, `id` or tool version is changed after issuance, or whose `metadata_hash` is
    zeroed, passes them; this file fails it, as the step requires. Found on 29 October 2026 while building `../aer1-decision/`;
    the probes and their results are in `../aer1-decision/out/negatives/metadata-probes.json`. Here this file follows the text, not the kit.
-   The author confirmed it on 30 October 2026 and reports the recomputation added to the kit's runners (aer1-kit
-   commit 5d1504b, crediting this report), with probes modelled on these four, which now fail there on the metadata
-   mismatch alone; for a missing `metadata_hash` the runners follow the corpus (point 1). That commit is not yet in the
-   public repository this CI clones, so the pin stays at `7d5947d` and the probes record the kit's earlier behaviour.
+   The author confirmed it on 30 October 2026 and added the recomputation to both runners (kit -24, commit `5d1504b`,
+   crediting this report), with the four probes and this report's composition receipt pinned as fixtures under
+   `tests/metadata-probes/`; for a missing `metadata_hash` the runners follow the corpus (point 1). Verified here on
+   31 October 2026: at `5d1504b` the kit's Python runner fails all eight probes and passes the two controls, and this
+   verifier still agrees on 119 of 119. The pin is `5d1504b` since then; the kit's tree was rebuilt (`base/` holds
+   the corpus and runners), and the kit lists this verifier in its `IMPLEMENTERS.md`.
 
 Rules applied that the draft does not state, taken from the kit's own documents and marked `KIT` in the code:
 the payload binding of the outer `receipt_schema_version` and `provenance_class` to the values inside the canonical

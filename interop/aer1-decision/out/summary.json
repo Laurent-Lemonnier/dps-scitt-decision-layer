@@ -14,10 +14,8 @@
  "aer1_kit": {
   "core": "pass",
   "version_and_binding": "pass",
-  "reference_profile": "pass",
-  "reference_verifier": "pass"
+  "reference_profile": "pass"
  },
- "aer1_kit_id_state": "unverified",
  "dps_trust_policy": "verified",
  "dps_action_binding": {
   "specification_digests": "verified",

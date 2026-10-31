@@ -10,7 +10,11 @@
  "detail": {
   "aer1": {
    "independent": "verification failed",
-   "kit": {}
+   "kit": {
+    "core": [
+     "metadata_hash does not match the recomputed metadata block"
+    ]
+   }
   },
   "joins": [
    "the receipt's created_at falls between the DPS attempt and the observed result (issuer and gateway clocks)"

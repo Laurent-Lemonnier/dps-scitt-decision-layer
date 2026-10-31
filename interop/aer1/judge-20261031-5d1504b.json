@@ -1,0 +1,1137 @@
+{
+ "agree": 119,
+ "total": 119,
+ "rows": [
+  {
+   "suite": "valid",
+   "name": "bound-04.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "valid",
+   "name": "feb29-leap.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "valid",
+   "name": "fraction-one-digit.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "valid",
+   "name": "input-hash-multikey-20.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "valid",
+   "name": "legacy-02.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "valid",
+   "name": "legacy-03.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "valid",
+   "name": "legacy-real-2.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": false,
+   "legacy": [
+    "timestamp",
+    "tool",
+    "verification_status"
+   ],
+   "agree": true
+  },
+  {
+   "suite": "valid",
+   "name": "optional-members-18.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "valid",
+   "name": "real-04.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "valid",
+   "name": "real-1-bare.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": false,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "valid",
+   "name": "receipt-01.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "valid",
+   "name": "receipt-02.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "valid",
+   "name": "receipt-03-live.json",
+   "expected": "pass",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": false,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "ax-base64-unpadded.json",
+   "expected": "fail",
+   "verdict": "rejected: canonical_bytes is not valid base64",
+   "reason": "canonical_bytes is not valid base64",
+   "declared": "canonical_bytes is not valid base64",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "ax-feb29-1900.json",
+   "expected": "fail",
+   "verdict": "rejected: created_at is not a valid calendar date/time",
+   "reason": "created_at is not a valid calendar date/time",
+   "declared": "created_at is not a valid calendar date/time",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "ax-feb29-non-leap.json",
+   "expected": "fail",
+   "verdict": "rejected: created_at is not a valid calendar date/time",
+   "reason": "created_at is not a valid calendar date/time",
+   "declared": "created_at is not a valid calendar date/time",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "ax-tool-empty-scope.json",
+   "expected": "fail",
+   "verdict": "rejected: tool is not an object with name/version/scope strings",
+   "reason": "tool is not an object with name/version/scope strings",
+   "declared": "tool is not an object with name/version/scope strings",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "bad-created-at.json",
+   "expected": "fail",
+   "verdict": "rejected: created_at is not RFC 3339",
+   "reason": "created_at is not RFC 3339",
+   "declared": "created_at is not RFC 3339",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "bad-id.json",
+   "expected": "fail",
+   "verdict": "rejected: id is not a lowercase UUID",
+   "reason": "id is not a lowercase UUID",
+   "declared": "id is not a lowercase UUID",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "bad-offset-range.json",
+   "expected": "fail",
+   "verdict": "rejected: created_at is not a valid calendar date/time (offset out of range)",
+   "reason": "created_at is not a valid calendar date/time (offset out of range)",
+   "declared": "created_at is not a valid calendar date/time",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "bad-provenance.json",
+   "expected": "fail",
+   "verdict": "rejected: provenance_class is not a known class",
+   "reason": "provenance_class is not a known class",
+   "declared": "provenance_class is not a known class",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "bad-verification-status.json",
+   "expected": "fail",
+   "verdict": "rejected: verification_status is not verified",
+   "reason": "verification_status is not verified",
+   "declared": "verification_status is not verified",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "base64-pad-bit.json",
+   "expected": "fail",
+   "verdict": "rejected: canonical_bytes is not the canonical base64 spelling (non-zero pad bits)",
+   "reason": "canonical_bytes is not the canonical base64 spelling (non-zero pad bits)",
+   "declared": null,
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "base64-unpadded.json",
+   "expected": "fail",
+   "verdict": "rejected: canonical_bytes is not valid base64",
+   "reason": "canonical_bytes is not valid base64",
+   "declared": "canonical_bytes is not valid base64",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "bytes-not-base64.json",
+   "expected": "fail",
+   "verdict": "rejected: canonical_bytes is not valid base64",
+   "reason": "canonical_bytes is not valid base64",
+   "declared": "canonical_bytes is not valid base64",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "duplicate-member-name.json",
+   "expected": "fail",
+   "verdict": "rejected: duplicate member name: output_hash",
+   "reason": "duplicate member name: output_hash",
+   "declared": null,
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "feb29-1900.json",
+   "expected": "fail",
+   "verdict": "rejected: created_at is not a valid calendar date/time",
+   "reason": "created_at is not a valid calendar date/time",
+   "declared": "created_at is not a valid calendar date/time",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "feb29-non-leap.json",
+   "expected": "fail",
+   "verdict": "rejected: created_at is not a valid calendar date/time",
+   "reason": "created_at is not a valid calendar date/time",
+   "declared": "created_at is not a valid calendar date/time",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "hash-bad-format.json",
+   "expected": "fail",
+   "verdict": "rejected: output_hash is not sha256: + lowercase hex digest",
+   "reason": "output_hash is not sha256: + lowercase hex digest",
+   "declared": "output_hash is not sha256: + lowercase hex digest",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "hash-mismatch.json",
+   "expected": "fail",
+   "verdict": "verification failed",
+   "reason": "output_hash does not match sha256(canonical_bytes)",
+   "declared": "output_hash does not match sha256(canonical_bytes)",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "id-trailing-newline.json",
+   "expected": "fail",
+   "verdict": "rejected: id is not a lowercase UUID",
+   "reason": "id is not a lowercase UUID",
+   "declared": "id is not a lowercase UUID",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "impossible-date.json",
+   "expected": "fail",
+   "verdict": "rejected: created_at is not a valid calendar date/time",
+   "reason": "created_at is not a valid calendar date/time",
+   "declared": "created_at is not a valid calendar date/time",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "input-hash-key-order-20.json",
+   "expected": "fail",
+   "verdict": "verification failed",
+   "reason": "input_hash does not match sha256(canonical JSON of the recorded inputs)",
+   "declared": "input_hash does not match sha256(canonical JSON of the recorded inputs)",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "input-hash-mismatch.json",
+   "expected": "fail",
+   "verdict": "verification failed",
+   "reason": "input_hash does not match sha256(canonical JSON of the recorded inputs)",
+   "declared": "input_hash does not match sha256(canonical JSON of the recorded inputs)",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "leap-second-created-at.json",
+   "expected": "fail",
+   "verdict": "rejected: leap-second timestamp",
+   "reason": "leap-second timestamp",
+   "declared": "created_at is not a valid calendar date/time",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "missing-output-hash.json",
+   "expected": "fail",
+   "verdict": "rejected: missing required member: output_hash",
+   "reason": "missing required member: output_hash",
+   "declared": "missing required member: output_hash",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "nil-uuid.json",
+   "expected": "fail",
+   "verdict": "rejected: id is the nil UUID",
+   "reason": "id is the nil UUID",
+   "declared": null,
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "non-utf8-bytes.json",
+   "expected": "fail",
+   "verdict": "rejected: canonical_bytes is not valid UTF-8",
+   "reason": "canonical_bytes is not valid UTF-8",
+   "declared": "canonical_bytes is not valid UTF-8",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "provenance-control-char.json",
+   "expected": "fail",
+   "verdict": "rejected: provenance_class contains a control character",
+   "reason": "provenance_class contains a control character",
+   "declared": null,
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "provenance-trailing-newline.json",
+   "expected": "fail",
+   "verdict": "rejected: provenance_class contains a control character",
+   "reason": "provenance_class contains a control character",
+   "declared": "provenance_class is not a known class",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "tampered-provenance.json",
+   "expected": "fail",
+   "verdict": "verification failed",
+   "reason": "provenance_class differs from issuer_claims.provenance_class committed in the canonical bytes",
+   "declared": null,
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "tool-empty-name.json",
+   "expected": "fail",
+   "verdict": "rejected: tool is not an object with name/version/scope strings",
+   "reason": "tool is not an object with name/version/scope strings",
+   "declared": "tool is not an object with name/version/scope strings",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "tool-not-object.json",
+   "expected": "fail",
+   "verdict": "rejected: tool is not an object with name/version/scope strings",
+   "reason": "tool is not an object with name/version/scope strings",
+   "declared": "tool is not an object with name/version/scope strings",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "uppercase-id.json",
+   "expected": "fail",
+   "verdict": "rejected: id is not a lowercase UUID",
+   "reason": "id is not a lowercase UUID",
+   "declared": "id is not a lowercase UUID",
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid",
+   "name": "version-downgrade.json",
+   "expected": "fail",
+   "verdict": "verification failed",
+   "reason": "receipt_schema_version differs from the version committed in the canonical bytes",
+   "declared": null,
+   "profile": null,
+   "legacy": null,
+   "agree": true
+  },
+  {
+   "suite": "invalid-profile",
+   "name": "missing-inputs.json",
+   "expected": "profile-fail",
+   "verdict": "pass",
+   "reason": null,
+   "declared": null,
+   "profile": false,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "anchored",
+   "name": "anchored-bad-id-version.json",
+   "expected": "anchored",
+   "verdict": "pass",
+   "reason": "verification failed",
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "anchored",
+   "name": "anchored-bad-leaf-hash.json",
+   "expected": "anchored",
+   "verdict": "pass",
+   "reason": "verification failed",
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "anchored",
+   "name": "anchored-bad-timestamp.json",
+   "expected": "anchored",
+   "verdict": "pass",
+   "reason": "verification failed",
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "anchored",
+   "name": "anchored-missing-proof.json",
+   "expected": "anchored",
+   "verdict": "pass",
+   "reason": "verification failed",
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "anchored",
+   "name": "anchored-unresolvable-anchor.json",
+   "expected": "anchored",
+   "verdict": "pass",
+   "reason": "rejected: unresolvable record",
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "anchored",
+   "name": "anchored-valid.json",
+   "expected": "anchored",
+   "verdict": "pass",
+   "reason": "verified",
+   "declared": null,
+   "profile": true,
+   "legacy": [],
+   "agree": true
+  },
+  {
+   "suite": "unicode",
+   "name": "unicode-nfc-form",
+   "expected": "match",
+   "verdict": "match",
+   "agree": true
+  },
+  {
+   "suite": "unicode",
+   "name": "unicode-nfd-form",
+   "expected": "match",
+   "verdict": "match",
+   "agree": true
+  },
+  {
+   "suite": "unicode",
+   "name": "unicode-nfd-against-nfc-commitment",
+   "expected": "mismatch",
+   "verdict": "mismatch",
+   "agree": true
+  },
+  {
+   "suite": "id-binding",
+   "name": "id-alone-unverified",
+   "expected": "pass/unverified",
+   "verdict": "pass/unverified",
+   "agree": true
+  },
+  {
+   "suite": "id-binding",
+   "name": "id-expected-match",
+   "expected": "pass/matched",
+   "verdict": "pass/matched",
+   "agree": true
+  },
+  {
+   "suite": "id-binding",
+   "name": "id-expected-mismatch",
+   "expected": "fail/mismatched",
+   "verdict": "fail/mismatched",
+   "agree": true
+  },
+  {
+   "suite": "id-binding",
+   "name": "id-resolution-agreement",
+   "expected": "pass/resolved",
+   "verdict": "pass/resolved",
+   "agree": true
+  },
+  {
+   "suite": "id-binding",
+   "name": "id-resolution-disagreement",
+   "expected": "fail/mismatched",
+   "verdict": "fail/mismatched",
+   "agree": true
+  },
+  {
+   "suite": "id-binding",
+   "name": "id-absent",
+   "expected": "fail/absent",
+   "verdict": "fail/absent",
+   "agree": true
+  },
+  {
+   "suite": "anchor",
+   "name": "anchor-resolves",
+   "expected": "verified",
+   "verdict": "verified",
+   "agree": true
+  },
+  {
+   "suite": "anchor",
+   "name": "anchor-unresolvable",
+   "expected": "rejected: unresolvable record",
+   "verdict": "rejected: unresolvable record",
+   "agree": true
+  },
+  {
+   "suite": "anchor",
+   "name": "anchor-not-checked",
+   "expected": "not checked",
+   "verdict": "not checked",
+   "agree": true
+  },
+  {
+   "suite": "anchor",
+   "name": "anchor-verification-failed",
+   "expected": "verification failed",
+   "verdict": "verification failed",
+   "agree": true
+  },
+  {
+   "suite": "anchor",
+   "name": "anchor-absent",
+   "expected": "absent",
+   "verdict": "absent",
+   "agree": true
+  },
+  {
+   "suite": "anchor",
+   "name": "anchor-other-profile",
+   "expected": "absent",
+   "verdict": "absent",
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-valid-3",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": "historical -06 construction",
+   "declared": null,
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-single-entry-valid",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": "historical -06 construction",
+   "declared": null,
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-tampered-middle",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 2 prev_digest does not match the digest of entry 1 bytes",
+   "declared": "entry2 prev_digest does not match digest of entry1 bytes (link broken)",
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-truncated-no-close",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "last entry lacks close=true",
+   "declared": "last entry lacks close=true",
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-reordered",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 1 prev_digest does not match the digest of entry 0 bytes",
+   "declared": "link broken (prev_digest mismatch in timeline order)",
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-bad-genesis",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 0 prev_digest is not genesis (64 zeros)",
+   "declared": "entry0 prev_digest is not genesis (64 zeros)",
+   "agree": true
+  },
+  {
+   "suite": "chain-06",
+   "name": "chain-close-wrong-type",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "close is not boolean",
+   "declared": "close is not boolean true",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-valid-5",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": null,
+   "declared": "",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-valid-single",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": null,
+   "declared": "",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-truncation-limit-prefix",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": null,
+   "declared": "",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-relabel-provenance",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 3 prev_digest does not match the digest of entry 2",
+   "declared": "prev_digest does not match",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-relabel-tool-id",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 3 prev_digest does not match the digest of entry 2",
+   "declared": "prev_digest does not match",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-close-middle",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "close:true before the last entry",
+   "declared": "close:true before the last entry",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-close-wrong-type",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "close is not a boolean",
+   "declared": "close is not a boolean",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-delete-identical-pair",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq breaks contiguity",
+   "declared": "breaks contiguity",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-insert-duplicate",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq breaks contiguity",
+   "declared": "breaks contiguity",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-splice-cross-job",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "timeline mixes jobs",
+   "declared": "mixes jobs",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-bad-genesis",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 0 prev_digest is not 64 zero characters",
+   "declared": "not 64 zero characters",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-gap",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq breaks contiguity",
+   "declared": "breaks contiguity",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-mixed-job-id",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "timeline mixes jobs",
+   "declared": "prev_digest does not match",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-bad-base64",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "canonical_bytes is not valid base64",
+   "declared": "not valid base64",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-v06-chain-rejected",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq is not an integer",
+   "declared": "missing tool",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-float-valid",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": null,
+   "declared": "",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-bool-invalid",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq is not an integer",
+   "declared": "seq is not an integer",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-fraction-invalid",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq is not an integer",
+   "declared": "seq is not an integer",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-negative-invalid",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "first seq is not 1 (breaks contiguity)",
+   "declared": "breaks contiguity",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-string-invalid",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq is not an integer",
+   "declared": "seq is not an integer",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-null-invalid",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq is not an integer",
+   "declared": "seq is not an integer",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "v07-seq-missing-invalid",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "seq is not an integer",
+   "declared": "seq is not an integer",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "x-genesis-single",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 0 prev_digest is not 64 zero characters",
+   "declared": null,
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "x-encoding-reference",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": null,
+   "declared": null,
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "x-encoding-draft-literal",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 1 prev_digest does not match the digest of entry 0",
+   "declared": null,
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "ax-genesis-single",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 0 prev_digest is not 64 zero characters",
+   "declared": "entry 0 prev_digest is not 64 zero characters",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "ax-esc-hex-upper",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 1 prev_digest does not match the digest of entry 0",
+   "declared": "entry 1 prev_digest does not match the digest of entry 0",
+   "agree": true
+  },
+  {
+   "suite": "chain-07",
+   "name": "ax-esc-long-escape",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry 1 prev_digest does not match the digest of entry 0",
+   "declared": "entry 1 prev_digest does not match the digest of entry 0",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-valid-1",
+   "expected": "valid",
+   "verdict": "valid",
+   "reason": null,
+   "declared": "Correct commitment over a valid chain: digest, count, job, and timestamp all bind.",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-digest-mismatch",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "final_entry_digest does not match the recomputed digest of the last entry",
+   "declared": "final_entry_digest does not match the recomputed digest of the last entry (rewritten final entry).",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-count-mismatch",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry_count does not match the timeline length",
+   "declared": "entry_count does not match the timeline length (truncated chain re-linked).",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-job-mismatch",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "commitment job_id does not match the timeline's job_id",
+   "declared": "commitment job_id does not match the timeline's job_id (spliced jobs).",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-malformed-missing",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "commitment lacks final_entry_digest",
+   "declared": "Commitment object missing final_entry_digest entirely.",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-malformed-types",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "final_entry_digest is not 64 lowercase hex characters",
+   "declared": "Commitment with wrong member types: uppercase digest, string count, bad timestamp.",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "commit-not-an-object",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "commitment is not an object",
+   "declared": "Commitment is not a JSON object at all.",
+   "agree": true
+  },
+  {
+   "suite": "commitment",
+   "name": "x-entry-count-float",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "reason": "entry_count is not a JSON integer",
+   "declared": "entry_count written as a float with an integer value",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "canonical-5-step",
+   "expected": "valid",
+   "verdict": "valid",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "legacy-construction-rejected",
+   "expected": "a4b2fcb4684c",
+   "verdict": "a4b2fcb4684c",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "odd-duplication-3",
+   "expected": "4860e25bbc8d",
+   "verdict": "4860e25bbc8d",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "ordering-matters",
+   "expected": "362530ecc354",
+   "verdict": "362530ecc354",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "single-leaf",
+   "expected": "609eb71e8855",
+   "verdict": "609eb71e8855",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "empty",
+   "expected": "e3b0c44298fc",
+   "verdict": "e3b0c44298fc",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "worked-example-byte-exact",
+   "expected": "7c4817ca249e",
+   "verdict": "7c4817ca249e",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "duplicate-receipt-id-collision",
+   "expected": "invalid",
+   "verdict": "invalid",
+   "agree": true
+  },
+  {
+   "suite": "merkle",
+   "name": "one-step-single-receipt",
+   "expected": "valid",
+   "verdict": "valid",
+   "agree": true
+  }
+ ]
+}

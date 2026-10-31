@@ -13,10 +13,6 @@
     "kit": {
      "core": [
       "output_hash does not match sha256(canonical_bytes)"
-     ],
-     "reference_verifier": [
-      "sha256(canonical_bytes) equals output_hash: committed=sha256:3ca5904b8b289d39084aa7283dab547639a590e5f128b6a75a9faafe9c57a59d recomputed=sha256:5e6555c9e621d685a74c1b3ded29fa7a29e6b9be0163c8de4f059e7b18796fe1",
-      "provenance binding: outer provenance_class matches committed claim: skipped: SHA-256 commitment failed, binding cannot pass"
      ]
     }
    }
@@ -111,7 +107,11 @@
   "detail": {
    "aer1": {
     "independent": "verification failed",
-    "kit": {}
+    "kit": {
+     "core": [
+      "metadata_hash does not match the recomputed metadata block"
+     ]
+    }
    },
    "joins": [
     "the receipt's created_at falls between the DPS attempt and the observed result (issuer and gateway clocks)"
