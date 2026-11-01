@@ -88,3 +88,7 @@ echo "# receipt verified (independent and kit), DPS attachment, seal and approva
 echo "== draft-gilda-audit-agent-audit-record-03, corpus vectors-agent-audit-record from agent-evidence-vectors ${GILDA_VERSION} (anchors validated offline against the manifest's tree heads and test-chain headers; dating complete)"
 CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-agent-audit-record'))")
 python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report gilda/judge-ci.json | tail -1
+
+echo "== approval-binding/v1 (the same package's vectors-approval-binding contract), verifier written from the corpus README's eleven checks"
+AB_CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-approval-binding'))")
+python3 gilda/approval_binding_verify_independent.py --corpus "$AB_CORPUS" --report gilda/judge-approval-binding-ci.json | tail -1

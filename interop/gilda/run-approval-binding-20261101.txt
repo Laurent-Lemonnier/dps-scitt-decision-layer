@@ -1,0 +1,7 @@
+# 1 November 2026 — approval_binding_verify_independent.py (written from the corpus README's eleven checks)
+## corpus 0.31.0
+# approval-binding/v1: 23/23 cases agree with MANIFEST on decision and reason
+## corpus 0.28.0
+# approval-binding/v1: 23/23 cases agree with MANIFEST on decision and reason
+## the corpus's own harness driving the verifier (0.31.0)
+approval-binding/v1: /tmp/ab-verifier.sh answered 23 of 23 cases, 0 disagreements
