@@ -27,7 +27,7 @@ two places where the Standard has no analogue stated as such.
 | 10 | the policy lookup succeeded; a failed lookup is not a match (`comparison_unavailable`) | the recheck stage's `result` (`authorised`, else the request fails: L19, L20) and the report's rule that `unavailable` and `not_checked` are never verified (G04, L39, portable verification) | meets: the same refusal to read "not checked" as "matched" |
 | 11 | the policy release was served at decision time, within grace (`release_not_served_at_decision`) | `policy_version` as the digest of the policy held (#93) and the recheck's `authority_source_ref`: the policy is pinned by content, not by a service window | **gap**: the DPS has no served-window members (`firstServedAt`, `lastServedAt`, `graceSeconds`); it asks which policy bytes, not when they were served |
 
-Six meet, three meet with a note, one partial, two gaps. The two gaps are two models, not two oversights: the
+Five meet, three meet with a note, one partial, two gaps. The two gaps are two models, not two oversights: the
 contract binds an approval to a user, an event, a phase and a policy service window; the Standard binds it to the
 bytes of a specification and the digest of a policy, and leaves who may use it and when the policy was served to the
 deployment. A shared profile, which the corpus's author proposed, would say which of the two readings each member

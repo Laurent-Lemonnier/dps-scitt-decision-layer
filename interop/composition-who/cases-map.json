@@ -173,8 +173,8 @@
    "files": [
     "extensions/action-binding/tests/cases.json"
    ],
-   "status": "covered_with_note",
-   "note": "L17: execution stages dated before the approval: stage_order failed (runner limitation: issuer's own times). L18: request listed before its approval. L26: recheck dated after the attempt. S35: standing approval dated before its review. L33/L44: rationale timing misrepresented: rationale_provenance failed. G39: a stage dated after the independent timestamp over the issuer's signature: finding. Stage times are the issuer's; see README, The ordering class."
+   "status": "partial",
+   "note": "L17: execution stages dated before the approval: stage_order failed (runner limitation: issuer's own times). L18: request listed before its approval. L26: recheck dated after the attempt. S35: standing approval dated before its review. L33/L44: rationale timing misrepresented: rationale_provenance failed. G39: a stage dated after the independent timestamp over the issuer's signature: finding. Stage times are the issuer's; see README, The ordering class. Partial (1 November 2026, after the co-author's reading): consistent issuer-dated stages and timestamps over signatures do not by themselves establish approval before effect; the AER-1 composition correlates the gateway's call with the request (identifier, parameters, created_at against the issuer's stages) and does not establish that the approval existed before the call; closing the class needs a pre-effect observation or independent ordering evidence."
   },
   {
    "class": "a one-time authorization presented as reusable",
