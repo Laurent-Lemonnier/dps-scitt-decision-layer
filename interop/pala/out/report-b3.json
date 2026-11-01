@@ -1,0 +1,248 @@
+{
+ "vector_sha256": "9cf9761e72168157ddf40bba20898cd5d8b9631707ea17af6febc84f673eb2cd",
+ "1_roots": {
+  "root_over_8": {
+   "promote": true,
+   "rfc6962_recursive": true
+  },
+  "root_over_12": {
+   "promote": true,
+   "rfc6962_recursive": true
+  },
+  "kid_matches_vector": true,
+  "record_hashes_from_headers": true,
+  "companion_roots_by_count": "not attempted: the companion file names its leaves' source (profiles/inference-vectors.json), which the task's boundary does not list",
+  "companion_proofs_verify": true,
+  "companion_negatives_fail": {
+   "truncated_path": true,
+   "wrong_first_root": true,
+   "swapped_sizes": true
+  }
+ },
+ "2_3_statements": {
+  "earlier": {
+   "with_chain": {
+    "checks": {
+     "cbor": "readable",
+     "whole_input_consumed": true,
+     "tag_18": true,
+     "four_elements": true,
+     "protected_is_bstr": true,
+     "unprotected_empty_map": true,
+     "payload_attached_bstr": true,
+     "signature_64_bytes": true,
+     "signature": true,
+     "signature_s_in_range_rfc8032_5_1_7": true,
+     "protected_header_deterministic": true,
+     "protected_labels_exactly_1_3_4_15": true,
+     "alg_minus_8": true,
+     "kid_is_rfc9679_thumbprint": true,
+     "cwt_claims_1_and_2": true,
+     "payload_deterministic": true,
+     "version_rule": true,
+     "head_32_bytes": true,
+     "format_id": true,
+     "range_0_le_first_le_last": true,
+     "subject_is_full_head": true,
+     "root_recomputed_over_0_to_last_seq": true,
+     "head_is_record_last_seq_hash": true,
+     "matches_head_hex": true,
+     "matches_first_seq": true,
+     "matches_last_seq": true,
+     "matches_subject": true,
+     "matches_issuer": true,
+     "matches_content_type": true,
+     "matches_root_hex": true
+    },
+    "read": {
+     "content_type": "application/vnd.palimpsests.pala1-head-v3+cbor",
+     "issuer": "urn:example:pala-1:reference-emitter",
+     "subject": "pala-1:chain:4d6c75cdf52510fc7c4ea3a5be141249bc386de9e2565ffeface1dce8e2b9d00",
+     "payload_keys": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "version": "v3",
+     "first_seq": 0,
+     "last_seq": 7,
+     "head_hex": "4d6c75cdf52510fc7c4ea3a5be141249bc386de9e2565ffeface1dce8e2b9d00",
+     "root_hex": "12e2b61a253c802be0b6bb2e31392632464529df896f1576b3be77801c9666da",
+     "root_status": "recomputed"
+    }
+   },
+   "without_chain_root_status": "carried",
+   "sha256_matches": true,
+   "length_matches": true
+  },
+  "later": {
+   "with_chain": {
+    "checks": {
+     "cbor": "readable",
+     "whole_input_consumed": true,
+     "tag_18": true,
+     "four_elements": true,
+     "protected_is_bstr": true,
+     "unprotected_empty_map": true,
+     "payload_attached_bstr": true,
+     "signature_64_bytes": true,
+     "signature": true,
+     "signature_s_in_range_rfc8032_5_1_7": true,
+     "protected_header_deterministic": true,
+     "protected_labels_exactly_1_3_4_15": true,
+     "alg_minus_8": true,
+     "kid_is_rfc9679_thumbprint": true,
+     "cwt_claims_1_and_2": true,
+     "payload_deterministic": true,
+     "version_rule": true,
+     "head_32_bytes": true,
+     "format_id": true,
+     "range_0_le_first_le_last": true,
+     "subject_is_full_head": true,
+     "root_recomputed_over_0_to_last_seq": true,
+     "head_is_record_last_seq_hash": true,
+     "matches_head_hex": true,
+     "matches_first_seq": true,
+     "matches_last_seq": true,
+     "matches_subject": true,
+     "matches_issuer": true,
+     "matches_content_type": true,
+     "matches_root_hex": true
+    },
+    "read": {
+     "content_type": "application/vnd.palimpsests.pala1-head-v3+cbor",
+     "issuer": "urn:example:pala-1:reference-emitter",
+     "subject": "pala-1:chain:3a1a3673f50498eb1d1c6f94b983d6c606cd85ed53627b4e4ffe55153c7af813",
+     "payload_keys": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "version": "v3",
+     "first_seq": 8,
+     "last_seq": 11,
+     "head_hex": "3a1a3673f50498eb1d1c6f94b983d6c606cd85ed53627b4e4ffe55153c7af813",
+     "root_hex": "84f1e4f5c4bc75ff5edc304b35b122c3263366ed7e7ca399706a4128e7ecd7d7",
+     "root_status": "recomputed"
+    }
+   },
+   "without_chain_root_status": "carried",
+   "sha256_matches": true,
+   "length_matches": true
+  }
+ },
+ "4_consistency": {
+  "format": true,
+  "verifies_from_statements_roots_only": true,
+  "inputs_used": "the two statements (their payload roots and signatures), the proof document, the public key; no chain",
+  "proof_roots_equal_statement_roots": true,
+  "what_it_establishes": "a relation between the two roots: the 12-record state extends the 8-record state; nothing about either head"
+ },
+ "5_reproduction": {
+  "earlier": {
+   "byte_identical": true,
+   "first_differing_offset": null,
+   "length": 369
+  },
+  "later": {
+   "byte_identical": true,
+   "first_differing_offset": null,
+   "length": 369
+  }
+ },
+ "6_tamper": {
+  "T1_flip_a_root_bit_signature_fails": true,
+  "T2_root_not_derived_rejected_against_chain": true,
+  "T3_root_over_first_to_last_rejected_against_chain": true,
+  "T3_root_over_first_to_last_proof_does_not_verify": true,
+  "T4_root_over_last_seq_records_rejected": true,
+  "T4_root_over_last_seq_plus_2_records_rejected": true,
+  "T5_v3_type_without_key_5_refused_though_signature_verifies": true,
+  "T5_key_5_under_v2_type_refused_though_signature_verifies": true,
+  "T6_drop_last_path_node_fails": true,
+  "T6_swap_roots_fails": true,
+  "T7_without_chain_root_is_carried_not_verified": true
+ },
+ "7_v2_regression": {
+  "signature": true,
+  "version": "v2",
+  "version_rule": true,
+  "no_root": true,
+  "sha256_matches": true,
+  "all_checks": true
+ },
+ "8_adversarial": {
+  "payload_keys_out_of_order": {
+   "signature": true,
+   "payload_deterministic": false,
+   "treatment": "the signature verifies and every value reads; the map is not deterministically encoded (RFC 8949 4.2.1), which a reader that insists on one encoding per value refuses; this reader reports it and keeps the verdict on the values",
+   "as_expected": true
+  },
+  "payload_key_5_duplicated": {
+   "signature": true,
+   "payload_deterministic": false,
+   "root_recomputed": false,
+   "treatment": "refuse: a duplicate key leaves the root the signature covers ambiguous (this reader keeps the last and flags it; a reader keeping the first would recompute true)",
+   "as_expected": true
+  },
+  "key_5_of_31_bytes": {
+   "version_rule": false,
+   "treatment": "refused by the version rule: key 5 is a 32-byte root or the statement is not a v3 statement",
+   "as_expected": true
+  },
+  "key_5_of_33_bytes": {
+   "version_rule": false,
+   "treatment": "refused by the version rule: key 5 is a 32-byte root or the statement is not a v3 statement",
+   "as_expected": true
+  },
+  "first_seq_greater_than_last_seq": {
+   "range": false,
+   "treatment": "refused by the range rule (B3, F4), whatever the signature says",
+   "as_expected": true
+  },
+  "head_of_record_11_with_root_over_0_to_7_without_chain": {
+   "accepted_without_chain": true,
+   "rejected_with_chain": true,
+   "treatment": "without the chain nothing binds key 1 to key 5 (the task's F3): accepted, and the proof between roots never reads a head; with the chain, the head is checked against record last_seq",
+   "as_expected": true
+  }
+ },
+ "ambiguity_log": [
+  {
+   "where": "task, step 2",
+   "reading": "'verify both statements as in the v2 task, steps 1-4': the v2 task's step 4 says the four protected labels sit in ascending order and names no fifth; this reader requires exactly the four (1, 3, 4, 15), so a statement adding a label fails 'protected_labels_exactly_1_3_4_15' rather than being read; the text does not say whether a fifth label is a refusal."
+  },
+  {
+   "where": "task, 'Construction v3'",
+   "reading": "'encoded in ascending order' for the protected header, and 'integer keys in ascending order' for the payload: read as RFC 8949 section 4.2.1 deterministic order (length first, then bytes), which for these keys equals numeric order; a reader that takes numeric order would read the same bytes."
+  },
+  {
+   "where": "task, version rule",
+   "reading": "'a v3 statement exactly 1-5 with a 32-byte key 5': a key 5 that is a byte string of another length is refused under the version rule here, not reported as a malformed root; the text names the length in the version rule, so that is where it fails."
+  },
+  {
+   "where": "task, step 4",
+   "reading": "'using nothing but the two statements, the proof and the public key': the proof document carries first_root and second_root beside the path; this reader takes the roots from the statements and reports whether the document's copies equal them, never using the document's roots for the verification, as consistency-proof.md section 3 asks."
+  },
+  {
+   "where": "RFC 9162 2.1.4.2 vs consistency-proof.md 2",
+   "reading": "first == second with an empty path and equal roots, and first == 0, are settled before the RFC algorithm as the companion text says; RFC 9162's own algorithm fails any empty path, so a reader entering it directly for first == second would refuse a proof the companion accepts (the companion's F1)."
+  },
+  {
+   "where": "RFC 8032 5.1.7",
+   "reading": "the cryptography library's verify is used for the signature; the range check S < L is made explicit beside it, since the v2 history (B2, F-2) records that libraries differ; both statements pass it."
+  },
+  {
+   "where": "task, step 8",
+   "reading": "'payload keys out of order': RFC 9052 does not require deterministic encoding of a payload; the task's construction does. This reader reports non-deterministic encoding as a finding and does not refuse on it alone, so that the verdict on the values stays separate from the verdict on the encoding; a reader that refuses is also defensible, and the text could say which it wants."
+  }
+ ],
+ "wall_clock_seconds": 0.01,
+ "booleans_true": 99,
+ "booleans_total": 99,
+ "booleans_false": []
+}
