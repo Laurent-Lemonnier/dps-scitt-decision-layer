@@ -1,0 +1,14 @@
+{
+ "what": "the receipt is issued again with a different refund reference; it verifies, but the DPS result names the first output_hash",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+ "detail": {
+  "joins": [
+   "the DPS result's evidence names the receipt's output_hash, which commits to the canonical bytes"
+  ]
+ }
+}

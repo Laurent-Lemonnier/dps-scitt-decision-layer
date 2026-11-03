@@ -1,0 +1,1 @@
+the receipt's created_at is moved; metadata_hash not recomputed

@@ -1,0 +1,1 @@
+execution_context carries no decision_record: everything verifies, the pointer is reported absent

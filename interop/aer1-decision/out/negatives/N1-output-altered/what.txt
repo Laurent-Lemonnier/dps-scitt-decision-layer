@@ -1,0 +1,1 @@
+the receipt's outputs say 150.00 EUR; output_hash not recomputed

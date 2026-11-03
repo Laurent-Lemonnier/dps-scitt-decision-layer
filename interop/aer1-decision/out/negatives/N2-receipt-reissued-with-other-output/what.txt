@@ -1,0 +1,1 @@
+the receipt is issued again with a different refund reference; it verifies, but the DPS result names the first output_hash

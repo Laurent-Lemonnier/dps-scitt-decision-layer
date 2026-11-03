@@ -1,0 +1,1 @@
+the receipt is issued at 14:06Z, before the approval and the attempt (hashes recomputed)

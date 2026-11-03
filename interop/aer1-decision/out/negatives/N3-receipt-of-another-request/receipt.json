@@ -1,0 +1,30 @@
+{
+ "id": "d9f0200e-793e-4fec-a4ae-0687e0d92cac",
+ "receipt_schema_version": "0.4",
+ "created_at": "2026-10-28T14:08:11.250Z",
+ "tool": {
+  "name": "payments_refund_create",
+  "version": "1.2.0",
+  "scope": "merchant"
+ },
+ "provenance_class": "OBSERVED VIA GATEWAY",
+ "canonical_byte_length": 578,
+ "canonical_bytes": "eyJjYWxsZXIiOnsiaWQiOiJzaGEyNTY6YTJkOTVhNWIwZDJhOTE1NTk5YWY5YjBlMGRkODQzYWQ3YTRmMTgzYTllZGNkM2Y2OTFhOGZiNTU2NzMwNzUxMiIsInR5cGUiOiJzZXJ2aWNlIn0sImlucHV0cyI6eyJhbW91bnRfbWlub3IiOjEyMDAwLCJjdXJyZW5jeSI6IkVVUiIsImlkZW1wb3RlbmN5X2tleSI6InVybjpleGFtcGxlOnJlZnVuZC1yZXF1ZXN0Om90aGVyIiwib3JkZXJfcmVmIjoidXJuOmV4YW1wbGU6b3JkZXI6ODgxMiIsInJlYXNvbiI6ImR1cGxpY2F0ZSBjaGFyZ2Ugb2YgMjAyNi0xMS0wMiJ9LCJpc3N1ZXJfY2xhaW1zIjp7InByb3ZlbmFuY2VfY2xhc3MiOiJPQlNFUlZFRCBWSUEgR0FURVdBWSJ9LCJvdXRwdXRzIjp7ImFtb3VudF9taW5vciI6MTIwMDAsImN1cnJlbmN5IjoiRVVSIiwiaWRlbXBvdGVuY3lfa2V5IjoidXJuOmV4YW1wbGU6cmVmdW5kLXJlcXVlc3Q6b3RoZXIiLCJyZWZ1bmRfcmVmIjoidXJuOmV4YW1wbGU6cmVmdW5kOlItNTUxMjAiLCJzdGF0dXMiOiJzdWNjZWVkZWQifSwicmVjZWlwdF9zY2hlbWFfdmVyc2lvbiI6IjAuNCIsInRvb2wiOiJwYXltZW50c19yZWZ1bmRfY3JlYXRlIn0=",
+ "output_hash": "sha256:973852ebd2854b0c04297adbc9cc194ba08964fecb937dd769c18c3fe0f49616",
+ "verification_status": "verified",
+ "input_hash": "sha256:a552e245ad33bb3e04983e0490817bea54fceb84e260e94fecf524a451030daf",
+ "metadata_hash": "sha256:e99ec187069dcc0e139000fcc8e23e66f5a084805c036a7d50db2844ced35f50",
+ "execution_context": {
+  "framework": {
+   "name": "example-agent-runtime",
+   "version": "3.1"
+  },
+  "source": "urn:example:payments:merchant-7",
+  "model": null,
+  "decision_record": {
+   "decision_id": "DR-2026-1104",
+   "record_digest": "sha256:3615cd70b71727c65bcafddcbed963f722220769eb6c70266bda291839454b7d",
+   "request_id": "urn:example:refund-request:8c8f658d-6840-532a-994c-0ae50d151d17"
+  }
+ }
+}

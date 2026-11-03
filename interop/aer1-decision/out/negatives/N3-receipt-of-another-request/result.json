@@ -1,0 +1,14 @@
+{
+ "what": "a receipt of the same refund under another idempotency key, cited as this attempt's",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "execution_context_pointer": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding",
+ "detail": {
+  "joins": [
+   "the receipt's recorded idempotency key is the DPS request_id (bound by output_hash)"
+  ]
+ }
+}
