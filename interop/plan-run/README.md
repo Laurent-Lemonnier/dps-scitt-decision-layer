@@ -73,6 +73,9 @@ Three readings this case fixes:
 
 ## The failing cases (`negatives.py`, `out/negatives/summary.json`)
 
+Each case is published as a directory `out/negatives/<case>/` holding the documents the verification ran on, as they were at that moment (`<name>.json`; where the bytes as issued are also an input, `<name>.as-issued.json` beside it), the description (`what.txt`) and, apart from them, the verdicts (`result.json`); `summary.json` gathers the verdicts. Layout adopted on 3 November 2026 after an outside reading found the cases could not be rerun from the published verdicts alone.
+
+
 Each is the valid run changed in one place.
 
 | Case | Change | Caught by | What the check says |

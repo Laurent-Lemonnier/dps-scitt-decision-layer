@@ -43,6 +43,9 @@ Synthetic data and test keys.
 
 ## The failing cases (`negatives.py`, `out/negatives/`)
 
+Each case is published as a directory `out/negatives/<case>/` holding the documents the verification ran on, as they were at that moment (`<name>.json`; where the bytes as issued are also an input, `<name>.as-issued.json` beside it), the description (`what.txt`) and, apart from them, the verdicts (`result.json`); `summary.json` gathers the verdicts. Layout adopted on 3 November 2026 after an outside reading found the cases could not be rerun from the published verdicts alone.
+
+
 | Case | Change | Caught by |
 |---|---|---|
 | N1 | the receipt's outputs say 150.00 EUR, `output_hash` not recomputed | AER-1 (both verifiers): `output_hash does not match sha256(canonical_bytes)` |

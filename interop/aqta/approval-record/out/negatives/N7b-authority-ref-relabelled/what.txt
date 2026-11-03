@@ -1,0 +1,1 @@
+authority_ref changed after signing: the person's signature stays verified, by design; authority_ref is the issuer's statement and only policy_version is under the signature

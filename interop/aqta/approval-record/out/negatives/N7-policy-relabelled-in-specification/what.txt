@@ -1,0 +1,1 @@
+the issuer rewrites the attachment so that the specification names another policy; the person's signature still covers the original digests

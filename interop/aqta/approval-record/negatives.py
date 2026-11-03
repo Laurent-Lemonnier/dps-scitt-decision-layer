@@ -43,6 +43,11 @@ def run_all(att, sig_att, pol, act, pinned_key, policy_held=None, use_issuer_pol
     outcome = next(s for s in att["stages"] if s["stage_id"] == "o1")
     res["policy_checks"] = policy_checks(spec_read, held, sig_att["person_signatures"][0]["signed_at"], attempts[-1]["at"],
                                          outcome["actor_ref"])
+    # the documents this result was computed on, published beside it so that the case can be rerun from the files
+    res["_inputs"] = {"action-binding-attachment.json": att, "signatures-attachment.json": sig_att,
+                      "trust-policy.json": pol, "action-record.json": act,
+                      "action-record-public-key.txt": pinned_key,
+                      "policy-held.json": held.decode("utf-8") if held is not None else None}   # None: no policy held (N5)
     return res
 
 
@@ -171,8 +176,25 @@ cases["N7b-authority-ref-relabelled"] = {"what": "authority_ref changed after si
                                          "result": run_all(att7b, sig_att, policy, action, action["public_key"])}
 
 OUT.mkdir(parents=True, exist_ok=True)
+for stale in OUT.glob("N*.json"):          # the earlier layout: verdicts without documents
+    stale.unlink()
 for name, c in cases.items():
-    (OUT / f"{name}.json").write_text(json.dumps(c, indent=1, ensure_ascii=False))
+    # one directory per case: the documents the verifications ran on (the inputs), the description (what.txt) and,
+    # apart from them, the verdicts (result.json), so that a reader can open the inputs without seeing the verdicts
+    d = OUT / name
+    d.mkdir(parents=True, exist_ok=True)
+    inputs = c["result"].pop("_inputs")
+    for fname, doc in inputs.items():
+        if doc is None:
+            continue
+        if fname.endswith(".json") and not isinstance(doc, str):
+            (d / fname).write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n")
+        else:
+            (d / fname).write_text(doc if doc.endswith("\n") else doc + "\n")
+    (d / "what.txt").write_text(c["what"] + "\n")
+    (d / "result.json").write_text(json.dumps({"what": c["what"], "result": c["result"],
+                                               **({"documented_pass": True} if c.get("documented_pass") else {})},
+                                              indent=1, ensure_ascii=False) + "\n")
 summary = {name: {"what": c["what"], "seal_action_record": c["result"]["seal_action_record"],
                   "dps_action_binding_failed": c["result"]["dps_action_binding_failed"],
                   "dps_person_approval": c["result"]["dps_person_approval"],

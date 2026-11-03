@@ -1,0 +1,1 @@
+the verifier holds no copy of the issuer's policy: what it alone can show is not checked, never verified

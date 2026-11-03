@@ -135,13 +135,24 @@ record.update({
                            "Hold for the month-end freeze: leaves the defect in production.",
                            "Merge without squash: keeps 14 fix-up commits in main's history."],
     "required_inputs_used": ["CI run 9142 (412/412 tests)", "review of the rendered call, view 0517"],
+    "assumptions_depended_on": ["A squash merge of #4521 can be reverted by a single revert of the merge commit.",
+                                "CI run 9142 ran on head 5d1c9f0, the head the merge call names."],
+    "success_criteria": ["INC-2026-118 and INC-2026-121 closed without reopening in the seven days after the merge.",
+                         "No new failure of the duplicate-attachment tests on main in the seven days after the merge."],
+    "re_decision_trigger": "A reopening of INC-2026-118 or INC-2026-121, or a failure of the duplicate-attachment tests on main, within seven days.",
     "affirmation_record": {"timestamp": "2026-10-29T16:12:00Z", "actor_identity": "release-manager-claims",
                            "method": "Ed25519 signature over the DPS person_approval assertion"},
     "accountable_owner_signoff": {"signed_by": "release-manager-claims", "signed_at": "2026-10-29T16:30:00Z"},
     "closed_at": "2026-10-29T16:30:00Z", "record_location": "urn:isoluce:decision-records:DR-2026-0517",
 })
 record["mode_classification_attestation"]["attestation_timestamp"] = "2026-10-29T16:30:00Z"
-record["mode_classification_attestation"]["attestation_text_signed"] = record["mode_classification_attestation"]["attestation_text_signed"].replace("view 0412", "view 0517")
+# The attestation text is this record's own (an outside reading found the template's, DR-2026-0412's, carried over).
+record["mode_classification_attestation"]["attestation_text_signed"] = (
+    "I attest that this decision record was dispatched in mode-1 with an embedded mode-2 summary under charter "
+    "CH-ISOLUCE-RELEASE-1: the release assistant (release-assistant, version 3) proposed the squash merge of pull "
+    "request #4521 at head 5d1c9f0 from CI run 9142; I reviewed the proposed call as the enforcement point rendered "
+    "it in view 0517, weighed the three options recorded here, approved the call as shown, and I am accountable "
+    "for this decision.")
 record["seal_hash"] = "0" * 64
 record["seal_hash"] = sha256(compact(record))
 record_bytes = compact(record)
@@ -306,8 +317,14 @@ DIMENSIONS = ("specification_digests", "specification_statements", "record_state
               "stage_order", "authorisation_recheck", "observed_results", "rationale_provenance")
 binding_ok = all(results["dps_action_binding"][d][0] == "verified" for d in DIMENSIONS) and \
     all(all(c[0] == "verified" for c in spec_checks) for spec_checks in results["dps_action_binding"]["per_spec"])
-results["all_verified"] = (results["seal_action_record"] == "valid" and results["dps_trust_policy"] == "verified"
-                           and results["dps_person_approval"]["status"] == "verified" and binding_ok and all(checks.values()))
+# Three results, kept apart as an outside reading asked: what the two DPS extensions' own checks say, what the checks
+# outside the extensions say (the Seal verifier, the section 8.2 properties, the composition sidecar), and the policy
+# checks a verifier holding the issuer's policy adds. No single member merges them.
+results["dps_extensions_verified"] = (results["dps_trust_policy"] == "verified"
+                                      and results["dps_person_approval"]["status"] == "verified" and binding_ok)
+results["outside_the_extensions_verified"] = results["seal_action_record"] == "valid" and all(checks.values())
+results["policy_checks_verified"] = all(v == "verified" for v in pc.values())
 (out / "summary.json").write_text(json.dumps(results, indent=1, ensure_ascii=False))
 print(json.dumps(results, indent=1, ensure_ascii=False))
-sys.exit(0 if results["all_verified"] else 1)
+sys.exit(0 if (results["dps_extensions_verified"] and results["outside_the_extensions_verified"]
+               and results["policy_checks_verified"]) else 1)

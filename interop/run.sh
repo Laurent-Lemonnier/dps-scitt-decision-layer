@@ -33,7 +33,7 @@ if [ ! -d aqta/approval-record/dps-standard ]; then
 fi
 git -C aqta/approval-record/dps-standard checkout --quiet "$DPS_STANDARD_COMMIT"
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 aqta/approval-record/build.py > aqta/approval-record/out/build-ci.log
-grep -q '"all_verified": true' aqta/approval-record/out/build-ci.log || { echo "approval record: not all verified"; tail -20 aqta/approval-record/out/build-ci.log; exit 1; }
+grep -q '"dps_extensions_verified": true' aqta/approval-record/out/build-ci.log && grep -q '"outside_the_extensions_verified": true' aqta/approval-record/out/build-ci.log && grep -q '"policy_checks_verified": true' aqta/approval-record/out/build-ci.log || { echo "approval record: not all verified"; tail -20 aqta/approval-record/out/build-ci.log; exit 1; }
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 aqta/approval-record/negatives.py > aqta/approval-record/out/negatives-ci.log || { echo "approval record: a negative case did not fail where it should"; tail -30 aqta/approval-record/out/negatives-ci.log; exit 1; }
 echo "# action record valid under the Seal text; DPS action binding and person approval verified; 10 Section 8.2 checks true; 8 failing cases (N1-N7) fail where they should; N7b (authority_ref relabelled) verifies by design"
 

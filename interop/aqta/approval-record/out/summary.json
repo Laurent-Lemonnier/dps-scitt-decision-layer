@@ -95,5 +95,7 @@
   "rendering: the view the approver was shown is derived from the canonical args and its digest is signed": true,
   "reference: composition.approval_record.sha256 == sha256(RFC 8785 of the assertion as issued)": true
  },
- "all_verified": true
+ "dps_extensions_verified": true,
+ "outside_the_extensions_verified": true,
+ "policy_checks_verified": true
 }

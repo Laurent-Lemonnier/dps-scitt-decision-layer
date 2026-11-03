@@ -129,12 +129,37 @@ def main():
         ok = ok and expected
         summary[name] = {"what": what, "caught_by": sorted(f), "expected_place": where, "as_expected": expected,
                          "execution_context_pointer": r["execution_context_pointer"], "detail": f}
-        (out / f"{name}.json").write_text(json.dumps(summary[name], ensure_ascii=False, indent=1) + "\n")
+        publish(out / name, art, what, summary[name])
         print(("ok   " if expected else "FAIL ") + f"{name}: caught by {', '.join(sorted(f)) or 'nothing'}"
               + ("" if f else f"; pointer {r['execution_context_pointer'].split(':')[0]}"))
+    for stale in out.glob("N*.json"):          # the earlier layout: verdicts without the documents
+        stale.unlink()
     (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1) + "\n")
     ok = metadata_probes(out) and ok
     return 0 if ok else 1
+
+
+def publish(d, art, what, entry):
+    """One directory per case: the documents the verification ran on, as they were at that moment, the description
+    (what.txt) and, apart from them, the verdicts (result.json). An outside reading (3 November 2026) could not rerun
+    the cases from the published verdicts alone."""
+    d.mkdir(parents=True, exist_ok=True)
+    as_text = lambda o: o.decode("utf-8") if isinstance(o, (bytes, bytearray)) else str(o)
+    for k, v in art.items():
+        if k.endswith("_bytes"):
+            continue
+        if isinstance(v, (dict, list)):
+            (d / f"{k}.json").write_text(json.dumps(v, ensure_ascii=False, indent=1, default=as_text) + "\n")
+            b = art.get(k + "_bytes")
+            compact = getattr(B, "compact", None)
+            if isinstance(b, (bytes, bytearray)) and (compact is None or compact(v) != bytes(b)):
+                (d / f"{k}.as-issued.json").write_bytes(b)
+        elif isinstance(v, (bytes, bytearray)):
+            (d / f"{k}.bin").write_bytes(v)
+        else:
+            (d / f"{k}.txt").write_text(str(v) + "\n")
+    (d / "what.txt").write_text(what + "\n")
+    (d / "result.json").write_text(json.dumps(entry, ensure_ascii=False, indent=1) + "\n")
 
 
 def metadata_probes(out):

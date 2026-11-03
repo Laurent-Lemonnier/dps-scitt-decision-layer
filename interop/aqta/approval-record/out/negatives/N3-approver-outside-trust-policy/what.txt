@@ -1,0 +1,1 @@
+the approval is a valid Ed25519 signature by a key (someone-else-key-1) that the verifier's trust policy does not list

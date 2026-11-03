@@ -44,11 +44,20 @@ policy's age limit and the specification's `valid_until`, checked at the recheck
 - The ten cross-checks of §8.2, all true: exact values; single use; expiry (age limit and `valid_until`, both signed);
   policy version (the digest of the policy held); independence; designated approver (named by the signed policy, the
   key mapped to that person by the verifier's trust policy); rendering from the canonical action; the reference digest.
+- Three results, kept apart (an outside reading, 3 November 2026, objected to one member merging them):
+  `dps_extensions_verified` (the two extensions' own checks: trust policy, person approval, every binding dimension),
+  `outside_the_extensions_verified` (the Seal verifier and the §8.2 properties, which neither extension defines) and
+  `policy_checks_verified` (what a verifier holding the issuer's policy adds). The build exits non-zero unless all three.
 
 ## The failing cases (`negatives.py`)
 
-Each is the valid example changed in one place, run through the same verifications; `out/negatives/summary.json`
-records where it fails and what the check says. The Seal action record itself stays valid in every case: it attests
+Each is the valid example changed in one place, run through the same verifications. Each case is published as a
+directory `out/negatives/<case>/` holding the documents the verifications ran on (`action-binding-attachment.json`,
+`signatures-attachment.json`, `trust-policy.json`, `action-record.json`, its pinned public key and, where one is
+held, `policy-held.json`), the description (`what.txt`) and, apart from them, the verdicts (`result.json`), so that
+a reader can rerun a case from the files, or open its inputs without seeing its expected result (the same outside
+reading had to rebuild the cases from their descriptions). `out/negatives/summary.json`
+records where each fails and what the check says. The Seal action record itself stays valid in every case: it attests
 what the enforcement point recorded, and the failure is found on the approval side, which is the point. N1–N3b were
 asked for by the Seal author; N4–N7b are the cases proposed on issue 93, which the Standard's Steward agreed fit.
 

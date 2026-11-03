@@ -56,6 +56,9 @@ evidence closed at that point, two worlds compatible with it that disagree, all 
 
 ## The failing cases (`negatives.py`, `out/negatives/summary.json`)
 
+Each case is published as a directory `out/negatives/<case>/` holding the documents the verification ran on, as they were at that moment (`<name>.json`; where the bytes as issued are also an input, `<name>.as-issued.json` beside it), the description (`what.txt`) and, apart from them, the verdicts (`result.json`); `summary.json` gathers the verdicts. Layout adopted on 3 November 2026 after an outside reading found the cases could not be rerun from the published verdicts alone.
+
+
 | Case | Change | Caught by |
 |---|---|---|
 | N15 | the steps after the checkpoint cite the plan's approval only | join 13 |
