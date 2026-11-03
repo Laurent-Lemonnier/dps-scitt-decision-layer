@@ -1,0 +1,682 @@
+[
+ {
+  "v": "action-1",
+  "action_id": "f519a9d4-ced2-5df5-a2c4-2d77fe0a8351",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "c95c846eda36ed0a7ee9912c255f60c18d21dc10603165f57decdcaa61dca466",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:30:10.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "BPtZZPDahItzlwL16zshNVG4dmUScKgPWV2EPm14WzadHs371JBPPc1Z_NXqq85xpzvwNp6m1YS7vkHIGaWABw"
+ },
+ {
+  "v": "action-1",
+  "action_id": "7867a33f-2fb9-5311-883c-4ac5ecf7c050",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "a0affdfc9655e8df2dad6a357d82d92e48cc306fc6c58dc9bd76f4015aef2860",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:30:50.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "iy8glUp7ixqQ2CBj3-ErcVSpcm_L8Guj5oDgv9jvC8kL5kmmt4X34ED_O4Ad9vjqazls0jq7uyo91qIjdtwzBA"
+ },
+ {
+  "v": "action-1",
+  "action_id": "eae7214e-0bc1-5885-a423-d221d6b8642b",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "0d870986c33b036b634e442c4ef0a70a230a798a1bcc5ef82830e2bb57d0e21a",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:31:30.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "QLLVhm-JXvD6ZDGYJ_6pGqBYem_DTa5c50ePM-0FKhVgdOD3B37WHHIGYLbzDtYAw445kglnEJ79hIJfKSWsDw"
+ },
+ {
+  "v": "action-1",
+  "action_id": "01591e3d-7e14-5213-90d5-9338e379c8af",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "2bdf5239bc3ba81c8a15c6970d5299de0db3425a5fb2d1e75d8ec478f8dd861d",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:32:10.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "x9CLAqqyeQMb1TZtKpuD7Xn72GomITqp-fFs3UKcvzHwq8OXvw9SSuJ9Tq0q6DiXCnXIzZwIv4LKolvr07JMDQ"
+ },
+ {
+  "v": "action-1",
+  "action_id": "54d28a7a-f3a1-5fd7-9698-4c324f9b3a00",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "b01ec3ff971de03cb09ec5a17af6f53b8821f2860d734ed0b783ace15af89600",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:32:50.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "wOag1z_ZSKpBWQ0aGu6z5wqeemJSU8l9YmrgNGRDNIYD6X7ptkTCAvSjT9K4cy5vH9J_ARGcy2EBFocMFXVaAA"
+ },
+ {
+  "v": "action-1",
+  "action_id": "85551feb-ae0f-5146-86ba-a7e2764f0183",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "e75f09dce1faa084fd50632849060161f08171502829503d4d01b6986ab4eb2c",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:33:30.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "JwpYQ2ImDAdKRatBUd3eVy_U20NMsDAPWlk0GfzKTlqP7djf5Q7tyLgmC4qo8gUerShmkqqa2icyAd0rcgdGBw"
+ },
+ {
+  "v": "action-1",
+  "action_id": "91dc2d4a-76a8-576e-aaca-c69ccd53dc86",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "d0f39770daa6bc723bbf6caf3bdca39ec329310fcf91892f00436178ba960004",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:34:10.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "DmPgDm6CKpTEh29C5VwzPwsESgLOwYgrO5u02s5CByKgpdr7F3HIzsoy0REXM47FoyjH7ffwGpR1CRBSKiwADA"
+ },
+ {
+  "v": "action-1",
+  "action_id": "8dbfe116-0576-5bd9-b348-b01ec2b0d680",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "33b7c8031a4ad971b5ff3fc95c736453e3e0f75f194899293c6b3cff48374091",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:34:50.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "m-C0gMW7N85t2FDG9AljObEqg2y6YQvfXv5udb0upbH6mXwJI_r7VDN6YczjJTj_K2Qs5M8ZDvfg4KU4Pv9sDw"
+ },
+ {
+  "v": "action-1",
+  "action_id": "b7746053-7a7e-5edf-8db5-23adc7bd99da",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "40af615c725a2083a77f260dc751b9a19102483aedf8175a8df642a67fa59bed",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:35:30.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "lbpQKogoXGaXK24ns6zM7srKe12GOsDUXXHNMxL-4Um7BuTUVYG5aOY4LfLqNZHZScMgQG-F7ioeIwIIcVUEBQ"
+ },
+ {
+  "v": "action-1",
+  "action_id": "d0ab727d-52b5-566b-9e14-888d721f889f",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "f9ce102a8d60287768aea03c9f2f22f3c79feeda3c7975052714a30e7dbe4296",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:36:10.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "4qBVPauT87Qbu4i4WYQu7SCb6UXIvjar1ibrtugj7KmXovIUPviCP6FaNCiLkAhuOcAv5ZVTs5hilH6KfscYCA"
+ },
+ {
+  "v": "action-1",
+  "action_id": "1ce6c87f-8bc1-5f9d-8631-7610adca795e",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "9a864448a2f66f51ed733aa0f5509b17731d7825931f9f8a25007ed73d545a87",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:36:50.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "m0HpK_dktglubl_IcU947uHD7FAc_1cZFaP0ZL4NclAVa0WStXkEkIaVI-_s867ZP0zW3GZhLvzadVn7_QCKDQ"
+ },
+ {
+  "v": "action-1",
+  "action_id": "6903bab1-0bf2-5aca-92be-97fdac559160",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "460cc929e63c64c177e9528a141787a04280f5296e96e9e73f2a1537936065d1",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:37:30.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "5mS3vHUhvHr6yvfxoIs-JT1XrIS3qoz_EYdRCwyXbp6A54D4aGPOZ4xEdJ8WWt8RbX6GqGEZh75bMdN5-BqkBg"
+ },
+ {
+  "v": "action-1",
+  "action_id": "ceee3413-16ed-525f-946f-c4797f110b34",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "3badaaaafbff6c3d30c4b8f22b36203eb8417ee40f154bf423b7472334e06eb3",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:38:10.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "nMNA_Hg35c9XgU58XEWc9TIsgyHnRzm2jbcDArbtkH_azJXRR3uPCI1HkMQ5YGc9sbkpE9tKf-okvQzXXk8kCw"
+ },
+ {
+  "v": "action-1",
+  "action_id": "d640a8fb-6ff5-52a2-9ce8-783267d701ee",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "775281233f843b829d65ef586d863502505dc245958685685c3af7f5e0c03ef5",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:38:50.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "olMnkWPFDgU7kyDx7UKssW7vyYr0lHdmwxqz1SG8JfIIDyMAv9MEskcP4Jq-WNq3O1qn4kw3efMw-S6V1fFUDQ"
+ },
+ {
+  "v": "action-1",
+  "action_id": "3bebc32e-8e4b-5812-9885-306410c3cc60",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "aa23d86305162c214fc75b9b5681eaa3a1d79bd92f16b67b29620db3c0cc9a4a",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:39:30.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "i5U5NqVxldd5TDods-L9eputRIu7ZuPuZFVQGI4W_7He7aeojF1EW_l5UbnDNBDZtMnugjK3wPLOgTztmGcKAQ"
+ },
+ {
+  "v": "action-1",
+  "action_id": "20e4db46-e2ed-555d-b341-7976a942508f",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "e3223ac0ed0a842ec19f0d60312fbaaf4e2fd9693935b827603909a036d9f459",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:40:10.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "JGz3GtLTOjKyomKX6yJ6moKgEKFM2xIrat3pbLKn--moremwC5hjajuvRxwQfWNMHJeFa29GzT7-_5veSLIYAw"
+ },
+ {
+  "v": "action-1",
+  "action_id": "80189a76-faef-5273-ac91-78ce7d9b553f",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "46d76ee29ce23db4ae32cd22caa4f15baf845b2792f2440703df1b355e35a472",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:40:50.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "mngaVt0AkoZi001EB4nAR8pqdjrZJm2AJ37W08FfcbMVLzZUtEQlGxiU0SXW82xZBCIisuOiHumUrdw2zrfLBw"
+ },
+ {
+  "v": "action-1",
+  "action_id": "3fee5a81-80ab-53ed-8525-e0ea30ea3f56",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "769f2d742b8ca48ffc3d6d6fcc057b7a82a8548fd3e914bcdacfbc708d8c46a5",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:41:30.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "FkZ0tqyQVQk4tnGShnh-n3knUrSo9fLFozfDE5S8sCsNFJ3B1PwAWXTKJ8h086VyC6-nWfARWNbTsCza5r0dBA"
+ },
+ {
+  "v": "action-1",
+  "action_id": "b62ad9e1-16a8-5fee-aa0f-14ab9b8d0895",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "db969a012f74e83d98bf46a7088edf49b39c2ddbe2ff4a2fc17d0cdbcdc5ef9d",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:42:10.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "Xm0qRRyLAF3I1WaQKpremgKZAzPbQdnqolkZMPA2k6WacaHg83l2q-5-NJbqLceMautGN6_zf2gUy2wp5xI_BQ"
+ },
+ {
+  "v": "action-1",
+  "action_id": "6c7a22ca-1038-56db-b989-a722e52a3d52",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.reaction.like",
+  "args_hash": "4eb840b47acc6622c638614586fc90f912646278e04a8753b353d5b06cb4dfba",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:42:50.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "mc9f5OvIk0fdQ46R7vF6KGQiPAZQF2jva68EdA6hgM3dSAcS7RVvBQ11ffokFpsukKIScCQrJYyipDcAMkXWDg"
+ },
+ {
+  "v": "action-1",
+  "action_id": "4ed64c99-2211-5887-8403-d7af3fe194ca",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.invitation.send",
+  "args_hash": "4bd22d091f128b7941652a50246de2d0483e7c54e4d9fe1fa9a121b2b76d8e9e",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:43:30.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "xrawgVsI9A9pM6B4_Iue0WR0WPpq_y_kZuUq8Zd86R7_E7j-2ebTWYATZsa99YeOTRu1JqKBUQMrcPEw_pUWAw"
+ },
+ {
+  "v": "action-1",
+  "action_id": "e17ea9ed-3ced-5e96-91a1-f6a0ef1cca4b",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.invitation.send",
+  "args_hash": "23b4494803e84053d82f108f81255f7e32e7493018c26a6f0b9b7469af99a725",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:44:10.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "E_SChg_ItkKD6cEUdioHwW-HNIVOLN8Tt-GLEut4qRfuxdormf6NMRxmeQzY6blcHNMFX8o20aiuQKr-9DaZBw"
+ },
+ {
+  "v": "action-1",
+  "action_id": "6a7994d1-fbe1-5f08-be6d-95cfd85c6909",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.invitation.send",
+  "args_hash": "bb70c9a1aa1761707d15c4b5cfb6742b83736cd960c9a063ba0bba0b11158bc4",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:44:50.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "VDTyejof-vN8JmbUAGUj7P8iu7eNO5W3NbVVS1MX7Ic2697TvJ68RcB8kiMkRjlI8TxzXTnKag68XWTvfZpxDA"
+ },
+ {
+  "v": "action-1",
+  "action_id": "c632c20a-7e30-5d33-888d-b885a96bf132",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.invitation.send",
+  "args_hash": "a9199f76606b579084813a852f14484f76ea84ba1b8011dba06e6c6c9b8066aa",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:45:30.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "R2pnQMdJs687t-xLtZlR0M7RNsyKFBhondlKNt80KTYd9C9AXM_VhUjekkCmPf-xajWSwHlgLhhEJPCWljEZBQ"
+ },
+ {
+  "v": "action-1",
+  "action_id": "41314a0a-2199-5764-9e12-2cb3902ca96e",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.invitation.send",
+  "args_hash": "a71e4a8622dac09a65b3da5447bd8ea01b53833a7f05f99bcfe3ad1b624f87b1",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:46:10.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "ghEzBaDDPk9xcMi4YBscBAHCCFW2mg7iGXJGMkeGSv_FDxdQ9ebCJSXW-ILfL8LejrPBAT7Jh0dBy5Yg4T83AA"
+ },
+ {
+  "v": "action-1",
+  "action_id": "bd30eaca-f77e-5c85-ac88-5bd3c6d078b8",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.comment.create",
+  "args_hash": "c1da929ded95df734f32b52c389c9f26d353a026de31c66a1bc4d872a76a4283",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:46:50.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "CwCCipv0uwGPw8csKN3Dps0YcCvvuqHaXkWI5vG4tl75AgtmiuTcVlan1E8kwuJZrQP2GQQbhdPE48AWImZGDg"
+ },
+ {
+  "v": "action-1",
+  "action_id": "c9a0eb5d-6cee-5a1a-9a93-3fea0e1c4a95",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.comment.create",
+  "args_hash": "f007d56b1d66912da4567db6a4e5cae1377efabe4942a759a0c05befff220ea6",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:47:30.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "ukNnYPiPzx4Vg2HapV_KnvKznSthN0srbIwxVNwj4h5L0j8hXyh6k2b1CsLPPhULu-144BwLUKcN_FlI7NMFCg"
+ },
+ {
+  "v": "action-1",
+  "action_id": "1c294284-51d0-51d4-b831-c63c12ee3da9",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.comment.create",
+  "args_hash": "a3177e949f96edc312ab1d62ecee3c9ffaed5a852e208a32cabfff4578183fed",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:48:10.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "_hO_CqiATrzD18ymL2c2TgDn9DSlE7ah2ZP6WSsTklG6eSynxXUu8breAQLrIDO3QxF8liHBwc23B7uqFhN6BQ"
+ },
+ {
+  "v": "action-1",
+  "action_id": "edf7c56a-3b97-591a-a3c2-59f6858c01e2",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.comment.create",
+  "args_hash": "c6754e4357ac30aa6148b27234efb5ecd713a7f256c2c95a32d6dbeade4758b9",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:48:50.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "pkCkQvudmt6QtDTVuJLIw_FGBbHyqrJu8lPsXTpDKeAD7FTMURvKgEzCghWvbVTdRQ293mOIQophukLOZCTFBw"
+ },
+ {
+  "v": "action-1",
+  "action_id": "8ee5f8e2-2d42-54b2-8039-8b356c9d3b9f",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.comment.create",
+  "args_hash": "facffcf62c7a6e3d37044d334b6e553d9a2abc73082280939bc473ffdcf343d9",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:49:30.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "EYXERFFU0QeIPKctk-gAVN_Vv8qlnXYFNqACltBwtwDsu9kwklc0VLkQSsQgyH_jXE8GnuJiEwKHW_8Jlx3VDQ"
+ },
+ {
+  "v": "action-1",
+  "action_id": "65ecb939-cef2-5016-a293-81418c45c23c",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.comment.create",
+  "args_hash": "fc4e136082592a16c827d2e31daae0cf98397060ee8c95cf56786718678c9110",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:50:10.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "7NxfmkcGC3B5hNKA6nuKI6OVnf0_p-XEPb_hHBOmIfktEBXZCtjmsmA1Gl8hvhnQMcY5D6kihM-tsyQ8LNxQAw"
+ },
+ {
+  "v": "action-1",
+  "action_id": "03e7d876-64b4-5896-9712-931f2b5eb18e",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.comment.create",
+  "args_hash": "30b91fc77d0b46a5b5d5ad1b3dd4b7e15593b36b11033ea0719c4de341c0c692",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:50:50.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "MBdJMGJnK4-Peyc1OnAfjMXquebo0MR0LWrk2dJlxbhYEVb7adIoDM79RBw3VpzOdc2YJE4ekFTIQUhUF4wcAA"
+ },
+ {
+  "v": "action-1",
+  "action_id": "8c6e432b-ad3b-5cf0-80f1-d92da5cde29e",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.comment.create",
+  "args_hash": "f6c98352d3a817208789c332206c45201f7c71e899fa54e4b95604a0e3bb0dbc",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:51:30.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "7Lvt2OT-CycdowSOA2rv6n0zdGBJL6jewEw0KtuYaJcxTmyF5hIxFAjzmwiwJFraBgyo1BAcli0hz418xHY6Bg"
+ },
+ {
+  "v": "action-1",
+  "action_id": "cb7c250e-fc1f-53fc-b9fe-a7d0ff840dff",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.comment.create",
+  "args_hash": "e023fbe97969f394d1fbb499b7c16c572945bab328817cd06bec63895fad035e",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:52:10.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "EyTOmlyVE363B_M5UNn4EtoyoVH4Og8_pvWccXPo0HYTvrZfIjQdstCl9AlhTpaWMt5SYAG40ByJ5WE7gOYTDQ"
+ },
+ {
+  "v": "action-1",
+  "action_id": "da4781d0-d6ab-5040-93ee-5b5f21248916",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.comment.create",
+  "args_hash": "450b18a04ffa402afb4a0f9e895ae881f9e388e5b49807d8fa1a03ebb9e3ff63",
+  "outcome": "ALLOWED",
+  "policy_applied": [
+   "social_engagement_routine"
+  ],
+  "timestamp": "2026-11-05T10:52:50.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "UAV9uKryqbPCAHX2zUEQQr1t-uaZoiGHNiJmKKRNPGp-QwTkX4KTeRmmgRvf4PCMAOd3dSgPOf5yz09oMrbsDg"
+ },
+ {
+  "v": "action-1",
+  "action_id": "b6f50502-5fc5-5e9d-ba79-71131fd628a2",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.invitation.send",
+  "args_hash": "469e30f41beb441baa09d48f7010df140f006359cb2074fcc515256ebbb77ec6",
+  "outcome": "BLOCKED",
+  "policy_applied": [
+   "R-DECLINED"
+  ],
+  "timestamp": "2026-11-05T09:59:30.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "rudPwBhDSc9TRlC4mWF29LPn8y2KkE2jvxDRev9QynBszj8j7hoGh5EDpet6HwmTORBhQv_mz_F_ZJFBCge_DA"
+ },
+ {
+  "v": "action-1",
+  "action_id": "4096af93-681a-5b68-a732-4dc772a1dd36",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.comment.create",
+  "args_hash": "7706e3a874a5d706a00e0965880023bf3856603797a9c39992c05ed8de4a9341",
+  "outcome": "BLOCKED",
+  "policy_applied": [
+   "R-NOT-READ"
+  ],
+  "timestamp": "2026-11-05T09:59:31.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "CeIfmSOJdzCNaJcNLRyZvB0WEG2g2gqsOIgRs3K4Q-ATKz5k7R9Ui5JajXY5yUjFWEmWtCuH4V93_kW3LiM0Bg"
+ },
+ {
+  "v": "action-1",
+  "action_id": "8254f027-4e36-54f0-a774-1b28ada65df1",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.invitation.send",
+  "args_hash": "b02145a23ea2cff82aee8f22c62c70d3672af81f54191ab6b98bd7f067873e03",
+  "outcome": "BLOCKED",
+  "policy_applied": [
+   "R-RELATION"
+  ],
+  "timestamp": "2026-11-05T09:59:32.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "hW_NLfrjHqRDR_fAijUWPBBlmkozDam4h7BUi_cu1zxdGjWpcYPsiOXjS2xHSnXFS8jgNHQGx4l5goyYKeygBg"
+ },
+ {
+  "v": "action-1",
+  "action_id": "9f89115b-923b-56f8-b3de-9b2d250b5e6b",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.invitation.send",
+  "args_hash": "8efe905398369a27f56ab6662456faaf247988304c4dde2e02456560ad108c5f",
+  "outcome": "BLOCKED",
+  "policy_applied": [
+   "R-ROLE-UNCONFIRMED"
+  ],
+  "timestamp": "2026-11-05T09:59:33.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "FWPRUfIJWmY5AGpy0gviGkso-Mwp_W1qec4J8vHbXayGP-YMRQWaRNbVx5FfkueYuUsXk6oaUIzgZVCiOpztCQ"
+ },
+ {
+  "v": "action-1",
+  "action_id": "ed1fa8ef-a3f7-5759-8e50-1009af6d4ed7",
+  "org_id": "org-example",
+  "session_id": "pass-2026-11-05-a",
+  "intent_hash": "",
+  "agent": "engagement-assistant/2",
+  "tool": "social.invitation.send",
+  "args_hash": "76af72a162854d57d07f452d1c6e680ac8fbe4b1feeb8d0418a0e10cc5f93738",
+  "outcome": "BLOCKED",
+  "policy_applied": [
+   "R-ROLE-UNCONFIRMED"
+  ],
+  "timestamp": "2026-11-05T09:59:34.000Z",
+  "public_key": "iVveKUtOR5UKl8aY3fOx6uzN7ZVYD-O5hjXQlQ4U89k",
+  "signature": "c-1-NpwJ3nK7X-FfFuYxQAJbQNDoCkm0TczPnAWKxo6gIEdS1O0ZojgHFiI1C0VwoGH3jzuGEr6xRjnJ9ivlDQ"
+ }
+]
