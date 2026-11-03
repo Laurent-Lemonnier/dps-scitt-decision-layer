@@ -1,0 +1,13 @@
+{
+ "what": "the two witness worlds give the claim the same value: a determined claim presented as undetermined",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "detail": {
+  "joins": [
+   "the adjudication is undecided on its own terms: its claim, evidence, witness and limitations digests recompute from the objects beside it, both witnesses are compatible with the closed evidence under the fixture's relation, and they give the claim different values"
+  ]
+ }
+}

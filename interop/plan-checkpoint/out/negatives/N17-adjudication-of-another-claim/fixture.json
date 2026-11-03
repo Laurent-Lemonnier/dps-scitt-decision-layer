@@ -1,0 +1,38 @@
+{
+ "claim": {
+  "claim": "the client has no match on the restricted-parties list",
+  "client_ref": "urn:example:client:C-4471",
+  "list_ref": "urn:example:screening:list:2026-11-05"
+ },
+ "evidence": [
+  {
+   "source": "urn:example:screening:provider-a",
+   "result": "possible match",
+   "score_percent": 61,
+   "at": "2026-11-06T09:30:22Z"
+  },
+  {
+   "source": "urn:example:screening:provider-b",
+   "result": "no data",
+   "at": "2026-11-06T09:30:23Z"
+  }
+ ],
+ "witnesses": [
+  {
+   "restricted_match": true,
+   "provider_a_reads": "true positive",
+   "provider_b_reads": "coverage gap"
+  },
+  {
+   "restricted_match": false,
+   "provider_a_reads": "false positive",
+   "provider_b_reads": "coverage gap"
+  }
+ ],
+ "executed_instance": {
+  "source": "draft-nestorov-scitt-p10-underdetermination-02, Appendix B",
+  "log_identity_digest": "6a510bcf3a122ae9af2714939d60a6a4e997ff9751836024dd480ebd60cd37c9",
+  "adjudication_leaf_index": 7,
+  "checkpoint_size": 8
+ }
+}

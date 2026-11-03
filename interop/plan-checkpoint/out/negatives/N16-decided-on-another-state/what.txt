@@ -1,0 +1,1 @@
+the checkpoint decision names the context state before step 0, not the state after it

@@ -1,0 +1,154 @@
+[
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:example:plan-run:2026-11-06-0471:step:0",
+  "action_type": "decide",
+  "operator": "example broker runtime",
+  "developer": "example",
+  "timestamp": "2026-11-06T09:30:12Z",
+  "domain": "client_onboarding",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:onboarding-plans#2026-11-01#o0",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.drive_document_create",
+   "request_digest": "81bd7004313f1392816b028e93327614610769bccea4a2939a0e91cf47aa9594",
+   "response_digest": "cf24823761067077ac40b4a6ef8b0a14a8a0f0660d1bd0bd4570fdee9170fdea",
+   "external_ref": "urn:example:drive:document:D-88213",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "d3ee38245e223c89c41e23ddfd7eaa45624a0601671b44f019cbaaf2922c4d92",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "net.isoluce.plan_run_context",
+    "digest_alg": "SHA-256",
+    "digest": "40be6cb34d8c0af449da7b31b35faeac61798d70ae09c1ac667149727ef0776e",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "98e1f49347df69d90ea7652fca11922d309c8a51ec9d84bd810df5390d8ee685",
+    "citation_purpose": "ran_under"
+   }
+  ],
+  "capsule_id": "54e732cd67ee68f00efc93067eae4a166056644fdcea0b4b58b4ecdbe2945d76"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:example:plan-run:2026-11-06-0471:step:1",
+  "action_type": "decide",
+  "operator": "example broker runtime",
+  "developer": "example",
+  "timestamp": "2026-11-06T09:36:40Z",
+  "domain": "client_onboarding",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:onboarding-plans#2026-11-01#o0",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.crm_client_create",
+   "request_digest": "8e4ab261a895546786e66eaa55bdc2290cf1b1222e63dc7080c505e296ad7d7c",
+   "response_digest": "ed3bac706eb14251457574882a67914759e05fc22578c3f6f5b950bd54e5443e",
+   "external_ref": "urn:example:crm:client:R-30417",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "d3ee38245e223c89c41e23ddfd7eaa45624a0601671b44f019cbaaf2922c4d92",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "net.isoluce.plan_run_context",
+    "digest_alg": "SHA-256",
+    "digest": "221973a2a23b65b848025c6dce58762b4c9d197756344e52020577a110114545",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "98e1f49347df69d90ea7652fca11922d309c8a51ec9d84bd810df5390d8ee685",
+    "citation_purpose": "ran_under"
+   }
+  ],
+  "chain": {
+   "parent_capsule_id": "54e732cd67ee68f00efc93067eae4a166056644fdcea0b4b58b4ecdbe2945d76",
+   "relation": "follows"
+  },
+  "capsule_id": "69ce039303a8c81954436b6c225b17bc6d29666fe7a4e3b5576d2e93b2cb8fc7"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:example:plan-run:2026-11-06-0471:step:2",
+  "action_type": "decide",
+  "operator": "example broker runtime",
+  "developer": "example",
+  "timestamp": "2026-11-06T09:37:05Z",
+  "domain": "client_onboarding",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:onboarding-plans#2026-11-01#o0",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.chat_message_send",
+   "request_digest": "20d411225f0b653e5009fe8fde6601d7d2d42067d09ef45864dc7e66ee19eae0",
+   "response_digest": "9a10de449109c23bcbcc3bed07c55f379bc27ed13ffe1023742331424e1f2eb5",
+   "external_ref": "urn:example:chat:message:M-551902",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "d3ee38245e223c89c41e23ddfd7eaa45624a0601671b44f019cbaaf2922c4d92",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "net.isoluce.plan_run_context",
+    "digest_alg": "SHA-256",
+    "digest": "8acfc856af03c71cfe28854c9c2f436304be7625b108030ee0f2fc86149ce27f",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "98e1f49347df69d90ea7652fca11922d309c8a51ec9d84bd810df5390d8ee685",
+    "citation_purpose": "ran_under"
+   }
+  ],
+  "chain": {
+   "parent_capsule_id": "69ce039303a8c81954436b6c225b17bc6d29666fe7a4e3b5576d2e93b2cb8fc7",
+   "relation": "follows"
+  },
+  "capsule_id": "c58dab51bc34726361df527b91cc1f04be6cffc64626971f68e03f603c373422"
+ }
+]

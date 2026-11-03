@@ -1,0 +1,13 @@
+{
+ "what": "the checkpoint decision is approved after the CRM record was created",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "detail": {
+  "joins": [
+   "the checkpoint decision was approved after step 0's capsule and before step 1's, and the resumption was requested after the approval (the issuer's times)"
+  ]
+ }
+}

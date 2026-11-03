@@ -1,0 +1,250 @@
+{
+ "adjudication": {
+  "shape_of": "draft-nestorov-scitt-p10-underdetermination-02, Section 9",
+  "synthetic": true,
+  "instance_commitment_ref": "urn:example:p10:instance:screening-C-4471",
+  "profile_commitment_ref": "urn:example:p10:profile:two-source-screening-v0",
+  "evidence_admission_refs": [
+   "urn:example:p10:admission:0",
+   "urn:example:p10:admission:1"
+  ],
+  "evidence_closure_ref": "urn:example:p10:closure:screening-C-4471",
+  "preclosure_transcript_digest": "04cd1af016b9ece3c9349515b4b1055ce8fd409f74e777868acfb768524cd0fd",
+  "instance_subject": "p10s2sub:f1b3c114a94a0616",
+  "log_identity_digest": "7ab0debe387e5f1603f8c08ba380dd12cc922f5ff184794f5ddc7a14e3e714f6",
+  "claim_digest": "f1b3c114a94a06169b6070cb87989d161693263cb36a16c98a3c9929d9adf8e1",
+  "evidence_digest": "7f65743fcf072eba59eb949bc67b3780b57a569f5c1f81a941b4bcab8f3f59bc",
+  "codec_digest": "eca207c498cfd804c6ac1e7d1c9bff637dac36523940af063c0affa14cf6018b",
+  "witness_0_digest": "f6eb0da0ef45b86363bbc6f71577f95dd79407b5b20948b59b8bf13093b64660",
+  "witness_1_digest": "75664755a179df4497068c05802c4e23b74cb806ba381543e3dc6ed321a288b0",
+  "capability_proof_digest": "704e0500e141047e478873d3a26f8a1d07a9d082519191327600eea6286a820b",
+  "proof_digest": "e538717e61203a30aa73fa3e0e8c8543050599d4b39bb21d142f0d7351bac112",
+  "verifier_digest": "b7875e68efdc0904dbb09b89822815dc92964065c7d28877b80d8b748af17137",
+  "limitations_digest": "be99af92c86a3c32b61a68fd46d1cb773bbe2453aad6b53c0d917064223d3b25",
+  "limitations": [
+   "synthetic: built in dps-scitt-decision-layer/interop/plan-checkpoint, not issued, registered or verified by the P10 chain; no claim of conformance to the profile",
+   "a two-source screening fixture: the compatibility relation and the evaluation are the fixture's",
+   "underdetermination relative to the declared fixture only; identifies no actual world and establishes neither claim value"
+  ],
+  "outcome": "NotDemonstrated(reason=underdetermined)"
+ },
+ "adjudication_bytes": "{\"capability_proof_digest\":\"704e0500e141047e478873d3a26f8a1d07a9d082519191327600eea6286a820b\",\"claim_digest\":\"f1b3c114a94a06169b6070cb87989d161693263cb36a16c98a3c9929d9adf8e1\",\"codec_digest\":\"eca207c498cfd804c6ac1e7d1c9bff637dac36523940af063c0affa14cf6018b\",\"evidence_admission_refs\":[\"urn:example:p10:admission:0\",\"urn:example:p10:admission:1\"],\"evidence_closure_ref\":\"urn:example:p10:closure:screening-C-4471\",\"evidence_digest\":\"7f65743fcf072eba59eb949bc67b3780b57a569f5c1f81a941b4bcab8f3f59bc\",\"instance_commitment_ref\":\"urn:example:p10:instance:screening-C-4471\",\"instance_subject\":\"p10s2sub:f1b3c114a94a0616\",\"limitations\":[\"synthetic: built in dps-scitt-decision-layer/interop/plan-checkpoint, not issued, registered or verified by the P10 chain; no claim of conformance to the profile\",\"a two-source screening fixture: the compatibility relation and the evaluation are the fixture's\",\"underdetermination relative to the declared fixture only; identifies no actual world and establishes neither claim value\"],\"limitations_digest\":\"be99af92c86a3c32b61a68fd46d1cb773bbe2453aad6b53c0d917064223d3b25\",\"log_identity_digest\":\"7ab0debe387e5f1603f8c08ba380dd12cc922f5ff184794f5ddc7a14e3e714f6\",\"outcome\":\"NotDemonstrated(reason=underdetermined)\",\"preclosure_transcript_digest\":\"04cd1af016b9ece3c9349515b4b1055ce8fd409f74e777868acfb768524cd0fd\",\"profile_commitment_ref\":\"urn:example:p10:profile:two-source-screening-v0\",\"proof_digest\":\"e538717e61203a30aa73fa3e0e8c8543050599d4b39bb21d142f0d7351bac112\",\"shape_of\":\"draft-nestorov-scitt-p10-underdetermination-02, Section 9\",\"synthetic\":true,\"verifier_digest\":\"b7875e68efdc0904dbb09b89822815dc92964065c7d28877b80d8b748af17137\",\"witness_0_digest\":\"f6eb0da0ef45b86363bbc6f71577f95dd79407b5b20948b59b8bf13093b64660\",\"witness_1_digest\":\"75664755a179df4497068c05802c4e23b74cb806ba381543e3dc6ed321a288b0\"}",
+ "record": {
+  "decision_id": "DR-2026-11061",
+  "charter_id": "CH-EXAMPLE-ONBOARDING-1",
+  "record_type": "decision",
+  "record_state": "closed",
+  "dispatch_mode": "mode-1-with-embedded-mode-2-summary",
+  "created_at": "2026-11-06T09:30:26Z",
+  "altitude": "individual-professional",
+  "decision_statement": "Resume the onboarding plan at step 1, the CRM record, the screening claim being undecided by the evidence closed before the checkpoint: one source says possible match at 61 percent, one has no data; review the screening within 48 hours.",
+  "context_at_decision": "Step 0 produced the onboarding document; the runtime halted before the CRM record on an adjudication that the restricted-parties claim is underdetermined; the state of the run's context after step 0 and the adjudication were shown.",
+  "options_considered": [
+   "Resume the plan now, the claim undecided, and review the screening within 48 hours (chosen).",
+   "Stop the plan until the screening is decided: the client waits for a document already produced.",
+   "Resume without recording what was undecided: no trace of what was known."
+  ],
+  "required_inputs_used": [
+   "context state after step 0 (221973a2a23b65b848025c6dce58762b4c9d197756344e52020577a110114545)",
+   "adjudication of the screening claim (73730308b09503b6276f7865a5cbfd2ef6da19b5ad6bf647caa71e4cc528b6a0)",
+   "onboarding plans policy 2026-11-01"
+  ],
+  "assumptions_depended_on": [
+   "The two screening sources are the ones the policy names; neither confirmed a match."
+  ],
+  "success_criteria": [
+   "The plan completes and the screening is reviewed within 48 hours.",
+   "What was undecided at the checkpoint is on record."
+  ],
+  "accountable_owner": {
+   "full_name": "Office Manager One",
+   "role": "Office manager",
+   "employer": "Example Brokerage"
+  },
+  "decision_class": "client-onboarding",
+  "drafting_authority": {
+   "deployer_role_pointer": "urn:example:role:onboarding-drafting",
+   "system_name": "onboarding-assistant",
+   "version": "3"
+  },
+  "consent_posture": {
+   "posture_class": "the client's brief and two screening answers about the client; no other data read"
+  },
+  "affirmation_record": {
+   "timestamp": "2026-11-06T09:35:00Z",
+   "actor_identity": "office-manager-1",
+   "method": "Ed25519 signature over the DPS person_approval assertion of the resumption"
+  },
+  "mode_classification_attestation": {
+   "attestor_full_name": "Office Manager One",
+   "attestor_role_title": "Office manager",
+   "attestor_employer": "Example Brokerage",
+   "attestation_timestamp": "2026-11-06T09:40:00Z",
+   "jurisdiction": "EU",
+   "attestation_language_version": "v5.0",
+   "attestor_capacity": "employee",
+   "attestation_text_signed": "I attest that this decision record was dispatched in mode-1 with an embedded mode-2 summary under charter CH-EXAMPLE-ONBOARDING-1: the onboarding assistant proposed to resume the plan; I decided to resume it knowing the screening claim was undecided, on the context state and the adjudication shown, and I am the accountable owner of this decision."
+  },
+  "accountable_owner_signoff": {
+   "signed_by": "office-manager-1",
+   "signed_at": "2026-11-06T09:40:00Z"
+  },
+  "re_decision_trigger": "The screening review concludes, or a source answers with a match.",
+  "record_location": "urn:example:decision-records:DR-2026-11061",
+  "seal_algorithm": "SHA-256",
+  "supersedes": null,
+  "closed_at": "2026-11-06T09:40:00Z",
+  "seal_hash": "98e1f49347df69d90ea7652fca11922d309c8a51ec9d84bd810df5390d8ee685",
+  "review_log": [
+   {
+    "reviewer": "office-manager-1",
+    "reviewed_at": "2026-11-06T09:35:00Z",
+    "outcome": "approved"
+   }
+  ]
+ },
+ "record_bytes": "{\"decision_id\":\"DR-2026-11061\",\"charter_id\":\"CH-EXAMPLE-ONBOARDING-1\",\"record_type\":\"decision\",\"record_state\":\"closed\",\"dispatch_mode\":\"mode-1-with-embedded-mode-2-summary\",\"created_at\":\"2026-11-06T09:30:26Z\",\"altitude\":\"individual-professional\",\"decision_statement\":\"Resume the onboarding plan at step 1, the CRM record, the screening claim being undecided by the evidence closed before the checkpoint: one source says possible match at 61 percent, one has no data; review the screening within 48 hours.\",\"context_at_decision\":\"Step 0 produced the onboarding document; the runtime halted before the CRM record on an adjudication that the restricted-parties claim is underdetermined; the state of the run's context after step 0 and the adjudication were shown.\",\"options_considered\":[\"Resume the plan now, the claim undecided, and review the screening within 48 hours (chosen).\",\"Stop the plan until the screening is decided: the client waits for a document already produced.\",\"Resume without recording what was undecided: no trace of what was known.\"],\"required_inputs_used\":[\"context state after step 0 (221973a2a23b65b848025c6dce58762b4c9d197756344e52020577a110114545)\",\"adjudication of the screening claim (73730308b09503b6276f7865a5cbfd2ef6da19b5ad6bf647caa71e4cc528b6a0)\",\"onboarding plans policy 2026-11-01\"],\"assumptions_depended_on\":[\"The two screening sources are the ones the policy names; neither confirmed a match.\"],\"success_criteria\":[\"The plan completes and the screening is reviewed within 48 hours.\",\"What was undecided at the checkpoint is on record.\"],\"accountable_owner\":{\"full_name\":\"Office Manager One\",\"role\":\"Office manager\",\"employer\":\"Example Brokerage\"},\"decision_class\":\"client-onboarding\",\"drafting_authority\":{\"deployer_role_pointer\":\"urn:example:role:onboarding-drafting\",\"system_name\":\"onboarding-assistant\",\"version\":\"3\"},\"consent_posture\":{\"posture_class\":\"the client's brief and two screening answers about the client; no other data read\"},\"affirmation_record\":{\"timestamp\":\"2026-11-06T09:35:00Z\",\"actor_identity\":\"office-manager-1\",\"method\":\"Ed25519 signature over the DPS person_approval assertion of the resumption\"},\"mode_classification_attestation\":{\"attestor_full_name\":\"Office Manager One\",\"attestor_role_title\":\"Office manager\",\"attestor_employer\":\"Example Brokerage\",\"attestation_timestamp\":\"2026-11-06T09:40:00Z\",\"jurisdiction\":\"EU\",\"attestation_language_version\":\"v5.0\",\"attestor_capacity\":\"employee\",\"attestation_text_signed\":\"I attest that this decision record was dispatched in mode-1 with an embedded mode-2 summary under charter CH-EXAMPLE-ONBOARDING-1: the onboarding assistant proposed to resume the plan; I decided to resume it knowing the screening claim was undecided, on the context state and the adjudication shown, and I am the accountable owner of this decision.\"},\"accountable_owner_signoff\":{\"signed_by\":\"office-manager-1\",\"signed_at\":\"2026-11-06T09:40:00Z\"},\"re_decision_trigger\":\"The screening review concludes, or a source answers with a match.\",\"record_location\":\"urn:example:decision-records:DR-2026-11061\",\"seal_algorithm\":\"SHA-256\",\"supersedes\":null,\"closed_at\":\"2026-11-06T09:40:00Z\",\"seal_hash\":\"98e1f49347df69d90ea7652fca11922d309c8a51ec9d84bd810df5390d8ee685\",\"review_log\":[{\"reviewer\":\"office-manager-1\",\"reviewed_at\":\"2026-11-06T09:35:00Z\",\"outcome\":\"approved\"}]}",
+ "attachment": {
+  "profile": "dps-action-binding",
+  "profile_version": "0.3.0",
+  "decision_id": "DR-2026-11061",
+  "action_specifications": [
+   {
+    "spec_digest": "ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4",
+    "representation": {
+     "kind": "original_bytes",
+     "media_type": "application/json"
+    },
+    "content": {
+     "availability": "available",
+     "bytes_b64": "eyJvcGVyYXRpb24iOiJ3b3JrZmxvdy5yZXN1bWUiLCJ0YXJnZXQiOiJ1cm46ZXhhbXBsZTpwbGFuLXJ1bjoyMDI2LTExLTA2LTA0NzEiLCJwYXJhbWV0ZXJzIjp7InJlc3VtZV9hdCI6MSwiY29udGV4dF9zdGF0ZSI6IjIyMTk3M2EyYTIzYjY1Yjg0ODAyNWM2ZGNlNTg3NjJiNGM5ZDE5Nzc1NjM0NGU1MjAyMDU3N2ExMTAxMTQ1NDUiLCJhZGp1ZGljYXRpb25fZGlnZXN0IjoiNzM3MzAzMDhiMDk1MDNiNjI3NmY3ODY1YTVjYmZkMmVmNmRhMTliNWFkNmJmNjQ3Y2FhNzFlNGNjNTI4YjZhMCIsImNsYWltX2RpZ2VzdCI6ImYxYjNjMTE0YTk0YTA2MTY5YjYwNzBjYjg3OTg5ZDE2MTY5MzI2M2NiMzZhMTZjOThhM2M5OTI5ZDlhZGY4ZTEifSwiaW5wdXRfdmVyc2lvbl9yZWZzIjpbIm5ldC5pc29sdWNlLnBsYW5fcnVuX2NvbnRleHQ6MjIxOTczYTJhMjNiNjViODQ4MDI1YzZkY2U1ODc2MmI0YzlkMTk3NzU2MzQ0ZTUyMDIwNTc3YTExMDExNDU0NSIsIm5ldC5pc29sdWNlLnAxMF9hZGp1ZGljYXRpb25fc2hhcGU6NzM3MzAzMDhiMDk1MDNiNjI3NmY3ODY1YTVjYmZkMmVmNmRhMTliNWFkNmJmNjQ3Y2FhNzFlNGNjNTI4YjZhMCIsInVybjpleGFtcGxlOnVzZWNhc2U6b25ib2FyZGluZ19jbGllbnRAMS4wLjAiXSwicG9saWN5X3ZlcnNpb24iOiJzaGEyNTY6ZGY1ZTYwMDVmN2M1YmY5YWQyNjllZWYwNmI1ZGE2OTg5YjIxZWY2OTU3MWVkMTJiMWY4MzIxY2UwZjBkMzdkMSIsInZhbGlkX3VudGlsIjoiMjAyNi0xMS0wNlQzMzoyNTowMFoifQ=="
+    },
+    "summary": {
+     "operation": "workflow.resume",
+     "target": "urn:example:plan-run:2026-11-06-0471",
+     "policy_version": "sha256:df5e6005f7c5bf9ad269eef06b5da6989b21ef69571ed12b1f8321ce0f0d37d1",
+     "input_version_refs": [
+      "net.isoluce.plan_run_context:221973a2a23b65b848025c6dce58762b4c9d197756344e52020577a110114545",
+      "net.isoluce.p10_adjudication_shape:73730308b09503b6276f7865a5cbfd2ef6da19b5ad6bf647caa71e4cc528b6a0",
+      "urn:example:usecase:onboarding_client@1.0.0"
+     ]
+    }
+   }
+  ],
+  "stages": [
+   {
+    "stage_id": "p0",
+    "kind": "proposal",
+    "at": "2026-11-06T09:30:26Z",
+    "origin": "ai",
+    "spec_digest": "ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4",
+    "deployer_role_pointer": "urn:example:role:onboarding-drafting",
+    "system_name": "onboarding-assistant",
+    "version": "3"
+   },
+   {
+    "stage_id": "v0",
+    "kind": "review",
+    "at": "2026-11-06T09:33:00Z",
+    "reviewer_ref": "office-manager-1",
+    "shown_spec_digest": "ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4",
+    "proposal_ref": "p0",
+    "shown_view_ref": "urn:example:review-console:checkpoint-0471-1",
+    "shown_view_digest": "bfd640eaa32c3aa0b0ee4c8bdc445c7ab98937ccffcd5b319a761ca91b83aee7"
+   },
+   {
+    "stage_id": "o0",
+    "kind": "outcome",
+    "at": "2026-11-06T09:35:00Z",
+    "review_ref": "v0",
+    "outcome": "approved",
+    "actor_ref": "office-manager-1",
+    "method": "Ed25519 signature over the DPS person_approval assertion",
+    "approved_spec_digest": "ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4",
+    "request_limit": 1,
+    "authority": {
+     "authority_ref": "urn:example:policy:onboarding-plans#2026-11-01"
+    },
+    "rationale": {
+     "timing": "contemporaneous",
+     "ai_assisted": false,
+     "recorded_at": "2026-11-06T09:35:00Z",
+     "text_ref": "urn:example:rationale:checkpoint-0471-1"
+    },
+    "core_ref": {
+     "field": "review_log",
+     "index": 0
+    }
+   },
+   {
+    "stage_id": "q0",
+    "kind": "request",
+    "at": "2026-11-06T09:35:05Z",
+    "request_id": "urn:example:plan-run:2026-11-06-0471:resume:1",
+    "authorised_by": "o0",
+    "spec_digest": "ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4",
+    "requested_by": "urn:example:service:onboarding-routine"
+   },
+   {
+    "stage_id": "c0",
+    "kind": "recheck",
+    "at": "2026-11-06T09:35:10Z",
+    "request_ref": "q0",
+    "result": "authorised",
+    "authority_source_ref": "urn:example:policy:onboarding-plans#2026-11-01"
+   },
+   {
+    "stage_id": "x0",
+    "kind": "attempt",
+    "at": "2026-11-06T09:35:15Z",
+    "request_ref": "q0",
+    "recheck_ref": "c0",
+    "spec_digest": "ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4",
+    "executor_ref": "urn:example:executor:broker-runtime",
+    "trace_refs": [
+     "urn:example:plan-run:2026-11-06-0471:resume:1"
+    ]
+   },
+   {
+    "stage_id": "r0",
+    "kind": "result",
+    "at": "2026-11-06T09:35:20Z",
+    "attempt_ref": "x0",
+    "observed": "succeeded",
+    "basis": "executor_observation",
+    "evidence_ref": "urn:example:plan-run:resumed:urn:example:plan-run:2026-11-06-0471:step:1"
+   }
+  ],
+  "issuer_signature": {
+   "algorithm": "Ed25519",
+   "key_ref": "example-brokerage-issuer-key-1",
+   "signed_bytes_ref": "dps-signatures 0.2.0 organisation_seal",
+   "sealed_at": "2026-11-06T09:35:30Z",
+   "value_b64": "clNAUh0jFXV1+oYLDNhlO/g1mG8cIyaioXxDHNJ/T28JfQ14j6aG/AnakWx0aF3BjYQ/d/cWeGgvjQRZh53ZBw=="
+  }
+ },
+ "attachment_bytes": "{\"profile\":\"dps-action-binding\",\"profile_version\":\"0.3.0\",\"decision_id\":\"DR-2026-11061\",\"action_specifications\":[{\"spec_digest\":\"ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4\",\"representation\":{\"kind\":\"original_bytes\",\"media_type\":\"application/json\"},\"content\":{\"availability\":\"available\",\"bytes_b64\":\"eyJvcGVyYXRpb24iOiJ3b3JrZmxvdy5yZXN1bWUiLCJ0YXJnZXQiOiJ1cm46ZXhhbXBsZTpwbGFuLXJ1bjoyMDI2LTExLTA2LTA0NzEiLCJwYXJhbWV0ZXJzIjp7InJlc3VtZV9hdCI6MSwiY29udGV4dF9zdGF0ZSI6IjIyMTk3M2EyYTIzYjY1Yjg0ODAyNWM2ZGNlNTg3NjJiNGM5ZDE5Nzc1NjM0NGU1MjAyMDU3N2ExMTAxMTQ1NDUiLCJhZGp1ZGljYXRpb25fZGlnZXN0IjoiNzM3MzAzMDhiMDk1MDNiNjI3NmY3ODY1YTVjYmZkMmVmNmRhMTliNWFkNmJmNjQ3Y2FhNzFlNGNjNTI4YjZhMCIsImNsYWltX2RpZ2VzdCI6ImYxYjNjMTE0YTk0YTA2MTY5YjYwNzBjYjg3OTg5ZDE2MTY5MzI2M2NiMzZhMTZjOThhM2M5OTI5ZDlhZGY4ZTEifSwiaW5wdXRfdmVyc2lvbl9yZWZzIjpbIm5ldC5pc29sdWNlLnBsYW5fcnVuX2NvbnRleHQ6MjIxOTczYTJhMjNiNjViODQ4MDI1YzZkY2U1ODc2MmI0YzlkMTk3NzU2MzQ0ZTUyMDIwNTc3YTExMDExNDU0NSIsIm5ldC5pc29sdWNlLnAxMF9hZGp1ZGljYXRpb25fc2hhcGU6NzM3MzAzMDhiMDk1MDNiNjI3NmY3ODY1YTVjYmZkMmVmNmRhMTliNWFkNmJmNjQ3Y2FhNzFlNGNjNTI4YjZhMCIsInVybjpleGFtcGxlOnVzZWNhc2U6b25ib2FyZGluZ19jbGllbnRAMS4wLjAiXSwicG9saWN5X3ZlcnNpb24iOiJzaGEyNTY6ZGY1ZTYwMDVmN2M1YmY5YWQyNjllZWYwNmI1ZGE2OTg5YjIxZWY2OTU3MWVkMTJiMWY4MzIxY2UwZjBkMzdkMSIsInZhbGlkX3VudGlsIjoiMjAyNi0xMS0wNlQzMzoyNTowMFoifQ==\"},\"summary\":{\"operation\":\"workflow.resume\",\"target\":\"urn:example:plan-run:2026-11-06-0471\",\"policy_version\":\"sha256:df5e6005f7c5bf9ad269eef06b5da6989b21ef69571ed12b1f8321ce0f0d37d1\",\"input_version_refs\":[\"net.isoluce.plan_run_context:221973a2a23b65b848025c6dce58762b4c9d197756344e52020577a110114545\",\"net.isoluce.p10_adjudication_shape:73730308b09503b6276f7865a5cbfd2ef6da19b5ad6bf647caa71e4cc528b6a0\",\"urn:example:usecase:onboarding_client@1.0.0\"]}}],\"stages\":[{\"stage_id\":\"p0\",\"kind\":\"proposal\",\"at\":\"2026-11-06T09:30:26Z\",\"origin\":\"ai\",\"spec_digest\":\"ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4\",\"deployer_role_pointer\":\"urn:example:role:onboarding-drafting\",\"system_name\":\"onboarding-assistant\",\"version\":\"3\"},{\"stage_id\":\"v0\",\"kind\":\"review\",\"at\":\"2026-11-06T09:33:00Z\",\"reviewer_ref\":\"office-manager-1\",\"shown_spec_digest\":\"ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4\",\"proposal_ref\":\"p0\",\"shown_view_ref\":\"urn:example:review-console:checkpoint-0471-1\",\"shown_view_digest\":\"bfd640eaa32c3aa0b0ee4c8bdc445c7ab98937ccffcd5b319a761ca91b83aee7\"},{\"stage_id\":\"o0\",\"kind\":\"outcome\",\"at\":\"2026-11-06T09:35:00Z\",\"review_ref\":\"v0\",\"outcome\":\"approved\",\"actor_ref\":\"office-manager-1\",\"method\":\"Ed25519 signature over the DPS person_approval assertion\",\"approved_spec_digest\":\"ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4\",\"request_limit\":1,\"authority\":{\"authority_ref\":\"urn:example:policy:onboarding-plans#2026-11-01\"},\"rationale\":{\"timing\":\"contemporaneous\",\"ai_assisted\":false,\"recorded_at\":\"2026-11-06T09:35:00Z\",\"text_ref\":\"urn:example:rationale:checkpoint-0471-1\"},\"core_ref\":{\"field\":\"review_log\",\"index\":0}},{\"stage_id\":\"q0\",\"kind\":\"request\",\"at\":\"2026-11-06T09:35:05Z\",\"request_id\":\"urn:example:plan-run:2026-11-06-0471:resume:1\",\"authorised_by\":\"o0\",\"spec_digest\":\"ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4\",\"requested_by\":\"urn:example:service:onboarding-routine\"},{\"stage_id\":\"c0\",\"kind\":\"recheck\",\"at\":\"2026-11-06T09:35:10Z\",\"request_ref\":\"q0\",\"result\":\"authorised\",\"authority_source_ref\":\"urn:example:policy:onboarding-plans#2026-11-01\"},{\"stage_id\":\"x0\",\"kind\":\"attempt\",\"at\":\"2026-11-06T09:35:15Z\",\"request_ref\":\"q0\",\"recheck_ref\":\"c0\",\"spec_digest\":\"ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4\",\"executor_ref\":\"urn:example:executor:broker-runtime\",\"trace_refs\":[\"urn:example:plan-run:2026-11-06-0471:resume:1\"]},{\"stage_id\":\"r0\",\"kind\":\"result\",\"at\":\"2026-11-06T09:35:20Z\",\"attempt_ref\":\"x0\",\"observed\":\"succeeded\",\"basis\":\"executor_observation\",\"evidence_ref\":\"urn:example:plan-run:resumed:urn:example:plan-run:2026-11-06-0471:step:1\"}],\"issuer_signature\":{\"algorithm\":\"Ed25519\",\"key_ref\":\"example-brokerage-issuer-key-1\",\"signed_bytes_ref\":\"dps-signatures 0.2.0 organisation_seal\",\"sealed_at\":\"2026-11-06T09:35:30Z\",\"value_b64\":\"clNAUh0jFXV1+oYLDNhlO/g1mG8cIyaioXxDHNJ/T28JfQ14j6aG/AnakWx0aF3BjYQ/d/cWeGgvjQRZh53ZBw==\"}}",
+ "sig_attachment": {
+  "profile": "dps-signatures",
+  "profile_version": "0.2.0",
+  "person_signatures": [
+   {
+    "profile": "dps-signatures",
+    "profile_version": "0.2.0",
+    "assertion": "person_approval",
+    "decision_id": "DR-2026-11061",
+    "stage_id": "o0",
+    "outcome": "approved",
+    "shown_spec_digest": "ea76633fe265fdf92c762472d3cca4b4fbe5ecb6d306ad3398c1ba5893a7f9c4",
+    "shown_view_digest": "bfd640eaa32c3aa0b0ee4c8bdc445c7ab98937ccffcd5b319a761ca91b83aee7",
+    "approved_spec_digest": "4444444444444444444444444444444444444444444444444444444444444444",
+    "signed_at": "2026-11-06T09:35:00Z",
+    "signature": {
+     "algorithm": "Ed25519",
+     "key_ref": "office-manager-1-key-1",
+     "value_b64": "FVoPQ2BLdOayr+CuIqA8I1VL+UDEjDephvyaLqG47WrdJ76WphPd6AVFVtv1ASzQYnh0mRe7FQLeow2YwP2ABA=="
+    }
+   }
+  ]
+ }
+}
