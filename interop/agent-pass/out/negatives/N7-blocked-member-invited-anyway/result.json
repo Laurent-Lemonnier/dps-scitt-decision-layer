@@ -1,0 +1,22 @@
+{
+ "what": "an invitation sent to the member the routine's rule R-DECLINED had blocked",
+ "caught_by": [
+  "dps_action_binding",
+  "joins"
+ ],
+ "expected_place": "dps_action_binding",
+ "as_expected": true,
+ "detail": {
+  "dps_action_binding": {
+   "action_binding": [
+    "failed",
+    [
+     "q20: outside the bounds of saI: parameter profile_ref is outside its constraint"
+    ]
+   ]
+  },
+  "joins": [
+   "no BLOCKED Seal record's arguments were requested in the DPS attachment"
+  ]
+ }
+}
