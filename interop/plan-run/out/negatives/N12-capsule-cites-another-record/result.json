@@ -1,0 +1,21 @@
+{
+ "what": "the CRM step's capsule cites a decision record that is not the one held",
+ "caught_by": [
+  "capsules",
+  "joins"
+ ],
+ "expected_place": "capsules",
+ "as_expected": true,
+ "detail": {
+  "capsules": [
+   "urn:example:plan-run:2026-11-06-0471:step:1: a reference does not resolve against the bytes held"
+  ],
+  "joins": [
+   "the DPS result names the run manifest held, by its digest",
+   "every step of the approved plan has exactly one capsule whose request is that step, with the arguments the plan resolves from the outputs recorded, and the manifest lists that capsule at that index",
+   "the steps ran in plan order: the manifest lists them in it, each capsule follows the previous step's capsule, and the issuer's times do not go backwards",
+   "an argument resolved from an earlier step's output equals the output that step recorded, which its own capsule committed to (response_digest)",
+   "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+  ]
+ }
+}

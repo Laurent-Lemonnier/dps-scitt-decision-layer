@@ -1,0 +1,1 @@
+the message's capsule cites the context before the CRM step, not the state after it

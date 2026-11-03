@@ -1,0 +1,14 @@
+{
+ "what": "the message's capsule says a person disposed of it, though two of its arguments were resolved at run time",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "detail": {
+  "joins": [
+   "the DPS result names the run manifest held, by its digest",
+   "a capsule says a person disposed of a step only where every argument of that step was literal in the plan approved"
+  ]
+ }
+}

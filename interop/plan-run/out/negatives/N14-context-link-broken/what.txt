@@ -1,0 +1,1 @@
+the manifest's context after the CRM step is not the state before it plus that step's outputs

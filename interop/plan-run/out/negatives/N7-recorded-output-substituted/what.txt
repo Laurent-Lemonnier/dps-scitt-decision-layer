@@ -1,0 +1,1 @@
+the manifest records another document than step 0's capsule committed to; the CRM record and the message carry that other document

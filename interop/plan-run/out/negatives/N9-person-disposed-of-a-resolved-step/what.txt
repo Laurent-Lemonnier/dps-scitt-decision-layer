@@ -1,0 +1,1 @@
+the message's capsule says a person disposed of it, though two of its arguments were resolved at run time

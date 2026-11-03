@@ -1,0 +1,71 @@
+{
+ "profile": "net.isoluce.plan_run",
+ "profile_version": "0.1.0",
+ "run_id": "urn:example:plan-run:2026-11-06-0471",
+ "decision_id": "DR-2026-1106",
+ "approval_stage_ref": "o0",
+ "spec_digest": "1825b21d7b372b6a5912a3db6a685e0f881367d6e8a130c7bcf8a8879f5619f1",
+ "plan_hash": "9122b69190eff2d3859674cac439d49d64c71dd4e9556ddd2656999ae8aa3856",
+ "usecase_ref": "urn:example:usecase:onboarding_client@1.0.0",
+ "requested_by": "urn:example:service:onboarding-routine",
+ "initial_context": {
+  "tenant": "urn:example:tenant:brokerage-1",
+  "client_ref": "urn:example:client:C-4471",
+  "usecase_ref": "urn:example:usecase:onboarding_client@1.0.0",
+  "brief_ref": "urn:example:client-brief:C-4471:v3",
+  "correlation_id": "urn:example:correlation:onboarding:C-4471"
+ },
+ "context_initial_digest": "40be6cb34d8c0af449da7b31b35faeac61798d70ae09c1ac667149727ef0776e",
+ "steps": [
+  {
+   "index": 0,
+   "operation": "drive.document.create",
+   "target": "urn:example:drive:folder:clients/C-4471",
+   "request_digest": "81bd7004313f1392816b028e93327614610769bccea4a2939a0e91cf47aa9594",
+   "capsule_id": "573a857129c42b1e26ebe231950c239d5c514f54a002cb05d8a26ed3bdbe1773",
+   "outputs": {
+    "document_ref": "urn:example:drive:document:D-88213"
+   },
+   "context_before": "40be6cb34d8c0af449da7b31b35faeac61798d70ae09c1ac667149727ef0776e",
+   "context_after": "221973a2a23b65b848025c6dce58762b4c9d197756344e52020577a110114545",
+   "status": "succeeded",
+   "started_at": "2026-11-06T09:30:12Z",
+   "ended_at": "2026-11-06T09:30:21Z"
+  },
+  {
+   "index": 2,
+   "operation": "chat.message.send",
+   "target": "urn:example:chat:channel:onboarding",
+   "request_digest": "20d411225f0b653e5009fe8fde6601d7d2d42067d09ef45864dc7e66ee19eae0",
+   "capsule_id": "e04c44d2e582365d5fbf6a94e49364ef278bf105a1d0138864c323ae13ac25fa",
+   "outputs": {
+    "message_ref": "urn:example:chat:message:M-551902"
+   },
+   "context_before": "221973a2a23b65b848025c6dce58762b4c9d197756344e52020577a110114545",
+   "context_after": "0b23fabf50889d46eae9b7e185e3061c1af841ebbb49f8c33431088cb5791649",
+   "status": "succeeded",
+   "started_at": "2026-11-06T09:30:40Z",
+   "ended_at": "2026-11-06T09:30:49Z"
+  },
+  {
+   "index": 1,
+   "operation": "crm.client.create",
+   "target": "urn:example:crm:brokerage-1",
+   "request_digest": "8e4ab261a895546786e66eaa55bdc2290cf1b1222e63dc7080c505e296ad7d7c",
+   "capsule_id": "a3e79e2eba21e115b5ae21aee313d56d4d5e42d7b638e0693c4020e94c539bb8",
+   "outputs": {
+    "crm_record_ref": "urn:example:crm:client:R-30417"
+   },
+   "context_before": "0b23fabf50889d46eae9b7e185e3061c1af841ebbb49f8c33431088cb5791649",
+   "context_after": "b69fceeed54e23e5d984ffff5b7b813c816b12257774528a3c8378929ecfa3af",
+   "status": "succeeded",
+   "started_at": "2026-11-06T09:31:05Z",
+   "ended_at": "2026-11-06T09:31:14Z"
+  }
+ ],
+ "outcome": {
+  "status": "completed",
+  "ended_at": "2026-11-06T09:31:14Z",
+  "context_final": "b69fceeed54e23e5d984ffff5b7b813c816b12257774528a3c8378929ecfa3af"
+ }
+}

@@ -1,0 +1,71 @@
+{
+ "profile": "net.isoluce.plan_run",
+ "profile_version": "0.1.0",
+ "run_id": "urn:example:plan-run:2026-11-06-0471",
+ "decision_id": "DR-2026-1106",
+ "approval_stage_ref": "o0",
+ "spec_digest": "1825b21d7b372b6a5912a3db6a685e0f881367d6e8a130c7bcf8a8879f5619f1",
+ "plan_hash": "9122b69190eff2d3859674cac439d49d64c71dd4e9556ddd2656999ae8aa3856",
+ "usecase_ref": "urn:example:usecase:onboarding_client@1.0.0",
+ "requested_by": "urn:example:service:onboarding-routine",
+ "initial_context": {
+  "tenant": "urn:example:tenant:brokerage-1",
+  "client_ref": "urn:example:client:C-4471",
+  "usecase_ref": "urn:example:usecase:onboarding_client@1.0.0",
+  "brief_ref": "urn:example:client-brief:C-4471:v3",
+  "correlation_id": "urn:example:correlation:onboarding:C-4471"
+ },
+ "context_initial_digest": "40be6cb34d8c0af449da7b31b35faeac61798d70ae09c1ac667149727ef0776e",
+ "steps": [
+  {
+   "index": 0,
+   "operation": "drive.document.create",
+   "target": "urn:example:drive:folder:clients/C-4471",
+   "request_digest": "81bd7004313f1392816b028e93327614610769bccea4a2939a0e91cf47aa9594",
+   "capsule_id": "573a857129c42b1e26ebe231950c239d5c514f54a002cb05d8a26ed3bdbe1773",
+   "outputs": {
+    "document_ref": "urn:example:drive:document:D-88213"
+   },
+   "context_before": "40be6cb34d8c0af449da7b31b35faeac61798d70ae09c1ac667149727ef0776e",
+   "context_after": "221973a2a23b65b848025c6dce58762b4c9d197756344e52020577a110114545",
+   "status": "succeeded",
+   "started_at": "2026-11-06T09:30:12Z",
+   "ended_at": "2026-11-06T09:30:21Z"
+  },
+  {
+   "index": 1,
+   "operation": "crm.client.create",
+   "target": "urn:example:crm:brokerage-1",
+   "request_digest": "8e4ab261a895546786e66eaa55bdc2290cf1b1222e63dc7080c505e296ad7d7c",
+   "capsule_id": "9542553884630acc08def51bc0d320edf441d0f3d6c4570689fef4a65d915e8c",
+   "outputs": {
+    "crm_record_ref": "urn:example:crm:client:R-30417"
+   },
+   "context_before": "221973a2a23b65b848025c6dce58762b4c9d197756344e52020577a110114545",
+   "context_after": "3333333333333333333333333333333333333333333333333333333333333333",
+   "status": "succeeded",
+   "started_at": "2026-11-06T09:30:40Z",
+   "ended_at": "2026-11-06T09:30:49Z"
+  },
+  {
+   "index": 2,
+   "operation": "chat.message.send",
+   "target": "urn:example:chat:channel:onboarding",
+   "request_digest": "20d411225f0b653e5009fe8fde6601d7d2d42067d09ef45864dc7e66ee19eae0",
+   "capsule_id": "5b298adec0cdf65f7423dead34d7bbfbd495da2d51f501f5e971cfece14de98d",
+   "outputs": {
+    "message_ref": "urn:example:chat:message:M-551902"
+   },
+   "context_before": "8acfc856af03c71cfe28854c9c2f436304be7625b108030ee0f2fc86149ce27f",
+   "context_after": "e2963ee3660e1bdc4ecf29040e89d64f21f441a69a7934f96edbae28eead9548",
+   "status": "succeeded",
+   "started_at": "2026-11-06T09:31:05Z",
+   "ended_at": "2026-11-06T09:31:14Z"
+  }
+ ],
+ "outcome": {
+  "status": "completed",
+  "ended_at": "2026-11-06T09:31:14Z",
+  "context_final": "e2963ee3660e1bdc4ecf29040e89d64f21f441a69a7934f96edbae28eead9548"
+ }
+}
