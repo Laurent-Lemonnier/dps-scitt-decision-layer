@@ -1,0 +1,1645 @@
+[
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:f519a9d4-ced2-5df5-a2c4-2d77fe0a8351",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:30:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "3e2a6fdac1fade980fb847c4e20a950d633ab3dd8a98f86cb6556bd7283641a4",
+   "response_digest": "face024369e741aa24f9c3ce9a04ff19cef7d76941d32bf3829b84c02ee3fa9e",
+   "external_ref": "urn:example:social:effect:c95c846eda36ed0a",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "c1bd1836ae202a289842adb82b480247e5237c4eeb93dca894b658d1eb68836f"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:7867a33f-2fb9-5311-883c-4ac5ecf7c050",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:30:50Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "1cd69cd2b0d4ac0546d62cae355d4a0434d18d13eaddf0a5f0da655e57cd6443",
+   "response_digest": "74b6c46c40ea43225cf7288cf3e154008489d83ce3818da17acef6d1842e4493",
+   "external_ref": "urn:example:social:effect:a0affdfc9655e8df",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "c3242596c244d6e1dfa26468742b930ec2b3afcdb08ca345d361206b1675b6be"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:eae7214e-0bc1-5885-a423-d221d6b8642b",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:31:30Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "e97882c6e5e4257ed253edde0144167dfc13081bcf59a5e83b51cd974e74c816",
+   "response_digest": "7a4582fac41c018247d627a66c39ec03c7898822a128ea8bf2169b62975d2992",
+   "external_ref": "urn:example:social:effect:0d870986c33b036b",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "47a92d7f453fa45f2bdafcf778306ba4f6db59ac022a4a9ba87c870ecce82808"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:01591e3d-7e14-5213-90d5-9338e379c8af",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:32:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "31acb1bef19518f594c820b7cf2d2b8e18620f4e1920504925dd2d146f8894ae",
+   "response_digest": "094cecde2f087507faa201f9ce19db9fd56195a62e1e30cb068f15ed623c6e98",
+   "external_ref": "urn:example:social:effect:2bdf5239bc3ba81c",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "f35f32a3c4bc277186b8ff18d487cf757e6ea43b452d6b3391efd9bf8469cb3b"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:54d28a7a-f3a1-5fd7-9698-4c324f9b3a00",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:32:50Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "915ab3cbb6c16aec36c98562c69a7ea0f5846ebb4c0f5f638a532f7e573eb306",
+   "response_digest": "cf1f1f9b7dcb2d9351b1d8e4e8c1f77fac4d216c8ea9d35b05cf105bb617d9f6",
+   "external_ref": "urn:example:social:effect:b01ec3ff971de03c",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "4f1cd71da4b8aedb6e6490174dee71f060cd08d13748895854354b0dc720aae4"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:85551feb-ae0f-5146-86ba-a7e2764f0183",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:33:30Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "0f4f7faf0fecdad53ee29c75044c3b9d8b01560fdc7241877abb25f4b290dc9b",
+   "response_digest": "45fc5c7f0c6783fc1e1b19101054c9921af6bd0873d4293411c3666655c74fd2",
+   "external_ref": "urn:example:social:effect:e75f09dce1faa084",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "a192ab653c6169d484dd9429f2597b1fa1e5004826f4ed3371cc8f7a97710089"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:91dc2d4a-76a8-576e-aaca-c69ccd53dc86",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:34:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "4645b4f534387cb44a1dae519e3b1c08c1c365468487abccf1b86a3614ead6d1",
+   "response_digest": "79b02043dc23036a06f9a0af2867c4850146da10bd854601ca7e626d794040c3",
+   "external_ref": "urn:example:social:effect:d0f39770daa6bc72",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "d57847332821be51d78d2347f80dcea59ba9b31e5ba8ff3b615a9f04e361c29b"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:8dbfe116-0576-5bd9-b348-b01ec2b0d680",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:34:50Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "4e652ae6e8f4c4084f2cff4f319b6c978c58fbd5f3dfbf49a53d7b11825efa89",
+   "response_digest": "8817090f1a008baa38b55340208019a73e6253693436552b04985a9aa79e91d9",
+   "external_ref": "urn:example:social:effect:33b7c8031a4ad971",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "43324e43892bdb2375203db1bc14a4fa0892d8ee8d7d42b718efcf6fc5c99f14"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:b7746053-7a7e-5edf-8db5-23adc7bd99da",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:35:30Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "8b16ba59e1f50ec9e7aa922f40829b07fb0a7a1b6dcd8f0209b9e9e40a4697b9",
+   "response_digest": "252643170ac928b08d4e8e9d6582120d99446be7020137d7bbf5c55d5d9647c9",
+   "external_ref": "urn:example:social:effect:40af615c725a2083",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "b90b3ad5791bc6d4b2650e7be43927340b561f7e34468ebca600e5b0a90dfc3f"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:d0ab727d-52b5-566b-9e14-888d721f889f",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:36:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "94c1d0fba1db279b823c03aff5fe8269f127af399837b01b2caecab683982bf5",
+   "response_digest": "ed5ca85bedebf948fc1b8e8c9db8a6bb44e2fba97a934a65d01477ba1cda40b5",
+   "external_ref": "urn:example:social:effect:f9ce102a8d602877",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "26d648e8cb489feae18f46f6fea39aef88952e136d25ca99137081c6286eb854"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:1ce6c87f-8bc1-5f9d-8631-7610adca795e",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:36:50Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "011df0f0e05328ae3d8cfd64bea2d4320afa34f17772986bf1d08e269c2e797a",
+   "response_digest": "0c6e9b57a2d9786dc0d43e43cb4dc7d447b4ec3066f2d6cae738b9c071966eb4",
+   "external_ref": "urn:example:social:effect:9a864448a2f66f51",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "e052ea2522a58e484805d9d4143ccd5623f93c21a9468d62c5e78c39b09e4f24"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:6903bab1-0bf2-5aca-92be-97fdac559160",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:37:30Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "179a6405786b167dbbca50c189a324bed2bc5813604767172a9dbadd16285168",
+   "response_digest": "df7598bd4d65ca35f6fc00995039852207a4a5c08e383958304caf2ceb77fc95",
+   "external_ref": "urn:example:social:effect:460cc929e63c64c1",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "546838584f2e18c1f2c97aee448a061b1299346b0b648797002cb74d23450492"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:ceee3413-16ed-525f-946f-c4797f110b34",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:38:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "ac06e1bda323a3862e65b6c81b253da8eadff1904d534bd4f79e08c72bbbf4de",
+   "response_digest": "0d4d15097daba7156b25bb42d284fe7758e34a7be1cb3dd1fc64399620226dec",
+   "external_ref": "urn:example:social:effect:3badaaaafbff6c3d",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "a2bf090df85b0aed29296ff8e7f93115bfa7147b6ff16d7b1bbcf52021e403e7"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:d640a8fb-6ff5-52a2-9ce8-783267d701ee",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:38:50Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "5a56fde455bf1b5e0a32f9e47a47e29e20e463a5f60b3c60e9623a3ebcd85340",
+   "response_digest": "8dc328d766ef8bcba21e3bdc26e75429820ee588830bf0e554f6b90e172a4cc2",
+   "external_ref": "urn:example:social:effect:775281233f843b82",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "2e964dd0e6624f9bb2d07f37806916712057006201a9a843672e49701fc70e67"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:3bebc32e-8e4b-5812-9885-306410c3cc60",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:39:30Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "2de314b48b3faccc5be777bc164168a3a73a06080a53d30ce7d3100ce86452c5",
+   "response_digest": "92ee9095452faf53b45a3a044493b0400235d3279d2c6834f6c7f8ead22c55c1",
+   "external_ref": "urn:example:social:effect:aa23d86305162c21",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "a32968363351401a5c22b709acc485f9b82c90020e6dad803e672e76f3e2c488"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:20e4db46-e2ed-555d-b341-7976a942508f",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:40:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "b9cdd6fca142e1b487fca1fd6fa08cb142b164c34169c586542f9257d24dbc64",
+   "response_digest": "4ff7749dd5a17d3093c97c6d4be23a8bde925cb8ee6a36e8c995566c97b8e529",
+   "external_ref": "urn:example:social:effect:e3223ac0ed0a842e",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "7f02b3b7f8fb9bdc8bdda2d1bab3d407daf750fc6edd951b7ed8fbbc14aa520c"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:80189a76-faef-5273-ac91-78ce7d9b553f",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:40:50Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "56451c7a4d32f8c391286d6cb5b85524b4b7c3d0e6282adcc1f8a0181eb1b090",
+   "response_digest": "d65fbc74f4d60286d5838e6bd0aeea1704f945459f65c1a459808f018df2bf6b",
+   "external_ref": "urn:example:social:effect:46d76ee29ce23db4",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "6822bf5146fba9b4df0cf41ec84439680df88a6435a76a1ec97c8e9138359115"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:3fee5a81-80ab-53ed-8525-e0ea30ea3f56",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:41:30Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "73100dcf1dc918f9576ab4d5248cc0ab3cecde710f82a9e1016148b3529a6bb0",
+   "response_digest": "06b265f25739fae0893028fc95b20e9982d6a171a6b225901a7898b2bc26fcf0",
+   "external_ref": "urn:example:social:effect:769f2d742b8ca48f",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "89c6ae562ddb94d1becd4ba5362325816cd6adcd666499b29621e802f0a58112"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:b62ad9e1-16a8-5fee-aa0f-14ab9b8d0895",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:42:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "27e7e55baefeaed6d3dcbc33f94b8112ef3f93637477a658bc95f21c2eda1cd2",
+   "response_digest": "e0087898d83fbce28afe9c550811e054ef42eaf493706c2696b6403199fb5e05",
+   "external_ref": "urn:example:social:effect:db969a012f74e83d",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "e52ba249cecc7c4d47e66a0f4fb926ae6d28a9a5d117991735756e7655bd0022"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:6c7a22ca-1038-56db-b989-a722e52a3d52",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:42:50Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saL",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_reaction_like",
+   "request_digest": "e4982ad86dd99e2507f176ab562f103713ffb13d9d1a6e9ffebafd4bfb52b33c",
+   "response_digest": "c0ba2d60bcafde8024e4b72e1e95c99e0a4cb743949a9b2fde7f689bb27377de",
+   "external_ref": "urn:example:social:effect:4eb840b47acc6622",
+   "irreversibility_class": "two_way",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "a65f95797717c3a103e55c44aed01daa84eeca32ce59401098b95495affa03dc"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:4ed64c99-2211-5887-8403-d7af3fe194ca",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:43:30Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saI",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_invitation_send",
+   "request_digest": "f54fccd62f7a68e0818b64a9a650a5d4d5d72cb428e302f57904cea87dd86322",
+   "response_digest": "b6aa84f66b44b4fd001a1271b66311f571037ec719b559a9cd1c042883db6fc9",
+   "external_ref": "urn:example:social:effect:4bd22d091f128b79",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "1819c832c28ec36b6327d7b1acc46a1020110ab8ca901834321c1a3bbaf58160"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:e17ea9ed-3ced-5e96-91a1-f6a0ef1cca4b",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:44:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saI",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_invitation_send",
+   "request_digest": "e3d52150c98e8396a0a90a82616beeb4633f2cd41c7103ae0f32461d8da5e1c5",
+   "response_digest": "65b54e0d3215cbba15fee260ff93dc50c3d0c546cb2ad2753dabcdcc3905b605",
+   "external_ref": "urn:example:social:effect:23b4494803e84053",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "e961da7ca05c0dc599cc24ec2d62170f3a2031debe4d302ad482fa7b88745f45"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:6a7994d1-fbe1-5f08-be6d-95cfd85c6909",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:44:50Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saI",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_invitation_send",
+   "request_digest": "4e6185d9e4a1a10d32bf024410122223ed4ed9006795c3214dbdc6568a9588a1",
+   "response_digest": "00925af3f7cdf456c6c40eefda9a9aac1ff9b8673fc3931a565b88dbeac4aa4f",
+   "external_ref": "urn:example:social:effect:bb70c9a1aa176170",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "6851842e262f016377119550fa4ed91f0df3acd9115a27d66513ae669d8f6a2b"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:c632c20a-7e30-5d33-888d-b885a96bf132",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:45:30Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saI",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_invitation_send",
+   "request_digest": "f2a3409ce08df9ccd6f1cff12b53371123583773b5c4e5503c194f176caf7af3",
+   "response_digest": "fe6b6386d9170aa469b60d8ef5a4f2ac5d52c5d898fb2268499fa1a8d132c7d4",
+   "external_ref": "urn:example:social:effect:a9199f76606b5790",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "09cd724869a8b51949f699818975e018caadbd35ee906b8240c3c4e6f60665e9"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:41314a0a-2199-5764-9e12-2cb3902ca96e",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:46:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#saI",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_invitation_send",
+   "request_digest": "2b75a3d4b7ea5db4aff8f1f6afd626d89ccca4430d07f20e4cd5afce39dcd505",
+   "response_digest": "3698ecca6e69e33ae1df6fbd539380a352eea0915a9e86a533509b6a2fbba672",
+   "external_ref": "urn:example:social:effect:a71e4a8622dac09a",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "2cfb836dae2f2ae0c085fdcd69e70bd9ec9ca8beedcdeecd657202e428384cf0"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:bd30eaca-f77e-5c85-ac88-5bd3c6d078b8",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:46:50Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#o0",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_comment_create",
+   "request_digest": "af5d71838830ce24fd4fe21ab880d2c192d77ea16354736de28fca09f8c85274",
+   "response_digest": "59d476fe87ab786e61ad5997e8364a34310d46439f938bf0de22fd1b70acbee1",
+   "external_ref": "urn:example:social:effect:c1da929ded95df73",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "21c13dbfd417f570b4de828c6f9cdb76f27dcb53ca313144390a96b6d90b2c16"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:c9a0eb5d-6cee-5a1a-9a93-3fea0e1c4a95",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:47:30Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#o1",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_comment_create",
+   "request_digest": "27bdb234c8f99632fc44c1b75ee8f2f3b204a3829eb50138bda7fb7b4f2fa54e",
+   "response_digest": "6ee0fe52269beda2bc117764004b9dfb6ace8b256dae3209a4317575c727a2fe",
+   "external_ref": "urn:example:social:effect:f007d56b1d66912d",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "5104ea69555c60072c5d827c0fefadb594c8439941864eedc578c7612a4b2306"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:1c294284-51d0-51d4-b831-c63c12ee3da9",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:48:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#o2",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_comment_create",
+   "request_digest": "67881dc44c376c4a48e97f45e76a2c7306143feda58561198411b781fabcaf42",
+   "response_digest": "5876249cd31370d0183b24a36cabc46bb796b8afe776d2019ba03f3184627e12",
+   "external_ref": "urn:example:social:effect:a3177e949f96edc3",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "da18e73252e0a25d693329d3eb7a1d5acac6417f6f7fd1688bf9b5a11300c08b"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:edf7c56a-3b97-591a-a3c2-59f6858c01e2",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:48:50Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#o3",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_comment_create",
+   "request_digest": "b65a26e48e36d60bad6d0726e05d60e692d2b9e2a93d0fcae24977d03dab4e9a",
+   "response_digest": "3a8408a3dcddf362e5727653f59e56d0cac179f1fb17b55848a14fbf7bd3653d",
+   "external_ref": "urn:example:social:effect:c6754e4357ac30aa",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "0868aed64d104cd9322dedf51932d13a7e055a1135657113686aa26e36556afc"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:8ee5f8e2-2d42-54b2-8039-8b356c9d3b9f",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:49:30Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#o4",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_comment_create",
+   "request_digest": "34ee370c3a2e569d66aee54624c675d868dfba38d7b8565d14bc0a4d5f3b562b",
+   "response_digest": "c474f495596369c30f5307df25efdc84074890c4191597ca6734815ccf3a0e0f",
+   "external_ref": "urn:example:social:effect:facffcf62c7a6e3d",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "6e2cc7fcdd8b0e50372e0b61e1d12e97df93d43cfe0940db894b87d630e04bae"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:65ecb939-cef2-5016-a293-81418c45c23c",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:50:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#o5",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_comment_create",
+   "request_digest": "691ad5040e32a360fa7f8361ba73a88e967479c0ce14b2bb631f6408735d8b7c",
+   "response_digest": "dab4e5ce12503a736039c380ffdf4d1183249190e7e1402ea1c7bc8a29a3cbdd",
+   "external_ref": "urn:example:social:effect:fc4e136082592a16",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "dbb2a1c5378c32c461d633694c7dc9436988dcc8e834b9961d28ea8afb0335bd"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:03e7d876-64b4-5896-9712-931f2b5eb18e",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:50:50Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#o6",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_comment_create",
+   "request_digest": "b7099ac03030b4c87eb5e33edc12af49c50703abee2dd96103bf018446d0912a",
+   "response_digest": "fc1a76937b2803be747f72e436d49975422f5fb9c67d2e8d07ffa0370529f49a",
+   "external_ref": "urn:example:social:effect:30b91fc77d0b46a5",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "4e2cef2742d543242646785edc6717ff6a7994729e32d5848ba0ae5e994af8b4"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:8c6e432b-ad3b-5cf0-80f1-d92da5cde29e",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:51:30Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#o8",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_comment_create",
+   "request_digest": "4125f3cd1b51953cef14a0d480f42b0c891378f9bb3feb194627d2a5a00e6d94",
+   "response_digest": "0f3fbb4a6cadc00e545fddd0be6fbf855b90cdaae529d338d78d7b3d5d133a2f",
+   "external_ref": "urn:example:social:effect:f6c98352d3a81720",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "6ef3d02386ed7a0588e48b36cc4f4d9557d3a9e7d46d49ba0d936c6e2bc7e317"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:cb7c250e-fc1f-53fc-b9fe-a7d0ff840dff",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:52:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#o9",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_comment_create",
+   "request_digest": "22bfffac83ecf9cc5dedaf77342db1a19d546b1f685494c291c10ff3f733d7b5",
+   "response_digest": "23316e2154a7d051836be1cf1c6cc3147cb09716a28e300fc6904a0185890b88",
+   "external_ref": "urn:example:social:effect:e023fbe97969f394",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "0385615fcbab8825ffcd2e96e1a27779ba27d5d6ecd73ba47626af2c3a8c811f"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:da4781d0-d6ab-5040-93ee-5b5f21248916",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:52:50Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#o10",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.social_comment_create",
+   "request_digest": "6d8f90f3504654e1e4ddfa4188e4bab7b7ad7cf043e82b9ba59b833f724149a6",
+   "response_digest": "af6eb1ecbbb3609e8934df7f65ffea88872ab4429e7481504844a7afc3c82f53",
+   "external_ref": "urn:example:social:effect:450b18a04ffa402a",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "acted_on"
+   }
+  ],
+  "capsule_id": "30c9e64112288046e78731f300fd762d1ae3190b59ac10fe41b2369f3e54fd65"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:b6f50502-5fc5-5e9d-ba79-71131fd628a2",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T09:59:30Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "reject",
+   "approver": "policy",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#R-DECLINED",
+   "verdict_class": "denied",
+   "reason_digest": "4c3c611791600a2ce05cf7b3ed76e4fcd5e54a700f11ef31234b574715e4154d"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   }
+  ],
+  "capsule_id": "05073e13eb2e52811e291408a5399e0922edc4c217ba77a6469eaa35beed2b91"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:4096af93-681a-5b68-a732-4dc772a1dd36",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T09:59:31Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "reject",
+   "approver": "policy",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#R-NOT-READ",
+   "verdict_class": "denied",
+   "reason_digest": "73213353cd1dc29a8e83ec8c60ed3c108676c1362046e01d0a6ef2871ae04fe5"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   }
+  ],
+  "capsule_id": "dfd76bcefe71f56662087b3497512d9414bd01b1cde179f6ef45c01de203e7a6"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:8254f027-4e36-54f0-a774-1b28ada65df1",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T09:59:32Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "reject",
+   "approver": "policy",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#R-RELATION",
+   "verdict_class": "denied",
+   "reason_digest": "b94115eb46605bfbb48ab310a52e51ccb37527ff1819a3c7056b5a0f7efd64e3"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   }
+  ],
+  "capsule_id": "910873b94ebe96918586d3c87bf14ff30b445cf71ccee8a78e5cfb39fe20e137"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:9f89115b-923b-56f8-b3de-9b2d250b5e6b",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T09:59:33Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "needs_input",
+   "approver": "policy",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#R-ROLE-UNCONFIRMED",
+   "verdict_class": "needs_decision",
+   "reason_digest": "03f3d8f7d7cec0faeb941dd17371fea26dcee153ad0d740678b07aeaeb39e4a5"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   }
+  ],
+  "capsule_id": "aa48bce63f9c335a28e47024b6264f9ee3a71786a22630cd7d4678144f344862"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:ed1fa8ef-a3f7-5759-8e50-1009af6d4ed7",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T09:59:34Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "needs_input",
+   "approver": "policy",
+   "human_disposed": false,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#R-ROLE-UNCONFIRMED",
+   "verdict_class": "needs_decision",
+   "reason_digest": "03f3d8f7d7cec0faeb941dd17371fea26dcee153ad0d740678b07aeaeb39e4a5"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   }
+  ],
+  "capsule_id": "de1a216198f310b066432a6596d2f7a44b71b14cc080c1e8934709af41f318ae"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:aqta:action:29692f62-1b0b-5788-ac7b-a43c8582a366",
+  "action_type": "decide",
+  "operator": "example engagement routine",
+  "developer": "example",
+  "timestamp": "2026-11-05T10:27:10Z",
+  "domain": "social_engagement",
+  "disposition": {
+   "decision": "reject",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:social-engagement-routine#2026-11-01#o7",
+   "verdict_class": "denied"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "e0b6eb6073f413ce79549f03e637cc845175e6bfa85bc1c72e9b7d726edb5aa5",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest_alg": "SHA-256",
+    "digest": "afbd2f340cae775cebcbe964aeeb9619552573d83fefd5569b7b7cdbe804d6b0",
+    "citation_purpose": "responds_to"
+   }
+  ],
+  "capsule_id": "18d24e57662317d7a74480df09746709323133dd35af6ad10d18ca7662f94fe5"
+ }
+]
