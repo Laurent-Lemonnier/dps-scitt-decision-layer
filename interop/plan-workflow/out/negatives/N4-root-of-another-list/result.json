@@ -1,0 +1,9 @@
+{
+ "what": "the merkle_root is computed over other output hashes than the steps listed",
+ "caught_by": [
+  "aer1:merkle_root_recomputed",
+  "join:root"
+ ],
+ "expected_place": "aer1:merkle_root_recomputed",
+ "as_expected": true
+}

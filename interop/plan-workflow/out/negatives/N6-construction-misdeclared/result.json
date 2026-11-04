@@ -1,0 +1,9 @@
+{
+ "what": "the root is computed in seq-output-v1 and the workflow declares receipt-id-v0",
+ "caught_by": [
+  "aer1:merkle_root_recomputed",
+  "join:root"
+ ],
+ "expected_place": "aer1:merkle_root_recomputed",
+ "as_expected": true
+}

@@ -1,0 +1,92 @@
+[
+ {
+  "id": "c8b60b16-8afa-4b11-af4b-4fe9baedbfdc",
+  "receipt_schema_version": "0.4",
+  "created_at": "2026-11-06T09:30:21.000Z",
+  "tool": {
+   "name": "drive_document_create",
+   "version": "1.0.0",
+   "scope": "onboarding"
+  },
+  "provenance_class": "OBSERVED VIA GATEWAY",
+  "canonical_byte_length": 476,
+  "canonical_bytes": "eyJjYWxsZXIiOnsiaWQiOiJzaGEyNTY6Mjc1ZTczYzhmOGI3OTUyYzBmZjcyMjQ2N2Q1YWFhZmE5MDY5MzcxMjdjNzMwMGQxZjU5NzdhZTdmMjQ1ZWU0YiIsInR5cGUiOiJzZXJ2aWNlIn0sImlucHV0cyI6eyJvcGVyYXRpb24iOiJkcml2ZS5kb2N1bWVudC5jcmVhdGUiLCJyZXF1ZXN0X2RpZ2VzdCI6IjgxYmQ3MDA0MzEzZjEzOTI4MTZiMDI4ZTkzMzI3NjE0NjEwNzY5YmNjZWE0YTI5MzlhMGU5MWNmNDdhYTk1OTQiLCJ0YXJnZXQiOiJ1cm46ZXhhbXBsZTpkcml2ZTpmb2xkZXI6Y2xpZW50cy9DLTQ0NzEifSwiaXNzdWVyX2NsYWltcyI6eyJwcm92ZW5hbmNlX2NsYXNzIjoiT0JTRVJWRUQgVklBIEdBVEVXQVkifSwib3V0cHV0cyI6eyJkb2N1bWVudF9yZWYiOiJ1cm46ZXhhbXBsZTpkcml2ZTpkb2N1bWVudDpELTg4MjEzIn0sInJlY2VpcHRfc2NoZW1hX3ZlcnNpb24iOiIwLjQiLCJ0b29sIjoiZHJpdmVfZG9jdW1lbnRfY3JlYXRlIn0=",
+  "output_hash": "sha256:ae7ad6b17d41529347c023200538b6ac94ee758cf403f19e2f20bac86516e2dc",
+  "verification_status": "verified",
+  "input_hash": "sha256:ae71d0d13b537a4214d13f88e0ab05263aa762d5aa7825a23c968f1d1f1bc406",
+  "metadata_hash": "sha256:6a590e233944de69be8da441101c9c53599e5d959d49575c72d7bb1d6f03de52",
+  "execution_context": {
+   "framework": {
+    "name": "example-onboarding-runtime",
+    "version": "3"
+   },
+   "source": "urn:example:tenant:brokerage-1",
+   "model": null
+  },
+  "workflow": {
+   "id": "1f6e8a2c-5b7d-4e3a-9c1f-0a2b3c4d5e6f",
+   "url": "urn:example:workflow:1f6e8a2c-5b7d-4e3a-9c1f-0a2b3c4d5e6f",
+   "step_index": 0
+  }
+ },
+ {
+  "id": "8cf7e472-33d0-434f-b2e1-482067788d0b",
+  "receipt_schema_version": "0.4",
+  "created_at": "2026-11-06T09:30:49.000Z",
+  "tool": {
+   "name": "crm_client_create",
+   "version": "1.0.0",
+   "scope": "onboarding"
+  },
+  "provenance_class": "OBSERVED VIA GATEWAY",
+  "canonical_byte_length": 454,
+  "canonical_bytes": "eyJjYWxsZXIiOnsiaWQiOiJzaGEyNTY6Mjc1ZTczYzhmOGI3OTUyYzBmZjcyMjQ2N2Q1YWFhZmE5MDY5MzcxMjdjNzMwMGQxZjU5NzdhZTdmMjQ1ZWU0YiIsInR5cGUiOiJzZXJ2aWNlIn0sImlucHV0cyI6eyJvcGVyYXRpb24iOiJjcm0uY2xpZW50LmNyZWF0ZSIsInJlcXVlc3RfZGlnZXN0IjoiOGU0YWIyNjFhODk1NTQ2Nzg2ZTY2ZWFhNTViZGMyMjkwY2YxYjEyMjJlNjNkYzcwODBjNTA1ZTI5NmFkN2Q3YyIsInRhcmdldCI6InVybjpleGFtcGxlOmNybTpicm9rZXJhZ2UtMSJ9LCJpc3N1ZXJfY2xhaW1zIjp7InByb3ZlbmFuY2VfY2xhc3MiOiJPQlNFUlZFRCBWSUEgR0FURVdBWSJ9LCJvdXRwdXRzIjp7ImNybV9yZWNvcmRfcmVmIjoidXJuOmV4YW1wbGU6Y3JtOmNsaWVudDpSLTMwNDE3In0sInJlY2VpcHRfc2NoZW1hX3ZlcnNpb24iOiIwLjQiLCJ0b29sIjoiY3JtX2NsaWVudF9jcmVhdGUifQ==",
+  "output_hash": "sha256:1ffb8c603aca76121e204bd64f7e455282202843e48abeb10be7181e53da451c",
+  "verification_status": "verified",
+  "input_hash": "sha256:15b0b9d8768984d11bad37f632988f133fe3121e24c70e3b7a5a5c31ed82e557",
+  "metadata_hash": "sha256:455bfb7cacf67e7fd062deb1841c231484590fadf6270c54e7fd6ef52c50a7ef",
+  "execution_context": {
+   "framework": {
+    "name": "example-onboarding-runtime",
+    "version": "3"
+   },
+   "source": "urn:example:tenant:brokerage-1",
+   "model": null
+  },
+  "workflow": {
+   "id": "1f6e8a2c-5b7d-4e3a-9c1f-0a2b3c4d5e6f",
+   "url": "urn:example:workflow:1f6e8a2c-5b7d-4e3a-9c1f-0a2b3c4d5e6f",
+   "step_index": 1
+  }
+ },
+ {
+  "id": "bdc52ecc-b856-4b2e-8c47-68ac1fa5bde1",
+  "receipt_schema_version": "0.4",
+  "created_at": "2026-11-06T09:31:14.000Z",
+  "tool": {
+   "name": "chat_message_send",
+   "version": "1.0.0",
+   "scope": "onboarding"
+  },
+  "provenance_class": "OBSERVED VIA GATEWAY",
+  "canonical_byte_length": 462,
+  "canonical_bytes": "eyJjYWxsZXIiOnsiaWQiOiJzaGEyNTY6Mjc1ZTczYzhmOGI3OTUyYzBmZjcyMjQ2N2Q1YWFhZmE5MDY5MzcxMjdjNzMwMGQxZjU5NzdhZTdmMjQ1ZWU0YiIsInR5cGUiOiJzZXJ2aWNlIn0sImlucHV0cyI6eyJvcGVyYXRpb24iOiJjaGF0Lm1lc3NhZ2Uuc2VuZCIsInJlcXVlc3RfZGlnZXN0IjoiMjBkNDExMjI1ZjBiNjUzZTUwMDlmZThmZGU2NjAxZDdkMmQ0MjA2N2QwOWVmNDU4NjRkYzdlNjZlZTE5ZWFlMCIsInRhcmdldCI6InVybjpleGFtcGxlOmNoYXQ6Y2hhbm5lbDpvbmJvYXJkaW5nIn0sImlzc3Vlcl9jbGFpbXMiOnsicHJvdmVuYW5jZV9jbGFzcyI6Ik9CU0VSVkVEIFZJQSBHQVRFV0FZIn0sIm91dHB1dHMiOnsibWVzc2FnZV9yZWYiOiJ1cm46ZXhhbXBsZTpjaGF0Om1lc3NhZ2U6TS01NTE5MDIifSwicmVjZWlwdF9zY2hlbWFfdmVyc2lvbiI6IjAuNCIsInRvb2wiOiJjaGF0X21lc3NhZ2Vfc2VuZCJ9",
+  "output_hash": "sha256:414e06f2c8d12de31486fd0b1325cfb419de595443449bc85c20859a6762247c",
+  "verification_status": "verified",
+  "input_hash": "sha256:19bd45f68a2ed0f666d810cc72fc11554ec1a638b6439cbcc56e32553295b866",
+  "metadata_hash": "sha256:6db3f89f20dad89244cc61a6eb0042a12754cfaf171f1ad8bf9d52001ae1d153",
+  "execution_context": {
+   "framework": {
+    "name": "example-onboarding-runtime",
+    "version": "3"
+   },
+   "source": "urn:example:tenant:brokerage-1",
+   "model": null
+  },
+  "workflow": {
+   "id": "1f6e8a2c-5b7d-4e3a-9c1f-0a2b3c4d5e6f",
+   "url": "urn:example:workflow:1f6e8a2c-5b7d-4e3a-9c1f-0a2b3c4d5e6f",
+   "step_index": 2
+  }
+ }
+]

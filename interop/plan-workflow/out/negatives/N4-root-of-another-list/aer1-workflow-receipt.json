@@ -1,0 +1,45 @@
+{
+ "type": "verifiable-workflow-receipt",
+ "version": "1",
+ "workflow_id": "1f6e8a2c-5b7d-4e3a-9c1f-0a2b3c4d5e6f",
+ "receipt_id": "24f83993-cf56-4c41-8975-5cca8ae4dbfb",
+ "session_id": "135cc86d-0826-43aa-8244-c1cebe5cb68d",
+ "goal": "onboarding plan run urn:example:plan-run:2026-11-06-0471",
+ "status": "completed",
+ "steps": [
+  {
+   "seq": 1,
+   "tool": "drive_document_create",
+   "receipt_id": "c8b60b16-8afa-4b11-af4b-4fe9baedbfdc",
+   "receipt_hash": "sha256:b3a6c4d36fb8a600450c4dcbb0c3abec4447c5b35942e00ffd16ca165680f9f9",
+   "started_at": "2026-11-06T09:30:12Z",
+   "ended_at": "2026-11-06T09:30:21Z",
+   "status": "succeeded",
+   "output_hash": "ae7ad6b17d41529347c023200538b6ac94ee758cf403f19e2f20bac86516e2dc"
+  },
+  {
+   "seq": 2,
+   "tool": "crm_client_create",
+   "receipt_id": "8cf7e472-33d0-434f-b2e1-482067788d0b",
+   "receipt_hash": "sha256:9778b3f7d015bbd97b9ccf71aeebf3f02c0bbb3c31b1cb10b66e2dba9d82a366",
+   "started_at": "2026-11-06T09:30:40Z",
+   "ended_at": "2026-11-06T09:30:49Z",
+   "status": "succeeded",
+   "output_hash": "1ffb8c603aca76121e204bd64f7e455282202843e48abeb10be7181e53da451c"
+  },
+  {
+   "seq": 3,
+   "tool": "chat_message_send",
+   "receipt_id": "bdc52ecc-b856-4b2e-8c47-68ac1fa5bde1",
+   "receipt_hash": "sha256:b74463828397fa5e89e23641b760f9b0ec34ecb6060a4ba95b6e51ef2f0d8bb2",
+   "started_at": "2026-11-06T09:31:05Z",
+   "ended_at": "2026-11-06T09:31:14Z",
+   "status": "succeeded",
+   "output_hash": "414e06f2c8d12de31486fd0b1325cfb419de595443449bc85c20859a6762247c"
+  }
+ ],
+ "merkle_root": "97076339781859cd5a7a2ab5b64eb5084da6d230aa19f46c4567e3d1f514ef00",
+ "merkle_version": "seq-output-v1",
+ "output_hash": "f46c306c1ef8f080f40f8aff962d24a3d75ab1968e8095230364d5ee992624dd",
+ "verify_url": "urn:example:workflow:1f6e8a2c-5b7d-4e3a-9c1f-0a2b3c4d5e6f"
+}

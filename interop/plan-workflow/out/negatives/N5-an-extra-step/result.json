@@ -1,0 +1,10 @@
+{
+ "what": "the workflow lists a fourth step the plan never approved",
+ "caught_by": [
+  "join:list",
+  "join:receipts",
+  "join:root"
+ ],
+ "expected_place": "join:list",
+ "as_expected": true
+}

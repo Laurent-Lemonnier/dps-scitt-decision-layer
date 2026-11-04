@@ -1,0 +1,1 @@
+the merkle_root is computed over other output hashes than the steps listed

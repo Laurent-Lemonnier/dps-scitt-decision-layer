@@ -1,0 +1,11 @@
+{
+ "what": "the workflow lists two steps; the approved plan has three",
+ "caught_by": [
+  "join:14",
+  "join:list",
+  "join:receipts",
+  "join:root"
+ ],
+ "expected_place": "join:list",
+ "as_expected": true
+}

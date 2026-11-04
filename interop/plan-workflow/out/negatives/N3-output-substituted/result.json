@@ -1,0 +1,9 @@
+{
+ "what": "one step's output_hash is not its receipt's; the workflow's root is recomputed over the substitute",
+ "caught_by": [
+  "join:receipts",
+  "join:root"
+ ],
+ "expected_place": "join:root",
+ "as_expected": true
+}

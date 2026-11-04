@@ -1,0 +1,61 @@
+{
+ "N1-a-step-missing": {
+  "what": "the workflow lists two steps; the approved plan has three",
+  "caught_by": [
+   "join:14",
+   "join:list",
+   "join:receipts",
+   "join:root"
+  ],
+  "expected_place": "join:list",
+  "as_expected": true
+ },
+ "N2-steps-reordered": {
+  "what": "the workflow lists the second and third steps in the other order",
+  "caught_by": [
+   "join:14",
+   "join:list",
+   "join:receipts",
+   "join:root"
+  ],
+  "expected_place": "join:list",
+  "as_expected": true
+ },
+ "N3-output-substituted": {
+  "what": "one step's output_hash is not its receipt's; the workflow's root is recomputed over the substitute",
+  "caught_by": [
+   "join:receipts",
+   "join:root"
+  ],
+  "expected_place": "join:root",
+  "as_expected": true
+ },
+ "N4-root-of-another-list": {
+  "what": "the merkle_root is computed over other output hashes than the steps listed",
+  "caught_by": [
+   "aer1:merkle_root_recomputed",
+   "join:root"
+  ],
+  "expected_place": "aer1:merkle_root_recomputed",
+  "as_expected": true
+ },
+ "N5-an-extra-step": {
+  "what": "the workflow lists a fourth step the plan never approved",
+  "caught_by": [
+   "join:list",
+   "join:receipts",
+   "join:root"
+  ],
+  "expected_place": "join:list",
+  "as_expected": true
+ },
+ "N6-construction-misdeclared": {
+  "what": "the root is computed in seq-output-v1 and the workflow declares receipt-id-v0",
+  "caught_by": [
+   "aer1:merkle_root_recomputed",
+   "join:root"
+  ],
+  "expected_place": "aer1:merkle_root_recomputed",
+  "as_expected": true
+ }
+}

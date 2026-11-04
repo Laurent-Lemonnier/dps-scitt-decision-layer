@@ -1,0 +1,11 @@
+{
+ "what": "the workflow lists the second and third steps in the other order",
+ "caught_by": [
+  "join:14",
+  "join:list",
+  "join:receipts",
+  "join:root"
+ ],
+ "expected_place": "join:list",
+ "as_expected": true
+}
