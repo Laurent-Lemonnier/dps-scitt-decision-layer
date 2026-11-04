@@ -1,0 +1,6114 @@
+{
+ "pins": {
+  "vector_files_match_manifest": [
+   956,
+   0
+  ],
+  "leaf_encode_spec_artifact_digest": "571765530870e4a6c028a54ec48aab8153411a15cfe30c44611c11c02925f9d5"
+ },
+ "leaf_vectors": {
+  "L1": true,
+  "L2": true,
+  "L3": true,
+  "L4": true,
+  "L5": true,
+  "L6": true,
+  "L7": true,
+  "L8": true,
+  "L1_leaf_input_bytes": true
+ },
+ "cases": {
+  "C/C1": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "C/C10": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptVdsUnsupported"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptVdsUnsupported"
+   ],
+   "state": "agree"
+  },
+  "C/C10b": {
+   "expected": [
+    "Invalid",
+    "binding",
+    "VdsAlgorithmMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "binding",
+    "VdsAlgorithmMismatch"
+   ],
+   "state": "agree"
+  },
+  "C/C10c": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptBadSignature"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptBadSignature"
+   ],
+   "state": "agree"
+  },
+  "C/C11": {
+   "expected": [
+    "Unavailable",
+    "material",
+    "ReceiptAbsent"
+   ],
+   "got": [
+    "Unavailable",
+    "material",
+    "ReceiptAbsent"
+   ],
+   "state": "agree"
+  },
+  "C/C12": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptMalformed"
+   ],
+   "state": "agree"
+  },
+  "C/C13-high-s": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "C/C13-high-s-attached": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "C/C14": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "state": "agree"
+  },
+  "C/C15": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "C/C16": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAmbiguous"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAmbiguous"
+   ],
+   "state": "agree"
+  },
+  "C/C16b": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAmbiguous"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAmbiguous"
+   ],
+   "state": "agree"
+  },
+  "C/C17": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetBindingFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetBindingFailure"
+   ],
+   "state": "agree"
+  },
+  "C/C18-attached": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetBindingFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetBindingFailure"
+   ],
+   "state": "agree"
+  },
+  "C/C18-detached": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "C/C19": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "TargetStatementMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "TargetStatementMismatch"
+   ],
+   "state": "agree"
+  },
+  "C/C2": {
+   "expected": [
+    "Unavailable",
+    "material",
+    "MissingIndex"
+   ],
+   "got": [
+    "Unavailable",
+    "material",
+    "MissingIndex"
+   ],
+   "state": "agree"
+  },
+  "C/C20-attached": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "C/C20b": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetBindingFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetBindingFailure"
+   ],
+   "state": "agree"
+  },
+  "C/C21": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "C/C22": {
+   "expected": [
+    "Unavailable",
+    "material",
+    "ReceiptAbsent"
+   ],
+   "got": [
+    "Unavailable",
+    "material",
+    "ReceiptAbsent"
+   ],
+   "state": "agree"
+  },
+  "C/C23": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "TargetStatementMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "TargetStatementMismatch"
+   ],
+   "state": "agree"
+  },
+  "C/C23b-root-mismatch": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "state": "agree"
+  },
+  "C/C23c-literal-Q2": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "C/C24-attached": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptBadSignature"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptBadSignature"
+   ],
+   "state": "agree"
+  },
+  "C/C24-detached": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "C/C24-newkey-supplied": {
+   "expected": [
+    "Invalid",
+    "request",
+    "KeyMaterialFingerprintMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "KeyMaterialFingerprintMismatch"
+   ],
+   "state": "agree"
+  },
+  "C/C3": {
+   "expected": [
+    "Invalid",
+    "request",
+    "IndexOutOfPrefix"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "IndexOutOfPrefix"
+   ],
+   "state": "agree"
+  },
+  "C/C4": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "state": "agree"
+  },
+  "C/C5-attached": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptBadSignature"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptBadSignature"
+   ],
+   "state": "agree"
+  },
+  "C/C5-detached": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "C/C6-attached": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptBadSignature"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptBadSignature"
+   ],
+   "state": "agree"
+  },
+  "C/C6-detached": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "C/C7-attached": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptBadSignature"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptBadSignature"
+   ],
+   "state": "agree"
+  },
+  "C/C7-detached": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "C/C7-otherkey-supplied": {
+   "expected": [
+    "Invalid",
+    "request",
+    "KeyMaterialFingerprintMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "KeyMaterialFingerprintMismatch"
+   ],
+   "state": "agree"
+  },
+  "C/C8": {
+   "expected": [
+    "Unavailable",
+    "material",
+    "ReceiptKeyUnavailable"
+   ],
+   "got": [
+    "Unavailable",
+    "material",
+    "ReceiptKeyUnavailable"
+   ],
+   "state": "agree"
+  },
+  "C/C9": {
+   "expected": [
+    "Invalid",
+    "binding",
+    "TsIssuerMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "binding",
+    "TsIssuerMismatch"
+   ],
+   "state": "agree"
+  },
+  "E/E1-admission": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E1-closure": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E1-instance": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E1-profile": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E10-unprotected": {
+   "expected": [
+    "Invalid",
+    "binding",
+    "LeafInputDomainViolation"
+   ],
+   "got": [
+    "Invalid",
+    "binding",
+    "LeafInputDomainViolation"
+   ],
+   "state": "agree"
+  },
+  "E/E10b-empty-unprotected": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E11": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E12-sub-badutf8": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E2-untagged": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E3-nonsubject": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E4-protected-notmap": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E4-protected-trunc": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E5-claims-missing": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E5-iss-missing": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E5-sub-notstr": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E6-dup-cwt": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E7-indefinite": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E8-sub-bytediff": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "E/E9a-underivable": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "E/E9b-payload-none": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "I/I2-ts-iss": {
+   "expected": [
+    "Invalid",
+    "binding",
+    "TsIssuerMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "binding",
+    "TsIssuerMismatch"
+   ],
+   "state": "agree"
+  },
+  "I/I3-other-ts-key": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "I/I4-frozen-vds": {
+   "expected": [
+    "Invalid",
+    "request",
+    "FrozenConfigMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "FrozenConfigMalformed"
+   ],
+   "state": "agree"
+  },
+  "I/I5-spec": {
+   "expected": [
+    "Invalid",
+    "binding",
+    "LeafSpecDigestMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "binding",
+    "LeafSpecDigestMismatch"
+   ],
+   "state": "agree"
+  },
+  "I/I6": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "I/I6b-controls": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "I/I6b-quote-backslash": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "I/I6b-slash-uri": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "I/I6b-unicode": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "I/I7-textual-fingerprint": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "I/I7-uppercase-text-fingerprint": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "I/I8-extra-frozen-label": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "M/M0-base": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "M/M1": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "state": "agree"
+  },
+  "M/M11": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "state": "agree"
+  },
+  "M/M13": {
+   "expected": [
+    "Invalid",
+    "request",
+    "KeyMaterialFingerprintMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "KeyMaterialFingerprintMismatch"
+   ],
+   "state": "agree"
+  },
+  "M/M17": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "M/M18": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "M/M19": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "M/M2-tagged-logged": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "state": "agree"
+  },
+  "M/M2-untagged-logged": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "state": "agree"
+  },
+  "M/M20": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "M/M22": {
+   "expected": [
+    "Unavailable",
+    "material",
+    "MissingIndex"
+   ],
+   "got": [
+    "Unavailable",
+    "material",
+    "MissingIndex"
+   ],
+   "state": "agree"
+  },
+  "M/M23": {
+   "expected": [
+    "Invalid",
+    "request",
+    "IndexOutOfPrefix"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "IndexOutOfPrefix"
+   ],
+   "state": "agree"
+  },
+  "M/M24-diag": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "M/M25-order": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "M/M26": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "M/M27-attached": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetBindingFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetBindingFailure"
+   ],
+   "state": "agree"
+  },
+  "M/M27-detached": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "M/M29": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAmbiguous"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAmbiguous"
+   ],
+   "state": "agree"
+  },
+  "M/M3": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "state": "agree"
+  },
+  "M/M4-in-log": {
+   "expected": [
+    "Invalid",
+    "binding",
+    "LeafInputDomainViolation"
+   ],
+   "got": [
+    "Invalid",
+    "binding",
+    "LeafInputDomainViolation"
+   ],
+   "state": "agree"
+  },
+  "M/M4-transport": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "state": "agree"
+  },
+  "M/M5-charset": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "M/M5-cose": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "M/M5-empty": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "M/M5-upper": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "M/M6-minus1": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "M/M6-plus1": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptTargetAuthenticationFailure"
+   ],
+   "state": "agree"
+  },
+  "M/M7": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "state": "agree"
+  },
+  "M/M7b": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "M/M8": {
+   "expected": [
+    "Unavailable",
+    "material",
+    "MissingIndex"
+   ],
+   "got": [
+    "Unavailable",
+    "material",
+    "MissingIndex"
+   ],
+   "state": "agree"
+  },
+  "M/M8b": {
+   "expected": [
+    "Unavailable",
+    "material",
+    "MissingIndex"
+   ],
+   "got": [
+    "Unavailable",
+    "material",
+    "MissingIndex"
+   ],
+   "state": "agree"
+  },
+  "M/M9": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "DuplicateIndex"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "DuplicateIndex"
+   ],
+   "state": "agree"
+  },
+  "M/M9b": {
+   "expected": [
+    "Invalid",
+    "request",
+    "IndexOutOfPrefix"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "IndexOutOfPrefix"
+   ],
+   "state": "agree"
+  },
+  "R/R1-treesize0": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptMalformed"
+   ],
+   "state": "agree"
+  },
+  "R/R10": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "state": "agree"
+  },
+  "R/R11": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "RootMismatch"
+   ],
+   "state": "agree"
+  },
+  "R/R12a": {
+   "expected": [
+    "Unavailable",
+    "material",
+    "MissingIndex"
+   ],
+   "got": [
+    "Unavailable",
+    "material",
+    "MissingIndex"
+   ],
+   "state": "agree"
+  },
+  "R/R12b": {
+   "expected": [
+    "Invalid",
+    "request",
+    "IndexOutOfPrefix"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "IndexOutOfPrefix"
+   ],
+   "state": "agree"
+  },
+  "R/R12c": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "R/R13": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "R/R14": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "R/R9-full": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S1": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S11": {
+   "expected": [
+    "Unavailable",
+    "material",
+    "StatementPayloadUnavailable"
+   ],
+   "got": [
+    "Unavailable",
+    "material",
+    "StatementPayloadUnavailable"
+   ],
+   "state": "agree"
+  },
+  "S/S11b": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S11c": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S11d": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S12": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S13": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S13-bad": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S14": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S2": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S3": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S4": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S4-control": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S5": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S6": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S7": {
+   "expected": [
+    "Invalid",
+    "request",
+    "KeyMaterialFingerprintMismatch"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "KeyMaterialFingerprintMismatch"
+   ],
+   "state": "agree"
+  },
+  "S/S7b": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S8": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "S/S9": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-10-content-type-missing": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-10-content-type-wrong": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-10-label-258": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-10-label-259": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-10-label-260": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-11-bom": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-11-invalid-utf8": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-11-lone-surrogate": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-12-decimal": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-12-empty": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-12-leading-zero": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-12-ok-u64max": {
+   "expected": [
+    "Unavailable",
+    "capability",
+    "VerifierCapabilityUnsupported"
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "not_reached: the expected result is the 64 MiB transcript cap at P9, set by authorization/S2B_PHASE_B5_AUTHORIZATION_v1_ADDENDUM_1.txt, not by the frozen text"
+  },
+  "SPS/SPS-12-ok-zero": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-12-overflow": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-12-sign": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-12-space": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-13-terminal-false": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-14-digest-wrapped": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-14-lim-altered": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-14-lim-extra": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-14-lim-reorder": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-15-coverage_verification_result": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-15-receipt_ref": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-15-s_r": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-15a-absent": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-15a-case": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-15a-empty": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-15a-extra": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-15a-string": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-16-equal": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-16-unequal": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "badSignature",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-17-nfc-subject": {
+   "expected": [
+    "Invalid",
+    "request",
+    "TargetKindMismatch"
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "not_reached: the expected result rests on the payload schema (second pass)"
+  },
+  "SPS/SPS-19-crit-ok": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-19-crit-unknown": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-19-extra-claims": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-2-member-order": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-2-whitespace": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-21-binding-mismatch-wire": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-22-empty": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-22-odd": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-22-ok": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-22-upper": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-22-zz": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-3-duplicate": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-4-descriptor-member": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-4-predicate-member": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-4-statement-member": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-5-empty-object": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "SPS/SPS-5-predicate-absent": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-5-predicate-array": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-5-predicate-null": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-5-predicate-string": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-6-null": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-6-number": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-7-digest-upper": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-7-name-other": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-7-subject-empty": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-7-subject-two": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-8-type": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "SPS/SPS-9-predicate-type": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree_on_replay; rows not reached (schema stage 1 on subject rows, second pass)",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": false,
+    "statement_sha256": true,
+    "signature_observations": false
+   },
+   "ours": {
+    "unreadable_idx": [],
+    "signature_observations": {
+     "0": "verified",
+     "1": "verified"
+    }
+   },
+   "theirs": {
+    "unreadable_idx": [
+     0
+    ],
+    "signature_observations": {
+     "1": "verified"
+    }
+   }
+  },
+  "X/X-base": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "X/X-cosekey-empty": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-cosekey-not-map": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-cosekey-tagged": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-cosekey-trailing": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-detached-arity3": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-detached-dup-index": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-diagnostics-indefinite-unterminated": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-diagnostics-tagged": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "X/X-envelope-four": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-envelope-not-array": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-envelope-tagged": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-envelope-two": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-fp-31": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-fp-33": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-frozen-dup-label": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-frozen-label-zero": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-frozen-missing-label": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-frozen-tagged-value": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-frozen-text-label": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-frozen-unknown-label": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-indefinite-array": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "X/X-km-dup-issuer": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-km-key-not-bstr": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-kr-arity3": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-kr-dup-issuer": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-leaf-arity1": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-leaf-empty-statement": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-leaf-index-bignum": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-leaf-index-negative": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-leaf-index-text": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-leaves-not-array": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-magic-empty": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-magic-wrong": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-map-order-frozen": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "X/X-material-dup-label": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-material-missing-label": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-material-unknown-label": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-nonshortest-uint": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "X/X-receipt-empty-bstr": {
+   "expected": [
+    "Invalid",
+    "replay",
+    "ReceiptMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "replay",
+    "ReceiptMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-receipt-text": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-reorder-detached": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "X/X-reorder-keyarrays": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "X/X-reorder-leaves": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {
+    "root": true,
+    "log_identity_digest": true,
+    "leaf_encoding_profile_digest": true,
+    "checkpoint_size": true,
+    "unreadable_idx": true,
+    "statement_sha256": true,
+    "signature_observations": true
+   }
+  },
+  "X/X-rk-null-supplied-receipt-detached": {
+   "expected": [
+    "Unavailable",
+    "material",
+    "ReceiptKeyUnavailable"
+   ],
+   "got": [
+    "Unavailable",
+    "material",
+    "ReceiptKeyUnavailable"
+   ],
+   "state": "agree"
+  },
+  "X/X-rk-omitted": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-spec-31": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-subject-text": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-target-empty-bstr": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-target-null": {
+   "expected": [
+    "Unavailable",
+    "material",
+    "TargetStatementAbsent"
+   ],
+   "got": [
+    "Unavailable",
+    "material",
+    "TargetStatementAbsent"
+   ],
+   "state": "agree"
+  },
+  "X/X-trailing-byte": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-tsiss-bad-utf8": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-tsiss-not-text": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-vds-float": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-vds-negative": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "X/X-vds-text": {
+   "expected": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "got": [
+    "Invalid",
+    "request",
+    "RequestMalformed"
+   ],
+   "state": "agree"
+  },
+  "s2a-post/A15-determinate-evidence": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A10-mismatch": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A11-mismatch": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A12-mismatch": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A12-unavailable": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A13-mismatch": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A13-unavailable": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A14-mismatch": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A14-unavailable": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A5-mismatch": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A6-mismatch": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A7-mismatch": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A8-mismatch": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-A9-mismatch": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-multiple-lowest": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/BIND-unavailable-and-mismatch": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/POST-BASE-match": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/SPS-20-extra-closure-shaped-entry": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/T12-T2-wrong-kind": {
+   "expected": [
+    "Invalid",
+    "request",
+    "TargetKindMismatch"
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "not_reached: the expected result rests on the payload schema (second pass)"
+  },
+  "s2a-post/T12-T3-wrong-issuer": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/T12-T4-bad-signature": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/T13-T5-closureAt-none": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/T13-T6-target-before-closure": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-post/T15-wire-mismatch-before-S2a": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N0": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N1": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N10": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N12": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N13a": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N13b": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N14": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N15": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N16": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N17": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N18": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N19": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N2": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N20": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N21": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N22a": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N22b": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N22c": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N24": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N25": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N26": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N27": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N28a": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N28b": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N28c": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N28d": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N28e": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N29": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N3": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N30": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N31": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N32a": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N32b": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N32c": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N32d": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N33": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N34": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N35": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N36a": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N36b": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N36c": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N4": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N4b": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N5": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N6a": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N6b": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N6c": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N7a": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N7b": {
+   "expected": [
+    "Unavailable",
+    "material",
+    "ReceiptAbsent"
+   ],
+   "got": [
+    "Unavailable",
+    "material",
+    "ReceiptAbsent"
+   ],
+   "state": "agree"
+  },
+  "s2a-t11/N7c": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N8": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/N9": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/P1": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/P2": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/P3": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/P3b": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/T3-idx255-FFdigest": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/X1": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/X10": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/X2": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/X3": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/X4": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/X5": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/X6": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/X7": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/X8": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  },
+  "s2a-t11/X9": {
+   "expected": [
+    "Verified",
+    null,
+    null
+   ],
+   "got": [
+    "Verified",
+    null,
+    null
+   ],
+   "state": "agree",
+   "evidence": {}
+  }
+ },
+ "tally": {
+  "agree": 307,
+  "disagree": 0,
+  "not_reached": 3,
+  "agree_replay_layer_rows_not_reached": 28
+ },
+ "transcript": "not attempted in this pass: section 15 (tB) is the second pass",
+ "payload_schema": "not attempted in this pass: section 13.3, StatementPayloadSchemaV0 r9",
+ "ambiguity_log": [
+  {
+   "where": "section 11.2 step 2, an inclusion path that does not fit",
+   "reading": "a proof whose path is too short or too long for its tree_size and leaf_index (RFC 9162 section 2.1.3.2 ends with sn != 0) gives no candidate root and so does not authenticate the target; it is not read as ReceiptMalformed, which P2 reserves for unreadable proofs and leaf_index >= tree_size"
+  },
+  {
+   "where": "section 7.3 (b), the leaf-domain check",
+   "reading": "a leaf is checked when its COSE_Sign1 array is readable, tagged or untagged (\"detection needs the COSE_Sign1 array to be readable\"); an unreadable leaf makes no domain claim"
+  },
+  {
+   "where": "section 9.1 P4, two Invalid codes at once",
+   "reading": "a duplicate index and an index beyond n in the same request: DuplicateIndex is reported first, as the phase table lists it first; the text orders phases, not codes inside one"
+  },
+  {
+   "where": "section 12.4 rule 2, LogIdentityInconsistent",
+   "reading": "each of the four LogIdentityV0 components is compared by a more specific code (TsIssuerMismatch at P7, the key fingerprint at P0, the VDS at P0 and P3, LeafSpecDigestMismatch at P7), and the physical request has no expected_log_identity_digest; so this reading never emits LogIdentityInconsistent, and no case expects it"
+  },
+  {
+   "where": "section 13.2, the subject comparison",
+   "reading": "the CWT sub (a tstr) is compared with instance_subject (a bstr) by the UTF-8 bytes of the tstr, as section 6.1 says \"byte-compared with row sub\""
+  },
+  {
+   "where": "section 9.1 P5, the target at leaf_index",
+   "reading": "TargetStatementMismatch is evaluated when exactly one record holds leaf_index; with two records there, DuplicateIndex already decides"
+  },
+  {
+   "where": "section 8.4, LeafEncodeSpecArtifactDigestV0",
+   "reading": "the S2b text defines it by reference to S2a section 6b, which this reading did not open; the rule quoted in StatementPayloadSchemaV0 r9 section 8.11.1 (domain 'P10-LeafEncodeSpecArtifact-v0:', format 'text-markdown-utf-8-v0:', raw bytes) reproduces the pinned value 571765530870e4a6... from frozen/LeafEncodeV0_SPEC.md"
+  },
+  {
+   "where": "P9, transcript size",
+   "reading": "the case SPS-12-ok-u64max expects Unavailable(capability, VerifierCapabilityUnsupported) from a 64 MiB cap on the encoded transcript; its own note says 'the frozen text sets no limit'; the cap is in the B5 authorization addendum 1 (a build capability). A reader of the frozen text alone has no limit and would produce a transcript; reported, not counted"
+  },
+  {
+   "where": "P3/P5, an empty target",
+   "reading": "an empty target_registered_statement_bytes is not encodable (section 7.7); it is reported at P5 as RequestMalformed and P3 is not evaluated, since no candidate entry exists"
+  }
+ ]
+}

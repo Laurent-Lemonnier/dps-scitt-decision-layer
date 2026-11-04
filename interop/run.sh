@@ -56,10 +56,32 @@ DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-checkpoint/bu
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-checkpoint/negatives.py > plan-checkpoint/out/negatives-ci.log || { echo "plan checkpoint: a failing case was not caught where expected"; cat plan-checkpoint/out/negatives-ci.log; exit 1; }
 echo "# the plan's checks again, the checkpoint record's dimensions, seal and approval verified, 15 joins true; 8 failing cases caught where expected; the adjudication is synthetic and says so; the P10 executed instance's adjudication statement (leaf 7) held at its pinned digest"
 
+echo "== Case 13: the approved plan and an AER-1 workflow receipt in seq-output-v1, composed (plan-workflow)"
+mkdir -p plan-workflow/out
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-workflow/build.py > plan-workflow/out/build-ci.log || { echo "plan workflow: not all verified"; tail -30 plan-workflow/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-workflow/negatives.py > plan-workflow/out/negatives-ci.log || { echo "plan workflow: a failing case was not caught where expected"; cat plan-workflow/out/negatives-ci.log; exit 1; }
+echo "# the plan's ten joins and five more true; three AER-1 step receipts verified; the workflow root recomputed in seq-output-v1; 6 failing cases caught where expected"
+
+echo "== An EP authorization bundle and a DPS decision, bound both ways (emilia-pair), at the EP author's request"
+(cd emilia-pair/vectors && sha256sum -c --quiet SHA256SUMS) || { echo "emilia-pair: the pinned EP vector file changed"; exit 1; }
+mkdir -p emilia-pair/out
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 emilia-pair/build.py > emilia-pair/out/build-ci.log || { echo "emilia pair: not all verified"; tail -30 emilia-pair/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 emilia-pair/negatives.py > emilia-pair/out/negatives-ci.log || { echo "emilia pair: a failing case was not caught where expected"; cat emilia-pair/out/negatives-ci.log; exit 1; }
+echo "# DPS A1 and A2 verified; EP bundle SATISFIED by a verifier written from section 6.2, and the author's valid-non-oauth-native-binding example SATISFIED; 5 joins true; 11 failing cases caught where expected"
+
 echo "== PALA-1 bridge run B3 (Assault-Consulting/Palimpsests, SCITT-bridge statement v3) from the text, pinned at $(awk '{print substr($NF,1,12)}' pala/vectors/PINNED_COMMIT.txt)"
 (cd pala/vectors && sha256sum -c --quiet SHA256SUMS) || { echo "pala: pinned vector files changed"; exit 1; }
 mkdir -p pala/out
 python3 pala/verify_statement_v3.py --vectors pala/vectors --report pala/out/report-ci.json | tail -1
+
+echo "== P10 S2b, the replay verifier of draft-nestorov-scitt-p10-underdetermination-02, read from the text (first pass), pinned at $(awk '{print substr($2,1,12)}' p10/PINNED_COMMIT.txt)"
+if [ ! -d p10/s2b ]; then
+  git clone --quiet https://github.com/VolMax-Studio/p10-replay-verifier.git p10/s2b
+fi
+git -C p10/s2b checkout --quiet "$(awk '{print $2}' p10/PINNED_COMMIT.txt)"
+(cd p10/s2b && sha256sum -c --quiet ../SHA256SUMS) || { echo "p10: a file read by the reading changed at the pin"; exit 1; }
+mkdir -p p10/out
+python3 p10/replay_from_text.py --vectors p10/s2b --report p10/out/report-ci.json | tail -1
 
 echo "== draft-fassbender-scitt-time-anchor-08, Appendix D vectors, route 2 (no OTS software)"
 CP=957289:000000000000000000018e5b8c68a63c45b3eeac3a05ecf621a3b3f7890e3534
@@ -76,7 +98,7 @@ nochain=$(python3 umarise/verify_anchor.py --artifact umarise/vectors/vector1.tx
 grep -q '"result": "unverifiable"' <<<"$nochain" || { echo "D.6 no chain: not unverifiable: $nochain"; exit 1; }
 echo "# 4 vectors valid at height 957289; D.6 negative invalid; no validated chain unverifiable"
 
-echo "== draft-zambo-aer1-26, conformance kit v1.5.7 (all seven vector suites)"
+echo "== draft-zambo-aer1-26, conformance kit v1.5.7 (all seven vector suites, and the seq-output-v1 workflow vectors)"
 AER1_REPO=https://gitlab.com/rambozambodotdev/zambo.git
 AER1_COMMIT="${AER1_COMMIT:-$(cat aer1/PINNED_COMMIT)}"
 if [ ! -d aer1/zambo ]; then
