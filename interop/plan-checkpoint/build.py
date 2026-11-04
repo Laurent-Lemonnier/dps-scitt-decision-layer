@@ -15,8 +15,10 @@
 The adjudication here is synthetic: built in this directory in the shape Section 9 lists, with the digests of its
 claim, evidence and witnesses recomputable from the objects beside it, and marked so. It is not issued, registered or
 verified by the P10 chain, and nothing here claims conformance to that profile. The executed instance of the
-profile's Appendix B is named beside it as a pointer (log identity, leaf, checkpoint size), for the shape a real one
-takes. The decision layer is what this case adds: what the person knew was undecided, and decided anyway, and why.
+profile's Appendix B is named beside it, for the shape a real one takes: its adjudication statement (leaf 7 of the
+instance's log) is cited by its bytes as the author published them (repository, tag, path, length, SHA-256), and a
+copy pinned under vectors/ is checked against that digest. The decision layer is what this case adds: what the person
+knew was undecided, and decided anyway, and why.
 """
 import base64
 import copy
@@ -48,10 +50,26 @@ EVIDENCE = [{"source": "urn:example:screening:provider-a", "result": "possible m
             {"source": "urn:example:screening:provider-b", "result": "no data", "at": at(30, 23)}]
 WITNESSES = [{"restricted_match": True, "provider_a_reads": "true positive", "provider_b_reads": "coverage gap"},
              {"restricted_match": False, "provider_a_reads": "false positive", "provider_b_reads": "coverage gap"}]
-EXECUTED_INSTANCE = {  # the profile's own executed instance, as its Appendix B publishes it: a pointer, not bytes held
-    "source": "draft-nestorov-scitt-p10-underdetermination-02, Appendix B",
+EXECUTED_INSTANCE = {  # the profile's own executed instance: its adjudication statement cited by its bytes, as the author published them
+    "source": "draft-nestorov-scitt-p10-underdetermination-02, Appendix B and Appendix C.3 (C09); locator as corrected by "
+              "the author on 1 November 2026",
     "log_identity_digest": "6a510bcf3a122ae9af2714939d60a6a4e997ff9751836024dd480ebd60cd37c9",
-    "adjudication_leaf_index": 7, "checkpoint_size": 8}
+    "adjudication_leaf_index": 7, "checkpoint_size": 8,
+    "repository": "VolMax-Studio/p10-scitt-transparency-s3", "tag": "v0.1.0-s3-accepted",
+    "commit": "5acc277a13dc122e39fcb5f9f3e646b06cc95009",
+    "path": "ts-prototype/evidence/s3b-capture/capture/prefix/000007.cose", "role": "p10-target",
+    "length": 7516, "sha256": "73273d96f81aebfa35ff2298f99198328664a1ab6bec442ba5f4ce0003f8a16e"}
+EXECUTED_INSTANCE_COPY = HERE / "vectors" / "000007.cose"   # the copy pinned beside the case (vectors/PINNED_COMMIT.txt, SHA256SUMS)
+
+
+def executed_instance_held():
+    """The pinned copy of the executed instance's adjudication statement against the citation: its length and SHA-256.
+    A check of the pin, not a join between this case's documents: the case's adjudication stays synthetic."""
+    if not EXECUTED_INSTANCE_COPY.exists():
+        return "not_checked: no copy held"
+    raw = EXECUTED_INSTANCE_COPY.read_bytes()
+    ok = len(raw) == EXECUTED_INSTANCE["length"] and sha256(raw) == EXECUTED_INSTANCE["sha256"]
+    return "verified" if ok else "failed: the copy held is not the object cited"
 
 
 def compatible(evidence, world):
@@ -283,12 +301,14 @@ def verify(art, b=None):
     c["dps_person_signatures"] = {"verified": sum(p["status"] == "verified" for p in persons), "of": len(persons),
                                   "failed": [{k: p[k]["status"] for k in ("signature", "subject", "key_state", "identity")}
                                              for p in persons if p["status"] != "verified"]}
+    c["executed_instance_held"] = executed_instance_held()
     r["checkpoint"] = c
     r["joins"].update(joins(art))
     r["all_verified"] = (r["all_verified"] and not any(c["schema_errors"].values())
                          and all(v == "verified" for v in c["dps_action_binding"].values())
                          and c["dps_issuer_seal"]["status"] == "verified"
                          and c["dps_person_signatures"]["verified"] == c["dps_person_signatures"]["of"] == 1
+                         and c["executed_instance_held"] == "verified"
                          and all(v is True for v in r["joins"].values()))
     return r
 

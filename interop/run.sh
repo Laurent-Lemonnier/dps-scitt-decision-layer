@@ -51,9 +51,10 @@ echo "# 8 DPS dimensions, the issuer's seal and the person's approval of the pla
 
 echo "== A human checkpoint in the middle of the plan, under an undecided claim (plan-checkpoint): a second decision record on a context state and an adjudication in the shape of P10"
 mkdir -p plan-checkpoint/out
+(cd plan-checkpoint/vectors && sha256sum -c --quiet SHA256SUMS) || { echo "plan checkpoint: the pinned copy of the P10 executed instance changed"; exit 1; }
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-checkpoint/build.py > plan-checkpoint/out/build-ci.log || { echo "plan checkpoint: not all verified"; tail -30 plan-checkpoint/out/build-ci.log; exit 1; }
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-checkpoint/negatives.py > plan-checkpoint/out/negatives-ci.log || { echo "plan checkpoint: a failing case was not caught where expected"; cat plan-checkpoint/out/negatives-ci.log; exit 1; }
-echo "# the plan's checks again, the checkpoint record's dimensions, seal and approval verified, 15 joins true; 8 failing cases caught where expected; the adjudication is synthetic and says so"
+echo "# the plan's checks again, the checkpoint record's dimensions, seal and approval verified, 15 joins true; 8 failing cases caught where expected; the adjudication is synthetic and says so; the P10 executed instance's adjudication statement (leaf 7) held at its pinned digest"
 
 echo "== PALA-1 bridge run B3 (Assault-Consulting/Palimpsests, SCITT-bridge statement v3) from the text, pinned at $(awk '{print substr($NF,1,12)}' pala/vectors/PINNED_COMMIT.txt)"
 (cd pala/vectors && sha256sum -c --quiet SHA256SUMS) || { echo "pala: pinned vector files changed"; exit 1; }

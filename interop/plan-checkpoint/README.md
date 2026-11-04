@@ -22,10 +22,15 @@ Synthetic data, test keys, as in the plan case.
 The adjudication is built in this directory in the shape of P10 Section 9, with its limitations stating so. It is
 not issued, registered or verified by the P10 chain (a Lean certificate, a replay verifier, a transparency service),
 and nothing here claims conformance to that profile; the fixture's compatibility relation and evaluation are the
-fixture's. The profile's own executed instance is named beside it as a pointer, as its Appendix B publishes it
-(log identity `6a510bcf…`, adjudication at leaf 7, checkpoint size 8): that is the shape a real one takes, and the
-example would cite the real statement by its bytes once they are public. What this case adds is the decision layer
-over it: what the person knew was undecided, decided anyway, and recorded why.
+fixture's. The profile's own executed instance is named beside it, for the shape a real one takes: its adjudication
+statement, leaf 7 of the instance's log (log identity `6a510bcf…`, checkpoint size 8, Appendix B), is cited by its
+bytes as the author published them: `VolMax-Studio/p10-scitt-transparency-s3`, tag `v0.1.0-s3-accepted` (commit
+`5acc277a`), `ts-prototype/evidence/s3b-capture/capture/prefix/000007.cose`, 7,516 bytes, SHA-256 `73273d96…a16e`
+(the locator as the author corrected it on 1 November 2026; the draft's Appendix C.3 pins the same digest as C09). A
+copy is pinned in `vectors/` (`PINNED_COMMIT.txt`, `SHA256SUMS`), and the run checks it against the citation
+(`checkpoint.executed_instance_held` in `out/summary.json`); that is a check of the pin, not one of the joins, and
+nothing here reads the statement's content or verifies it under the P10 chain. What this case adds is the decision
+layer over the synthetic adjudication: what the person knew was undecided, decided anyway, and recorded why.
 
 ## The point
 

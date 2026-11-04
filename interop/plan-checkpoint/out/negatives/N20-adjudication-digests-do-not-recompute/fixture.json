@@ -30,9 +30,16 @@
   }
  ],
  "executed_instance": {
-  "source": "draft-nestorov-scitt-p10-underdetermination-02, Appendix B",
+  "source": "draft-nestorov-scitt-p10-underdetermination-02, Appendix B and Appendix C.3 (C09); locator as corrected by the author on 1 November 2026",
   "log_identity_digest": "6a510bcf3a122ae9af2714939d60a6a4e997ff9751836024dd480ebd60cd37c9",
   "adjudication_leaf_index": 7,
-  "checkpoint_size": 8
+  "checkpoint_size": 8,
+  "repository": "VolMax-Studio/p10-scitt-transparency-s3",
+  "tag": "v0.1.0-s3-accepted",
+  "commit": "5acc277a13dc122e39fcb5f9f3e646b06cc95009",
+  "path": "ts-prototype/evidence/s3b-capture/capture/prefix/000007.cose",
+  "role": "p10-target",
+  "length": 7516,
+  "sha256": "73273d96f81aebfa35ff2298f99198328664a1ab6bec442ba5f4ce0003f8a16e"
  }
 }
