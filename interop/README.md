@@ -33,5 +33,9 @@ reach the published verdicts, and to say where it is not. Results as of 2026-10-
   the -02 candidate at commit f79f9d1 at a co-author's request: one producer rule is new there, the commitment to the
   principal at the seam, and it is recorded as a gap.
 
+How these cases meet the readings an outside reader of the two DPS extensions logged (Andrii Sparysh, dps-reading-1
+and 1b, 3 November 2026): `SPARYSH-READINGS-2026-11.md`. In every attachment published here, each stage comes after
+the stages it names both in the list and in time, never at an equal time, and every rationale is contemporaneous.
+
 Both are offered to their authors for review. They are not conformance claims by the authors, and the README in each
 directory lists what was left out. Licence: Apache-2.0, as the rest of this repository.
