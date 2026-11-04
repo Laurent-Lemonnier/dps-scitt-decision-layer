@@ -17,7 +17,8 @@ draft's Implementation Status names as the frozen reference for -26).
 | `chain-vectors-v07.json` (Sections 7.1, 7.2) | 28 | 28/28 |
 | `commitment-vectors.json` (Section 7.3) | 8 | 8/8 |
 | `merkle-vectors.json` (Section 8.1, receipt-id-v0; 8.2 duplicate id rule) | 9 | 9/9 |
-| **Total** | **119** | **119/119** |
+| `workflow-merkle-seq-output-v1.json` at the kit's root (Section 8.1, seq-output-v1 and the selector; added on 5 November 2026 for case 13) | 7 | 7/7, the two cross-version must-fail cases included (a v0 close has no `output_hash`: the v1 leaf cannot be formed, fail closed) |
+| **Total** | **126** | **126/126** |
 
 The kit's own count is 124 vectors and 127 checks; the five not in the seven files above are its frozen-corpus
 manifests and the cross-runner checks, which this file does not replay.

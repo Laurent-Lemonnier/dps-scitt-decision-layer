@@ -56,6 +56,12 @@ DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-checkpoint/bu
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-checkpoint/negatives.py > plan-checkpoint/out/negatives-ci.log || { echo "plan checkpoint: a failing case was not caught where expected"; cat plan-checkpoint/out/negatives-ci.log; exit 1; }
 echo "# the plan's checks again, the checkpoint record's dimensions, seal and approval verified, 15 joins true; 8 failing cases caught where expected; the adjudication is synthetic and says so; the P10 executed instance's adjudication statement (leaf 7) held at its pinned digest"
 
+echo "== Case 13: the approved plan and an AER-1 workflow receipt in seq-output-v1, composed (plan-workflow)"
+mkdir -p plan-workflow/out
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-workflow/build.py > plan-workflow/out/build-ci.log || { echo "plan workflow: not all verified"; tail -30 plan-workflow/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-workflow/negatives.py > plan-workflow/out/negatives-ci.log || { echo "plan workflow: a failing case was not caught where expected"; cat plan-workflow/out/negatives-ci.log; exit 1; }
+echo "# the plan's ten joins and five more true; three AER-1 step receipts verified; the workflow root recomputed in seq-output-v1; 6 failing cases caught where expected"
+
 echo "== An EP authorization bundle and a DPS decision, bound both ways (emilia-pair), at the EP author's request"
 (cd emilia-pair/vectors && sha256sum -c --quiet SHA256SUMS) || { echo "emilia-pair: the pinned EP vector file changed"; exit 1; }
 mkdir -p emilia-pair/out
@@ -92,7 +98,7 @@ nochain=$(python3 umarise/verify_anchor.py --artifact umarise/vectors/vector1.tx
 grep -q '"result": "unverifiable"' <<<"$nochain" || { echo "D.6 no chain: not unverifiable: $nochain"; exit 1; }
 echo "# 4 vectors valid at height 957289; D.6 negative invalid; no validated chain unverifiable"
 
-echo "== draft-zambo-aer1-26, conformance kit v1.5.7 (all seven vector suites)"
+echo "== draft-zambo-aer1-26, conformance kit v1.5.7 (all seven vector suites, and the seq-output-v1 workflow vectors)"
 AER1_REPO=https://gitlab.com/rambozambodotdev/zambo.git
 AER1_COMMIT="${AER1_COMMIT:-$(cat aer1/PINNED_COMMIT)}"
 if [ ! -d aer1/zambo ]; then

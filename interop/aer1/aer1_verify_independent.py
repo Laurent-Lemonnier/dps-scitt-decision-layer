@@ -383,6 +383,39 @@ def merkle_root_receipt_id_v0(receipt_ids):
     return merkle_root([hashlib.sha256(r.encode("utf-8")).digest() for r in receipt_ids])
 
 
+def merkle_root_seq_output_v1(steps):
+    """Section 8.1, seq-output-v1: the leaf of a step is SHA-256 over the UTF-8 bytes of its seq in decimal, ':', and its
+    output_hash as bare lowercase hex; the tree above the leaves is the same as receipt-id-v0's."""
+    if any("output_hash" not in s for s in steps):
+        return None                  # the leaf cannot be formed: fail closed, no root
+    return merkle_root([hashlib.sha256(f"{s['seq']}:{s['output_hash']}".encode("utf-8")).digest() for s in steps])
+
+
+def workflow_root(steps, merkle_version):
+    """The construction the receipt's merkle_version names, absent meaning receipt-id-v0 (Section 8.1); no other."""
+    mv = merkle_version or "receipt-id-v0"
+    if mv == "receipt-id-v0":
+        return merkle_root_receipt_id_v0([s["receipt_id"] for s in steps])
+    if mv == "seq-output-v1":
+        return merkle_root_seq_output_v1(steps)
+    raise Failed(f"unknown merkle_version {mv!r}")
+
+
+def seq_output_v1_vectors(path):
+    """The kit's workflow-merkle-seq-output-v1.json: each close recomputed under its declared construction; each
+    cross-version evaluation recomputed under the other construction and required to differ (must_not_equal)."""
+    rows = []
+    for v in json.load(open(path))["vectors"]:
+        root = workflow_root(v["steps"], v["merkle_version"])
+        ok = (root == v["merkle_root"]) == (v["expected_verdict"] == "valid")
+        x = v.get("cross_version_evaluation")
+        if x:
+            other = workflow_root(v["steps"], x["merkle_version"])      # None when the leaf cannot be formed
+            ok = ok and other == x["computed_root"] and (other != x["must_not_equal"]) == (x["expected_verdict"] == "invalid")
+        rows.append({"suite": "workflow-merkle-seq-output-v1", "name": v["name"], "ok": ok})
+    return rows
+
+
 # ---------------------------------------------------------------- judge
 
 def judge(kit, report_path=None):
@@ -481,6 +514,12 @@ def judge(kit, report_path=None):
             ok = ok and wf == v["expected_workflow_verdict"]
         rows.append({"suite": "merkle", "name": v["name"], "expected": v.get("expected_workflow_verdict") or v["expected_root"][:12],
                      "verdict": wf or root[:12], "agree": ok})
+    # workflow-merkle-seq-output-v1.json (8.1, both constructions and the cross-version must-fail), at the kit's root
+    sov1 = os.path.join(os.path.dirname(os.path.abspath(kit)), "workflow-merkle-seq-output-v1.json")
+    if os.path.exists(sov1):
+        for r in seq_output_v1_vectors(sov1):
+            rows.append({"suite": "workflow-merkle-seq-output-v1", "name": r["name"], "expected": "as declared",
+                         "verdict": "agree" if r["ok"] else "differs", "agree": r["ok"]})
     n = len(rows)
     agree = sum(1 for r in rows if r["agree"])
     for r in rows:
