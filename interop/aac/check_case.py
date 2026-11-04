@@ -119,6 +119,19 @@ def dps_side(folder, record_bytes, att_bytes):
     return out
 
 
+def join(capsule, attachment):
+    """What neither side checks alone: that the action the capsule records is the action the attachment says was
+    attempted. The capsule's effect.request_digest must be the spec_digest of an attempt stage of the attachment it
+    cites; without an attempt there is nothing to join (not checked)."""
+    attempted = {s.get("spec_digest") for s in attachment.get("stages", []) if s.get("kind") == "attempt"}
+    if not attempted:
+        return {"request_digest": "not_checked", "note": "the attachment records no attempt"}
+    got = (capsule.get("effect") or {}).get("request_digest")
+    if got in attempted:
+        return {"request_digest": "verified"}
+    return {"request_digest": "failed", "note": "the capsule's effect.request_digest is not the digest of any specification the attachment attempted"}
+
+
 def subset(expected, got):
     """Every leaf of expected is in got with the same value; 'about' is documentation."""
     if isinstance(expected, dict):
@@ -135,6 +148,7 @@ def check(folder):
     result = {"case": folder.name, "capsule": cap, "references": refs}
     if all(r["resolved"] for r in refs.values()):
         result["dps"] = dps_side(folder, record_bytes, att_bytes)
+        result["join"] = join(capsule, json.loads(att_bytes))
     else:
         result["dps"] = {"consulted": False, "note": "a reference did not resolve: the Standard's documents are not the ones cited, so they are not checked"}
     expected = json.loads((folder / "expected.json").read_bytes())

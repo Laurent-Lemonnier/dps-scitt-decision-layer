@@ -27,5 +27,8 @@
     "identity": "verified"
    }
   }
+ },
+ "join": {
+  "request_digest": "verified"
  }
 }

@@ -56,5 +56,8 @@
    "findings": []
   }
  },
+ "join": {
+  "request_digest": "verified"
+ },
  "matches_expected": true
 }

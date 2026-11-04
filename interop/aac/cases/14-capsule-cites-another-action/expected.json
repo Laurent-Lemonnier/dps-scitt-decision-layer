@@ -1,0 +1,13 @@
+{
+ "about": "a valid capsule citing valid DPS documents of another action: its references resolve and the DPS checks pass, but the action it records (effect.request_digest) is not the one the attachment attempted; only the join catches it",
+ "capsule": {
+  "parse_ok": true,
+  "verify_ok": true
+ },
+ "dps": {
+  "consulted": true
+ },
+ "join": {
+  "request_digest": "failed"
+ }
+}

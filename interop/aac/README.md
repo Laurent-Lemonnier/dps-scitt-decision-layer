@@ -17,18 +17,25 @@ action-binding attachment it cites, the signatures attachment and trust policy t
 | `06-transparency-receipt` | the capsule_id registered as a Signed Statement at the capsule library's own Transparency Service (`ts.agentactioncapsule.org`), Receipt returned and verified with `scitt-cose` under the service's leaf | not the Standard's concern here; what anchoring 0.2.0 would say of that receipt is in the findings below |
 | `07-cose` | **07a** Producer Envelope (AAC -05 §3.1) over the capsule_id of case 01, produced by us, verified by the library's `verify_producer_envelope` (the library only verifies); **07b** a CPB-bound Signed Statement (CPB -06 §9.3) carrying the two typed references in the protected header `cpb-refs` (label TBD1 → private-use -65537 in the fixture), in `crit`: both references Verified under the Standard's declared contexts; altered digest Failed, extra map key Malformed, refs in the unprotected header nonconforming, a reader that does not understand `cpb-refs` rejects on `crit` | not the Standard's concern: the references resolve to the same bytes as case 01 |
 | `08-noa-receipt` | a NOA Mandate receipt (draft-noa-scitt-ai-agent-receipt-01, published vector at commit 6642fb2) bound to the decision it executed: a separate Signed Statement with three typed references in `cpb-refs` (the receipt by the profile's own digest value, `sha256:` + hex over JCS(receipt without `chain.hash` and `sig.value`) = `chain.hash`; the record by its seal; the attachment by its bytes); all Verified; negatives Failed (altered digest, the signed file instead of the object, receipt changed after the reference) | not the Standard's concern here; the receipt's own signature is its profile's check, not run (construction not stated) |
+| `14-capsule-cites-another-action` | verifies; both references resolve: valid documents, of another action (the capsule's `effect.request_digest` names a specification the attachment never attempted) | binding verified, the approval verified on every dimension; the **join fails**: `effect.request_digest` is not the `spec_digest` of any attempt stage |
 
 What the two sides agree on, and where each stops: a reference that resolves shows only that the cited bytes have the
 digest it carries (the Standard's own words); whether the approval inside them is valid is the Standard's check. The
 capsule's `approver` and `human_disposed` stay the producer's claim whatever the Standard reports.
+
+The join (`check_case.py`, `join`, since 5 November 2026): once both references resolve, the capsule's
+`effect.request_digest` must be the `spec_digest` of an attempt stage of the attachment it cites; without an attempt it
+is not checked. Neither side checks this alone: case 14 passes the capsule's own verification, the reference
+resolution and every DPS check, and only the join catches it. (Numbered 14: 09 is reserved for the checkpoint at
+the capsule witness, 10 to 13 for the composed cases beside this directory.)
 
 ## Run
 
 ```
 export PYTHONPATH=/root/claude-ops/ietf/demo/venv312/site   # the capsule library 0.12.0
 P=/root/claude-ops/dps/venv/bin/python                       # jsonschema, cryptography; the Standard at dps/wt-007f8c9 (or DPS_STANDARD)
-$P build_cases.py          # rebuilds cases/ from the invoice example (signed) and the release example (unsigned)
-$P check_case.py cases/0*  # both sides on every case; PASS when result matches expected
+$P build_cases.py          # rebuilds cases 01 to 05 (it clears cases/ first: rebuild 06 to 08 and 14 after it)
+$P check_case.py cases/0[1-5]* cases/14*  # both sides and the join; PASS when result matches expected (06 to 08 have their own scripts)
 PYTHONPATH=/root/claude-ops/ietf/demo/venv312/site ./venv-scitt/bin/python cose_case.py   # case 07, both COSE forms (scitt-cose, cbor2)
 ```
 

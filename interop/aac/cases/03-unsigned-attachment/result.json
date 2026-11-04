@@ -48,5 +48,8 @@
    "note": "no signatures attachment travels beside: the approval's signature is absent, not verified"
   }
  },
+ "join": {
+  "request_digest": "verified"
+ },
  "matches_expected": true
 }
