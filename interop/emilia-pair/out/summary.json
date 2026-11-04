@@ -1,0 +1,50 @@
+{
+ "dps_a1": {
+  "dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "not_checked",
+   "observed_results": "not_checked",
+   "rationale_provenance": "verified"
+  },
+  "issuer_seal": "verified",
+  "person_approvals_verified": 1,
+  "verified": true
+ },
+ "dps_a2": {
+  "dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "issuer_seal": "verified",
+  "person_approvals_verified": 1,
+  "verified": true
+ },
+ "ep_bundle": {
+  "result": "SATISFIED",
+  "reasons": []
+ },
+ "joins": {
+  "the later attachment names the complete, unchanged Trust Receipt by SHA-256 over its JCS bytes (section 8), with its receipt_id and action_hash": true,
+  "the receipt is the bundle's: same action, action_hash, contexts and signoffs, its consumption nonce the signed authorization_instance (section 7.2)": true,
+  "the later attachment extends the one the binding names: A1's stages unchanged, and its request and attempt are for the specification the outcome approved": true,
+  "the attachment the binding names carries no reverse reference (no circular digest)": true,
+  "the issuer's times order the pair: DPS approval, then EP contexts issued and signed, then the receipt committed, then the request and the attempt": true
+ },
+ "all_verified": true,
+ "published_example": {
+  "case": "valid-non-oauth-native-binding",
+  "expected": "SATISFIED",
+  "ours": "SATISFIED",
+  "agree": true
+ }
+}
