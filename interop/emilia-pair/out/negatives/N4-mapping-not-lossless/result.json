@@ -1,0 +1,9 @@
+{
+ "what": "the EP Action Object carries a parameter the specification does not (a memo): the contexts are signed over it, the mapping is not lossless",
+ "caught_by": [
+  "ep:authorization_binding_unequal",
+  "ep:mapping_not_lossless_to_the_action"
+ ],
+ "expected_place": "ep:mapping_not_lossless_to_the_action",
+ "as_expected": true
+}

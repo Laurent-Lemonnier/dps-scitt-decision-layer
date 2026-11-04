@@ -1,0 +1,8 @@
+{
+ "what": "the binding names A1 by the digest of other bytes of the same content (re-serialised with spaces); the byte scope is the attachment as issued",
+ "caught_by": [
+  "ep:authorization_binding_unequal"
+ ],
+ "expected_place": "ep:authorization_binding_unequal",
+ "as_expected": true
+}

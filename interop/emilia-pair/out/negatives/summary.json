@@ -1,0 +1,99 @@
+{
+ "N1-binding-names-other-bytes-of-A1": {
+  "what": "the binding names A1 by the digest of other bytes of the same content (re-serialised with spaces); the byte scope is the attachment as issued",
+  "caught_by": [
+   "ep:authorization_binding_unequal"
+  ],
+  "expected_place": "ep:authorization_binding_unequal",
+  "as_expected": true
+ },
+ "N2-binding-absent-on-one-context": {
+  "what": "the second approver's context carries no authorization_binding: a mixture of bound and unbound contexts (section 6.1)",
+  "caught_by": [
+   "ep:authorization_binding_mixed_or_unequal"
+  ],
+  "expected_place": "ep:authorization_binding_mixed_or_unequal",
+  "as_expected": true
+ },
+ "N3-binding-names-another-specification": {
+  "what": "the binding names the digest of another version of the specification (amount 12551) than the one the person approved",
+  "caught_by": [
+   "ep:authorization_binding_unequal"
+  ],
+  "expected_place": "ep:authorization_binding_unequal",
+  "as_expected": true
+ },
+ "N4-mapping-not-lossless": {
+  "what": "the EP Action Object carries a parameter the specification does not (a memo): the contexts are signed over it, the mapping is not lossless",
+  "caught_by": [
+   "ep:authorization_binding_unequal",
+   "ep:mapping_not_lossless_to_the_action"
+  ],
+  "expected_place": "ep:mapping_not_lossless_to_the_action",
+  "as_expected": true
+ },
+ "N5-action-hash-not-recomputed": {
+  "what": "the bundle's action_hash is not the SHA-256 of the canonical Action Object it carries",
+  "caught_by": [
+   "ep:action_hash_mismatch",
+   "ep:context_action_hash_mismatch",
+   "join:1"
+  ],
+  "expected_place": "ep:action_hash_mismatch",
+  "as_expected": true
+ },
+ "N6-receipt-changed-after-its-digest": {
+  "what": "the Trust Receipt is changed after the later attachment took its digest (log_proof leaf_index 0 -> 1)",
+  "caught_by": [
+   "join:0"
+  ],
+  "expected_place": "join:0",
+  "as_expected": true
+ },
+ "N7-reverse-reference-in-the-named-attachment": {
+  "what": "the receipt reference is carried in A1, the attachment the binding names: circular; A1 is re-sealed after the binding was signed",
+  "caught_by": [
+   "ep:authorization_binding_unequal",
+   "join:2",
+   "join:3"
+  ],
+  "expected_place": "join:3",
+  "as_expected": true
+ },
+ "N8-signoff-by-a-key-outside-the-pinned-set": {
+  "what": "the second signoff is made with a key the relying party did not pin",
+  "caught_by": [
+   "ep:approver_key_not_trusted",
+   "ep:threshold_not_met"
+  ],
+  "expected_place": "ep:approver_key_not_trusted",
+  "as_expected": true
+ },
+ "N9-dps-approval-signature-broken": {
+  "what": "the person's approval signature in the DPS signatures attachment does not verify: the binding names a source that fails native verification",
+  "caught_by": [
+   "dps_a1",
+   "dps_a2",
+   "ep:binding_source_does_not_verify"
+  ],
+  "expected_place": "ep:binding_source_does_not_verify",
+  "as_expected": true
+ },
+ "N10-dps-trust-inputs-not-held": {
+  "what": "the relying party holds no DPS trust inputs: the binding cannot be derived, the result is INDETERMINATE, never SATISFIED",
+  "caught_by": [
+   "ep:INDETERMINATE"
+  ],
+  "expected_place": "ep:INDETERMINATE",
+  "as_expected": true
+ },
+ "N11-execution-of-another-specification": {
+  "what": "the later attachment's request and attempt carry another specification's digest than the one approved",
+  "caught_by": [
+   "dps_a2",
+   "join:2"
+  ],
+  "expected_place": "join:2",
+  "as_expected": true
+ }
+}

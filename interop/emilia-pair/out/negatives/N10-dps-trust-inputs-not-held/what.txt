@@ -1,0 +1,1 @@
+the relying party holds no DPS trust inputs: the binding cannot be derived, the result is INDETERMINATE, never SATISFIED

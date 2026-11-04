@@ -1,0 +1,8 @@
+{
+ "what": "the second approver's context carries no authorization_binding: a mixture of bound and unbound contexts (section 6.1)",
+ "caught_by": [
+  "ep:authorization_binding_mixed_or_unequal"
+ ],
+ "expected_place": "ep:authorization_binding_mixed_or_unequal",
+ "as_expected": true
+}

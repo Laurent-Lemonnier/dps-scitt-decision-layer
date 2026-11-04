@@ -1,0 +1,8 @@
+{
+ "what": "the binding names the digest of another version of the specification (amount 12551) than the one the person approved",
+ "caught_by": [
+  "ep:authorization_binding_unequal"
+ ],
+ "expected_place": "ep:authorization_binding_unequal",
+ "as_expected": true
+}

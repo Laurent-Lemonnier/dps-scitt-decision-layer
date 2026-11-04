@@ -1,0 +1,10 @@
+{
+ "what": "the receipt reference is carried in A1, the attachment the binding names: circular; A1 is re-sealed after the binding was signed",
+ "caught_by": [
+  "ep:authorization_binding_unequal",
+  "join:2",
+  "join:3"
+ ],
+ "expected_place": "join:3",
+ "as_expected": true
+}

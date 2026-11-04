@@ -1,0 +1,8 @@
+{
+ "what": "the Trust Receipt is changed after the later attachment took its digest (log_proof leaf_index 0 -> 1)",
+ "caught_by": [
+  "join:0"
+ ],
+ "expected_place": "join:0",
+ "as_expected": true
+}

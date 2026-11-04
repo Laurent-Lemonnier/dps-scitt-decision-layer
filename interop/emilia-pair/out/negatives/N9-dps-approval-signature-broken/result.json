@@ -1,0 +1,10 @@
+{
+ "what": "the person's approval signature in the DPS signatures attachment does not verify: the binding names a source that fails native verification",
+ "caught_by": [
+  "dps_a1",
+  "dps_a2",
+  "ep:binding_source_does_not_verify"
+ ],
+ "expected_place": "ep:binding_source_does_not_verify",
+ "as_expected": true
+}

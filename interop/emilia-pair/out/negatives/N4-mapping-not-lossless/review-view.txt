@@ -1,0 +1,1 @@
+Release 12550 minor units USD to merchant:7 (payments.example/release-queue), policy urn:example:policy:payment-releases#v3

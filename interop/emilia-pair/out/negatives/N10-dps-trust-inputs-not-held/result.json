@@ -1,0 +1,8 @@
+{
+ "what": "the relying party holds no DPS trust inputs: the binding cannot be derived, the result is INDETERMINATE, never SATISFIED",
+ "caught_by": [
+  "ep:INDETERMINATE"
+ ],
+ "expected_place": "ep:INDETERMINATE",
+ "as_expected": true
+}

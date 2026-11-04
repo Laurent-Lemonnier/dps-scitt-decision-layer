@@ -1,0 +1,10 @@
+{
+ "what": "the bundle's action_hash is not the SHA-256 of the canonical Action Object it carries",
+ "caught_by": [
+  "ep:action_hash_mismatch",
+  "ep:context_action_hash_mismatch",
+  "join:1"
+ ],
+ "expected_place": "ep:action_hash_mismatch",
+ "as_expected": true
+}

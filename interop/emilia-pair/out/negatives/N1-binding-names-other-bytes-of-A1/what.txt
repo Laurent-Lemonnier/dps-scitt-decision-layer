@@ -1,0 +1,1 @@
+the binding names A1 by the digest of other bytes of the same content (re-serialised with spaces); the byte scope is the attachment as issued

@@ -1,0 +1,9 @@
+{
+ "what": "the later attachment's request and attempt carry another specification's digest than the one approved",
+ "caught_by": [
+  "dps_a2",
+  "join:2"
+ ],
+ "expected_place": "join:2",
+ "as_expected": true
+}

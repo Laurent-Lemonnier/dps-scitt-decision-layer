@@ -1,0 +1,1 @@
+the EP Action Object carries a parameter the specification does not (a memo): the contexts are signed over it, the mapping is not lossless

@@ -1,0 +1,9 @@
+{
+ "what": "the second signoff is made with a key the relying party did not pin",
+ "caught_by": [
+  "ep:approver_key_not_trusted",
+  "ep:threshold_not_met"
+ ],
+ "expected_place": "ep:approver_key_not_trusted",
+ "as_expected": true
+}
