@@ -95,5 +95,79 @@
   ],
   "expected_place": "join:2",
   "as_expected": true
+ },
+ "N12-context-without-ep_version": {
+  "what": "every Authorization Context is issued without ep_version and signed validly over the rest: refused by the schema controls of section 4 before anything is read (Iman Schrock, 4 November 2026), never SATISFIED",
+  "caught_by": [
+   "ep:context_0_missing:ep_version",
+   "ep:context_1_missing:ep_version"
+  ],
+  "expected_place": "ep:context_0_missing:ep_version",
+  "as_expected": true
+ },
+ "N13-context-without-context_type": {
+  "what": "every Authorization Context is issued without context_type and signed validly over the rest: refused by the schema controls of section 4 before anything is read (Iman Schrock, 4 November 2026), never SATISFIED",
+  "caught_by": [
+   "ep:context_0_missing:context_type",
+   "ep:context_1_missing:context_type"
+  ],
+  "expected_place": "ep:context_0_missing:context_type",
+  "as_expected": true
+ },
+ "N14-context-without-policy_id": {
+  "what": "every Authorization Context is issued without policy_id and signed validly over the rest: refused by the schema controls of section 4 before anything is read (Iman Schrock, 4 November 2026), never SATISFIED",
+  "caught_by": [
+   "ep:context_0_missing:policy_id",
+   "ep:context_1_missing:policy_id"
+  ],
+  "expected_place": "ep:context_0_missing:policy_id",
+  "as_expected": true
+ },
+ "N15-context-without-initiator": {
+  "what": "every Authorization Context is issued without initiator and signed validly over the rest: refused by the schema controls of section 4 before anything is read (Iman Schrock, 4 November 2026), never SATISFIED",
+  "caught_by": [
+   "ep:context_0_missing:initiator",
+   "ep:context_1_missing:initiator"
+  ],
+  "expected_place": "ep:context_0_missing:initiator",
+  "as_expected": true
+ },
+ "N16-context-without-approver_index": {
+  "what": "every Authorization Context is issued without approver_index and signed validly over the rest: refused by the schema controls of section 4 before anything is read (Iman Schrock, 4 November 2026), never SATISFIED",
+  "caught_by": [
+   "ep:context_0_missing:approver_index",
+   "ep:context_1_missing:approver_index"
+  ],
+  "expected_place": "ep:context_0_missing:approver_index",
+  "as_expected": true
+ },
+ "N17-action-without-policy_id-and-requested_at": {
+  "what": "the Action Object carries only action_type, initiator, parameters, ep_version and target, as the pinned vector's does: section 3's minimum is not met, refused by the schema controls (the author: the minimum applies)",
+  "caught_by": [
+   "ep:action_missing:policy_id",
+   "ep:action_missing:requested_at"
+  ],
+  "expected_place": "ep:action_missing:policy_id",
+  "as_expected": true
+ },
+ "N18-action-policy_id-made-up": {
+  "what": "the Action Object's policy_id is a value made up to fill the shape, carried consistently into the contexts, not the relying party's pinned EP policy identifier: caught at step 10 against the pinned policy (and the binding then differs)",
+  "caught_by": [
+   "ep:action_policy_id_not_the_pinned_one",
+   "ep:authorization_binding_unequal",
+   "ep:mapping_not_lossless_to_the_action"
+  ],
+  "expected_place": "ep:action_policy_id_not_the_pinned_one",
+  "as_expected": true
+ },
+ "N19-action-requested_at-not-the-proposal-time": {
+  "what": "the Action Object's requested_at is not the time of A1's proposal stage (the explicit input the profile derives it from)",
+  "caught_by": [
+   "ep:action_requested_at_not_the_proposal_time",
+   "ep:authorization_binding_unequal",
+   "ep:mapping_not_lossless_to_the_action"
+  ],
+  "expected_place": "ep:action_requested_at_not_the_proposal_time",
+  "as_expected": true
  }
 }

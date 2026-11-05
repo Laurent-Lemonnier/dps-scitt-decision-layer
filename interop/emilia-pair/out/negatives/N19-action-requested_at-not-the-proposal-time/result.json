@@ -1,0 +1,10 @@
+{
+ "what": "the Action Object's requested_at is not the time of A1's proposal stage (the explicit input the profile derives it from)",
+ "caught_by": [
+  "ep:action_requested_at_not_the_proposal_time",
+  "ep:authorization_binding_unequal",
+  "ep:mapping_not_lossless_to_the_action"
+ ],
+ "expected_place": "ep:action_requested_at_not_the_proposal_time",
+ "as_expected": true
+}

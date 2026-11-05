@@ -79,20 +79,63 @@ def hx(b):
 
 # ---------------------------------------------------------------- the binding profile: the mapping and the binding object
 
-def action_from_spec(spec):
-    """DPS-ACTION-BINDING-v1 mapping, specification -> EP Action Object: action_type = operation; initiator =
-    parameters.initiator; parameters = the specification's other parameters, unchanged; target = {system, resource}
-    split from the specification's target at its first '/'. Lossless: action_back() inverts it exactly."""
+ACTION_REQUIRED = ("ep_version", "action_type", "target", "parameters", "initiator", "policy_id", "requested_at")   # section 3
+CONTEXT_REQUIRED = ("ep_version", "context_type", "action_hash", "policy_id", "policy_hash", "initiator", "authorization_instance",
+                    "audience", "approver", "approver_index", "required_approvals", "nonce", "issued_at", "expires_at")    # section 4
+SPEC_PROJECTED = ("operation", "target", "parameters")   # what the inverse reconstructs; the rest stays under approved_spec_digest
+
+
+def action_from_spec(spec, policy_id, requested_at):
+    """DPS-ACTION-BINDING-v1 mapping, specification -> EP Action Object (section 3's minimum members, all present):
+    action_type = operation; initiator = parameters.initiator; parameters = the specification's other parameters,
+    unchanged; target = {system, resource} split from the specification's target at its first '/'; ep_version = 1.0;
+    policy_id = the relying party's pinned EP policy identifier (never a value made up to fill the shape);
+    requested_at = the time of A1's proposal stage, in the bytes the binding names. The inverse, action_back(),
+    reconstructs operation, target and parameters exactly; input_version_refs, policy_version and valid_until stay
+    outside that projection, bound by approved_spec_digest: this is not an inverse of the entire specification."""
     p = dict(spec["parameters"])
     initiator = p.pop("initiator")
     system, resource = spec["target"].split("/", 1)
     return {"ep_version": "1.0", "action_type": spec["operation"], "target": {"system": system, "resource": resource},
-            "parameters": p, "initiator": initiator}
+            "parameters": p, "initiator": initiator, "policy_id": policy_id, "requested_at": requested_at}
 
 
 def action_back(action):
     return {"operation": action["action_type"], "target": action["target"]["system"] + "/" + action["target"]["resource"],
             "parameters": dict(action["parameters"], initiator=action["initiator"])}
+
+
+def schema_reasons(b):
+    """Presence and form of the members sections 3 and 4 make minimum, checked before anything is read from them: a
+    context re-signed validly without one of them is refused here, not accepted (Iman Schrock, 4 November 2026)."""
+    r = []
+    a = b.get("action")
+    if not isinstance(a, dict):
+        return ["action_malformed"]
+    for m in ACTION_REQUIRED:
+        if m not in a:
+            r.append(f"action_missing:{m}")
+    if "ep_version" in a and a["ep_version"] != "1.0":
+        r.append("action_ep_version_unsupported")
+    if "target" in a and (not isinstance(a["target"], dict) or set(a["target"]) != {"system", "resource"}):
+        r.append("action_target_malformed")
+    ctxs = b.get("contexts")
+    if not isinstance(ctxs, list) or not ctxs:
+        return r + ["contexts_malformed"]
+    for i, c in enumerate(ctxs):
+        for m in CONTEXT_REQUIRED:
+            if m not in c:
+                r.append(f"context_{i}_missing:{m}")
+        if c.get("ep_version", "1.0") != "1.0" or c.get("context_type", "ep.signoff.v1") != "ep.signoff.v1":
+            r.append(f"context_{i}_type_or_version_unsupported")
+    if not r:
+        if sorted(c["approver_index"] for c in ctxs) != list(range(1, len(ctxs) + 1)):
+            r.append("context_approver_index_not_1_to_n")
+        if any(c["initiator"] != a["initiator"] for c in ctxs):
+            r.append("context_initiator_not_the_actions")
+        if any(c["policy_id"] != a["policy_id"] for c in ctxs):
+            r.append("context_policy_id_not_the_actions")
+    return r
 
 
 def binding_of(record, a1_bytes, outcome_stage_id, spec_digest, action_hash):
@@ -110,7 +153,8 @@ def build():
             "input_version_refs": ["urn:example:invoice:INV-2026-0912"], "policy_version": DPS_POLICY_VERSION,
             "valid_until": "2026-11-06T12:00:00Z"}
     return {"spec": spec, "ep_action_override": None, "binding_override": None, "binding_on": [True, True],
-            "signers": [EP_APPROVERS[0], EP_APPROVERS[1]], "receipt_reference_in": "A2", "a2_spec_override": None}
+            "signers": [EP_APPROVERS[0], EP_APPROVERS[1]], "receipt_reference_in": "A2", "a2_spec_override": None,
+            "action_policy_id": None, "action_requested_at": None, "context_drop": []}
 
 
 def dps_record():
@@ -193,18 +237,22 @@ def assemble(b):
                        "public_key_hex": raw_public(issuer_key).hex(), "not_before": "2026-10-01T00:00:00Z",
                        "not_after": "2027-09-30T23:59:59Z", "identity_source_ref": "urn:example:directory:organisations"}]}
     # -- the EP side: the Action Object by the profile's mapping, the contexts with the binding, the signoffs
-    action = b["ep_action_override"] or action_from_spec(spec)
+    action = b["ep_action_override"] or action_from_spec(spec, b["action_policy_id"] or POLICY["policy_id"],
+                                                         b["action_requested_at"] or head[0]["at"])
     action_hash = hx(jcs(action))
     binding = b["binding_override"] or binding_of(record, a1_bytes, "o0", sd, action_hash)
     contexts = []
     for i, (approver, _, _) in enumerate(EP_APPROVERS):
-        ctx = {"ep_version": "1.0", "context_type": "ep.signoff.v1", "action_hash": action_hash, "policy_id": POLICY["policy_id"],
+        ctx = {"ep_version": "1.0", "context_type": "ep.signoff.v1", "action_hash": action_hash,
+               "policy_id": action.get("policy_id", POLICY["policy_id"]),
                "policy_hash": POLICY_HASH, "initiator": action["initiator"], "authorization_instance": AUTH_INSTANCE,
                "audience": AUDIENCE, "approver": approver, "approver_index": i + 1, "required_approvals": 2,
                "nonce": "b64u:" + base64.urlsafe_b64encode(PR.hashlib.sha256(f"nonce {i}".encode()).digest()[:16]).decode().rstrip("="),
                "issued_at": at(50), "expires_at": at(65)}
         if b["binding_on"][i]:
             ctx["authorization_binding"] = copy.deepcopy(binding)
+        for m in b["context_drop"]:          # a failing case: a required member left out, the context then signed validly
+            ctx.pop(m, None)
         contexts.append(ctx)
     signoffs = []
     for ctx, (_, key_id, key) in zip(contexts, b["signers"]):
@@ -285,6 +333,9 @@ def verify_bundle(art, pinned):
     members = {"bundle_version", "bundle_id", "action", "action_hash", "contexts", "signoffs", "approver_key_proofs", "presentation_evidence"}
     if set(b) != members or b["bundle_version"] != "EP-AUTHORIZATION-BUNDLE-v1":                                    # 1
         return "REFUSE", ["bundle_malformed"]
+    schema = schema_reasons(b)                                                                                         # 1, schema
+    if schema:
+        return "REFUSE", schema
     if hx(jcs(b["action"])) != b["action_hash"]:                                                                       # 2
         reasons.append("action_hash_mismatch")
     ctxs = b["contexts"]
@@ -341,11 +392,16 @@ def verify_bundle(art, pinned):
                 outcome = next(s for s in dps["a1"]["stages"] if s["kind"] == "outcome" and s["outcome"] == "approved")
                 spec_e = next(e for e in dps["a1"]["action_specifications"] if e["spec_digest"] == outcome["approved_spec_digest"])
                 spec = json.loads(base64.b64decode(spec_e["content"]["bytes_b64"]))
-                mapped = action_from_spec(spec)
+                proposal = next(s for s in dps["a1"]["stages"] if s["kind"] == "proposal" and s["spec_digest"] == outcome["approved_spec_digest"])
+                if b["action"]["policy_id"] != pinned["policy_id"]:          # derived from the pinned policy, not made up
+                    reasons.append("action_policy_id_not_the_pinned_one")
+                if b["action"]["requested_at"] != proposal["at"]:            # derived from A1's proposal stage, not made up
+                    reasons.append("action_requested_at_not_the_proposal_time")
+                mapped = action_from_spec(spec, pinned["policy_id"], proposal["at"])
                 expected = binding_of(dps["record"], dps["a1_bytes"], outcome["stage_id"], outcome["approved_spec_digest"], hx(jcs(mapped)))
                 if jcs(expected) != bindings[0]:
                     reasons.append("authorization_binding_unequal")
-                if jcs(mapped) != jcs(b["action"]) or action_back(b["action"]) != {k: spec[k] for k in ("operation", "target", "parameters")}:
+                if jcs(mapped) != jcs(b["action"]) or action_back(b["action"]) != {k: spec[k] for k in SPEC_PROJECTED}:
                     reasons.append("mapping_not_lossless_to_the_action")
     if any(c["policy_hash"] != pinned["policy_hash"] for c in ctxs):                                                   # 11
         reasons.append("policy_digest_mismatch")
@@ -384,6 +440,7 @@ def joins(art, bundle_result):
 
 def pinned_inputs(art, with_dps=True):
     return {"authorization_instance": AUTH_INSTANCE, "audience": AUDIENCE, "now": NOW, "policy_hash": POLICY_HASH,
+            "policy_id": POLICY["policy_id"],
             "expected_approvers": [a for a, _, _ in EP_APPROVERS], "accepted_key_classes": ["B"],
             "approver_keys": {kid: {"approver_id": a, "public_key": spki_b64u(k), "key_class": "B"} for a, kid, k in EP_APPROVERS},
             "dps": {"record": art["record"], "record_bytes": art["record_bytes"], "a1": art["a1"], "a1_bytes": art["a1_bytes"],
@@ -407,14 +464,19 @@ def published_example():
     d = json.loads((HERE / "vectors" / "authorization-bundle.v1.json").read_text())
     c = next(x for x in d["cases"] if x["id"] == "valid-non-oauth-native-binding")
     pinned = {"authorization_instance": c["expected_authorization_instance"], "audience": c["audience"], "now": c["now"],
-              "policy_hash": c["current_policy"]["policy_hash"], "expected_approvers": c["expected_approvers"],
+              "policy_hash": c["current_policy"]["policy_hash"], "policy_id": c["current_policy"].get("policy_id"),
+              "expected_approvers": c["expected_approvers"],
               "accepted_key_classes": c["accepted_key_classes"], "approver_keys": c["approver_keys"], "dps": None}
     res, why = verify_bundle({"bundle": c["bundle"]}, pinned)
     bindings = {jcs(x["authorization_binding"]) for x in c["bundle"]["contexts"]}
     eq = bindings == {jcs(c["expected_authorization_binding"])}
     # with no DPS source, step 10 is INDETERMINATE here; the example's profile is compared with its expected object instead
     final = "SATISFIED" if res == "INDETERMINATE" and why == ["dps_trust_inputs_unavailable"] and eq else res
-    return {"case": c["id"], "expected": c["expect"]["verdict"], "ours": final, "agree": final == c["expect"]["verdict"]}
+    # with the schema controls of section 3, the vector's action (action_type, initiator, parameters only) is refused;
+    # the author wrote on 4 November 2026 that the published vector is incomplete against section 3 and needs correcting
+    return {"case": c["id"], "expected": c["expect"]["verdict"], "ours": final, "reasons": why, "agree": final == c["expect"]["verdict"],
+            "note": "the pinned vector predates the author's confirmation (4 November 2026) that section 3's minimum applies "
+                    "and that this vector needs correcting; the disagreement is expected until the corrected vector is pinned"}
 
 
 def write(out, art):
@@ -435,7 +497,7 @@ if __name__ == "__main__":
     write(HERE / "out", art)
     r = verify(art)
     r["published_example"] = published_example()
-    r["all_verified"] = r["all_verified"] and r["published_example"]["agree"]
+    # all_verified is this pair's own result; the published example's agreement is reported beside it, not folded in
     (HERE / "out" / "summary.json").write_text(json.dumps(r, ensure_ascii=False, indent=1) + "\n")
     print(json.dumps(r, ensure_ascii=False, indent=1))
     sys.exit(0 if r["all_verified"] else 1)

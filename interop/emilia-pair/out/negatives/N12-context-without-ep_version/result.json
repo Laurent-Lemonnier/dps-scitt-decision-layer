@@ -1,0 +1,9 @@
+{
+ "what": "every Authorization Context is issued without ep_version and signed validly over the rest: refused by the schema controls of section 4 before anything is read (Iman Schrock, 4 November 2026), never SATISFIED",
+ "caught_by": [
+  "ep:context_0_missing:ep_version",
+  "ep:context_1_missing:ep_version"
+ ],
+ "expected_place": "ep:context_0_missing:ep_version",
+ "as_expected": true
+}

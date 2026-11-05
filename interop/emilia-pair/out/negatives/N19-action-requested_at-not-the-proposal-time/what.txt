@@ -1,0 +1,1 @@
+the Action Object's requested_at is not the time of A1's proposal stage (the explicit input the profile derives it from)

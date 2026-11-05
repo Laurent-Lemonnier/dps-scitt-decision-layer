@@ -44,7 +44,14 @@
  "published_example": {
   "case": "valid-non-oauth-native-binding",
   "expected": "SATISFIED",
-  "ours": "SATISFIED",
-  "agree": true
+  "ours": "REFUSE",
+  "reasons": [
+   "action_missing:ep_version",
+   "action_missing:target",
+   "action_missing:policy_id",
+   "action_missing:requested_at"
+  ],
+  "agree": false,
+  "note": "the pinned vector predates the author's confirmation (4 November 2026) that section 3's minimum applies and that this vector needs correcting; the disagreement is expected until the corrected vector is pinned"
  }
 }

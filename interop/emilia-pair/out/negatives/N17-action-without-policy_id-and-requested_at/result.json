@@ -1,0 +1,9 @@
+{
+ "what": "the Action Object carries only action_type, initiator, parameters, ep_version and target, as the pinned vector's does: section 3's minimum is not met, refused by the schema controls (the author: the minimum applies)",
+ "caught_by": [
+  "ep:action_missing:policy_id",
+  "ep:action_missing:requested_at"
+ ],
+ "expected_place": "ep:action_missing:policy_id",
+ "as_expected": true
+}

@@ -3,6 +3,7 @@
  "audience": "https://payments.example.com",
  "now": "2026-11-06T09:56:00Z",
  "policy_hash": "sha256:366df78f225cc65e42be0af30800ad73af35273f20eaae76987acc33aab9e9ad",
+ "policy_id": "ep:policy:releases-over-100@v3",
  "expected_approvers": [
   "ep:approver:controller",
   "ep:approver:treasurer"

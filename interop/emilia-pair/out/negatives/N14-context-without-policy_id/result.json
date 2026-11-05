@@ -1,0 +1,9 @@
+{
+ "what": "every Authorization Context is issued without policy_id and signed validly over the rest: refused by the schema controls of section 4 before anything is read (Iman Schrock, 4 November 2026), never SATISFIED",
+ "caught_by": [
+  "ep:context_0_missing:policy_id",
+  "ep:context_1_missing:policy_id"
+ ],
+ "expected_place": "ep:context_0_missing:policy_id",
+ "as_expected": true
+}

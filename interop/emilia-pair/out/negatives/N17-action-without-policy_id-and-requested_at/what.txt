@@ -1,0 +1,1 @@
+the Action Object carries only action_type, initiator, parameters, ep_version and target, as the pinned vector's does: section 3's minimum is not met, refused by the schema controls (the author: the minimum applies)

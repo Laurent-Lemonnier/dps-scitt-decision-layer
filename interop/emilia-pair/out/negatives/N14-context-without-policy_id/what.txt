@@ -1,0 +1,1 @@
+every Authorization Context is issued without policy_id and signed validly over the rest: refused by the schema controls of section 4 before anything is read (Iman Schrock, 4 November 2026), never SATISFIED

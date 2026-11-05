@@ -51,7 +51,7 @@ def n3(b, art=None):
       "the EP Action Object carries a parameter the specification does not (a memo): the contexts are signed over it, the mapping is not lossless")
 def n4(b, art=None):
     if art is None:
-        a = B.action_from_spec(b["spec"])
+        a = B.action_from_spec(b["spec"], B.POLICY["policy_id"], B.at(40))
         a["parameters"]["memo"] = "urgent"
         b["ep_action_override"] = a
 
@@ -107,6 +107,45 @@ def n11(b, art=None):
     if art is None:
         other = dict(b["spec"], parameters=dict(b["spec"]["parameters"], amount_minor=99999))
         b["a2_spec_override"] = B.sha256(B.compact(other))
+
+
+def dropped(member, n):
+    @case(f"N{n}-context-without-{member}", f"ep:context_0_missing:{member}",
+          f"every Authorization Context is issued without {member} and signed validly over the rest: refused by the schema "
+          f"controls of section 4 before anything is read (Iman Schrock, 4 November 2026), never SATISFIED")
+    def fn(b, art=None):
+        if art is None:
+            b["context_drop"] = [member]
+    return fn
+
+
+for _n, _m in enumerate(("ep_version", "context_type", "policy_id", "initiator", "approver_index"), start=12):
+    dropped(_m, _n)
+
+
+@case("N17-action-without-policy_id-and-requested_at", "ep:action_missing:policy_id",
+      "the Action Object carries only action_type, initiator, parameters, ep_version and target, as the pinned vector's does: "
+      "section 3's minimum is not met, refused by the schema controls (the author: the minimum applies)")
+def n17(b, art=None):
+    if art is None:
+        a = B.action_from_spec(b["spec"], B.POLICY["policy_id"], B.at(40))
+        del a["policy_id"], a["requested_at"]
+        b["ep_action_override"] = a
+
+
+@case("N18-action-policy_id-made-up", "ep:action_policy_id_not_the_pinned_one",
+      "the Action Object's policy_id is a value made up to fill the shape, carried consistently into the contexts, not the "
+      "relying party's pinned EP policy identifier: caught at step 10 against the pinned policy (and the binding then differs)")
+def n18(b, art=None):
+    if art is None:
+        b["action_policy_id"] = "ep:policy:made-up@v1"
+
+
+@case("N19-action-requested_at-not-the-proposal-time", "ep:action_requested_at_not_the_proposal_time",
+      "the Action Object's requested_at is not the time of A1's proposal stage (the explicit input the profile derives it from)")
+def n19(b, art=None):
+    if art is None:
+        b["action_requested_at"] = B.at(44)
 
 
 def build_case(name, fn):

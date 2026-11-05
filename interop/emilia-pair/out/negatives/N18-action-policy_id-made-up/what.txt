@@ -1,0 +1,1 @@
+the Action Object's policy_id is a value made up to fill the shape, carried consistently into the contexts, not the relying party's pinned EP policy identifier: caught at step 10 against the pinned policy (and the binding then differs)
