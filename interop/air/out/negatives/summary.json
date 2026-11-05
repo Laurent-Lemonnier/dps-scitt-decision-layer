@@ -1,0 +1,254 @@
+{
+ "N1-content-hash-wrong": {
+  "what": "the header's content_hash is another digest, the record signed again: 5.8 step 1 (and step 2, which starts from it)",
+  "caught_by": [
+   "air",
+   "joins"
+  ],
+  "expected_place": "air",
+  "as_expected": true,
+  "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+  "detail": {
+   "air": {
+    "air-1": [
+     "5.8 step 1; 5.7: step 1, payload integrity: SHA-256(payload) equals content_hash",
+     "5.8 step 2; 5.7: step 2, chain integrity: chain_hash recomputed from the header's content_hash, prev_chain_"
+    ],
+    "chain": "FAIL"
+   },
+   "joins": {
+    "J5": false
+   }
+  }
+ },
+ "N2-payload-reordered-header-kept": {
+  "what": "the payload re-serialised with its members in another order (not RFC 8785), the header and signature kept: 5.8 step 1, 5.6 canonical form, step 3",
+  "caught_by": [
+   "air",
+   "joins"
+  ],
+  "expected_place": "air",
+  "as_expected": true,
+  "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+  "detail": {
+   "air": {
+    "air-1": [
+     "5.8 step 1; 5.7: step 1, payload integrity: SHA-256(payload) equals content_hash",
+     "5.8 step 3; RFC 9052 4.4; RFC 9053 2.1: step 3, signature validity: ES256 over the RFC 9052 Sig_structure (Signature1, protected, ",
+     "5.6: payload is a JSON object in RFC 8785 canonical form (re-serialisation gives the same bytes"
+    ],
+    "chain": "FAIL"
+   },
+   "joins": {
+    "J5": false
+   }
+  }
+ },
+ "N2b-chain-hash-wrong": {
+  "what": "the header's chain_hash is another digest, the record signed again: 5.8 step 2 alone",
+  "caught_by": [
+   "air",
+   "joins"
+  ],
+  "expected_place": "air",
+  "as_expected": true,
+  "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+  "detail": {
+   "air": {
+    "air-1": [
+     "5.8 step 2; 5.7: step 2, chain integrity: chain_hash recomputed from the header's content_hash, prev_chain_"
+    ],
+    "chain": "FAIL"
+   },
+   "joins": {
+    "J5": false
+   }
+  }
+ },
+ "N3-sequence-gap": {
+  "what": "sequence 1 is numbered 2, the record signed again: 5.8 step 4",
+  "caught_by": [
+   "air",
+   "joins"
+  ],
+  "expected_place": "air",
+  "as_expected": true,
+  "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+  "detail": {
+   "air": {
+    "air-1": [
+     "5.8 step 4; 5.7; 6.3: step 4, sequence completeness: sequence_number is zero with a zero prev_chain_hash, or one"
+    ],
+    "chain": "FAIL"
+   },
+   "joins": {
+    "J5": false
+   }
+  }
+ },
+ "N4-first-record-nonzero-prev": {
+  "what": "sequence 0 carries a non-zero prev_chain_hash (chain_hash recomputed, signed again): 5.8 step 4 on the first record, and on the second, whose prev_chain_hash no longer matches",
+  "caught_by": [
+   "air",
+   "joins"
+  ],
+  "expected_place": "air",
+  "as_expected": true,
+  "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+  "detail": {
+   "air": {
+    "air-0": [
+     "5.8 step 4; 5.7; 6.3: step 4, sequence completeness: sequence_number is zero with a zero prev_chain_hash, or one"
+    ],
+    "air-1": [
+     "5.8 step 4; 5.7; 6.3: step 4, sequence completeness: sequence_number is zero with a zero prev_chain_hash, or one"
+    ],
+    "chain": "FAIL"
+   },
+   "joins": {
+    "J5": false
+   }
+  }
+ },
+ "N5-payload-changed-after-signing": {
+  "what": "the payload's outcome_summary changed after signing, content_hash and chain_hash made consistent, the signature kept: 5.8 step 3 alone",
+  "caught_by": [
+   "air",
+   "joins"
+  ],
+  "expected_place": "air",
+  "as_expected": true,
+  "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+  "detail": {
+   "air": {
+    "air-1": [
+     "5.8 step 3; RFC 9052 4.4; RFC 9053 2.1: step 3, signature validity: ES256 over the RFC 9052 Sig_structure (Signature1, protected, "
+    ],
+    "chain": "FAIL"
+   },
+   "joins": {
+    "J5": false
+   }
+  }
+ },
+ "N6-record-edited-after-citation": {
+  "what": "the decision record's context is edited after the AIR cited its bytes (seal_hash recomputed, so the record is consistent on its own): the typed digest no longer names the bytes held",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "binding": "MISMATCH: a reference of this namespace does not name the bytes held",
+  "detail": {
+   "joins": {
+    "J1": false
+   }
+  }
+ },
+ "N7-executed-input-not-approved": {
+  "what": "the agent executed a specification of 150.00 EUR; the person approved 120.00 EUR; the AIR verifies and cites the record, its input_hash is not the approved bytes",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+  "detail": {
+   "joins": {
+    "J2": false
+   }
+  }
+ },
+ "N8-no-external-refs": {
+  "what": "a valid DPS record and a valid AIR with empty external_refs: the join is not established, nothing fails",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "documented:NOT_BOUND",
+  "as_expected": true,
+  "binding": "NOT_BOUND: the AIR carries no reference of this namespace; the join is not established (not an error of either document)",
+  "detail": {
+   "joins": {
+    "J1": "not applicable: no reference of this namespace"
+   }
+  }
+ },
+ "N9-unknown-ref-type": {
+  "what": "the AIR cites the record under a type this reader does not know (org.decisionprovenancestandard.decision_record_v2): unresolved, reported, nothing fails",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "documented:UNRESOLVED",
+  "as_expected": true,
+  "binding": "UNRESOLVED: references of this namespace, none of them the decision record held; reported, not established",
+  "detail": {
+   "joins": {
+    "J1": "not established: UNRESOLVED: references of this namespace, none of them the decision record held; reported, not established"
+   }
+  }
+ },
+ "N10-action-before-approval": {
+  "what": "the action is timestamped 09:06:00Z, before the approval at 09:07:00Z and the request at 09:08:00Z (record reissued, chain intact)",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+  "detail": {
+   "joins": {
+    "J4": false
+   }
+  }
+ },
+ "N11-header-agent-id-differs": {
+  "what": "the header's agent_id names another agent, chain_hash recomputed with it and the record signed again: 5.6 (header agent_id equals CWT sub; payload agent_id equals the header's), and the chain is no longer one agent's",
+  "caught_by": [
+   "air",
+   "joins"
+  ],
+  "expected_place": "air",
+  "as_expected": true,
+  "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+  "detail": {
+   "air": {
+    "air-1": [
+     "5.6: header agent_id equals CWT sub",
+     "5.6: payload agent_id equals the header's agent_id and the CWT sub"
+    ],
+    "chain": "FAIL"
+   },
+   "joins": {
+    "J5": false
+   }
+  }
+ },
+ "N12-required-member-null": {
+  "what": "jurisdiction is null in a REQUIRED position (record reissued, hashes and signature recomputed): 6.1, all REQUIRED members non-null",
+  "caught_by": [
+   "air",
+   "ees_schema",
+   "joins"
+  ],
+  "expected_place": "air",
+  "as_expected": true,
+  "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+  "detail": {
+   "ees_schema": {
+    "air-1": [
+     "None is not of type 'string'"
+    ]
+   },
+   "air": {
+    "air-1": [
+     "5.2, 5.3, 6.1: every REQUIRED member present, non-null and of its CDDL type",
+     "5.3: jurisdiction has the form of an ISO 3166-1 alpha-2 code"
+    ],
+    "chain": "FAIL"
+   },
+   "joins": {
+    "J5": false
+   }
+  }
+ }
+}

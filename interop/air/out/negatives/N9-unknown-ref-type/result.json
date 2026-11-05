@@ -1,0 +1,14 @@
+{
+ "what": "the AIR cites the record under a type this reader does not know (org.decisionprovenancestandard.decision_record_v2): unresolved, reported, nothing fails",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "documented:UNRESOLVED",
+ "as_expected": true,
+ "binding": "UNRESOLVED: references of this namespace, none of them the decision record held; reported, not established",
+ "detail": {
+  "joins": {
+   "J1": "not established: UNRESOLVED: references of this namespace, none of them the decision record held; reported, not established"
+  }
+ }
+}

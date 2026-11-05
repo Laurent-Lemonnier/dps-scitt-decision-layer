@@ -1,0 +1,14 @@
+{
+ "what": "the agent executed a specification of 150.00 EUR; the person approved 120.00 EUR; the AIR verifies and cites the record, its input_hash is not the approved bytes",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+ "detail": {
+  "joins": {
+   "J2": false
+  }
+ }
+}

@@ -1,0 +1,1 @@
+a valid DPS record and a valid AIR with empty external_refs: the join is not established, nothing fails

@@ -1,0 +1,1 @@
+the agent executed a specification of 150.00 EUR; the person approved 120.00 EUR; the AIR verifies and cites the record, its input_hash is not the approved bytes

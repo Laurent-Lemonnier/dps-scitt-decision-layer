@@ -1,0 +1,14 @@
+{
+ "what": "a valid DPS record and a valid AIR with empty external_refs: the join is not established, nothing fails",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "documented:NOT_BOUND",
+ "as_expected": true,
+ "binding": "NOT_BOUND: the AIR carries no reference of this namespace; the join is not established (not an error of either document)",
+ "detail": {
+  "joins": {
+   "J1": "not applicable: no reference of this namespace"
+  }
+ }
+}
