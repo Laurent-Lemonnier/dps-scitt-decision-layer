@@ -1,0 +1,4 @@
+{
+  "text": "Peux-tu faire un résumé des emails Gmail starred et l'envoyer sur Slack ?",
+  "context": { "source": "fixture-text-detection" }
+}

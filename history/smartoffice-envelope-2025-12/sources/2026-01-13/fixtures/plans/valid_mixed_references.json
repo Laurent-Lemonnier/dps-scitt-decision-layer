@@ -1,0 +1,41 @@
+{
+  "contract_version": "1.0",
+  "session_id": "test_mixed_plan",
+  "status": "validated",
+  "plan": [
+    {
+      "id": "step_0",
+      "type": "tool",
+      "tool_ref": "get_config",
+      "inputs": null,
+      "outputs": {
+        "config": null
+      }
+    },
+    {
+      "id": "step_1",
+      "type": "tool",
+      "tool_ref": "fetch_data",
+      "inputs": {
+        "url": "{{$step[0].outputs.config.api_url}}",
+        "timeout": 30,
+        "retries": 3
+      },
+      "outputs": {
+        "data": null
+      }
+    },
+    {
+      "id": "step_2",
+      "type": "tool",
+      "tool_ref": "transform",
+      "inputs": {
+        "input": "{{$step[1].outputs.data}}",
+        "rules": ["uppercase", "trim"]
+      },
+      "outputs": {
+        "result": null
+      }
+    }
+  ]
+}

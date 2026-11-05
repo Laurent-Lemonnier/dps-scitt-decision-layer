@@ -1,0 +1,22 @@
+{
+  "contract_version": "1.0",
+  "session_id": "test_null_values",
+  "status": "proposed",
+  "plan": [
+    {
+      "id": "step_0",
+      "type": "tool",
+      "tool_ref": "fetch_data",
+      "inputs": {
+        "url": "https://api.example.com/data",
+        "timeout": null,
+        "headers": {
+          "auth": null
+        }
+      },
+      "outputs": {
+        "data": null
+      }
+    }
+  ]
+}

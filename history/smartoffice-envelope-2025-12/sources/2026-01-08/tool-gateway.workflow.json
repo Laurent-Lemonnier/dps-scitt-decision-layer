@@ -1,0 +1,200 @@
+{
+  "name": "so.tool.gateway",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "node-trigger",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = items[0].json;\n\n// TODO: implement idempotency check (store lookup)\nreturn [{\n  json: {\n    ...input,\n    already_processed: false\n  }\n}];\n"
+      },
+      "id": "node-idem",
+      "name": "Idempotency Check",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json.already_processed}}",
+              "operation": "isTrue"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-if",
+      "name": "IF already_processed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.step.tool_ref}}",
+        "rules": [
+          {
+            "value2": "slack.message.send",
+            "operation": "equal",
+            "output": 0
+          },
+          {
+            "value2": "gmail.message.send",
+            "operation": "equal",
+            "output": 1
+          }
+        ]
+      },
+      "id": "node-switch",
+      "name": "Switch tool_ref",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        720,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const { step } = items[0].json;\n\n// TODO: replace with Slack connector\nreturn [{ json: { data: { ok: true, tool_ref: step.tool_ref }, error: null, step } }];\n"
+      },
+      "id": "node-slack",
+      "name": "Connector - Slack",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const { step } = items[0].json;\n\n// TODO: replace with Gmail connector\nreturn [{ json: { data: { ok: true, tool_ref: step.tool_ref }, error: null, step } }];\n"
+      },
+      "id": "node-gmail",
+      "name": "Connector - Gmail",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = items[0].json;\n\nreturn [{\n  json: {\n    ok: true,\n    data: input.data || null,\n    error: input.error || null,\n    meta: {\n      tool_ref: input.step?.tool_ref\n    }\n  }\n}];\n"
+      },
+      "id": "node-normalize",
+      "name": "Persist + Normalize",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        80
+      ]
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Idempotency Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Idempotency Check": {
+      "main": [
+        [
+          {
+            "node": "IF already_processed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF already_processed": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch tool_ref",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch tool_ref": {
+      "main": [
+        [
+          {
+            "node": "Connector - Slack",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Connector - Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Connector - Slack": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Connector - Gmail": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}

@@ -1,0 +1,281 @@
+{
+  "name": "executor",
+  "nodes": [
+    {
+      "id": "trigger",
+      "name": "Executor Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "executor",
+        "responseMode": "lastNode"
+      }
+    },
+    {
+      "id": "parse-envelope",
+      "name": "Parse Envelope",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        420,
+        300
+      ],
+      "parameters": {
+        "functionCode": "// Envelope unique (legacy ou execution)\nconst envelope = items[0].json;\n\nlet steps;\nlet memory;\n\nif (envelope.payload) {\n  steps = envelope.payload.steps;\n  memory = envelope.payload.memory || { session_id: 'auto', state: {} };\n} else {\n  steps = envelope.input.steps;\n  memory = envelope.context.memory;\n}\n\nreturn [{\n  json: {\n    steps,\n    memory,\n    index: 0\n  }\n}];"
+      }
+    },
+    {
+      "id": "has-step",
+      "name": "Has Next Step?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        640,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json.index}}",
+              "operation": "smaller",
+              "value2": "={{$json.steps.length}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "pick-step",
+      "name": "Pick Step",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        860,
+        200
+      ],
+      "parameters": {
+        "functionCode": "const step = $json.steps[$json.index];\n\nreturn [{\n  json: {\n    step,\n    steps: $json.steps,\n    memory: $json.memory,\n    index: $json.index\n  }\n}];"
+      }
+    },
+    {
+      "id": "switch-type",
+      "name": "Switch Step Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        200
+      ],
+      "parameters": {
+        "value1": "={{$json.step.type}}",
+        "rules": [
+          {
+            "value2": "tool"
+          },
+          {
+            "value2": "capability"
+          },
+          {
+            "value2": "usecase"
+          }
+        ]
+      }
+    },
+    {
+      "id": "exec-tool",
+      "name": "Execute Tool",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        80
+      ],
+      "parameters": {
+        "workflowId": "={{$json.step.ref}}",
+        "inputData": {
+          "json": {
+            "params": "={{$json.step.params}}",
+            "memory": "={{$json.memory}}"
+          }
+        }
+      }
+    },
+    {
+      "id": "exec-capability",
+      "name": "Execute Capability",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        200
+      ],
+      "parameters": {
+        "workflowId": "executor",
+        "inputData": {
+          "json": {
+            "payload": {
+              "steps": "={{$json.step.steps}}",
+              "memory": "={{$json.memory}}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "exec-usecase",
+      "name": "Execute Usecase",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        320
+      ],
+      "parameters": {
+        "workflowId": "executor",
+        "inputData": {
+          "json": {
+            "payload": {
+              "steps": "={{$json.step.steps}}",
+              "memory": "={{$json.memory}}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "next-step",
+      "name": "Next Step",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        200
+      ],
+      "parameters": {
+        "functionCode": "return [{\n  json: {\n    steps: $json.steps,\n    memory: $json.memory,\n    index: $json.index + 1\n  }\n}];"
+      }
+    }
+  ],
+  "connections": {
+    "Executor Trigger": {
+      "main": [
+        [
+          {
+            "node": "Parse Envelope",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Envelope": {
+      "main": [
+        [
+          {
+            "node": "Has Next Step?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Next Step?": {
+      "main": [
+        [
+          {
+            "node": "Pick Step",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Pick Step": {
+      "main": [
+        [
+          {
+            "node": "Switch Step Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Step Type": {
+      "main": [
+        [
+          {
+            "node": "Execute Tool",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Execute Capability",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Execute Usecase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Tool": {
+      "main": [
+        [
+          {
+            "node": "Next Step",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Capability": {
+      "main": [
+        [
+          {
+            "node": "Next Step",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Usecase": {
+      "main": [
+        [
+          {
+            "node": "Next Step",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Next Step": {
+      "main": [
+        [
+          {
+            "node": "Has Next Step?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

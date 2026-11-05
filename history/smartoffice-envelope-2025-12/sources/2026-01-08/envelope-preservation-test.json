@@ -1,0 +1,124 @@
+{
+  "description": "Test fixture for envelope preservation pattern",
+  "test_cases": [
+    {
+      "name": "LLM output as direct array",
+      "merged_input": {
+        "output": [
+          {
+            "tool_ref": "slack.send_message",
+            "args": {
+              "channel": "#general",
+              "text": "Hello"
+            }
+          }
+        ],
+        "payload": {
+          "intent": "Send a hello message",
+          "context": {
+            "request_text": "Send hello"
+          },
+          "registry": {}
+        },
+        "agent": {
+          "mode": "plan"
+        }
+      },
+      "expected_output": {
+        "plan": {
+          "steps": [
+            {
+              "tool_ref": "slack.send_message",
+              "args": {
+                "channel": "#general",
+                "text": "Hello"
+              },
+              "type": "tool"
+            }
+          ]
+        },
+        "authorization": {
+          "mode": "human_required"
+        },
+        "payload": {
+          "intent": "Send a hello message",
+          "context": {
+            "request_text": "Send hello"
+          },
+          "registry": {}
+        }
+      }
+    },
+    {
+      "name": "LLM output as wrapped object",
+      "merged_input": {
+        "output": {
+          "steps": [
+            {
+              "tool_ref": "gmail.send_email",
+              "args": {
+                "to": "test@example.com",
+                "subject": "Test"
+              }
+            }
+          ]
+        },
+        "payload": {
+          "intent": "Send email",
+          "context": {},
+          "registry": {}
+        },
+        "agent": {
+          "mode": "plan"
+        }
+      },
+      "expected_output": {
+        "plan": {
+          "steps": [
+            {
+              "tool_ref": "gmail.send_email",
+              "args": {
+                "to": "test@example.com",
+                "subject": "Test"
+              },
+              "type": "tool"
+            }
+          ]
+        },
+        "authorization": {
+          "mode": "human_required"
+        }
+      }
+    },
+    {
+      "name": "LLM output as JSON string",
+      "merged_input": {
+        "output": "[{\"tool_ref\":\"calendar.create_event\",\"args\":{\"title\":\"Meeting\"}}]",
+        "payload": {
+          "intent": "Create calendar event",
+          "context": {},
+          "registry": {}
+        },
+        "agent": {
+          "mode": "plan"
+        }
+      },
+      "expected_output": {
+        "plan": {
+          "steps": [
+            {
+              "tool_ref": "calendar.create_event",
+              "args": {
+                "title": "Meeting"
+              },
+              "type": "tool"
+            }
+          ]
+        },
+        "authorization": {
+          "mode": "human_required"
+        }
+      }
+    }
+  ]
+}

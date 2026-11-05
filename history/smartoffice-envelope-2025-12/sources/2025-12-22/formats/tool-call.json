@@ -1,0 +1,11 @@
+{
+  "id": "call_001",
+  "tool": "slack",
+  "action": "post_message",
+  "params": {
+    "channel": "#ops",
+    "text": "Hello from Smart Office"
+  },
+  "timeout_ms": 15000,
+  "retry": { "max": 2, "backoff_ms": 500 }
+}

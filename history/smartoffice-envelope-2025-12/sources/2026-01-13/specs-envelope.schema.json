@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SmartOffice Envelope (Minimal)",
+  "type": "object",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "properties": {
+        "context": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "registry": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "policies": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "intent": {
+          "type": "string"
+        },
+        "input": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "memory": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "context",
+        "registry",
+        "policies",
+        "intent",
+        "input"
+      ],
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "payload"
+  ],
+  "additionalProperties": true
+}

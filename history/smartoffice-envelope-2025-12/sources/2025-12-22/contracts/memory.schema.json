@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://smart-office.local/schemas/memory.schema.json",
+  "title": "Memory",
+  "description": "Mémoire persistante d'une session d'exécution (état, pile, identifiant).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifiant unique de la session."
+    },
+    "state": {
+      "type": "object",
+      "default": {},
+      "additionalProperties": true,
+      "description": "État courant de la session (clé-valeur libre)."
+    },
+    "stack": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": [],
+      "description": "Pile d'appels ou d'étapes pour la gestion du contexte d'exécution."
+    }
+  },
+  "required": ["session_id", "state"]
+}

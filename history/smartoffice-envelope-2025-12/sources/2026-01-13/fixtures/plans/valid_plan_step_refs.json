@@ -1,0 +1,30 @@
+{
+  "contract_version": "1.0",
+  "session_id": "fixture_valid_refs",
+  "status": "proposed",
+  "plan": [
+    {
+      "id": "step_fetch",
+      "type": "tool",
+      "tool_ref": "inventory.lookup",
+      "inputs": {
+        "sku": "SO-123"
+      },
+      "outputs": {
+        "quantity": null
+      }
+    },
+    {
+      "id": "step_alert",
+      "type": "tool",
+      "tool_ref": "slack.message.send",
+      "inputs": {
+        "text": "{{$step[0].outputs.quantity}}",
+        "channel": "#ops"
+      },
+      "outputs": {
+        "ok": null
+      }
+    }
+  ]
+}

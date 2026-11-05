@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://smart-office.local/schemas/result.schema.json",
+  "title": "Result",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Indique si l'exécution s'est terminée sans erreur."
+    },
+    "data": {
+      "type": ["object", "null"],
+      "description": "Résultat métier ou technique retourné par l'exécution."
+    },
+    "error": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "description": "Erreur détaillée si l'exécution a échoué.",
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Code d'erreur unique."
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Message d'erreur lisible."
+        },
+        "details": {
+          "type": ["object", "null"],
+          "description": "Détails additionnels sur l'erreur."
+        }
+      },
+      "required": ["code", "message"]
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Métadonnées techniques (durée, logs, etc.)."
+    }
+  },
+  "required": ["success"],
+  "allOf": [
+    {
+      "if": {
+        "properties": { "success": { "const": true } },
+        "required": ["success"]
+      },
+      "then": { "properties": { "error": { "const": null } } }
+    },
+    {
+      "if": {
+        "properties": { "success": { "const": false } },
+        "required": ["success"]
+      },
+      "then": { "required": ["error"] }
+    }
+  ]
+}

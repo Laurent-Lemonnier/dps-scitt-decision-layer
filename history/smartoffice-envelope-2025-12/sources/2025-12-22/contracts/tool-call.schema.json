@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://smart-office.local/schemas/tool-call.schema.json",
+  "title": "ToolCall",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifiant unique de l'appel de tool."
+    },
+    "tool": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Nom du tool à invoquer (ex: slack, gmail, etc.)."
+    },
+    "action": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Action spécifique à exécuter sur le tool."
+    },
+    "params": {
+      "type": "object",
+      "default": {},
+      "additionalProperties": true,
+      "description": "Paramètres d'entrée pour l'action du tool."
+    },
+    "timeout_ms": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Timeout d'exécution en millisecondes."
+    },
+    "retry": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Politique de retry en cas d'échec.",
+      "properties": {
+        "max": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Nombre maximal de tentatives."
+        },
+        "backoff_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Délai d'attente entre deux tentatives (ms)."
+        }
+      }
+    }
+  },
+  "required": ["id", "tool", "action"]
+}

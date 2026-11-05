@@ -1,0 +1,359 @@
+{
+  "name": "so.executor",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "node-trigger",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "test/so-executor",
+        "responseMode": "lastNode"
+      },
+      "id": "node-webhook-test",
+      "name": "HTTP Test Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst state = items[0].json;\n\n// Support webhook payloads wrapped under body\nconst body = state.body || {};\nif (!state.plan && body.plan) state.plan = body.plan;\nif (!state.authorization && body.authorization) state.authorization = body.authorization;\nif (!state.payload && body.payload) state.payload = body.payload;\n\nstate.payload = state.payload || {};\nstate.authorization = state.authorization || {};\n\nconst registryDefaults = {\n  capabilities: {\n    contract_version: 'so.registry.v1',\n    updated_at: '2026-01-09T03:36:06Z',\n    items: [\n      {\n        id: 'gmail.sampleFetch',\n        access: 'read',\n        params: {},\n        steps: [\n          {\n            type: 'tool',\n            ref: 'gmail.sampleFetch',\n            params: {}\n          }\n        ]\n      },\n      {\n        id: 'gmail.message.getMany',\n        access: 'read',\n        params: {\n          simplify: true,\n          limit: 50\n        },\n        steps: [\n          {\n            type: 'tool',\n            ref: 'gmail.message.getMany',\n            params: {\n              simplify: true,\n              limit: 50\n            }\n          }\n        ]\n      },\n      {\n        id: 'slack.sampleFetch',\n        access: 'read',\n        params: {},\n        steps: [\n          {\n            type: 'tool',\n            ref: 'slack.sampleFetch',\n            params: {}\n          }\n        ]\n      },\n      {\n        id: 'slack.message.search',\n        access: 'read',\n        params: {\n          limit: 50\n        },\n        steps: [\n          {\n            type: 'tool',\n            ref: 'slack.message.search',\n            params: {\n              limit: 50\n            }\n          }\n        ]\n      },\n      {\n        id: 'google-drive.fileFolder.search',\n        access: 'read',\n        params: {\n          limit: 20\n        },\n        steps: [\n          {\n            type: 'tool',\n            ref: 'google-drive.fileFolder.search',\n            params: {\n              limit: 20\n            }\n          }\n        ]\n      },\n      {\n        id: 'google-calendar.event.getMany',\n        access: 'read',\n        params: {\n          limit: 20\n        },\n        steps: [\n          {\n            type: 'tool',\n            ref: 'google-calendar.event.getMany',\n            params: {\n              limit: 20\n            }\n          }\n        ]\n      },\n      {\n        id: 'openai.text.generateChatCompletion',\n        access: 'write',\n        params: {},\n        steps: [\n          {\n            type: 'tool',\n            ref: 'openai.text.generateChatCompletion',\n            params: {}\n          }\n        ]\n      }\n    ]\n  }\n};\n\nif (!state.payload.registry) {\n  state.payload.registry = registryDefaults;\n}\n\nconst registry = state.payload.registry || {};\nconst capabilityItems = Array.isArray(registry?.capabilities?.items) ? registry.capabilities.items : [];\nconst accessByTool = capabilityItems.reduce((acc, item) => {\n  if (item && item.id) acc[item.id] = item.access || item.mode;\n  return acc;\n}, {});\n\nconst steps = state.plan?.steps;\nconst readOnlyPlan = Array.isArray(steps) && steps.length > 0 && steps.every((step) => {\n  return ['read', 'read_only', 'readonly'].includes(accessByTool[step.tool_ref]);\n});\n\nconst mode = state.authorization?.mode;\nconst authorized = (mode === 'auto_approved' && readOnlyPlan) || ['preapproved', 'human_approved'].includes(mode);\n\nif (!authorized) {\n  throw new Error('Execution not authorized');\n}\n\nstate.execution = state.execution || {};\nstate.execution.status = 'running';\nstate.execution.cursor = 0;\nstate.execution.results = [];\n\nif (!Array.isArray(steps) || steps.length === 0) {\n  throw new Error('plan.steps missing');\n}\n\nreturn [{ json: state }];\n"
+      },
+      "id": "node-guard",
+      "name": "Guard + Init Execution",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const { envelope, step } = items[0].json;\n\nfunction resolveTemplate(value, results) {\n  if (typeof value === 'string') {\n    return value.replace(/\\{\\{\\s*\\$step\\[(\\d+)\\]\\.outputs\\.([^}]+)\\}\\}/g, (_match, indexStr, path) => {\n      const index = Number(indexStr);\n      const result = results[index]?.result;\n      if (result === undefined || result === null) return '';\n      const parts = path.split('.');\n      let current = result;\n      for (const part of parts) {\n        if (current && Object.prototype.hasOwnProperty.call(current, part)) {\n          current = current[part];\n        } else {\n          return '';\n        }\n      }\n      if (typeof current === 'string' || typeof current === 'number' || typeof current === 'boolean') {\n        return String(current);\n      }\n      return JSON.stringify(current);\n    });\n  }\n\n  if (Array.isArray(value)) {\n    return value.map((item) => resolveTemplate(item, results));\n  }\n\n  if (value && typeof value === 'object') {\n    if (Object.prototype.hasOwnProperty.call(value, '$ref')) {\n      return value;\n    }\n    const output = {};\n    for (const [key, nested] of Object.entries(value)) {\n      output[key] = resolveTemplate(nested, results);\n    }\n    return output;\n  }\n\n  return value;\n}\n\nconst resolvedArgs = resolveTemplate(step.args || step.params || {}, envelope.execution?.results || []);\nconst resolvedStep = {\n  ...step,\n  args: resolvedArgs,\n  params: resolvedArgs\n};\n\nreturn [{\n  json: {\n    envelope,\n    step: resolvedStep\n  }\n}];\n"
+      },
+      "id": "node-prepare",
+      "name": "Prepare Step",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": "pz9REBe1srzSuebM",
+        "options": {
+          "waitForExecution": true
+        }
+      },
+      "id": "node-tool-gateway",
+      "name": "Execute Tool Gateway",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        960,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "multiplex",
+        "options": {
+          "clashHandling": {
+            "values": {
+              "resolveClash": "preferInput2"
+            }
+          }
+        }
+      },
+      "id": "node-merge-tool",
+      "name": "Merge Tool Result",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [
+        1080,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const { envelope, step } = items[0].json;\n\nconst outputs = items.map((item) => {\n  const { result, data } = item.json;\n  return result !== undefined ? result : data;\n});\n\nconst errors = items\n  .map((item) => item.json.error)\n  .filter((error) => error !== null && error !== undefined);\n\nconst output = outputs.length === 1 ? outputs[0] : outputs;\nconst error = errors.length > 0 ? errors[0] : null;\n\nfunction pickFields(obj, fields) {\n  if (!obj || typeof obj !== 'object') return obj;\n  const out = {};\n  for (const field of fields) {\n    if (Object.prototype.hasOwnProperty.call(obj, field)) {\n      out[field] = obj[field];\n    }\n  }\n  return out;\n}\n\nfunction getByPath(obj, path) {\n  if (!path || !obj) return undefined;\n  const parts = String(path).split('.');\n  let current = obj;\n  for (const part of parts) {\n    if (current === null || current === undefined) return undefined;\n    const index = Number(part);\n    if (Array.isArray(current) && Number.isInteger(index) && String(index) === part) {\n      current = current[index];\n    } else {\n      current = current[part];\n    }\n  }\n  return current;\n}\n\nfunction resolveOutputPath(value, outputPath) {\n  if (!outputPath) return value;\n  const paths = Array.isArray(outputPath) ? outputPath : [outputPath];\n  for (const path of paths) {\n    const resolved = getByPath(value, path);\n    if (resolved !== undefined) return resolved;\n  }\n  return value;\n}\n\nfunction findToolSpec(registry, toolRef) {\n  if (!registry || !toolRef) return null;\n  if (registry.tools && !Array.isArray(registry.tools) && registry.tools[toolRef]) {\n    return registry.tools[toolRef];\n  }\n  const list = Array.isArray(registry.items)\n    ? registry.items\n    : Array.isArray(registry.tools)\n      ? registry.tools\n      : Array.isArray(registry.tools?.items)\n        ? registry.tools.items\n        : [];\n  return list.find((item) => item.id === toolRef) || null;\n}\n\nfunction applyNormalize(value, normalize) {\n  if (!normalize) return value;\n  let current = resolveOutputPath(value, normalize.output_path);\n  if (normalize.pick && Array.isArray(normalize.pick)) {\n    if (Array.isArray(current)) {\n      current = current.map((entry) => pickFields(entry, normalize.pick));\n    } else if (current && typeof current === 'object') {\n      if (normalize.wrap && Array.isArray(current[normalize.wrap])) {\n        current = {\n          ...current,\n          [normalize.wrap]: current[normalize.wrap].map((entry) => pickFields(entry, normalize.pick))\n        };\n      } else {\n        current = pickFields(current, normalize.pick);\n      }\n    }\n  }\n  return current;\n}\n\nfunction normalizeOutput(step, value) {\n  const spec = step?.outputs;\n  if (!spec || typeof spec !== 'object' || Array.isArray(spec)) return value;\n  const keys = Object.keys(spec);\n  if (keys.length === 0) return value;\n  if (keys.length === 1) {\n    const key = keys[0];\n    if (value && typeof value === 'object' && !Array.isArray(value) && Object.prototype.hasOwnProperty.call(value, key)) {\n      return value;\n    }\n    return { [key]: value };\n  }\n  if (value && typeof value === 'object' && !Array.isArray(value)) {\n    return value;\n  }\n  return value;\n}\n\nconst registry = envelope?.payload?.registry || envelope?.registry || null;\nconst toolSpec = findToolSpec(registry, step?.tool_ref || step?.tool || step?.ref || '');\nconst normalizedValue = applyNormalize(output, toolSpec?.normalize);\nconst normalizedOutput = normalizeOutput(step, normalizedValue);\n\nenvelope.execution.results.push({\n  step,\n  status: error ? 'failed' : 'ok',\n  result: normalizedOutput ?? null,\n  error\n});\n\nif (error) {\n  envelope.execution.status = 'failed';\n} else {\n  envelope.execution.cursor = (envelope.execution.cursor || 0) + 1;\n  if (envelope.execution.cursor >= (envelope.plan?.steps?.length || 0)) {\n    envelope.execution.status = 'completed';\n  }\n}\n\nreturn [{ json: envelope }];\n"
+      },
+      "id": "node-collect",
+      "name": "Collect Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "if-error-status",
+              "leftValue": "={{$json.execution.status}}",
+              "rightValue": "failed",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-if",
+      "name": "IF error",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const state = items[0].json;\n\nconst status = state.execution?.status || 'completed';\nconst results = Array.isArray(state.execution?.results) ? state.execution.results : [];\n\nconst normalizedResults = results.map((entry, index) => {\n  const step = entry.step || {};\n  return {\n    id: step.id || `step_${index}`,\n    tool_ref: step.tool_ref || step.ref || step.tool || null,\n    status: entry.status || 'ok',\n    inputs: step.inputs || step.args || {},\n    outputs: step.outputs || {},\n    result: entry.result ?? null,\n    error: entry.error ?? null\n  };\n});\n\nconst firstError = results.find((entry) => entry?.error)?.error ?? null;\n\nconst sessionId = state.execution?.session_id\n  || state.payload?.context?.memory?.session_id\n  || state.payload?.context?.session_id\n  || state.payload?.context?.correlation_id\n  || 'unknown';\n\nconst contractVersion = state.execution?.contract_version\n  || state.plan?.contract_version\n  || state.payload?.context?.contract_version\n  || '1.0';\n\nstate.output = {\n  contract_version: String(contractVersion),\n  session_id: String(sessionId),\n  status,\n  result: {\n    summary: `Execution ${status}`,\n    steps: normalizedResults\n  },\n  artifacts: null,\n  logs: null,\n  error: status === 'failed' ? (firstError || 'Execution failed') : null\n};\n\nreturn [{ json: state }];\n"
+      },
+      "id": "node-finalize",
+      "name": "Finalize",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const state = items[0].json;\n\nconst steps = state.plan?.steps || [];\nconst cursor = state.execution?.cursor ?? 0;\nconst step = steps[cursor];\n\nif (!step) {\n  return [{ json: state }];\n}\n\nreturn [{\n  json: {\n    envelope: state,\n    step\n  }\n}];\n"
+      },
+      "id": "node-get-step",
+      "name": "Get Current Step",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "has-next-step-flag",
+              "leftValue": "={{String($json.execution.has_next)}}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-has-next",
+      "name": "Has Next Step",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const state = items[0].json;\nconst total = Array.isArray(state.plan?.steps) ? state.plan.steps.length : 0;\nstate.execution = state.execution || {};\nstate.execution.has_next = (state.execution.cursor || 0) < total;\nreturn [{ json: state }];\n"
+      },
+      "id": "node-compute-next",
+      "name": "Compute Next Step",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Guard + Init Execution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guard + Init Execution": {
+      "main": [
+        [
+          {
+            "node": "Get Current Step",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Current Step": {
+      "main": [
+        [
+          {
+            "node": "Prepare Step",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Step": {
+      "main": [
+        [
+          {
+            "node": "Execute Tool Gateway",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge Tool Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Tool Gateway": {
+      "main": [
+        [
+          {
+            "node": "Merge Tool Result",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Tool Result": {
+      "main": [
+        [
+          {
+            "node": "Collect Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Collect Result": {
+      "main": [
+        [
+          {
+            "node": "IF error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF error": {
+      "main": [
+        [
+          {
+            "node": "Finalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Compute Next Step",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Next Step": {
+      "main": [
+        [
+          {
+            "node": "Get Current Step",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Finalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compute Next Step": {
+      "main": [
+        [
+          {
+            "node": "Has Next Step",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Test Trigger": {
+      "main": [
+        [
+          {
+            "node": "Guard + Init Execution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}

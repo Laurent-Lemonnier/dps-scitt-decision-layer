@@ -1,0 +1,29 @@
+{
+  "contract_version": "1.0",
+  "session_id": "test_invalid_plan",
+  "status": "proposed",
+  "plan": [
+    {
+      "id": "step_0",
+      "type": "tool",
+      "tool_ref": "fetch_data",
+      "inputs": {
+        "url": "https://api.example.com/data"
+      },
+      "outputs": {
+        "data": null
+      }
+    },
+    {
+      "id": "step_1",
+      "type": "tool",
+      "tool_ref": "process_data",
+      "inputs": {
+        "raw_data": "{{$step[2].outputs.data}}"
+      },
+      "outputs": {
+        "processed": null
+      }
+    }
+  ]
+}

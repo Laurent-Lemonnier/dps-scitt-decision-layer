@@ -1,0 +1,6 @@
+{
+  "usecase": "gmail.starred.summary.slack",
+  "text": "gmail starred summary to slack",
+  "context": { "source": "fixture-certified" },
+  "agent": { "detected_usecase": "gmail.starred.summary.slack", "mode": "compile" }
+}

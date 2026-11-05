@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://smart-office.local/schemas/step.schema.json",
+  "title": "Step",
+  "type": "object",
+  "additionalProperties": false,
+
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional unique step id for tracing, saving outputs, error handling."
+    },
+
+    "type": {
+      "enum": ["tool", "capability", "usecase"],
+      "description": "Type de step à exécuter (tool, capability ou usecase)."
+    },
+    "ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Référence unique du tool/capability/usecase à appeler."
+    },
+    "params": {
+      "type": "object",
+      "default": {},
+      "description": "Paramètres d'entrée pour le step (dépend du type et de la référence)."
+    },
+
+    "when": {
+      "type": ["object", "string"],
+      "description": "Optional condition to execute this step. Either a simple string expression, or an object-based predicate.",
+      "examples": [
+        "memory.state.priority == 'high'",
+        { "path": "memory.state.priority", "eq": "high" }
+      ]
+    },
+
+    "save": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "to": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "description": "A JSONPath-like pointer to read from last step result (ex: $.data.id) or a literal prefixed with 'lit:'."
+          }
+        }
+      },
+      "required": ["to"],
+      "description": "Optional mapping to persist values from the step result into memory.state."
+    },
+
+    "on_error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": { "enum": ["stop", "continue", "fallback"] },
+        "fallback": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": { "enum": ["tool", "capability", "usecase"] },
+            "ref": { "type": "string", "minLength": 1 },
+            "params": { "type": "object", "default": {} }
+          },
+          "required": ["type", "ref"]
+        }
+      },
+      "required": ["mode"],
+      "description": "Optional error handling policy for this step."
+    },
+
+    "for_each": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "list": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Path to an array in memory or previous output. Example: memory.state.items"
+        },
+        "as": {
+          "type": "string",
+          "minLength": 1,
+          "default": "item",
+          "description": "Name to expose current item as in memory.state._locals[as]"
+        }
+      },
+      "required": ["list"],
+      "description": "Optional loop marker. Executor repeats the step for each item in list."
+    }
+  },
+
+  "required": ["type", "ref"],
+
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "tool" } } },
+      "then": {
+        "properties": {
+          "params": {
+            "type": "object",
+            "properties": { "action": { "type": "string", "minLength": 1 } },
+            "required": ["action"]
+          }
+        }
+      }
+    }
+  ]
+}

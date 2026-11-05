@@ -1,0 +1,10 @@
+{
+  "request": {
+    "params": {
+      "message": "Hello MVP"
+    }
+  },
+  "context": {
+    "session_id": "sess_sample"
+  }
+}

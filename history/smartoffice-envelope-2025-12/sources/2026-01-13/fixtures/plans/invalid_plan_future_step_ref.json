@@ -1,0 +1,29 @@
+{
+  "contract_version": "1.0",
+  "session_id": "fixture_invalid_future",
+  "status": "proposed",
+  "plan": [
+    {
+      "id": "step_first",
+      "type": "tool",
+      "tool_ref": "calendar.lookup",
+      "inputs": {
+        "range": "tomorrow"
+      },
+      "outputs": {
+        "slots": null
+      }
+    },
+    {
+      "id": "step_second",
+      "type": "tool",
+      "tool_ref": "calendar.book",
+      "inputs": {
+        "slot": "{{$step[2].outputs.slots}}"
+      },
+      "outputs": {
+        "confirmation": null
+      }
+    }
+  ]
+}

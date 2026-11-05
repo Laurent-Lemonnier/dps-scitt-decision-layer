@@ -1,0 +1,248 @@
+{
+  "name": "google-calendar tool workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "manual",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  const tool = input.tool || {};\n  const params = input.params ?? tool.params ?? {};\n  const operation = input.operation ?? tool.operation ?? params.action ?? input.action;\n  return {\n    json: {\n      provider: 'google-calendar',\n      operation,\n      params\n    }\n  };\n});\n"
+      },
+      "id": "normalize",
+      "name": "Normalize Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        432,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "redacted@example.invalid",
+          "mode": "id"
+        },
+        "start": "={{$json.params.start}}",
+        "end": "={{$json.params.end}}",
+        "additionalFields": {}
+      },
+      "id": "event-create",
+      "name": "event.create",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        928,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "redacted@example.invalid",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "timeMax": "={{ $now.plus({ day: 2 }) }}",
+        "options": {}
+      },
+      "id": "event-getMany",
+      "name": "event.getMany",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        928,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'google-calendar', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
+      },
+      "id": "sample-fetch",
+      "name": "sampleFetch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        928,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.operation}}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "event.create"
+            },
+            {
+              "value2": "event.getMany",
+              "output": 1
+            },
+            {
+              "value2": "sampleFetch",
+              "output": 2
+            }
+          ]
+        }
+      },
+      "id": "dispatch",
+      "name": "Dispatch Operation",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        672,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const payload = item.json || {};\n  const toolResult = payload.toolResult ||\n    (payload.ok !== undefined ? payload : { ok: true, data: payload, error: null });\n\n  const isBirthday = (event) => {\n    if (!event || typeof event !== 'object') return false;\n    const eventType = String(event.eventType || '').toLowerCase();\n    if (eventType === 'birthday') return true;\n    const summary = String(event.summary || '').toLowerCase();\n    return summary.includes('birthday') || summary.includes('anniversaire');\n  };\n\n  const filterList = (list) => Array.isArray(list)\n    ? list.filter((event) => !isBirthday(event))\n    : list;\n\n  const dataValue = toolResult.data;\n  if (Array.isArray(dataValue)) {\n    toolResult.data = filterList(dataValue);\n  } else if (dataValue && typeof dataValue === 'object') {\n    if (Array.isArray(dataValue.events)) {\n      dataValue.events = filterList(dataValue.events);\n    }\n    if (Array.isArray(dataValue.items)) {\n      dataValue.items = filterList(dataValue.items);\n    }\n  }\n\n  return { json: toolResult };\n});\n"
+      },
+      "id": "map-provider-response",
+      "name": "Map Provider Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items;\n"
+      },
+      "id": "return-tool-result",
+      "name": "Return toolResult",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1328,
+        304
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Input": {
+      "main": [
+        [
+          {
+            "node": "Dispatch Operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dispatch Operation": {
+      "main": [
+        [
+          {
+            "node": "event.create",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "event.getMany",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "sampleFetch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "event.create": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "event.getMany": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "sampleFetch": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Provider Response": {
+      "main": [
+        [
+          {
+            "node": "Return toolResult",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return toolResult": {
+      "main": []
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Normalize Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}

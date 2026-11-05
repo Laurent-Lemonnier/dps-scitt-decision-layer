@@ -1,0 +1,166 @@
+{
+  "name": "so.human.approval",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "node-propose-trigger",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst { randomUUID } = require('crypto');\n\nconst state = items[0].json;\n\nif (!state.payload || !state.plan) {\n  throw new Error('Invalid envelope: payload or plan missing');\n}\n\nstate.payload.context = state.payload.context || {};\nstate.payload.context.human = state.payload.context.human || {};\n\nconst baseDir = path.resolve(process.cwd(), 'push_runs');\nif (!fs.existsSync(baseDir)) {\n  fs.mkdirSync(baseDir, { recursive: true });\n}\n\nconst runId = state.payload.context.run_id || `run_${Date.now()}_${randomUUID()}`;\nstate.payload.context.run_id = runId;\n\nconst record = {\n  run_id: runId,\n  saved_at: new Date().toISOString(),\n  envelope: state\n};\n\nconst filePath = path.join(baseDir, `${runId}.json`);\nfs.writeFileSync(filePath, JSON.stringify(record, null, 2));\n\nstate.payload.context.human.storage = {\n  run_id: runId,\n  file_path: filePath\n};\n\nreturn [{ json: state }];\n"
+      },
+      "id": "node-postgres",
+      "name": "Persist Plan + Context",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const state = items[0].json;\n\nconst runId = state.payload?.context?.run_id || 'unknown';\nconst stepsCount = Array.isArray(state.plan?.steps) ? state.plan.steps.length : 0;\nconst summary = state.payload?.context?.validation?.plan_schema?.valid\n  ? `Plan ready (${stepsCount} steps).`\n  : `Plan needs review (${stepsCount} steps).`;\n\nstate.payload.context.human = state.payload.context.human || {};\nstate.payload.context.human.approval_request = {\n  run_id: runId,\n  summary,\n  instructions: `Approve by sending: \"approve ${runId}\" or reject with: \"reject ${runId}\".`\n};\n\nstate.payload.context.human.slack = {\n  message: `SmartOffice approval needed\\nRun: ${runId}\\n${summary}\\nApprove: approve ${runId}\\nReject: reject ${runId}`\n};\n\nreturn [{ json: state }];\n"
+      },
+      "id": "node-slack-propose",
+      "name": "Prepare Slack Approval Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "trigger": [
+          "message",
+          "reaction_added"
+        ],
+        "channelId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "CREDACTED00"
+        },
+        "options": {
+          "resolveIds": false
+        }
+      },
+      "id": "node-slack-trigger",
+      "name": "Slack Trigger",
+      "type": "n8n-nodes-base.slackTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\n\nconst payload = items[0].json || {};\nconst text = payload.text || payload.event?.text || payload.message?.text || '';\n\nconst match = text.match(/(approve|reject)\\s+(run_[\\w-]+)/i);\nif (!match) {\n  throw new Error('No approval command found (expected \"approve <run_id>\")');\n}\n\nconst action = match[1].toLowerCase();\nconst runId = match[2];\n\nconst filePath = path.resolve(process.cwd(), 'push_runs', `${runId}.json`);\nif (!fs.existsSync(filePath)) {\n  throw new Error(`Run not found: ${runId}`);\n}\n\nconst record = JSON.parse(fs.readFileSync(filePath, 'utf8'));\nconst state = record.envelope;\n\nif (!state || !state.payload) {\n  throw new Error('Persisted envelope missing');\n}\n\nif (action !== 'approve') {\n  const rejectBy = payload.user || payload.event?.user || 'slack';\n  throw new Error(`Run ${runId} rejected by ${rejectBy}`);\n}\n\nstate.payload.context = state.payload.context || {};\nstate.payload.context.human = state.payload.context.human || {};\nstate.payload.context.human.approved_at = new Date().toISOString();\nstate.payload.context.human.approved_action = action;\nstate.payload.context.human.approved_by = payload.user || payload.event?.user || 'slack';\n\nconst existingAuthorization = (state.authorization && typeof state.authorization === 'object')\n  ? state.authorization\n  : {};\n\nstate.authorization = {\n  ...existingAuthorization,\n  mode: 'human_approved'\n};\n\nreturn [{ json: state }];\n"
+      },
+      "id": "node-approve-reload",
+      "name": "Reload Approval + Envelope",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const state = items[0].json;\n\nstate.authorization = {\n  mode: 'human_approved'\n};\n\nreturn [{ json: state }];\n"
+      },
+      "id": "node-approve",
+      "name": "Approve Plan",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": "UmrLF6lucCIPrMqJ",
+        "options": {}
+      },
+      "id": "node-executor",
+      "name": "Execute Executor",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        720,
+        208
+      ]
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Persist Plan + Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Persist Plan + Context": {
+      "main": [
+        [
+          {
+            "node": "Prepare Slack Approval Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack Trigger": {
+      "main": [
+        [
+          {
+            "node": "Reload Approval + Envelope",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reload Approval + Envelope": {
+      "main": [
+        [
+          {
+            "node": "Approve Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approve Plan": {
+      "main": [
+        [
+          {
+            "node": "Execute Executor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}

@@ -1,0 +1,44 @@
+{
+  "contract_version": "1.0",
+  "session_id": "test_valid_plan",
+  "status": "validated",
+  "plan": [
+    {
+      "id": "step_0",
+      "type": "tool",
+      "tool_ref": "fetch_data",
+      "inputs": {
+        "url": "https://api.example.com/data",
+        "method": "GET"
+      },
+      "outputs": {
+        "data": null,
+        "status": null
+      }
+    },
+    {
+      "id": "step_1",
+      "type": "tool",
+      "tool_ref": "process_data",
+      "inputs": {
+        "raw_data": "{{$step[0].outputs.data}}",
+        "format": "json"
+      },
+      "outputs": {
+        "processed": null
+      }
+    },
+    {
+      "id": "step_2",
+      "type": "tool",
+      "tool_ref": "save_data",
+      "inputs": {
+        "data": "{{$step[1].outputs.processed}}",
+        "destination": "database"
+      },
+      "outputs": {
+        "saved": null
+      }
+    }
+  ]
+}

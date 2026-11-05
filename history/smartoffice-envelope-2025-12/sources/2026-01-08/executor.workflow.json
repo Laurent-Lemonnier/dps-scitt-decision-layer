@@ -1,0 +1,214 @@
+{
+  "name": "so.executor",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "node-trigger",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const state = items[0].json;\n\nif (!['preapproved', 'human_approved'].includes(state.authorization?.mode)) {\n  throw new Error('Execution not authorized');\n}\n\nstate.execution = state.execution || {};\nstate.execution.status = 'running';\nstate.execution.cursor = 0;\nstate.execution.results = [];\n\nconst steps = state.plan?.steps;\nif (!Array.isArray(steps) || steps.length === 0) {\n  throw new Error('plan.steps missing');\n}\n\nreturn steps.map((step) => ({\n  json: {\n    envelope: state,\n    step\n  }\n}));\n"
+      },
+      "id": "node-guard",
+      "name": "Guard + Init Execution",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1
+      },
+      "id": "node-batch",
+      "name": "Split In Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const { envelope, step } = items[0].json;\n\nreturn [{\n  json: {\n    envelope,\n    step\n  }\n}];\n"
+      },
+      "id": "node-prepare",
+      "name": "Prepare Step",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": "pz9REBe1srzSuebM",
+        "options": {
+          "waitForExecution": true
+        }
+      },
+      "id": "node-tool-gateway",
+      "name": "Execute Tool Gateway",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        960,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const { envelope, step, result, data, error } = items[0].json;\nconst output = result !== undefined ? result : data;\n\nenvelope.execution.results.push({\n  step,\n  status: error ? 'failed' : 'ok',\n  result: output || null,\n  error: error || null\n});\n\nif (error) {\n  envelope.execution.status = 'failed';\n}\n\nreturn [{ json: envelope }];\n"
+      },
+      "id": "node-collect",
+      "name": "Collect Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.execution.status}}",
+              "operation": "equal",
+              "value2": "failed"
+            }
+          ]
+        }
+      },
+      "id": "node-if",
+      "name": "IF error",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const state = items[0].json;\n\nstate.execution.status = state.execution.status || 'completed';\nstate.output = {\n  summary: `Execution ${state.execution.status}`\n};\n\nreturn [{ json: state }];\n"
+      },
+      "id": "node-finalize",
+      "name": "Finalize",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Guard + Init Execution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guard + Init Execution": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches": {
+      "main": [
+        [
+          {
+            "node": "Prepare Step",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Finalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Step": {
+      "main": [
+        [
+          {
+            "node": "Execute Tool Gateway",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Tool Gateway": {
+      "main": [
+        [
+          {
+            "node": "Collect Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Collect Result": {
+      "main": [
+        [
+          {
+            "node": "IF error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF error": {
+      "main": [
+        [
+          {
+            "node": "Finalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}

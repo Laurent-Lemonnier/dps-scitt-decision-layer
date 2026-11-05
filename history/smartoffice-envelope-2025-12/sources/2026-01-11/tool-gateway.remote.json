@@ -1,0 +1,1559 @@
+{
+  "name": "so.tool.gateway",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "node-trigger",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -496,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = items[0].json;\n\n// TODO: implement idempotency check (store lookup)\nreturn [{\n  json: {\n    ...input,\n    already_processed: false\n  }\n}];\n"
+      },
+      "id": "node-idem",
+      "name": "Idempotency Check",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "REDACTED_GOOGLE_ID",
+              "leftValue": "already_processed",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-if",
+      "name": "IF already_processed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "function applyNormalize(toolResult, registry) {\n  if (!registry || !registry.tools || !toolResult || toolResult.ok === false) return toolResult;\n  const ref = toolResult.meta?.tool_ref || toolResult.tool_ref || toolResult.params?.tool_ref;\n  if (!ref) return toolResult;\n  const items = registry.tools.items || registry.tools || [];\n  const toolSpec = Array.isArray(items) ? items.find((t) => t.id === ref) : null;\n  if (!toolSpec || !toolSpec.normalize) return toolResult;\n  const norm = toolSpec.normalize;\n  let data = toolResult.data;\n\n  // output_path extraction\n  if (norm.output_path && Array.isArray(norm.output_path)) {\n    for (const path of norm.output_path) {\n      const parts = String(path).split('.');\n      let val = data;\n      for (const p of parts) {\n        if (val && typeof val === 'object' && p in val) val = val[p];\n        else { val = undefined; break; }\n      }\n      if (val !== undefined) {\n        data = val;\n        break;\n      }\n    }\n  }\n\n  // pick fields\n  if (norm.pick && Array.isArray(norm.pick)) {\n    const pickFields = norm.pick;\n    const pickItem = (obj) => {\n      if (!obj || typeof obj !== 'object') return obj;\n      const res = {};\n      for (const key of pickFields) {\n        if (key in obj) res[key] = obj[key];\n      }\n      return res;\n    };\n    if (Array.isArray(data)) data = data.map(pickItem);\n    else data = pickItem(data);\n  }\n\n  // wrap\n  if (norm.wrap && data !== undefined) {\n    data = { [norm.wrap]: data };\n  }\n\n  return { ...toolResult, data };\n}\n\nreturn items.map((item) => {\n  const payload = item.json || {};\n  const toolResult = payload.toolResult ||\n    (payload.ok !== undefined ? payload : { ok: true, data: payload, error: null });\n  const registry = payload.registry || payload.envelope?.payload?.registry || null;\n  const normalized = applyNormalize(toolResult, registry);\n  return { json: normalized };\n});\n"
+      },
+      "id": "node-normalize",
+      "name": "Persist + Normalize",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2928,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = items[0].json;\nconst step = input.step || {};\nconst toolRef = step.tool_ref || step.tool || step.ref || '';\nconst parts = String(toolRef).split('.');\nconst provider = (parts.shift() || '').trim();\nconst operation = parts.join('.').trim() || step.operation || step.action || '';\nconst params = step.args || step.params || {};\nreturn [{\n  json: {\n    provider,\n    operation,\n    params,\n    tool_ref: toolRef,\n    step,\n    envelope: input.envelope || null\n  }\n}];\n"
+      },
+      "id": "node-normalize-tool-input",
+      "name": "Normalize Tool Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.provider}}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "slack",
+              "output": 0
+            },
+            {
+              "value2": "gmail",
+              "output": 1
+            },
+            {
+              "value2": "google-drive",
+              "output": 2
+            },
+            {
+              "value2": "google-docs",
+              "output": 3
+            },
+            {
+              "value2": "google-sheets",
+              "output": 4
+            },
+            {
+              "value2": "google-calendar",
+              "output": 5
+            },
+            {
+              "value2": "monday",
+              "output": 6
+            },
+            {
+              "value2": "openai",
+              "output": 7
+            }
+          ]
+        }
+      },
+      "id": "node-switch-provider",
+      "name": "Switch provider",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        960,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { ok: false, error: { code: 'UNKNOWN_PROVIDER', message: 'Unknown provider' } } }];\n"
+      },
+      "id": "node-unknown-provider",
+      "name": "Unknown Provider",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.operation}}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "message.send"
+            },
+            {
+              "value2": "message.search"
+            },
+            {
+              "value2": "message.sendandwait"
+            },
+            {
+              "value2": "sampleFetch"
+            }
+          ]
+        }
+      },
+      "id": "node-switch-slack",
+      "name": "Switch slack operation",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { ok: false, error: { code: 'UNKNOWN_OPERATION', message: 'Unknown operation for slack' } } }];\n"
+      },
+      "id": "node-unknown-slack",
+      "name": "Unknown slack operation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const payload = item.json || {};\n  const toolResult = payload.toolResult ||\n    (payload.ok !== undefined ? payload : { ok: true, data: payload, error: null });\n  return { json: toolResult };\n});\n"
+      },
+      "id": "node-map-slack",
+      "name": "Map Provider Response - slack",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        -128
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "CREDACTED00",
+          "mode": "list",
+          "cachedResultName": "smartoffice"
+        },
+        "text": "={{ $json.params.text || $json.params.message || '—' }}",
+        "otherOptions": {}
+      },
+      "id": "node-slack-message-send",
+      "name": "slack::message.send",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1488,
+        -368
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "search",
+        "query": "={{(() => { const p = $json.params || {}; const q = p.query || ''; if (q) return q; const text = p.text || p.message || ''; const ch = p.channel || p.channelId || p.channel_id || ''; return ch ? `in:${ch} ${text}`.trim() : text; })()}}",
+        "options": {}
+      },
+      "id": "node-slack-message-search",
+      "name": "slack::message.search",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1504,
+        -176
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "sendAndWait",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "CREDACTED00",
+          "mode": "list",
+          "cachedResultName": "smartoffice"
+        },
+        "message": "={{$json.params.text || $json.params.message || '' }}",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "id": "node-slack-message-sendandwait",
+      "name": "slack::message.sendandwait",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1472,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'slack', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
+      },
+      "id": "node-slack-sampleFetch",
+      "name": "slack::sampleFetch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1488,
+        -48
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.operation}}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "message.send"
+            },
+            {
+              "value2": "message.getMany"
+            },
+            {
+              "value2": "sampleFetch"
+            }
+          ]
+        }
+      },
+      "id": "node-switch-gmail",
+      "name": "Switch gmail operation",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { ok: false, error: { code: 'UNKNOWN_OPERATION', message: 'Unknown operation for gmail' } } }];\n"
+      },
+      "id": "node-unknown-gmail",
+      "name": "Unknown gmail operation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1424,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const payload = item.json || {};\n  const toolResult = payload.toolResult ||\n    (payload.ok !== undefined ? payload : { ok: true, data: payload, error: null });\n  return { json: toolResult };\n});\n"
+      },
+      "id": "node-map-gmail",
+      "name": "Map Provider Response - gmail",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$json.params.to || $json.params.sendTo || '' }}",
+        "subject": "={{$json.params.subject || '' }}",
+        "emailType": "text",
+        "message": "={{$json.params.text || $json.params.message || '' }}",
+        "options": {}
+      },
+      "id": "node-gmail-message-send",
+      "name": "gmail::message.send",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1936,
+        -256
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "simple": "={{$json.params.simplify ?? true}}",
+        "filters": {
+          "labelIds": "={{$json.params.label_ids || $json.params.labelIds || []}}",
+          "q": "={{$json.params.query || $json.params.q || \"\"}}",
+          "sender": "={{$json.params.sender || \"\"}}"
+        },
+        "options": {},
+        "limit": "={{$json.params.limit ?? 50}}"
+      },
+      "id": "node-gmail-message-getMany",
+      "name": "gmail::message.getMany",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1952,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const sample = [{\"id\":\"19ba01c7e49d9a97\",\"threadId\":\"19ba01c7e49d9a97\",\"snippet\":\"Your updates for Jan 9, 2026 Lists updates My First List Link opens in new tab icon In The News 1 Capgemini on Zawya.com Refinancing dominates EMEA loan market in bumper year: IFR See 1 update Discover\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":24924,\"historyId\":\"24456763\",\"internalDate\":\"1767917779000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"CATEGORY_UPDATES\",\"name\":\"CATEGORY_UPDATES\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"To\":\"redacted@example.invalid\",\"Subject\":\"Your Crunchbase Updates for Jan 9, 2026\",\"From\":\"Crunchbase <redacted@example.invalid>\"},{\"id\":\"19b9fe565a0156ba\",\"threadId\":\"19b9fe1aa1ff6e2d\",\"snippet\":\"@chatgpt-codex-connector[bot] commented on this pull request. 💡 Codex Review Here are some automated review suggestions for this pull request. Reviewed commit: 13a679ad62 ℹ️ About Codex in GitHub Your\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":41483,\"historyId\":\"24456683\",\"internalDate\":\"1767914169000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"IMPORTANT\",\"name\":\"IMPORTANT\"},{\"id\":\"CATEGORY_PERSONAL\",\"name\":\"CATEGORY_PERSONAL\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"\\\"chatgpt-codex-connector[bot]\\\" <redacted@example.invalid>\",\"To\":\"\\\"REDACTED_PERSON-star/SmartOffice\\\" <redacted@example.invalid>\",\"Cc\":\"REDACTED_PERSON-star <redacted@example.invalid>, State change <redacted@example.invalid>\",\"Subject\":\"Re: [REDACTED_PERSON-star/SmartOffice] Sync workflows with n8n officials: restore tool routing, adopt async approval pattern, integrate plan validation (PR #85)\"},{\"id\":\"19b9fe53b8848c38\",\"threadId\":\"19b9fe53b8848c38\",\"snippet\":\"##- Saisissez votre réponse au-dessus de cette ligne -## L'établissement assume l'entière responsabilité du contenu de ce message envoyé via Booking.com. Bonjour REDACTED_PERSONREDACTED_PERSON, Nous avons eu\",\"payload\":{\"mimeType\":\"text/html\"},\"sizeEstimate\":28165,\"historyId\":\"24456687\",\"internalDate\":\"1767914155000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"IMPORTANT\",\"name\":\"IMPORTANT\"},{\"id\":\"CATEGORY_FORUMS\",\"name\":\"CATEGORY_FORUMS\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"\\\"'Montempô Appart'Hôtel Marseille Centre Dôme via Booking.com' via Bienvenue\\\" <redacted@example.invalid>\",\"Subject\":\"Merci pour votre séjour avec Montempô !\",\"To\":\"redacted@example.invalid\"},{\"id\":\"19b9fe283fc10fac\",\"threadId\":\"19b9fe283fc10fac\",\"snippet\":\"Numéro de réservation : 6266258184 Vous avez un nouveau message de l'établissement Montempô Appart'Hôtel Marseille Centre Dôme Voici ce que l'établissement vous a écrit : Bonjour\",\"payload\":{\"mimeType\":\"text/html\"},\"sizeEstimate\":34628,\"historyId\":\"24456685\",\"internalDate\":\"1767913974000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"CATEGORY_FORUMS\",\"name\":\"CATEGORY_FORUMS\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"\\\"'Montempô Appart'Hôtel Marseille Centre Dôme via Booking.com' via Bienvenue\\\" <redacted@example.invalid>\",\"To\":\"redacted@example.invalid\",\"Subject\":\"Vous avez un message de l'établissement Montempô Appart'Hôtel Marseille Centre Dôme\"},{\"id\":\"19b9fe1aa1ff6e2d\",\"threadId\":\"19b9fe1aa1ff6e2d\",\"snippet\":\"@copilot requested your review on: REDACTED_PERSON-star/SmartOffice#85 Sync workflows with n8n officials: restore tool routing, adopt async approval pattern, integrate plan validation. — Reply to this email\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":8391,\"historyId\":\"24456683\",\"internalDate\":\"1767913924000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"IMPORTANT\",\"name\":\"IMPORTANT\"},{\"id\":\"CATEGORY_UPDATES\",\"name\":\"CATEGORY_UPDATES\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Copilot <redacted@example.invalid>\",\"To\":\"\\\"REDACTED_PERSON-star/SmartOffice\\\" <redacted@example.invalid>\",\"Cc\":\"REDACTED_PERSON-star <redacted@example.invalid>, Review requested <redacted@example.invalid>\",\"Subject\":\"Re: [REDACTED_PERSON-star/SmartOffice] Sync workflows with n8n officials: restore tool routing, adopt async approval pattern, integrate plan validation (PR #85)\"},{\"id\":\"19b9fddfb5858989\",\"threadId\":\"19b9fd7984a8b176\",\"snippet\":\"@copilot pushed 1 commit. 13a679a Add workflow synchronization summary documentation — View it on GitHub or unsubscribe. You are receiving this because you are subscribed to this thread. Message ID:\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":8726,\"historyId\":\"24456681\",\"internalDate\":\"1767913683000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"IMPORTANT\",\"name\":\"IMPORTANT\"},{\"id\":\"CATEGORY_PERSONAL\",\"name\":\"CATEGORY_PERSONAL\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Copilot <redacted@example.invalid>\",\"To\":\"\\\"REDACTED_PERSON-star/SmartOffice\\\" <redacted@example.invalid>\",\"Cc\":\"REDACTED_PERSON-star <redacted@example.invalid>, Push <redacted@example.invalid>\",\"Subject\":\"Re: [REDACTED_PERSON-star/SmartOffice] [WIP] Align and synchronize official n8n workflows with local JSON (PR #85)\"},{\"id\":\"19b9fdbfc881deef\",\"threadId\":\"19b9fd7984a8b176\",\"snippet\":\"@copilot pushed 1 commit. 3ebad43 Align workflows with n8n officials: fix tool-gateway routing, adopt async human-approval, add Validate Plan node, simplify executor output — View it on GitHub or\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":8907,\"historyId\":\"24456317\",\"internalDate\":\"1767913552000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"IMPORTANT\",\"name\":\"IMPORTANT\"},{\"id\":\"CATEGORY_PERSONAL\",\"name\":\"CATEGORY_PERSONAL\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Copilot <redacted@example.invalid>\",\"To\":\"\\\"REDACTED_PERSON-star/SmartOffice\\\" <redacted@example.invalid>\",\"Cc\":\"REDACTED_PERSON-star <redacted@example.invalid>, Push <redacted@example.invalid>\",\"Subject\":\"Re: [REDACTED_PERSON-star/SmartOffice] [WIP] Align and synchronize official n8n workflows with local JSON (PR #85)\"},{\"id\":\"19b9fd79cbd49476\",\"threadId\":\"19b9fd7984a8b176\",\"snippet\":\"Thanks for asking me to work on this. I will get started on it and keep this PR's description up to date as I form a plan and make progress. Original prompt Charger les workflows officiels n8n\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":11330,\"historyId\":\"24456317\",\"internalDate\":\"1767913265000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"IMPORTANT\",\"name\":\"IMPORTANT\"},{\"id\":\"CATEGORY_UPDATES\",\"name\":\"CATEGORY_UPDATES\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Copilot <redacted@example.invalid>\",\"To\":\"\\\"REDACTED_PERSON-star/SmartOffice\\\" <redacted@example.invalid>\",\"Cc\":\"REDACTED_PERSON-star <redacted@example.invalid>, Assign <redacted@example.invalid>\",\"Subject\":\"[REDACTED_PERSON-star/SmartOffice] [WIP] Align and synchronize official n8n workflows with local JSON (PR #85)\"},{\"id\":\"19b9fd7984a8b176\",\"threadId\":\"19b9fd7984a8b176\",\"snippet\":\"Assigned #85 to @REDACTED_PERSON-star. — Reply to this email directly, view it on GitHub, or unsubscribe. You are receiving this because you were assigned. Message ID: <REDACTED_PERSON-star/SmartOffice/pull/85/\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":7997,\"historyId\":\"24456317\",\"internalDate\":\"1767913264000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"IMPORTANT\",\"name\":\"IMPORTANT\"},{\"id\":\"CATEGORY_UPDATES\",\"name\":\"CATEGORY_UPDATES\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Copilot <redacted@example.invalid>\",\"To\":\"\\\"REDACTED_PERSON-star/SmartOffice\\\" <redacted@example.invalid>\",\"Cc\":\"REDACTED_PERSON-star <redacted@example.invalid>, Assign <redacted@example.invalid>\",\"Subject\":\"Re: [REDACTED_PERSON-star/SmartOffice] [WIP] Align and synchronize official n8n workflows with local JSON (PR #85)\"},{\"id\":\"19b9fd75c0e1474e\",\"threadId\":\"19b9fd75c0e1474e\",\"snippet\":\"Nouvelle demande de devis Client : CREDACTED00 DEL BASSO Email : redacted@example.invalid Téléphone : 0442891689 Entreprise : MATOS SAS Adresse : 1 AV JEAN JAURES - ZA DE L'AVAGON, LES PENNES MIRABEAU\",\"payload\":{\"mimeType\":\"text/html\"},\"sizeEstimate\":14048,\"historyId\":\"24456315\",\"internalDate\":\"1767883054000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"CATEGORY_FORUMS\",\"name\":\"CATEGORY_FORUMS\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"To\":\"<redacted@example.invalid>, <redacted@example.invalid>\",\"Subject\":\"Demande de devis - EXTOR. Ø150x55x5\",\"From\":\"Panicoupe <redacted@example.invalid>\"},{\"id\":\"19b9fd7530301d49\",\"threadId\":\"19b9fd7521e2f919\",\"snippet\":\"Nouvelle demande de devis Client : VINCENT DROUET Email : redacted@example.invalid Téléphone : 0744093007 Entreprise : SOS CHR Adresse : 9 CHEMIN DE REBEL, CREDACTED00 31180 Référence ERP du client : SOSC\",\"payload\":{\"mimeType\":\"text/html\"},\"sizeEstimate\":14049,\"historyId\":\"24456313\",\"internalDate\":\"1767870756000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"CATEGORY_FORUMS\",\"name\":\"CATEGORY_FORUMS\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Panicoupe <redacted@example.invalid>\",\"Subject\":\"Demande de devis - ELECTROVANNE GAZ; 1/2&#8243; 230V BRAHMA\",\"To\":\"<redacted@example.invalid>, <redacted@example.invalid>\"},{\"id\":\"19b9fd7521e2f919\",\"threadId\":\"19b9fd7521e2f919\",\"snippet\":\"Nouvelle demande de devis Client : VINCENT DROUET Email : redacted@example.invalid Téléphone : 0744093007 Entreprise : SOS CHR Adresse : 9 CHEMIN DE REBEL, CREDACTED00 31180 Référence ERP du client : SOSC\",\"payload\":{\"mimeType\":\"text/html\"},\"sizeEstimate\":14039,\"historyId\":\"24456313\",\"internalDate\":\"1767870749000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"CATEGORY_FORUMS\",\"name\":\"CATEGORY_FORUMS\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"To\":\"<redacted@example.invalid>, <redacted@example.invalid>\",\"Subject\":\"Demande de devis - ELECTROVANNE GAZ; 1/2&#8243; 230V BRAHMA\",\"From\":\"Panicoupe <redacted@example.invalid>\"},{\"id\":\"19b9faffb50d010d\",\"threadId\":\"19b9faffb50d010d\",\"snippet\":\"Faites des économies en réservant à l'avance Version web Minor Hotels 60524624 SILVER REDACTED_PERSON Qui dit nouvelle année, dit nouveaux projets ! Préparez-vous pour une année de voyages\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":104444,\"historyId\":\"24455939\",\"internalDate\":\"1767910668000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"IMPORTANT\",\"name\":\"IMPORTANT\"},{\"id\":\"CATEGORY_PROMOTIONS\",\"name\":\"CATEGORY_PROMOTIONS\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Minor Hotels <redacted@example.invalid>\",\"To\":\"redacted@example.invalid\",\"Subject\":\"REDACTED_PERSON, c’est le meilleur moment pour réserver vos voyages 2026 ! 🎆\"},{\"id\":\"19b9fad617948aea\",\"threadId\":\"19b9fad617948aea\",\"snippet\":\"@copilot requested your review on: REDACTED_PERSON-star/SmartOffice#84 Fix authorization logic, error handling, and race conditions in validation workflows. — Reply to this email directly, view it on GitHub,\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":8301,\"historyId\":\"24455871\",\"internalDate\":\"1767910498000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"IMPORTANT\",\"name\":\"IMPORTANT\"},{\"id\":\"CATEGORY_UPDATES\",\"name\":\"CATEGORY_UPDATES\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Copilot <redacted@example.invalid>\",\"To\":\"\\\"REDACTED_PERSON-star/SmartOffice\\\" <redacted@example.invalid>\",\"Cc\":\"REDACTED_PERSON-star <redacted@example.invalid>, Review requested <redacted@example.invalid>\",\"Subject\":\"Re: [REDACTED_PERSON-star/SmartOffice] Fix authorization logic, error handling, and race conditions in validation workflows (PR #84)\"},{\"id\":\"19b9fab3372c5305\",\"threadId\":\"19b9fa4ea0794fa4\",\"snippet\":\"@copilot pushed 1 commit. 0b17ee7 Address PR review: fix authorization logic, improve error handling, add UUID to run IDs — View it on GitHub or unsubscribe. You are receiving this because you are\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":8798,\"historyId\":\"24455869\",\"internalDate\":\"1767910355000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"CATEGORY_PERSONAL\",\"name\":\"CATEGORY_PERSONAL\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Copilot <redacted@example.invalid>\",\"To\":\"\\\"REDACTED_PERSON-star/SmartOffice\\\" <redacted@example.invalid>\",\"Cc\":\"REDACTED_PERSON-star <redacted@example.invalid>, Push <redacted@example.invalid>\",\"Subject\":\"Re: [REDACTED_PERSON-star/SmartOffice] [WIP] Validate push workflows and add human approval loop (PR #84)\"},{\"id\":\"19b9fa4f434f5a06\",\"threadId\":\"19b9f97285468cf8\",\"snippet\":\"Copilot left a comment (REDACTED_PERSON-star/SmartOffice#83) @REDACTED_PERSON-star I've opened a new pull request, #84, to work on those changes. Once the pull request is ready, I'll request review from you. —\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":8765,\"historyId\":\"24455867\",\"internalDate\":\"1767909946000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"IMPORTANT\",\"name\":\"IMPORTANT\"},{\"id\":\"CATEGORY_PERSONAL\",\"name\":\"CATEGORY_PERSONAL\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Copilot <redacted@example.invalid>\",\"To\":\"\\\"REDACTED_PERSON-star/SmartOffice\\\" <redacted@example.invalid>\",\"Cc\":\"REDACTED_PERSON-star <redacted@example.invalid>, Mention <redacted@example.invalid>\",\"Subject\":\"Re: [REDACTED_PERSON-star/SmartOffice] Validate push workflows & add deterministic plan validation plus human approval loop (PR #83)\"},{\"id\":\"19b9fa4ebb882898\",\"threadId\":\"19b9fa4ea0794fa4\",\"snippet\":\"Assigned #84 to @REDACTED_PERSON-star. — Reply to this email directly, view it on GitHub, or unsubscribe. You are receiving this because you were assigned. Message ID: <REDACTED_PERSON-star/SmartOffice/pull/84/\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":7982,\"historyId\":\"24455869\",\"internalDate\":\"1767909943000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"CATEGORY_UPDATES\",\"name\":\"CATEGORY_UPDATES\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Copilot <redacted@example.invalid>\",\"To\":\"\\\"REDACTED_PERSON-star/SmartOffice\\\" <redacted@example.invalid>\",\"Cc\":\"REDACTED_PERSON-star <redacted@example.invalid>, Assign <redacted@example.invalid>\",\"Subject\":\"Re: [REDACTED_PERSON-star/SmartOffice] [WIP] Validate push workflows and add human approval loop (PR #84)\"},{\"id\":\"19b9fa4ea0794fa4\",\"threadId\":\"19b9fa4ea0794fa4\",\"snippet\":\"Thanks for the feedback on #83. I've created this new PR, which merges into #83, to address your comment. I will work on the changes and keep this PR's description up to date as I make progress\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":12232,\"historyId\":\"24455669\",\"internalDate\":\"1767909943000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"CATEGORY_UPDATES\",\"name\":\"CATEGORY_UPDATES\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Copilot <redacted@example.invalid>\",\"To\":\"\\\"REDACTED_PERSON-star/SmartOffice\\\" <redacted@example.invalid>\",\"Cc\":\"REDACTED_PERSON-star <redacted@example.invalid>, Assign <redacted@example.invalid>\",\"Subject\":\"[REDACTED_PERSON-star/SmartOffice] [WIP] Validate push workflows and add human approval loop (PR #84)\"},{\"id\":\"19b9f9f1ccb03540\",\"threadId\":\"19b9f9f1ccb03540\",\"snippet\":\"We had a problem billing your account We had a problem billing your account Greetings, ethicalgrowth This email is to inform you that we've received the following error trying to bill your credit\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":35188,\"historyId\":\"24455497\",\"internalDate\":\"1767909563000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"IMPORTANT\",\"name\":\"IMPORTANT\"},{\"id\":\"CATEGORY_UPDATES\",\"name\":\"CATEGORY_UPDATES\"}],\"From\":\"GitHub <redacted@example.invalid>\",\"To\":\"ethicalgrowth <redacted@example.invalid>\",\"Subject\":\"[GitHub] We had a problem billing your account\"},{\"id\":\"19b9f9c3a65cb0e5\",\"threadId\":\"19b9f97285468cf8\",\"snippet\":\"@Copilot commented on this pull request. Pull request overview This pull request adds deterministic plan validation and a human approval workflow to prevent invalid plans from executing. The changes\",\"payload\":{\"mimeType\":\"multipart/alternative\"},\"sizeEstimate\":70959,\"historyId\":\"24455409\",\"internalDate\":\"1767909374000\",\"labels\":[{\"id\":\"INBOX\",\"name\":\"INBOX\"},{\"id\":\"IMPORTANT\",\"name\":\"IMPORTANT\"},{\"id\":\"CATEGORY_PERSONAL\",\"name\":\"CATEGORY_PERSONAL\"},{\"id\":\"UNREAD\",\"name\":\"UNREAD\"}],\"From\":\"Copilot <redacted@example.invalid>\",\"To\":\"\\\"REDACTED_PERSON-star/SmartOffice\\\" <redacted@example.invalid>\",\"Cc\":\"REDACTED_PERSON-star <redacted@example.invalid>, Author <redacted@example.invalid>\",\"Subject\":\"Re: [REDACTED_PERSON-star/SmartOffice] Validate push workflows & add deterministic plan validation plus human approval loop (PR #83)\"}];\nreturn sample.map((entry) => ({ json: entry }));\n"
+      },
+      "id": "node-gmail-sampleFetch",
+      "name": "gmail::sampleFetch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.operation}}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "file.upload"
+            },
+            {
+              "value2": "file.download"
+            },
+            {
+              "value2": "fileFolder.search"
+            },
+            {
+              "value2": "sampleFetch"
+            }
+          ]
+        }
+      },
+      "id": "node-switch-google-drive",
+      "name": "Switch google-drive operation",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { ok: false, error: { code: 'UNKNOWN_OPERATION', message: 'Unknown operation for google-drive' } } }];\n"
+      },
+      "id": "node-unknown-google-drive",
+      "name": "Unknown google-drive operation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1424,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const payload = item.json || {};\n  const toolResult = payload.toolResult ||\n    (payload.ok !== undefined ? payload : { ok: true, data: payload, error: null });\n  return { json: toolResult };\n});\n"
+      },
+      "id": "node-map-google-drive",
+      "name": "Map Provider Response - google-drive",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "={{$json.params.inputDataFieldName}}",
+        "name": "={{$json.params.name}}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": "={{$json.params.folderId}}",
+        "options": {}
+      },
+      "id": "node-google-drive-file-upload",
+      "name": "google-drive::file.upload",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2000,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "={{$json.params.searchMethod}}",
+        "filter": {},
+        "options": {}
+      },
+      "id": "node-google-drive-fileFolder-search",
+      "name": "google-drive::fileFolder.search",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1776,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.operation}}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "document.create"
+            },
+            {
+              "value2": "document.update"
+            },
+            {
+              "value2": "document.get"
+            },
+            {
+              "value2": "sampleFetch"
+            }
+          ]
+        }
+      },
+      "id": "node-switch-google-docs",
+      "name": "Switch google-docs operation",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        592
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const payload = item.json || {};\n  const toolResult = payload.toolResult ||\n    (payload.ok !== undefined ? payload : { ok: true, data: payload, error: null });\n  return { json: toolResult };\n});\n"
+      },
+      "id": "node-map-google-docs",
+      "name": "Map Provider Response - google-docs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.operation}}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "sheet.append"
+            },
+            {
+              "value2": "sheet.read"
+            },
+            {
+              "value2": "sheet.update"
+            },
+            {
+              "value2": "spreadsheet.create"
+            },
+            {
+              "value2": "sampleFetch"
+            }
+          ]
+        }
+      },
+      "id": "node-switch-google-sheets",
+      "name": "Switch google-sheets operation",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        848
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const payload = item.json || {};\n  const toolResult = payload.toolResult ||\n    (payload.ok !== undefined ? payload : { ok: true, data: payload, error: null });\n  return { json: toolResult };\n});\n"
+      },
+      "id": "node-map-google-sheets",
+      "name": "Map Provider Response - google-sheets",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        928
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'google-sheets', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
+      },
+      "id": "node-google-sheets-sampleFetch",
+      "name": "google-sheets::sampleFetch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1472,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.operation}}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "event.create"
+            },
+            {
+              "value2": "event.getMany"
+            },
+            {
+              "value2": "sampleFetch"
+            }
+          ]
+        }
+      },
+      "id": "node-switch-google-calendar",
+      "name": "Switch google-calendar operation",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        1104
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { ok: false, error: { code: 'UNKNOWN_OPERATION', message: 'Unknown operation for google-calendar' } } }];\n"
+      },
+      "id": "node-unknown-google-calendar",
+      "name": "Unknown google-calendar operation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1424,
+        1264
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const payload = item.json || {};\n  const toolResult = payload.toolResult ||\n    (payload.ok !== undefined ? payload : { ok: true, data: payload, error: null });\n\n  const isBirthday = (event) => {\n    if (!event || typeof event !== 'object') return false;\n    const eventType = String(event.eventType || '').toLowerCase();\n    if (eventType === 'birthday') return true;\n    const summary = String(event.summary || '').toLowerCase();\n    return summary.includes('birthday') || summary.includes('anniversaire');\n  };\n\n  const filterList = (list) => Array.isArray(list)\n    ? list.filter((event) => !isBirthday(event))\n    : list;\n\n  const dataValue = toolResult.data;\n  if (Array.isArray(dataValue)) {\n    toolResult.data = filterList(dataValue);\n  } else if (dataValue && typeof dataValue === 'object') {\n    if (Array.isArray(dataValue.events)) {\n      dataValue.events = filterList(dataValue.events);\n    }\n    if (Array.isArray(dataValue.items)) {\n      dataValue.items = filterList(dataValue.items);\n    }\n  }\n\n  return { json: toolResult };\n});\n"
+      },
+      "id": "node-map-google-calendar",
+      "name": "Map Provider Response - google-calendar",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        1184
+      ]
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "redacted@example.invalid",
+          "mode": "id"
+        },
+        "start": "={{$json.params.start}}",
+        "end": "={{$json.params.end}}",
+        "additionalFields": {}
+      },
+      "id": "node-google-calendar-event-create",
+      "name": "google-calendar::event.create",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1472,
+        1152
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "redacted@example.invalid",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "timeMax": "={{ $now.plus({ day: 2 }) }}",
+        "options": {}
+      },
+      "id": "node-google-calendar-event-getMany",
+      "name": "google-calendar::event.getMany",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1472,
+        1232
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const input = item.json || {};\n  return {\n    json: {\n      ok: true,\n      data: { sample: true, provider: 'google-calendar', operation: 'sampleFetch', params: input.params || {} },\n      error: null\n    }\n  };\n});\n"
+      },
+      "id": "node-google-calendar-sampleFetch",
+      "name": "google-calendar::sampleFetch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1472,
+        1312
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.operation}}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "boardItem.create"
+            },
+            {
+              "value2": "boardItem.getMany"
+            },
+            {
+              "value2": "boardItem.updateColumnValues"
+            },
+            {
+              "value2": "sampleFetch"
+            }
+          ]
+        }
+      },
+      "id": "node-switch-monday",
+      "name": "Switch monday operation",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { ok: false, error: { code: 'UNKNOWN_OPERATION', message: 'Unknown operation for monday' } } }];\n"
+      },
+      "id": "node-unknown-monday",
+      "name": "Unknown monday operation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1424,
+        1520
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const payload = item.json || {};\n  const toolResult = payload.toolResult ||\n    (payload.ok !== undefined ? payload : { ok: true, data: payload, error: null });\n  return { json: toolResult };\n});\n"
+      },
+      "id": "node-map-monday",
+      "name": "Map Provider Response - monday",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        1440
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.operation}}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "text.generateChatCompletion"
+            },
+            {
+              "value2": "text.classifyTextForViolations"
+            },
+            {
+              "value2": "text.generateModelResponse"
+            },
+            {
+              "value2": "sampleFetch"
+            }
+          ]
+        }
+      },
+      "id": "node-switch-openai",
+      "name": "Switch openai operation",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        1632
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item) => {\n  const payload = item.json || {};\n  const toolResult = payload.toolResult ||\n    (payload.ok !== undefined ? payload : { ok: true, data: payload, error: null });\n  return { json: toolResult };\n});\n"
+      },
+      "id": "node-map-openai",
+      "name": "Map Provider Response - openai",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        1712
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5.2",
+          "mode": "list",
+          "cachedResultName": "GPT-5.2"
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "={{$json.params.system || 'Tu es un assistant qui resume en francais les points importants a traiter.'}}"
+            },
+            {
+              "role": "user",
+              "content": "={{$json.params.prompt || $json.params.message || ''}}"
+            }
+          ]
+        },
+        "simplify": "={{$json.params.simplify ?? true}}",
+        "jsonOutput": "={{$json.params.jsonOutput ?? false}}",
+        "options": {}
+      },
+      "id": "node-openai-text-generateChatCompletion",
+      "name": "openai::text.generateChatCompletion",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1424,
+        1840
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        32
+      ],
+      "id": "40fb07db-82a1-40ec-8003-60871b5ded7f",
+      "name": "When clicking ‘Execute workflow’"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Idempotency Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Idempotency Check": {
+      "main": [
+        [
+          {
+            "node": "IF already_processed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF already_processed": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Normalize Tool Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Tool Input": {
+      "main": [
+        [
+          {
+            "node": "Switch provider",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch provider": {
+      "main": [
+        [
+          {
+            "node": "Switch slack operation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch gmail operation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch google-drive operation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch google-docs operation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch google-sheets operation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch google-calendar operation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch monday operation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch openai operation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Unknown Provider",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch slack operation": {
+      "main": [
+        [
+          {
+            "node": "slack::message.send",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "slack::message.search",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "slack::message.sendandwait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "slack::sampleFetch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Unknown slack operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "slack::message.send": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "slack::message.search": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "slack::message.sendandwait": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "slack::sampleFetch": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unknown slack operation": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Provider Response - slack": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch gmail operation": {
+      "main": [
+        [
+          {
+            "node": "gmail::message.send",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "gmail::message.getMany",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "gmail::sampleFetch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Unknown gmail operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gmail::message.send": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gmail::message.getMany": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gmail::sampleFetch": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unknown gmail operation": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Provider Response - gmail": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch google-drive operation": {
+      "main": [
+        [
+          {
+            "node": "google-drive::file.upload",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Provider Response - google-drive",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "google-drive::fileFolder.search",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Provider Response - google-drive",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Unknown google-drive operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "google-drive::file.upload": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - google-drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "google-drive::fileFolder.search": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - google-drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unknown google-drive operation": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - google-drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Provider Response - google-drive": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch google-docs operation": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - google-docs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Provider Response - google-docs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Provider Response - google-docs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Provider Response - google-docs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Map Provider Response - google-docs": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch google-sheets operation": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - google-sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Provider Response - google-sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Provider Response - google-sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Provider Response - google-sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "google-sheets::sampleFetch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "google-sheets::sampleFetch": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - google-sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Provider Response - google-sheets": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch google-calendar operation": {
+      "main": [
+        [
+          {
+            "node": "google-calendar::event.create",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "google-calendar::event.getMany",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "google-calendar::sampleFetch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Unknown google-calendar operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "google-calendar::event.create": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - google-calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "google-calendar::event.getMany": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - google-calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "google-calendar::sampleFetch": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - google-calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unknown google-calendar operation": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - google-calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Provider Response - google-calendar": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch monday operation": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - monday",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [
+          {
+            "node": "Map Provider Response - monday",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Provider Response - monday",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Unknown monday operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unknown monday operation": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - monday",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Provider Response - monday": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch openai operation": {
+      "main": [
+        [
+          {
+            "node": "openai::text.generateChatCompletion",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Provider Response - openai",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Provider Response - openai",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Map Provider Response - openai",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "openai::text.generateChatCompletion": {
+      "main": [
+        [
+          {
+            "node": "Map Provider Response - openai",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Provider Response - openai": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unknown Provider": {
+      "main": [
+        [
+          {
+            "node": "Persist + Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Idempotency Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}

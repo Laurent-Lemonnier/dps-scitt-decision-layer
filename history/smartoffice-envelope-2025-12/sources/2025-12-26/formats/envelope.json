@@ -1,0 +1,54 @@
+{
+  "header": {
+    "id": "env-12345",
+    "version": "1.0",
+    "timestamp": "2025-01-01T12:00:00Z",
+    "source": "so.trigger.registry-loader",
+    "destination": "executor",
+    "type": "execution"
+  },
+  "payload": {
+    "steps": [
+      {
+        "type": "tool",
+        "ref": "slack",
+        "params": {
+          "action": "chat.postMessage",
+          "channel": "#ops",
+          "text": "Hello from execution envelope"
+        }
+      }
+    ],
+    "registryFiles": [
+      {
+        "category": "tools",
+        "ref": "tools",
+        "content": {
+          "slack": {
+            "id": "slack",
+            "version": "1.0.0",
+            "actions": ["chat.postMessage"]
+          }
+        }
+      }
+    ],
+    "memory": {
+      "session_id": "sess_0001",
+      "state": {},
+      "stack": []
+    },
+    "options": {
+      "fallbackRegistry": {
+        "tools": {
+          "tools": {
+            "slack": {
+              "id": "slack",
+              "version": "1.0.0",
+              "actions": ["chat.postMessage"]
+            }
+          }
+        }
+      }
+    }
+  }
+}

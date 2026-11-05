@@ -61,6 +61,10 @@ Everything under `interop/` is replayed by the CI from a clean machine on every 
 - `interop/aer1-decision/`: a decision record and an AER-1 receipt composed, its failing cases and the metadata probes.
 - `interop/agent-pass/`: one agent pass carried three ways (WHO: DPS standing and exact approvals; CAN: Seal
   ACTION-v1; WHAT: Agent Action Capsule), the joins across them, and its failing cases.
+- `interop/air/`: an AgentInteractionRecord (draft-emirdag-scitt-ai-agent-execution-01) citing a decision record by
+  typed digest, verified with a verifier written from the draft's text, the joins, and its failing cases.
+- `history/smartoffice-envelope-2025-12/`: a selection of the sources of the SmartOffice execution envelope
+  (December 2025 – January 2026) behind Section 11 of the draft, with their commits, digests and what was removed.
 - `draft/`: the draft's source (kramdown-rfc), written against the Standard's main branch at the commit it names.
 
 ## Running

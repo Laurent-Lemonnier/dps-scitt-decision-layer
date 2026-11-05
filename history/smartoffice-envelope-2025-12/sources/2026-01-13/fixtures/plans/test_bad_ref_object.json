@@ -1,0 +1,18 @@
+{
+  "contract_version": "1.0",
+  "session_id": "test_bad_ref_object",
+  "status": "proposed",
+  "plan": [
+    {
+      "id": "step_0",
+      "type": "tool",
+      "tool_ref": "fetch_data",
+      "inputs": {
+        "config": { "$ref": "my_outputs_config" }
+      },
+      "outputs": {
+        "data": null
+      }
+    }
+  ]
+}

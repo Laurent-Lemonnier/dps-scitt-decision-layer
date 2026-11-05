@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "data": {
+    "message": "ok"
+  },
+  "error": null,
+  "meta": {
+    "duration_ms": 42
+  }
+}

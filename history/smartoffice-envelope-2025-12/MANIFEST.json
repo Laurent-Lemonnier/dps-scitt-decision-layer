@@ -1,0 +1,344 @@
+[
+ {
+  "path": "sources/2025-12-22/contracts/envelope.schema.json",
+  "commit": "c55d1bcd271c324fe111d9e9b8fd3d18113d62b9",
+  "git_blob": "a6c215ebdf5780b3dc0eeddda06cfa33bb1b4190",
+  "original_sha256": "a156b3b54754134eb413540a9cd58922ab39a7afe23937bce98538fcf28b9084",
+  "published_sha256": "a156b3b54754134eb413540a9cd58922ab39a7afe23937bce98538fcf28b9084",
+  "bytes": 4537,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2025-12-22/contracts/memory.schema.json",
+  "commit": "c55d1bcd271c324fe111d9e9b8fd3d18113d62b9",
+  "git_blob": "310d77cdca15e471eb0bda82d561472c9656c099",
+  "original_sha256": "7be54f05566df0072569da652976b9b218389a5ad0453cb0842cc44c21cdff37",
+  "published_sha256": "7be54f05566df0072569da652976b9b218389a5ad0453cb0842cc44c21cdff37",
+  "bytes": 856,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2025-12-22/contracts/result.schema.json",
+  "commit": "c55d1bcd271c324fe111d9e9b8fd3d18113d62b9",
+  "git_blob": "4ef8ef3d47cddc54220617b5e85fe1565f3d4171",
+  "original_sha256": "cd9ccb580f049ec2f58e8fb60bb1945c0a5b832b31c078ac654786107f77b348",
+  "published_sha256": "cd9ccb580f049ec2f58e8fb60bb1945c0a5b832b31c078ac654786107f77b348",
+  "bytes": 1666,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2025-12-22/contracts/step.schema.json",
+  "commit": "c55d1bcd271c324fe111d9e9b8fd3d18113d62b9",
+  "git_blob": "5e701b7444a7807d38c90ba0eaaa9a4157168672",
+  "original_sha256": "f8ef3958053cf9d01f07245023ce69055dbd257c88408d44428cd638ebdca343",
+  "published_sha256": "f8ef3958053cf9d01f07245023ce69055dbd257c88408d44428cd638ebdca343",
+  "bytes": 3306,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2025-12-22/contracts/tool-call.schema.json",
+  "commit": "c55d1bcd271c324fe111d9e9b8fd3d18113d62b9",
+  "git_blob": "0d53548e18b657105b36de8859dadbcd1a613d31",
+  "original_sha256": "450a93ff95d417fbda1928df7110a22c6da4b058e5bfca69cab7ee75989996dc",
+  "published_sha256": "450a93ff95d417fbda1928df7110a22c6da4b058e5bfca69cab7ee75989996dc",
+  "bytes": 1471,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2025-12-22/formats/envelope.json",
+  "commit": "c55d1bcd271c324fe111d9e9b8fd3d18113d62b9",
+  "git_blob": "a9e794b0af0ce23086e58fbd7d18d5975d6cd8ba",
+  "original_sha256": "86ca72067516716a61043c92d1b4488bfedbe4327ccbaf1c41082037439fb324",
+  "published_sha256": "86ca72067516716a61043c92d1b4488bfedbe4327ccbaf1c41082037439fb324",
+  "bytes": 378,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2025-12-22/formats/result.json",
+  "commit": "c55d1bcd271c324fe111d9e9b8fd3d18113d62b9",
+  "git_blob": "980e23711e614e88bb9c470b87154a978a016c28",
+  "original_sha256": "5357519d468011a7c1bdaf1c6d9b840fb2748a2b5f981a85497bf87b319044eb",
+  "published_sha256": "5357519d468011a7c1bdaf1c6d9b840fb2748a2b5f981a85497bf87b319044eb",
+  "bytes": 115,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2025-12-22/formats/step.json",
+  "commit": "c55d1bcd271c324fe111d9e9b8fd3d18113d62b9",
+  "git_blob": "615782c9db41f800fb51cad33d763954483eb541",
+  "original_sha256": "a962a116b3c37d849eea27cee379ca2f2e78a8c9f220beab626b8aeae7a3c5db",
+  "published_sha256": "a962a116b3c37d849eea27cee379ca2f2e78a8c9f220beab626b8aeae7a3c5db",
+  "bytes": 78,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2025-12-22/formats/tool-call.json",
+  "commit": "c55d1bcd271c324fe111d9e9b8fd3d18113d62b9",
+  "git_blob": "f01fe4ed6ee1361f5ded22e060f1ccc6986f0f55",
+  "original_sha256": "78bfc4dfbc7d160469176fccd78a6899ec1b2f92453a3e38fd6c0e3018ea0ffa",
+  "published_sha256": "78bfc4dfbc7d160469176fccd78a6899ec1b2f92453a3e38fd6c0e3018ea0ffa",
+  "bytes": 217,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2025-12-22/workflows/executor/executor.workflow.json",
+  "commit": "c55d1bcd271c324fe111d9e9b8fd3d18113d62b9",
+  "git_blob": "a2f6408f2002329fd380ac57e0938f31f9ebe014",
+  "original_sha256": "ce11b3bff1261f810d96bc3077e75fee3c866b993dd4becfb5ac257f54ee1e8e",
+  "published_sha256": "54467e1778a38b9749b14723d8c5c618537776486d48270610acf1bb91531ae5",
+  "bytes": 5980,
+  "form": "derived: top-level pinData, staticData, shared, meta, id, versionId, timestamps, tags removed; node credentials and webhookId removed; e-mail addresses, Google document ids, Slack channel ids and personal names replaced by placeholders"
+ },
+ {
+  "path": "sources/2025-12-26/contracts/envelope.schema.json",
+  "commit": "878060e6773e54458b7e40fde200ea0e50e30cc4",
+  "git_blob": "669b447c558909e97c41a6eca8f2ad8cf373f12c",
+  "original_sha256": "1416d009870b38bbbf2f12a1e407074b688eb612c4e1e5d604177b52f658bef8",
+  "published_sha256": "1416d009870b38bbbf2f12a1e407074b688eb612c4e1e5d604177b52f658bef8",
+  "bytes": 6634,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2025-12-26/formats/envelope.json",
+  "commit": "878060e6773e54458b7e40fde200ea0e50e30cc4",
+  "git_blob": "c3dd635bb4aad745e3b4c7be05dd4430967419c0",
+  "original_sha256": "83506394874e0d6acfc38f1b9a8d748e70433f4494deeba1cafc8e84669d895f",
+  "published_sha256": "83506394874e0d6acfc38f1b9a8d748e70433f4494deeba1cafc8e84669d895f",
+  "bytes": 1088,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-08/agent.workflow.json",
+  "commit": "3ebad4330b2556e1db8c20e83150a4d70802939d",
+  "git_blob": "2ddb3682ca6915e10aad968a59d837b887dc93aa",
+  "original_sha256": "95a46e313c5227a742b9f7176d733bd3cec9dbf6384897a4e321c19897748280",
+  "published_sha256": "8508131dd9b73719ddd2ea16f499a75c26874c9bf3266a0dc54c90bcfb2aafda",
+  "bytes": 12666,
+  "form": "derived: top-level pinData, staticData, shared, meta, id, versionId, timestamps, tags removed; node credentials and webhookId removed; e-mail addresses, Google document ids, Slack channel ids and personal names replaced by placeholders"
+ },
+ {
+  "path": "sources/2026-01-08/envelope-preservation-pattern.md",
+  "commit": "41081d137268cdfaa881cdd51523fa318f6244da",
+  "git_blob": "8fe779a55209e1e71bf5575c32050507ff1e25df",
+  "original_sha256": "df26c4988771f266e6070fc1452d6e3c86e8572cca13d9b5d78012ffe4c2f271",
+  "published_sha256": "df26c4988771f266e6070fc1452d6e3c86e8572cca13d9b5d78012ffe4c2f271",
+  "bytes": 6856,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-08/envelope-preservation-test.json",
+  "commit": "a4b60859550ab65f09d2b2f67f50f3a1780ff01b",
+  "git_blob": "0a599e2b272f2187db9affbab2e5a243f07087fb",
+  "original_sha256": "0ad699af70f42daacc010600cdb2cbcc42f9fb825843b3ab82937937062f1530",
+  "published_sha256": "0ad699af70f42daacc010600cdb2cbcc42f9fb825843b3ab82937937062f1530",
+  "bytes": 2807,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-08/executor.workflow.json",
+  "commit": "3ebad4330b2556e1db8c20e83150a4d70802939d",
+  "git_blob": "8bf2f2abb70914e26df456c1023bf8b942b545e7",
+  "original_sha256": "f41157647304ac196f3905a0e6348cdd03d81af8e3d96f05e472ff7fe7e6ee12",
+  "published_sha256": "a2b50b9c280b641c607d1b3da9d79787e4f4974d14ec77993820762ff1c98c10",
+  "bytes": 5124,
+  "form": "derived: top-level pinData, staticData, shared, meta, id, versionId, timestamps, tags removed; node credentials and webhookId removed; e-mail addresses, Google document ids, Slack channel ids and personal names replaced by placeholders"
+ },
+ {
+  "path": "sources/2026-01-08/human-approval.workflow.json",
+  "commit": "3ebad4330b2556e1db8c20e83150a4d70802939d",
+  "git_blob": "75177e38859bdcd604345530372c44cda17bfc73",
+  "original_sha256": "1e6953fb80ba869df97e7347b38e6e2b1aecde4057909c815ec1d4939d5ab4b6",
+  "published_sha256": "b6c71b75f1b8ddf734e78ea8399b3c0824ecb0ac99405edbabbce61e39d16510",
+  "bytes": 6567,
+  "form": "derived: top-level pinData, staticData, shared, meta, id, versionId, timestamps, tags removed; node credentials and webhookId removed; e-mail addresses, Google document ids, Slack channel ids and personal names replaced by placeholders"
+ },
+ {
+  "path": "sources/2026-01-08/tool-gateway.workflow.json",
+  "commit": "3ebad4330b2556e1db8c20e83150a4d70802939d",
+  "git_blob": "3f7796cd2377aadc293f2cf4321757708a187d6c",
+  "original_sha256": "857593aa612f842fa224f3eb509e3bc3b056a43e637f483e10b472c94f0277d9",
+  "published_sha256": "857593aa612f842fa224f3eb509e3bc3b056a43e637f483e10b472c94f0277d9",
+  "bytes": 4494,
+  "form": "derived: top-level pinData, staticData, shared, meta, id, versionId, timestamps, tags removed; node credentials and webhookId removed; e-mail addresses, Google document ids, Slack channel ids and personal names replaced by placeholders"
+ },
+ {
+  "path": "sources/2026-01-11/agent.remote.json",
+  "commit": "60d2c0e2b6aed4603fa077383bcfb425d1315582",
+  "git_blob": "5bcbe3e7341d54e17461ca111d25760fa4b372a5",
+  "original_sha256": "c38604ffe963269d4d4758155a68b89eb0bb7617b212b137b49696d2076100e3",
+  "published_sha256": "29b17fe737cc32020a05f7360617b7c7b40cef6f464ca894dce6760bc34af5e8",
+  "bytes": 22144,
+  "form": "derived: top-level pinData, staticData, shared, meta, id, versionId, timestamps, tags removed; node credentials and webhookId removed; e-mail addresses, Google document ids, Slack channel ids and personal names replaced by placeholders"
+ },
+ {
+  "path": "sources/2026-01-11/envelope.md",
+  "commit": "60d2c0e2b6aed4603fa077383bcfb425d1315582",
+  "git_blob": "3c74c910c76ad11be3e52b460ce4aaebfa3d7a80",
+  "original_sha256": "42646f63c1666911e651afc4cc3fd3cf80e9925a920838bbd44cceb3567cbd3a",
+  "published_sha256": "42646f63c1666911e651afc4cc3fd3cf80e9925a920838bbd44cceb3567cbd3a",
+  "bytes": 2517,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-11/executor.remote.json",
+  "commit": "60d2c0e2b6aed4603fa077383bcfb425d1315582",
+  "git_blob": "d4f2de2c8a7a71073cd5543c3b4747e19c1ad105",
+  "original_sha256": "0870caf2f050f6498f4355746a698cef80d961512426f2690bfd337c24b5edf1",
+  "published_sha256": "43117dc78a177ceceae45832d70df1c68542e04b316abd158507d0281c79d23b",
+  "bytes": 18351,
+  "form": "derived: top-level pinData, staticData, shared, meta, id, versionId, timestamps, tags removed; node credentials and webhookId removed; e-mail addresses, Google document ids, Slack channel ids and personal names replaced by placeholders"
+ },
+ {
+  "path": "sources/2026-01-11/tU8AiY1jYly7M8sR.remote.json",
+  "commit": "60d2c0e2b6aed4603fa077383bcfb425d1315582",
+  "git_blob": "3db942ddaef8c5fbb527ac0bdfebc3eca2f42b0f",
+  "original_sha256": "20c325a37fbe25d6be0801b05500f8bbae6b42ab2223e2731cf42ab24376f386",
+  "published_sha256": "9d234780d4a90b190f6aafa8c2699be73c2b2b2073f5482b1d03aed19c0188df",
+  "bytes": 6544,
+  "form": "derived: top-level pinData, staticData, shared, meta, id, versionId, timestamps, tags removed; node credentials and webhookId removed; e-mail addresses, Google document ids, Slack channel ids and personal names replaced by placeholders"
+ },
+ {
+  "path": "sources/2026-01-11/tool-gateway.remote.json",
+  "commit": "60d2c0e2b6aed4603fa077383bcfb425d1315582",
+  "git_blob": "6bd46eff0bd0d07cc2578bc4264e971142e4d3d9",
+  "original_sha256": "13d834ee78ed0184396a8c978112365c2b07a2bdd6cd0e8e595c808bfd5c6bac",
+  "published_sha256": "ca4dd4207a3250a156cd44d0ef92f28cebf22d827a6508a76ebd6fa8443712c3",
+  "bytes": 58258,
+  "form": "derived: top-level pinData, staticData, shared, meta, id, versionId, timestamps, tags removed; node credentials and webhookId removed; e-mail addresses, Google document ids, Slack channel ids and personal names replaced by placeholders"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/envelope-preservation-test.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "0a599e2b272f2187db9affbab2e5a243f07087fb",
+  "original_sha256": "0ad699af70f42daacc010600cdb2cbcc42f9fb825843b3ab82937937062f1530",
+  "published_sha256": "0ad699af70f42daacc010600cdb2cbcc42f9fb825843b3ab82937937062f1530",
+  "bytes": 2807,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/input.sample.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "09d7c57b7d3a358c7c7c990c37d77f074b21fdb9",
+  "original_sha256": "e70586d0544a272f28115246b7e70f0580bf4a4c6debb085d4ba646208628b40",
+  "published_sha256": "e70586d0544a272f28115246b7e70f0580bf4a4c6debb085d4ba646208628b40",
+  "bytes": 126,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/payloads/trigger-router/40_non_certified_slack_message.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "9e9761b9d280c475b2b13d70881f92b321033996",
+  "original_sha256": "cfe9b5c776e744e3e924aceee9cfeba07a0f148c963e3684d38af9c2b6c90bf9",
+  "published_sha256": "cfe9b5c776e744e3e924aceee9cfeba07a0f148c963e3684d38af9c2b6c90bf9",
+  "bytes": 133,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/payloads/trigger-router/60_certified_text_detection.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "f69a427b4670672ef1076cbcbfbcf975239d7725",
+  "original_sha256": "9a1e96f483c15cb51e22bb75da2550be7a94e17938c1f4fb8ef77ab6033f1c53",
+  "published_sha256": "9a1e96f483c15cb51e22bb75da2550be7a94e17938c1f4fb8ef77ab6033f1c53",
+  "bytes": 145,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/payloads/trigger-router/90_certified_gmail_starred.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "d7eb2b551bcbefb72e622f1eb28f25be8c336c60",
+  "original_sha256": "1e438fd90e3038d9366b40fb3816dd1e2dffc8ac79e33567a25d950bd14b2612",
+  "published_sha256": "1e438fd90e3038d9366b40fb3816dd1e2dffc8ac79e33567a25d950bd14b2612",
+  "bytes": 224,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/plans/invalid_plan_future_ref.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "7dc2bc1cefdb0dd9524bdeff46f30c352265495a",
+  "original_sha256": "10f5aaf90799d3ab23c777c5a429cda751c1584086eee630376b17d1fa78996e",
+  "published_sha256": "10f5aaf90799d3ab23c777c5a429cda751c1584086eee630376b17d1fa78996e",
+  "bytes": 538,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/plans/invalid_plan_future_step_ref.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "d60d46a051f223452c17165c10581a71c542e18c",
+  "original_sha256": "02a77ba268cbc4959fc5f40acd1a88fcd33ba1f13c419ba3a175d726fc24cdde",
+  "published_sha256": "02a77ba268cbc4959fc5f40acd1a88fcd33ba1f13c419ba3a175d726fc24cdde",
+  "bytes": 541,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/plans/test_bad_ref_object.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "f6857b7e1a1e871cb330ecc00501cad32e676a92",
+  "original_sha256": "34af4554249f93157441267c0d365b1a25da2f330123beb3985e9c1f63377e16",
+  "published_sha256": "34af4554249f93157441267c0d365b1a25da2f330123beb3985e9c1f63377e16",
+  "bytes": 325,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/plans/test_nested_ref.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "3234b4b4234c693e161e4b8c44dfd504441d518e",
+  "original_sha256": "fffa40b8ed7e897f7f98ef22f7edae28ddae59b3770d002c5217dc06b171bc3d",
+  "published_sha256": "fffa40b8ed7e897f7f98ef22f7edae28ddae59b3770d002c5217dc06b171bc3d",
+  "bytes": 573,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/plans/test_null_values.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "7e0c1b7f28c2d39492438e94b42ec933a4177962",
+  "original_sha256": "ad4b2c6703d4e7f5eee68f5056dce3c7b934d44fe2ea8c16e31ccbb28ca30501",
+  "published_sha256": "ad4b2c6703d4e7f5eee68f5056dce3c7b934d44fe2ea8c16e31ccbb28ca30501",
+  "bytes": 398,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/plans/valid_mixed_references.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "1bd5f49a8aa481e5bb3c33df2f552a847cdc9697",
+  "original_sha256": "84a9fc40fa04505b1f726011bdc5a11351956ceb4a249808f3af3e1ca633f61e",
+  "published_sha256": "84a9fc40fa04505b1f726011bdc5a11351956ceb4a249808f3af3e1ca633f61e",
+  "bytes": 781,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/plans/valid_plan.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "b0d1f614d855bf398c097463081fe99a51ca7363",
+  "original_sha256": "130e7402a16b6d7f0d8e20007f239e433ab6e43e6381d713d3cacaa2e9d4282d",
+  "published_sha256": "130e7402a16b6d7f0d8e20007f239e433ab6e43e6381d713d3cacaa2e9d4282d",
+  "bytes": 860,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/plans/valid_plan_step_refs.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "1270e20fc97a6597318340f64b4c64755262739f",
+  "original_sha256": "a8ab9bb46408f7674629528e50db55688777bb1b58fc4ed37c1185537c377aa9",
+  "published_sha256": "a8ab9bb46408f7674629528e50db55688777bb1b58fc4ed37c1185537c377aa9",
+  "bytes": 561,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/fixtures/prod/trigger-router/90_certified_gmail_starred.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "d7eb2b551bcbefb72e622f1eb28f25be8c336c60",
+  "original_sha256": "1e438fd90e3038d9366b40fb3816dd1e2dffc8ac79e33567a25d950bd14b2612",
+  "published_sha256": "1e438fd90e3038d9366b40fb3816dd1e2dffc8ac79e33567a25d950bd14b2612",
+  "bytes": 224,
+  "form": "verbatim"
+ },
+ {
+  "path": "sources/2026-01-13/specs-envelope.schema.json",
+  "commit": "5351a880cdcc8150c628afa28ea0e7c0d956fc87",
+  "git_blob": "dfd063598fcbb8934f1594dc8503a37773cc7aff",
+  "original_sha256": "587cd2da4e698f38692df2c6e1c33c4126940d30519cbe9653f5fa9491ae72cd",
+  "published_sha256": "587cd2da4e698f38692df2c6e1c33c4126940d30519cbe9653f5fa9491ae72cd",
+  "bytes": 1005,
+  "form": "verbatim"
+ }
+]

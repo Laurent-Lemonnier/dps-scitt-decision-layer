@@ -1,0 +1,4 @@
+{
+  "text": "Envoie sur Slack le message 'Hello team', dans le canal #general",
+  "context": { "source": "fixture-non-certified" }
+}

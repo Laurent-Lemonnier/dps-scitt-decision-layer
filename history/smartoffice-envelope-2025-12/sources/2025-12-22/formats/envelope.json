@@ -1,0 +1,23 @@
+{
+  "context": {
+    "memory": {
+      "session_id": "sess_0001",
+      "state": {}
+    }
+  },
+  "input": {
+    "steps": [
+      {
+        "type": "tool",
+        "ref": "slack",
+        "params": {
+          "action": "chat.postMessage",
+          "channel": "#ops",
+          "text": "Hello from legacy envelope"
+        }
+      }
+    ]
+  },
+  "output": {},
+  "error": null
+}

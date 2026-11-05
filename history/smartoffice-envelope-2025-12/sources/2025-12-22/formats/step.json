@@ -1,0 +1,5 @@
+{
+  "type": "tool",
+  "ref": "minimal-tool",
+  "params": { "action": "do" }
+}

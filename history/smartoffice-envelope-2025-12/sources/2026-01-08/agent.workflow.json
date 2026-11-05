@@ -1,0 +1,309 @@
+{
+  "name": "new-agent",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "node-trigger",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const state = items[0].json;\n\nif (!state.payload || !state.agent) {\n  throw new Error(\"Invalid envelope: payload or agent missing\");\n}\n\nstate.registry = state.payload.registry || {};\nstate.policies = state.policies || {};\nstate.plan = state.plan || {};\n\nstate.plan.steps = [];\nstate.authorization = state.authorization || {};\n\nreturn [{ json: state }];\n"
+      },
+      "id": "node-preflight",
+      "name": "Agent Preflight",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.agent.mode}}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "compile",
+              "operation": "equal",
+              "output": 0
+            },
+            {
+              "value2": "plan",
+              "operation": "equal",
+              "output": 1
+            }
+          ]
+        }
+      },
+      "id": "node-switch",
+      "name": "Switch agent.mode",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const state = items[0].json;\n\nconst ref = state.agent.detected_usecase;\nconst usecase = state.registry.usecases?.[ref];\n\nif (!usecase) {\n  throw new Error(`Unknown certified usecase: ${ref}`);\n}\n\n// Validation minimale\nif (usecase.inputs_required) {\n  for (const key of usecase.inputs_required) {\n    if (!(key in state.payload.input)) {\n      throw new Error(`Missing required input: ${key}`);\n    }\n  }\n}\n\n// Compilation deterministe\nstate.plan.steps = usecase.steps_template.map(step => ({\n  tool_ref: step.tool_ref,\n  args: step.args\n}));\n\nstate.authorization = {\n  mode: \"preapproved\",\n  usecase_ref: ref,\n  version: usecase.version\n};\n\nreturn [{ json: state }];\n"
+      },
+      "id": "node-compile",
+      "name": "Compile (certified)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const state = items[0].json;\n\nstate.llm = {\n  messages: [\n    {\n      role: \"system\",\n      content: \"You are a planning agent. Produce ONLY tool steps.\"\n    },\n    {\n      role: \"user\",\n      content: state.payload.intent\n    }\n  ]\n};\n\nreturn [{ json: state }];\n"
+      },
+      "id": "node-prompt",
+      "name": "Plan Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items;\n"
+      },
+      "id": "node-keep-envelope",
+      "name": "Keep Envelope",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        940,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5.2",
+          "mode": "list",
+          "cachedResultName": "GPT-5.2"
+        },
+        "messages": {
+          "values": "={{$json.llm.messages}}"
+        },
+        "jsonOutput": true,
+        "simplify": false,
+        "options": {}
+      },
+      "id": "node-llm",
+      "name": "Plan LLM (OpenAI)",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [
+        940,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "mergeByPosition",
+        "options": {
+          "clashHandling": {
+            "values": {
+              "resolveClash": "preferInput2"
+            }
+          }
+        }
+      },
+      "id": "node-merge-plan",
+      "name": "Merge Plan + Envelope",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [
+        1180,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const state = items[0].json;\nconst output = state.llm_output || state.output || state.data || {};\n\nif (!Array.isArray(output.steps)) {\n  throw new Error(\"LLM output invalid: steps[] missing\");\n}\n\nstate.plan.steps = output.steps.map(step => ({\n  tool_ref: step.tool_ref || step.ref || step.tool,\n  args: step.args || step.params || {}\n}));\n\nstate.authorization = {\n  mode: \"human_required\"\n};\n\nreturn [{ json: state }];\n"
+      },
+      "id": "node-compile-plan",
+      "name": "Plan Compile",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1400,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const state = items[0].json;\n\nstate.payload = state.payload || {};\nstate.payload.context = state.payload.context || {};\n\nconst planSteps = state.plan?.steps;\nconst planContract = {\n  contract_version: state.plan?.contract_version || '1.0',\n  session_id: state.execution?.session_id || state.payload?.context?.memory?.session_id || 'unknown',\n  status: state.plan?.status || 'proposed',\n  plan: planSteps\n};\n\nfunction validatePlanSchema(plan) {\n  const errors = [];\n  if (!plan || typeof plan !== 'object') {\n    errors.push('Plan must be an object');\n    return errors;\n  }\n  if (typeof plan.contract_version !== 'string' || !plan.contract_version) {\n    errors.push('contract_version must be a non-empty string');\n  }\n  if (typeof plan.session_id !== 'string' || !plan.session_id) {\n    errors.push('session_id must be a non-empty string');\n  }\n  if (typeof plan.status !== 'string' || !plan.status) {\n    errors.push('status must be a non-empty string');\n  }\n  if (!Array.isArray(plan.plan)) {\n    errors.push('plan must be an array');\n  } else {\n    plan.plan.forEach((step, index) => {\n      if (!step || typeof step !== 'object') {\n        errors.push(`plan[${index}] must be an object`);\n      }\n    });\n  }\n  return errors;\n}\n\nfunction isOutputReference(value) {\n  if (typeof value === 'string') {\n    if (value.match(/\\$\\.plan\\[\\d+\\]\\.outputs\\./)) return true;\n    if (value.match(/\\{\\{.*\\$step\\[\\d+\\]\\.outputs\\./)) return true;\n    if (value.match(/step\\[\\d+\\]\\.outputs\\./)) return true;\n  }\n\n  if (typeof value === 'object' && value !== null) {\n    if (value.$ref && typeof value.$ref === 'string') {\n      return /step\\[\\d+\\]\\.outputs\\./.test(value.$ref);\n    }\n  }\n\n  return false;\n}\n\nfunction isLiteralValue(value) {\n  if (value === undefined) return false;\n  if (isOutputReference(value)) return false;\n  if (Array.isArray(value)) {\n    return value.every((item) => isLiteralValue(item));\n  }\n  if (typeof value === 'object' && value !== null) {\n    return Object.values(value).every((nested) => isLiteralValue(nested));\n  }\n  return true;\n}\n\nfunction extractStepIndex(reference) {\n  const match = reference.match(/\\[(\\d+)\\]/);\n  return match ? parseInt(match[1], 10) : -1;\n}\n\nfunction validateStepInputs(step, stepIndex, allSteps) {\n  const errors = [];\n\n  if (!step.inputs || step.inputs === null) {\n    return errors;\n  }\n\n  if (typeof step.inputs !== 'object') {\n    errors.push(`Step ${stepIndex}: inputs must be an object, got ${typeof step.inputs}`);\n    return errors;\n  }\n\n  for (const [inputKey, inputValue] of Object.entries(step.inputs)) {\n    if (isLiteralValue(inputValue)) {\n      continue;\n    }\n\n    if (isOutputReference(inputValue)) {\n      const referencedStepIndex = extractStepIndex(\n        typeof inputValue === 'string' ? inputValue : inputValue.$ref\n      );\n\n      if (referencedStepIndex < 0) {\n        errors.push(`Step ${stepIndex}, input \"${inputKey}\": Invalid output reference format`);\n      } else if (referencedStepIndex >= allSteps.length) {\n        errors.push(\n          `Step ${stepIndex}, input \"${inputKey}\": References step ${referencedStepIndex} which does not exist in the plan`\n        );\n      } else if (referencedStepIndex >= stepIndex) {\n        errors.push(\n          `Step ${stepIndex}, input \"${inputKey}\": References step ${referencedStepIndex} which is not a precedent step (must reference earlier steps only)`\n        );\n      }\n      continue;\n    }\n\n    errors.push(\n      `Step ${stepIndex}, input \"${inputKey}\": Input value must be either a literal value OR a reference to a precedent step's output`\n    );\n  }\n\n  return errors;\n}\n\nfunction validateStepPlan(plan) {\n  const errors = [];\n\n  if (!plan || !Array.isArray(plan)) {\n    errors.push('Plan must be an array');\n    return errors;\n  }\n\n  plan.forEach((step, index) => {\n    const stepErrors = validateStepInputs(step, index, plan);\n    errors.push(...stepErrors);\n  });\n\n  return errors;\n}\n\nconst schemaErrors = validatePlanSchema(planContract);\nconst stepErrors = validateStepPlan(planContract.plan);\n\nconst validationSummary = {\n  plan_schema: {\n    valid: schemaErrors.length === 0,\n    errors: schemaErrors\n  },\n  step_inputs: {\n    valid: stepErrors.length === 0,\n    errors: stepErrors\n  }\n};\n\nstate.payload.context.validation = validationSummary;\n\nif (!validationSummary.plan_schema.valid || !validationSummary.step_inputs.valid) {\n  state.payload.context.require_human_validation = true;\n  state.payload.context.human = state.payload.context.human || {};\n  state.payload.context.human.validation_errors = [...schemaErrors, ...stepErrors].slice(0, 5);\n  state.authorization = {\n    ...state.authorization,\n    mode: 'human_required'\n  };\n} else {\n  state.authorization = {\n    ...state.authorization,\n    mode: 'auto_approved'\n  };\n}\n\nreturn [{ json: state }];\n"
+      },
+      "id": "node-validate-plan",
+      "name": "Validate Plan",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1620,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items;\n"
+      },
+      "id": "node-return",
+      "name": "Return",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1400,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Agent Preflight",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent Preflight": {
+      "main": [
+        [
+          {
+            "node": "Switch agent.mode",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch agent.mode": {
+      "main": [
+        [
+          {
+            "node": "Compile (certified)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Plan Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compile (certified)": {
+      "main": [
+        [
+          {
+            "node": "Validate Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plan Prompt": {
+      "main": [
+        [
+          {
+            "node": "Plan LLM (OpenAI)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Keep Envelope",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plan LLM (OpenAI)": {
+      "main": [
+        [
+          {
+            "node": "Merge Plan + Envelope",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keep Envelope": {
+      "main": [
+        [
+          {
+            "node": "Merge Plan + Envelope",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Plan + Envelope": {
+      "main": [
+        [
+          {
+            "node": "Plan Compile",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plan Compile": {
+      "main": [
+        [
+          {
+            "node": "Validate Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Plan": {
+      "main": [
+        [
+          {
+            "node": "Return",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}
