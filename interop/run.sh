@@ -74,14 +74,16 @@ echo "== PALA-1 bridge run B3 (Assault-Consulting/Palimpsests, SCITT-bridge stat
 mkdir -p pala/out
 python3 pala/verify_statement_v3.py --vectors pala/vectors --report pala/out/report-ci.json | tail -1
 
-echo "== P10 S2b, the replay verifier of draft-nestorov-scitt-p10-underdetermination-02, read from the text (first pass), pinned at $(awk '{print substr($2,1,12)}' p10/PINNED_COMMIT.txt)"
+echo "== P10 S2b, the replay verifier of draft-nestorov-scitt-p10-underdetermination-02, read from the text (first and second pass), pinned at $(awk '{print substr($2,1,12)}' p10/PINNED_COMMIT.txt)"
 if [ ! -d p10/s2b ]; then
   git clone --quiet https://github.com/VolMax-Studio/p10-replay-verifier.git p10/s2b
 fi
 git -C p10/s2b checkout --quiet "$(awk '{print $2}' p10/PINNED_COMMIT.txt)"
 (cd p10/s2b && sha256sum -c --quiet ../SHA256SUMS) || { echo "p10: a file read by the reading changed at the pin"; exit 1; }
 mkdir -p p10/out
-python3 p10/replay_from_text.py --vectors p10/s2b --report p10/out/report-ci.json | tail -1
+python3 p10/replay_from_text.py --vectors p10/s2b --pass 1 --report p10/out/report-ci.json | tail -1
+python3 p10/replay_from_text.py --vectors p10/s2b --pass 2 --report p10/out/report-ci-pass2.json \
+  --pass1-report p10/out/report-pass1.json | tail -1
 
 echo "== draft-fassbender-scitt-time-anchor-08, Appendix D vectors, route 2 (no OTS software)"
 CP=957289:000000000000000000018e5b8c68a63c45b3eeac3a05ecf621a3b3f7890e3534

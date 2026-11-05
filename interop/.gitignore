@@ -9,3 +9,4 @@ gilda/judge-ci.json
 __pycache__/
 p10/s2b/
 p10/out/report-ci.json
+p10/out/report-ci-pass2.json
