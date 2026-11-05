@@ -179,6 +179,16 @@ def n22(b, art=None):
         b["ep_policy_at_execution"] = dict(B.POLICY, rule="three approvers: controller, treasurer and risk officer; the DPS approval of the exact specification first")
 
 
+@case("N23-ep-key-compromised-signing-order-unestablished", "ep:INDETERMINATE",
+      "the relying party's pinned state marks the first EP approver's key compromised at its own clock, after the "
+      "signoff's claimed signed_at, with no independent evidence of the signing order: the signoff is neither counted "
+      "nor discarded, and the bundle is INDETERMINATE (approver_key_compromised_signing_order_unestablished), not "
+      "REFUSE threshold_not_met (section 13.3; Iman Schrock's probe of 5 November 2026)")
+def n23(b, art=None):
+    if art is not None:
+        art["ep_key_compromised_at"] = {B.EP_APPROVERS[0][1]: B.NOW}
+
+
 def build_case(name, fn):
     b = B.build()
     fn(b)

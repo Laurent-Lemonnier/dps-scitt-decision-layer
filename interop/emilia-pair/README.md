@@ -99,7 +99,7 @@ verification. This one defines:
   with its `receipt_id` and `action_hash`; the receipt is the bundle's (action, contexts, signoffs, consumption nonce);
   A2 extends A1 (A1's stages unchanged, its request and attempt for the approved specification); A1 carries no reverse
   reference; the issuers' times order the pair (DPS approval, contexts issued and signed, receipt committed, request).
-- **What this establishes.** The passing pair and the twenty-two failing cases establish *this fixture's checks*: that
+- **What this establishes.** The passing pair and the twenty-three failing cases establish *this fixture's checks*: that
   this verifier applies these readings of sections 3, 4, 6.1, 6.2, 7.2 and 8 to these documents. They do not
   establish EP conformance of anything, and no EP software was run.
 
@@ -117,7 +117,7 @@ input is INDETERMINATE. Every definite failure found is reported, not only the f
 | 2 | *new*: the Action Object equals, in JCS, the action the relying party is about to admit (`expected_action`, when it holds one) | REFUSE lists an "action" mismatch; section 6.3 requires "approval of action A presented for materially different action B" and "a dynamic plan expansion beyond the approved action" to be refused. Step 6.2 names no separate step: this reading puts it with the action at step 2. The comparison is between two EP Action Objects, so section 3's CAID projection (for an action named by *another* artifact) does not apply. This pair holds no separate expected action: its action is the one the binding profile derives from A1 at step 10 |
 | 3 | each context commits to the action hash; one policy hash, one audience, one `authorization_instance`, one binding; distinct nonces; *moved*: the action's `initiator` and `policy_id` in every context | step 3 |
 | 4 | the signed `authorization_instance` equals the registered one; *new*: none held is INDETERMINATE | step 4 |
-| 5 | each signoff: pinned key and accepted class; covers a selected context not already covered; key holder is the context's approver; *new*: the key's `valid_from`/`valid_to` contain the context's `issued_at` and the `signed_at` (section 5.2, 7.3 step 3), `signed_at` within the context's window; a key marked `compromised_at` (at or before now) refuses a signature stated at or after it, and makes one stated before it INDETERMINATE (section 13.3: a signer-asserted time cannot show the order); signature over the 32 raw bytes; *new*: between m and n signoffs (section 6) | step 5, section 6 |
+| 5 | each signoff: pinned key and accepted class; covers a selected context not already covered; key holder is the context's approver; *new*: the key's `valid_from`/`valid_to` contain the context's `issued_at` and the `signed_at` (section 5.2, 7.3 step 3), `signed_at` within the context's window; a key marked `compromised_at` (at or before now) refuses a signature stated at or after it, and makes one stated before it INDETERMINATE (section 13.3: a signer-asserted time cannot show the order), the signoff neither counted nor discarded, so that the m-of-n threshold cannot turn it into a REFUSE (corrected 5 November 2026 after Iman Schrock's probe; N23); signature over the 32 raw bytes; *new*: between m and n signoffs (section 6) | step 5, section 6 |
 | 6 | the context approver set equals the selected one; *new*: initiator exclusion (the initiator is no context's approver and no signer: section 7.1, SelfApprovalImpossible); *new*: pairwise distinct approvers, one signoff per approver (section 6: "more than one signoff from the same approver is a refusal"); indexes 1 to n, each once; the m-of-n threshold over valid signoffs | step 6. Delegated-approver constraints are not exercised (no delegation evidence) |
 | 7 | the relying party's clock within every context's window | step 7 |
 | 8 | every context's audience is the configured one | step 8 |
@@ -216,6 +216,7 @@ apart from them, `result.json`; `summary.json` gathers the verdicts.
 | N20 | the DPS trust policy states the person's key revoked (superseded) at 09:44, before the approval signed at 09:45 and the EP signoffs at 09:55 | EP step 10: the source does not verify (and both DPS checks) |
 | N21 | the EP action is initiated as the EP identity linked to the person who approved under the DPS | EP step 10: the profile's identity rule, `dps_approver_is_the_ep_initiator` |
 | N22 | the relying party's EP policy (same `policy_id`) changed after the DPS approval and the signoffs | EP step 11: `policy_digest_mismatch` |
+| N23 | the first EP approver's key marked compromised at the relying party's clock, after the signoff's claimed `signed_at` | EP step 5: INDETERMINATE, `approver_key_compromised_signing_order_unestablished`, not REFUSE `threshold_not_met` |
 
 N12 to N16 are the five omissions Iman Schrock found accepted by the verifier as it was on 3 November 2026; the
 verifier then returned SATISFIED on each, which is why the schema controls exist.

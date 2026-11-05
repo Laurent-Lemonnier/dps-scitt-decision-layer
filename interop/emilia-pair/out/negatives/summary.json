@@ -195,5 +195,13 @@
   ],
   "expected_place": "ep:policy_digest_mismatch",
   "as_expected": true
+ },
+ "N23-ep-key-compromised-signing-order-unestablished": {
+  "what": "the relying party's pinned state marks the first EP approver's key compromised at its own clock, after the signoff's claimed signed_at, with no independent evidence of the signing order: the signoff is neither counted nor discarded, and the bundle is INDETERMINATE (approver_key_compromised_signing_order_unestablished), not REFUSE threshold_not_met (section 13.3; Iman Schrock's probe of 5 November 2026)",
+  "caught_by": [
+   "ep:INDETERMINATE"
+  ],
+  "expected_place": "ep:INDETERMINATE",
+  "as_expected": true
  }
 }

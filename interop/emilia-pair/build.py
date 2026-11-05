@@ -386,7 +386,7 @@ def verify_bundle(art, pinned):
     m_required = min(c["required_approvals"] for c in ctxs)                                                           # 5
     if not (m_required <= len(b["signoffs"]) <= len(ctxs)):
         reasons.append("signoffs_fewer_than_m_or_more_than_n")
-    covered, signers = set(), []
+    covered, uncertain, signers = set(), set(), []
     for so in b["signoffs"]:
         key = pinned["approver_keys"].get(so["approver_key_id"])
         if key is None or so["key_class"] not in pinned["accepted_key_classes"] or so["key_class"] != key.get("key_class", so["key_class"]):
@@ -409,17 +409,21 @@ def verify_bundle(art, pinned):
         if not (ctxs[i]["issued_at"] <= so["signed_at"] <= ctxs[i]["expires_at"]) or so["signed_at"] > now:
             reasons.append("signoff_time_outside_the_context_window")
             continue
-        if key.get("compromised_at") and key["compromised_at"] <= now:
-            # section 13.3: a signer-asserted time cannot show that the signature preceded the compromise
-            if so["signed_at"] >= key["compromised_at"]:
-                reasons.append("approver_key_compromised_before_signing")
-            else:
-                indeterminate.append("approver_key_compromised_signing_order_unestablished")
+        if key.get("compromised_at") and key["compromised_at"] <= now and so["signed_at"] >= key["compromised_at"]:
+            reasons.append("approver_key_compromised_before_signing")
             continue
         try:
             serialization.load_der_public_key(b64u_dec(key["public_key"])).verify(b64u_dec(so["signature"]), bytes.fromhex(so["context_hash"][7:]))
         except Exception:
             reasons.append("signoff_signature_invalid")
+            continue
+        if key.get("compromised_at") and key["compromised_at"] <= now:
+            # section 13.3: a signer-asserted time cannot show that the signature preceded the compromise; the signoff
+            # stays uncertain, neither counted nor discarded, so that the threshold below cannot mask it (Iman
+            # Schrock's probe, 5 November 2026)
+            indeterminate.append("approver_key_compromised_signing_order_unestablished")
+            uncertain.add(i)
+            signers.append(key["approver_id"])
             continue
         covered.add(i)
         signers.append(key["approver_id"])
@@ -432,8 +436,8 @@ def verify_bundle(art, pinned):
         reasons.append("approvers_not_pairwise_distinct")          # pairwise independence; one approver, one signoff
     if sorted(c["approver_index"] for c in ctxs) != list(range(1, len(ctxs) + 1)):
         reasons.append("context_approver_index_not_1_to_n")        # section 6: distinct indexes
-    if len(covered) < m_required:
-        reasons.append("threshold_not_met")
+    if len(covered | uncertain) < m_required:
+        reasons.append("threshold_not_met")                        # met only with the uncertain signoffs: INDETERMINATE above
     if any(not (c["issued_at"] <= now <= c["expires_at"]) for c in ctxs):                                              # 7
         reasons.append("outside_validity_window")
     if any(c["audience"] != pinned["audience"] for c in ctxs):                                                         # 8
@@ -604,8 +608,10 @@ def pinned_inputs(art, with_dps=True):
     return {"authorization_instance": AUTH_INSTANCE, "audience": AUDIENCE, "now": NOW, "current_policy": art["current_policy"],
             "policy_id": POLICY["policy_id"],
             "expected_approvers": [a for a, _, _ in EP_APPROVERS], "accepted_key_classes": ["B"],
-            "approver_keys": {kid: {"approver_id": a, "public_key": spki_b64u(k), "key_class": "B", "valid_from": "2026-10-01T00:00:00Z",
-                                    "valid_to": "2027-09-30T23:59:59Z"} for a, kid, k in EP_APPROVERS},
+            "approver_keys": {kid: dict({"approver_id": a, "public_key": spki_b64u(k), "key_class": "B", "valid_from": "2026-10-01T00:00:00Z",
+                                         "valid_to": "2027-09-30T23:59:59Z"},
+                                        **({"compromised_at": art["ep_key_compromised_at"][kid]} if kid in art.get("ep_key_compromised_at", {}) else {}))
+                              for a, kid, k in EP_APPROVERS},
             "require_authorization_binding": True, "require_current_status": False, "identity_links": IDENTITY_LINKS,
             "dps": {"record": art["record"], "record_bytes": art["record_bytes"], "a1": art["a1"], "a1_bytes": art["a1_bytes"],
                     "sig_attachment": art["sig_attachment"], "trust": art["trust"]} if with_dps else None}
