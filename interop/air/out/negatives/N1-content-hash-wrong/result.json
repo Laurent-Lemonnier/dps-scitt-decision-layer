@@ -1,0 +1,22 @@
+{
+ "what": "the header's content_hash is another digest, the record signed again: 5.8 step 1 (and step 2, which starts from it)",
+ "caught_by": [
+  "air",
+  "joins"
+ ],
+ "expected_place": "air",
+ "as_expected": true,
+ "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+ "detail": {
+  "air": {
+   "air-1": [
+    "5.8 step 1; 5.7: step 1, payload integrity: SHA-256(payload) equals content_hash",
+    "5.8 step 2; 5.7: step 2, chain integrity: chain_hash recomputed from the header's content_hash, prev_chain_"
+   ],
+   "chain": "FAIL"
+  },
+  "joins": {
+   "J5": false
+  }
+ }
+}

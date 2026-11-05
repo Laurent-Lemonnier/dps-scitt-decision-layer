@@ -1,0 +1,1 @@
+jurisdiction is null in a REQUIRED position (record reissued, hashes and signature recomputed): 6.1, all REQUIRED members non-null

@@ -1,0 +1,21 @@
+{
+ "what": "sequence 1 is numbered 2, the record signed again: 5.8 step 4",
+ "caught_by": [
+  "air",
+  "joins"
+ ],
+ "expected_place": "air",
+ "as_expected": true,
+ "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+ "detail": {
+  "air": {
+   "air-1": [
+    "5.8 step 4; 5.7; 6.3: step 4, sequence completeness: sequence_number is zero with a zero prev_chain_hash, or one"
+   ],
+   "chain": "FAIL"
+  },
+  "joins": {
+   "J5": false
+  }
+ }
+}

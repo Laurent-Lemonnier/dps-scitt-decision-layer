@@ -1,0 +1,1 @@
+the header's content_hash is another digest, the record signed again: 5.8 step 1 (and step 2, which starts from it)

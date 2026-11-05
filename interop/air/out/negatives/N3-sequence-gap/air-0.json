@@ -1,0 +1,60 @@
+{
+ "action_subtype": "payment_ledger_lookup",
+ "action_timestamp_ms": 1793696490000,
+ "action_type": "regulated_data_access",
+ "agent_did": null,
+ "agent_id": "urn:example:agent:support-agent-5",
+ "agent_version": "support-agent 5; model example-llm 2026-09; example-agent-runtime 3.1",
+ "agent_workload_id": "spiffe://example.com/ns/payments/sa/support-agent-5",
+ "auth_context": null,
+ "captured_timestamp_ms": 1793696490200,
+ "consumer_instructions": null,
+ "delegation_chain": null,
+ "external_refs": [
+  {
+   "ref_system": "urn:example:payments:ledger",
+   "ref_type": "order_ref",
+   "ref_value": "urn:example:order:8812"
+  }
+ ],
+ "input_hash": "wtNZlK_cPg6bS3BE4W3M7xHPFtXi3xrGw-6UxmzmC-0",
+ "input_summary": "Lookup of the charges of order urn:example:order:8812 in the payment ledger",
+ "intent_attestation": null,
+ "jurisdiction": "FR",
+ "operator_id": "urn:example:operator:example-merchant-agent-operations",
+ "operator_pubkey_id": "example-merchant-agent-ops-es256-1",
+ "outcome_hash": "KbYdk2XDlYQ0MHsgNJecfusM2YuojTFrrJpkkhxSX0A",
+ "outcome_state": "completed",
+ "outcome_summary": "Two charges of 120.00 EUR found",
+ "parent_record_id": null,
+ "policy_refs": [
+  "urn:example:policy:ledger-access#2026-10-01"
+ ],
+ "principal_id": null,
+ "reasoning_hash": null,
+ "record_id": "01a1a0a4-6210-7e4f-ac63-929a0f5954ae",
+ "redaction_receipts": [
+  {
+   "field_path": "outcome_summary",
+   "original_hash": "lkGR3YLkqqFOMgzsdMTTQIjgkEr7iibcuwuITtZe0_U",
+   "policy_id": "urn:example:policy:redaction:customer-identity",
+   "timestamp_ms": 1793696490200
+  }
+ ],
+ "retention_class": "regulatory_5yr",
+ "schema_version": "air-1.0",
+ "session_id": "bbff6a60-739e-597c-8ad3-d997e409a0d8",
+ "tool_calls": [
+  {
+   "input_hash": "wtNZlK_cPg6bS3BE4W3M7xHPFtXi3xrGw-6UxmzmC-0",
+   "is_write": false,
+   "output_hash": "KbYdk2XDlYQ0MHsgNJecfusM2YuojTFrrJpkkhxSX0A",
+   "timestamp_ms": 1793696490000,
+   "tool_id": "payments.ledger.lookup",
+   "tool_type": "api_call"
+  }
+ ],
+ "trace_id": null,
+ "workflow_id": null,
+ "written_timestamp_ms": null
+}

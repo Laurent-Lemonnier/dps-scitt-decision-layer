@@ -1,0 +1,1 @@
+the payload re-serialised with its members in another order (not RFC 8785), the header and signature kept: 5.8 step 1, 5.6 canonical form, step 3

@@ -1,0 +1,22 @@
+{
+ "what": "the header's agent_id names another agent, chain_hash recomputed with it and the record signed again: 5.6 (header agent_id equals CWT sub; payload agent_id equals the header's), and the chain is no longer one agent's",
+ "caught_by": [
+  "air",
+  "joins"
+ ],
+ "expected_place": "air",
+ "as_expected": true,
+ "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+ "detail": {
+  "air": {
+   "air-1": [
+    "5.6: header agent_id equals CWT sub",
+    "5.6: payload agent_id equals the header's agent_id and the CWT sub"
+   ],
+   "chain": "FAIL"
+  },
+  "joins": {
+   "J5": false
+  }
+ }
+}

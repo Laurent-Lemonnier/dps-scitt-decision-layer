@@ -1,0 +1,28 @@
+{
+ "what": "jurisdiction is null in a REQUIRED position (record reissued, hashes and signature recomputed): 6.1, all REQUIRED members non-null",
+ "caught_by": [
+  "air",
+  "ees_schema",
+  "joins"
+ ],
+ "expected_place": "air",
+ "as_expected": true,
+ "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+ "detail": {
+  "ees_schema": {
+   "air-1": [
+    "None is not of type 'string'"
+   ]
+  },
+  "air": {
+   "air-1": [
+    "5.2, 5.3, 6.1: every REQUIRED member present, non-null and of its CDDL type",
+    "5.3: jurisdiction has the form of an ISO 3166-1 alpha-2 code"
+   ],
+   "chain": "FAIL"
+  },
+  "joins": {
+   "J5": false
+  }
+ }
+}

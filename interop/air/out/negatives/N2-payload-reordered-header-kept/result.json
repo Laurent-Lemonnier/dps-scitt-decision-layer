@@ -1,0 +1,23 @@
+{
+ "what": "the payload re-serialised with its members in another order (not RFC 8785), the header and signature kept: 5.8 step 1, 5.6 canonical form, step 3",
+ "caught_by": [
+  "air",
+  "joins"
+ ],
+ "expected_place": "air",
+ "as_expected": true,
+ "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+ "detail": {
+  "air": {
+   "air-1": [
+    "5.8 step 1; 5.7: step 1, payload integrity: SHA-256(payload) equals content_hash",
+    "5.8 step 3; RFC 9052 4.4; RFC 9053 2.1: step 3, signature validity: ES256 over the RFC 9052 Sig_structure (Signature1, protected, ",
+    "5.6: payload is a JSON object in RFC 8785 canonical form (re-serialisation gives the same bytes"
+   ],
+   "chain": "FAIL"
+  },
+  "joins": {
+   "J5": false
+  }
+ }
+}

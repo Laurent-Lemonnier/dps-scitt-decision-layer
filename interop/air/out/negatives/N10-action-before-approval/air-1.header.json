@@ -1,0 +1,14 @@
+{
+ "1 (alg)": -7,
+ "4 (kid)": "h'6578616d706c652d6d65726368616e742d6167656e742d6f70732d65733235362d31'",
+ "15 (CWT Claims)": {
+  "1 (iss)": "urn:example:operator:example-merchant-agent-operations",
+  "2 (sub)": "urn:example:agent:support-agent-5"
+ },
+ "content_hash": "h'5fd6786b8c5a2be0413882ad150b2a204aba59a316db184df022d23117356de6'",
+ "prev_chain_hash": "h'2944627515f8c70bb9b2b6697456a06668a344395561a3ebd611b198173236aa'",
+ "chain_hash": "h'5b5e68dd628f7f3caba85b82bad9a2db1d87073a09156666c324359b9ee27798'",
+ "sequence_number": 1,
+ "action_timestamp_ms": 1793696760000,
+ "agent_id": "urn:example:agent:support-agent-5"
+}

@@ -1,0 +1,14 @@
+{
+ "what": "the action is timestamped 09:06:00Z, before the approval at 09:07:00Z and the request at 09:08:00Z (record reissued, chain intact)",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+ "detail": {
+  "joins": {
+   "J4": false
+  }
+ }
+}
