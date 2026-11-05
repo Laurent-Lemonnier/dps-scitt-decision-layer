@@ -1,0 +1,24 @@
+{
+ "what": "sequence 0 carries a non-zero prev_chain_hash (chain_hash recomputed, signed again): 5.8 step 4 on the first record, and on the second, whose prev_chain_hash no longer matches",
+ "caught_by": [
+  "air",
+  "joins"
+ ],
+ "expected_place": "air",
+ "as_expected": true,
+ "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+ "detail": {
+  "air": {
+   "air-0": [
+    "5.8 step 4; 5.7; 6.3: step 4, sequence completeness: sequence_number is zero with a zero prev_chain_hash, or one"
+   ],
+   "air-1": [
+    "5.8 step 4; 5.7; 6.3: step 4, sequence completeness: sequence_number is zero with a zero prev_chain_hash, or one"
+   ],
+   "chain": "FAIL"
+  },
+  "joins": {
+   "J5": false
+  }
+ }
+}

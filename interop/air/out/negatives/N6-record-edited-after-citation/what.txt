@@ -1,0 +1,1 @@
+the decision record's context is edited after the AIR cited its bytes (seal_hash recomputed, so the record is consistent on its own): the typed digest no longer names the bytes held

@@ -1,0 +1,1 @@
+sequence 0 carries a non-zero prev_chain_hash (chain_hash recomputed, signed again): 5.8 step 4 on the first record, and on the second, whose prev_chain_hash no longer matches

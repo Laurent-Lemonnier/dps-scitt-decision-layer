@@ -1,0 +1,1 @@
+{"amount_minor":12000,"currency":"EUR","idempotency_key":"urn:example:refund-request:759cb91f-cdf8-5052-9f3e-d9675d00b95f","refund_ref":"urn:example:refund:R-55120","status":"succeeded"}

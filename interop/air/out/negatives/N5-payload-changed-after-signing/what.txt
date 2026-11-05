@@ -1,0 +1,1 @@
+the payload's outcome_summary changed after signing, content_hash and chain_hash made consistent, the signature kept: 5.8 step 3 alone

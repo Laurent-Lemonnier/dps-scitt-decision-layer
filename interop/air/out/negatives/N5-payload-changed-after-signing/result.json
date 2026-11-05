@@ -1,0 +1,21 @@
+{
+ "what": "the payload's outcome_summary changed after signing, content_hash and chain_hash made consistent, the signature kept: 5.8 step 3 alone",
+ "caught_by": [
+  "air",
+  "joins"
+ ],
+ "expected_place": "air",
+ "as_expected": true,
+ "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+ "detail": {
+  "air": {
+   "air-1": [
+    "5.8 step 3; RFC 9052 4.4; RFC 9053 2.1: step 3, signature validity: ES256 over the RFC 9052 Sig_structure (Signature1, protected, "
+   ],
+   "chain": "FAIL"
+  },
+  "joins": {
+   "J5": false
+  }
+ }
+}
