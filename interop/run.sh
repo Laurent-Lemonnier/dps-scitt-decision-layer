@@ -12,7 +12,7 @@ AQTA_ATTESTATION_KEY=alWzEnrA_z9McN9z_MFfQCnH9mVgOwRZ26wrI7oix4E   # test-vector
 AQTA_ACTION_KEY=pOaccW6Csyo1POtxjixPH80oux9--YC1tzzaENT4vQ0        # test-vectors/action/README.md
 GILDA_VERSION=0.31.0
 
-python3 -m pip install --quiet "cryptography>=42" "agent-evidence-vectors==${GILDA_VERSION}"
+python3 -m pip install --quiet "cryptography>=42" "cbor2>=5" "agent-evidence-vectors==${GILDA_VERSION}"
 
 if [ ! -d aqta/attestation-spec ]; then
   git clone --quiet "$AQTA_REPO" aqta/attestation-spec
@@ -112,6 +112,13 @@ mkdir -p aer1-decision/out
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" AER1_KIT="$PWD/aer1/zambo/base" python3 aer1-decision/build.py > aer1-decision/out/build-ci.log || { echo "aer1-decision: not all verified"; tail -30 aer1-decision/out/build-ci.log; exit 1; }
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" AER1_KIT="$PWD/aer1/zambo/base" python3 aer1-decision/negatives.py > aer1-decision/out/negatives-ci.log || { echo "aer1-decision: a failing case was not caught where expected"; cat aer1-decision/out/negatives-ci.log; exit 1; }
 echo "# receipt verified (independent and kit), DPS attachment, seal and approval verified, 5 joins true; 10 failing cases as expected; 4 metadata probes failed by the independent verifier and by the kit runner at this pin"
+
+echo "== Case 15: an AgentInteractionRecord citing a decision record by typed digest (air): draft-emirdag-scitt-ai-agent-execution-01 Sections 5.6-5.8, 6.1, 10.1"
+(cd air/vectors && sha256sum -c --quiet SHA256SUMS) || { echo "air: the pinned copy of the EES v0.2 air.schema.json changed"; exit 1; }
+mkdir -p air/out
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 air/build.py > air/out/build-ci.log || { echo "air: not all verified"; tail -30 air/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 air/negatives.py > air/out/negatives-ci.log || { echo "air: a failing case was not caught where expected"; cat air/out/negatives-ci.log; exit 1; }
+echo "# two AIRs VERIFIED by the verifier written from the text (32 checks each, 5.8 four steps and 6.1/6.3/6.4), chain of two VERIFIED; DPS dimensions, seal and approval verified; 6 joins true, binding BOUND; 13 failing cases caught where expected (N8 NOT_BOUND and N9 UNRESOLVED by design)"
 
 echo "== draft-gilda-audit-agent-audit-record-03, corpus vectors-agent-audit-record from agent-evidence-vectors ${GILDA_VERSION} (anchors validated offline against the manifest's tree heads and test-chain headers; dating complete)"
 CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-agent-audit-record'))")

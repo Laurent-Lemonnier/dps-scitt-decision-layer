@@ -1,0 +1,415 @@
+{
+ "ees_schema": {
+  "source": "THEVERIDIC/VERIDIC standards/ees/v0.2/air.schema.json (Apache-2.0), pinned copy in vectors/",
+  "sha256": "a23bdbf2b628a81aa035b1bf5811e15b383721f17aca28afad7e106d1d2f7353",
+  "payload_errors": {
+   "air-0": [],
+   "air-1": []
+  },
+  "note": "shape check with `integrity` excluded (the draft carries those members in the protected header); not a check of the draft"
+ },
+ "schema_errors": {
+  "record": [],
+  "attachment": [],
+  "signatures": [],
+  "trust_policy": []
+ },
+ "air": {
+  "air-0": {
+   "verdict": "VERIFIED",
+   "checks": [
+    {
+     "check": "COSE_Sign1 of four elements, protected header a byte string holding a map",
+     "section": "5.6; RFC 9052 4.2",
+     "ok": true
+    },
+    {
+     "check": "alg (label 1) is ES256 (-7)",
+     "section": "5.6, 6.1",
+     "ok": true
+    },
+    {
+     "check": "kid (label 4) present, a byte string",
+     "section": "5.6, 6.1",
+     "ok": true
+    },
+    {
+     "check": "CWT Claims (label 15) present with iss (1) and sub (2), text strings",
+     "section": "5.6, 6.1; RFC 9943 6; RFC 9597",
+     "ok": true
+    },
+    {
+     "check": "integrity fields present and typed: content_hash, prev_chain_hash, chain_hash (32-byte bstr), sequence_number, action_timestamp_ms (uint), agent_id (tstr)",
+     "section": "5.5, 5.6",
+     "ok": true
+    },
+    {
+     "check": "header agent_id equals CWT sub",
+     "section": "5.6",
+     "ok": true
+    },
+    {
+     "check": "step 1, payload integrity: SHA-256(payload) equals content_hash",
+     "section": "5.8 step 1; 5.7",
+     "ok": true
+    },
+    {
+     "check": "step 2, chain integrity: chain_hash recomputed from the header's content_hash, prev_chain_hash, action_timestamp_ms and agent_id with the 5.7 encoding",
+     "section": "5.8 step 2; 5.7",
+     "ok": true
+    },
+    {
+     "check": "step 3, signature validity: ES256 over the RFC 9052 Sig_structure (Signature1, protected, empty external_aad, payload) with the operator's public key",
+     "section": "5.8 step 3; RFC 9052 4.4; RFC 9053 2.1",
+     "ok": true
+    },
+    {
+     "check": "step 4, sequence completeness: sequence_number is zero with a zero prev_chain_hash, or one more than the preceding record's with its chain_hash as prev_chain_hash",
+     "section": "5.8 step 4; 5.7; 6.3",
+     "ok": true
+    },
+    {
+     "check": "payload is a JSON object in RFC 8785 canonical form (re-serialisation gives the same bytes)",
+     "section": "5.6",
+     "ok": true
+    },
+    {
+     "check": "schema_version is \"air-1.0\"",
+     "section": "5.3, 6.1",
+     "ok": true
+    },
+    {
+     "check": "every REQUIRED member present, non-null and of its CDDL type",
+     "section": "5.2, 5.3, 6.1",
+     "ok": true
+    },
+    {
+     "check": "every OPTIONAL member present (null when absent) and of its CDDL type when not null",
+     "section": "5.2",
+     "ok": true
+    },
+    {
+     "check": "no member outside the CDDL map",
+     "section": "5.2",
+     "ok": true
+    },
+    {
+     "check": "action_type valid: a Table 2 value, or a reverse-DNS namespaced value",
+     "section": "4.2, 5.3, 6.1",
+     "ok": true
+    },
+    {
+     "check": "outcome_state is one of completed, failed, partially_completed, reversed, pending_confirmation",
+     "section": "5.3",
+     "ok": true
+    },
+    {
+     "check": "retention_class is one of the five labels (informational labels, 5.3)",
+     "section": "5.3",
+     "ok": true
+    },
+    {
+     "check": "jurisdiction has the form of an ISO 3166-1 alpha-2 code",
+     "section": "5.3",
+     "ok": true
+    },
+    {
+     "check": "record_id is a UUID of version 7",
+     "section": "5.3; RFC 9562",
+     "ok": true
+    },
+    {
+     "check": "session_id is a UUID",
+     "section": "5.3",
+     "ok": true
+    },
+    {
+     "check": "input_hash and outcome_hash decode to 32 bytes (base64url without padding, the EES v0.2 provisional encoding)",
+     "section": "5.3; EES v0.2 $defs/bytes",
+     "ok": true
+    },
+    {
+     "check": "tool_calls items are ToolCallRecord {tool_id, tool_type, input_hash, output_hash, is_write, timestamp_ms}",
+     "section": "5.2, 5.3",
+     "ok": true
+    },
+    {
+     "check": "external_refs items are ExternalRef {ref_type, ref_value, ref_system / null}",
+     "section": "5.2, 5.3",
+     "ok": true
+    },
+    {
+     "check": "redaction_receipts items are RedactionReceipt {field_path, original_hash, policy_id, timestamp_ms}",
+     "section": "5.2, 5.3",
+     "ok": true
+    },
+    {
+     "check": "auth_context, when present, is AuthContext {token_type, scopes, audience / null, expires_at_ms / null}",
+     "section": "5.2, 5.3",
+     "ok": true
+    },
+    {
+     "check": "policy_refs and delegation_chain are arrays of text strings",
+     "section": "5.2",
+     "ok": true
+    },
+    {
+     "check": "payload agent_id equals the header's agent_id and the CWT sub",
+     "section": "5.6",
+     "ok": true
+    },
+    {
+     "check": "payload action_timestamp_ms equals the header's",
+     "section": "5.6",
+     "ok": true
+    },
+    {
+     "check": "payload operator_id equals CWT iss; operator_pubkey_id equals kid",
+     "section": "5.3, 5.6",
+     "ok": true
+    },
+    {
+     "check": "action_timestamp_ms <= captured_timestamp_ms",
+     "section": "6.3",
+     "ok": true
+    },
+    {
+     "check": "at least one RedactionReceipt for the action types 6.4 names",
+     "section": "6.4",
+     "ok": true
+    }
+   ]
+  },
+  "air-1": {
+   "verdict": "VERIFIED",
+   "checks": [
+    {
+     "check": "COSE_Sign1 of four elements, protected header a byte string holding a map",
+     "section": "5.6; RFC 9052 4.2",
+     "ok": true
+    },
+    {
+     "check": "alg (label 1) is ES256 (-7)",
+     "section": "5.6, 6.1",
+     "ok": true
+    },
+    {
+     "check": "kid (label 4) present, a byte string",
+     "section": "5.6, 6.1",
+     "ok": true
+    },
+    {
+     "check": "CWT Claims (label 15) present with iss (1) and sub (2), text strings",
+     "section": "5.6, 6.1; RFC 9943 6; RFC 9597",
+     "ok": true
+    },
+    {
+     "check": "integrity fields present and typed: content_hash, prev_chain_hash, chain_hash (32-byte bstr), sequence_number, action_timestamp_ms (uint), agent_id (tstr)",
+     "section": "5.5, 5.6",
+     "ok": true
+    },
+    {
+     "check": "header agent_id equals CWT sub",
+     "section": "5.6",
+     "ok": true
+    },
+    {
+     "check": "step 1, payload integrity: SHA-256(payload) equals content_hash",
+     "section": "5.8 step 1; 5.7",
+     "ok": true
+    },
+    {
+     "check": "step 2, chain integrity: chain_hash recomputed from the header's content_hash, prev_chain_hash, action_timestamp_ms and agent_id with the 5.7 encoding",
+     "section": "5.8 step 2; 5.7",
+     "ok": true
+    },
+    {
+     "check": "step 3, signature validity: ES256 over the RFC 9052 Sig_structure (Signature1, protected, empty external_aad, payload) with the operator's public key",
+     "section": "5.8 step 3; RFC 9052 4.4; RFC 9053 2.1",
+     "ok": true
+    },
+    {
+     "check": "step 4, sequence completeness: sequence_number is zero with a zero prev_chain_hash, or one more than the preceding record's with its chain_hash as prev_chain_hash",
+     "section": "5.8 step 4; 5.7; 6.3",
+     "ok": true
+    },
+    {
+     "check": "payload is a JSON object in RFC 8785 canonical form (re-serialisation gives the same bytes)",
+     "section": "5.6",
+     "ok": true
+    },
+    {
+     "check": "schema_version is \"air-1.0\"",
+     "section": "5.3, 6.1",
+     "ok": true
+    },
+    {
+     "check": "every REQUIRED member present, non-null and of its CDDL type",
+     "section": "5.2, 5.3, 6.1",
+     "ok": true
+    },
+    {
+     "check": "every OPTIONAL member present (null when absent) and of its CDDL type when not null",
+     "section": "5.2",
+     "ok": true
+    },
+    {
+     "check": "no member outside the CDDL map",
+     "section": "5.2",
+     "ok": true
+    },
+    {
+     "check": "action_type valid: a Table 2 value, or a reverse-DNS namespaced value",
+     "section": "4.2, 5.3, 6.1",
+     "ok": true
+    },
+    {
+     "check": "outcome_state is one of completed, failed, partially_completed, reversed, pending_confirmation",
+     "section": "5.3",
+     "ok": true
+    },
+    {
+     "check": "retention_class is one of the five labels (informational labels, 5.3)",
+     "section": "5.3",
+     "ok": true
+    },
+    {
+     "check": "jurisdiction has the form of an ISO 3166-1 alpha-2 code",
+     "section": "5.3",
+     "ok": true
+    },
+    {
+     "check": "record_id is a UUID of version 7",
+     "section": "5.3; RFC 9562",
+     "ok": true
+    },
+    {
+     "check": "session_id is a UUID",
+     "section": "5.3",
+     "ok": true
+    },
+    {
+     "check": "input_hash and outcome_hash decode to 32 bytes (base64url without padding, the EES v0.2 provisional encoding)",
+     "section": "5.3; EES v0.2 $defs/bytes",
+     "ok": true
+    },
+    {
+     "check": "tool_calls items are ToolCallRecord {tool_id, tool_type, input_hash, output_hash, is_write, timestamp_ms}",
+     "section": "5.2, 5.3",
+     "ok": true
+    },
+    {
+     "check": "external_refs items are ExternalRef {ref_type, ref_value, ref_system / null}",
+     "section": "5.2, 5.3",
+     "ok": true
+    },
+    {
+     "check": "redaction_receipts items are RedactionReceipt {field_path, original_hash, policy_id, timestamp_ms}",
+     "section": "5.2, 5.3",
+     "ok": true
+    },
+    {
+     "check": "auth_context, when present, is AuthContext {token_type, scopes, audience / null, expires_at_ms / null}",
+     "section": "5.2, 5.3",
+     "ok": true
+    },
+    {
+     "check": "policy_refs and delegation_chain are arrays of text strings",
+     "section": "5.2",
+     "ok": true
+    },
+    {
+     "check": "payload agent_id equals the header's agent_id and the CWT sub",
+     "section": "5.6",
+     "ok": true
+    },
+    {
+     "check": "payload action_timestamp_ms equals the header's",
+     "section": "5.6",
+     "ok": true
+    },
+    {
+     "check": "payload operator_id equals CWT iss; operator_pubkey_id equals kid",
+     "section": "5.3, 5.6",
+     "ok": true
+    },
+    {
+     "check": "action_timestamp_ms <= captured_timestamp_ms",
+     "section": "6.3",
+     "ok": true
+    },
+    {
+     "check": "at least one RedactionReceipt for the action types 6.4 names",
+     "section": "6.4",
+     "ok": true
+    }
+   ]
+  },
+  "chain": {
+   "verdict": "VERIFIED",
+   "records": 2,
+   "one_agent_id": true
+  }
+ },
+ "dps_trust_policy": "verified",
+ "dps_action_binding": {
+  "specification_digests": "verified",
+  "specification_statements": "verified",
+  "record_statements": "verified",
+  "action_binding": "verified",
+  "stage_order": "verified",
+  "authorisation_recheck": "verified",
+  "observed_results": "verified",
+  "rationale_provenance": "verified"
+ },
+ "dps_action_binding_findings": {},
+ "dps_issuer_seal": {
+  "status": "verified",
+  "key_state": "verified",
+  "holder": "Example Merchant",
+  "attests": "issuer_recorded_claims_only"
+ },
+ "dps_person_approval": {
+  "status": "verified",
+  "signature": "verified",
+  "subject": "verified",
+  "key_state": "verified",
+  "identity": "verified"
+ },
+ "external_refs": [
+  {
+   "ref_system": "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/air/out",
+   "ref_type": "org.decisionprovenancestandard.decision_record",
+   "ref_value": "sha256:5b5ef7e7c0e7d022b67258c548aa43f61e2bbaae8ae625a7c63ff67f4a5762c2",
+   "resolution": "resolved: the digest of the bytes held"
+  },
+  {
+   "ref_system": "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/air/out",
+   "ref_type": "org.decisionprovenancestandard.signatures_attachment",
+   "ref_value": "sha256:d726269b4d01d7994a3025aab952c7c6fe38223c3f972d5d346da258614d56d3",
+   "resolution": "resolved: the digest of the bytes held"
+  },
+  {
+   "ref_system": "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/air/out",
+   "ref_type": "org.decisionprovenancestandard.action_specification",
+   "ref_value": "sha256:899e9e831521e1f42e8ac053fdfdbdf5a1c8bedd7466a4bcc2e07155b891c5c0",
+   "resolution": "resolved: the digest of the bytes held"
+  },
+  {
+   "ref_system": "urn:example:payments:gateway",
+   "ref_type": "refund_ref",
+   "ref_value": "urn:example:refund:R-55120",
+   "resolution": "outside: not a reference of this namespace, not resolved here"
+  }
+ ],
+ "binding": "BOUND: the AIR names the decision record held, under the operator's signature",
+ "joins": {
+  "J1 the AIR's external_refs name the decision record, the signatures attachment (the person's approval) and the approved specification by the digests of the bytes held (10.1; typed digest, this repository's form)": true,
+  "J2 the AIR's input_hash is the SHA-256 of the approved specification's bytes, the ones o1.approved_spec_digest and the person's approved_spec_digest name (shown, approved, executed)": true,
+  "J3 the DPS attempt cites the AIR by record_id (trace_refs) and the result names its chain_hash and outcome_hash (evidence_ref), under the issuer's seal; the outcome_hash is the SHA-256 of the raw output held": true,
+  "J4 the action_timestamp_ms of sequence 1 is after the approval, not before the request, and not after the observed result (issuer and operator clocks, as asserted)": true,
+  "J5 the Evidence Chain of two verifies (5.8) and sequence 1's prev_chain_hash is sequence 0's chain_hash": true,
+  "J6 the person who approved (the signer named by the trust policy, o1.actor_ref) is neither the operator_id nor the agent_id; the AIR names them as principal_id (the operator's assertion); the DPS holds their signature": true
+ },
+ "all_verified": true
+}

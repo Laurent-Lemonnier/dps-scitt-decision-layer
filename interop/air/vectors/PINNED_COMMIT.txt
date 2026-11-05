@@ -1,0 +1,1 @@
+THEVERIDIC/VERIDIC f4cbcea4d604deca26b67df62221235a6eefdef6 standards/ees/v0.2/air.schema.json (last change 2026-08-08; fetched 2026-11-05 from raw.githubusercontent.com, main)

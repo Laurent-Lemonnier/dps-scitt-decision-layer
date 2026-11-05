@@ -1,0 +1,468 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theveridic.github.io/VERIDIC/standards/ees/v0.2/air.schema.json",
+  "title": "AgentInteractionRecord",
+  "description": "Evidence Envelope Specification \u2014 AgentInteractionRecord (AIR), schema_version air-1.0. DRAFT for EES v0.2: field set and types transcribed from the published EES v0.1 field tables (sections 4.1 and 4.2). Required/optional model follows the CDDL in draft-emirdag-scitt-ai-agent-execution-00: all field keys are present in every record; optionality is expressed as nullability, and REQUIRED fields are the non-nullable set. One item pending Engineering confirmation before publication: the JSON representation of bytes-typed fields, provisionally base64url without padding per RFC 4648 section 5 (the CDDL bstr is native and needs no encoding). The CDDL remains authoritative for the COSE/SCITT wire format.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "session_id",
+    "action_type",
+    "action_subtype",
+    "action_timestamp_ms",
+    "captured_timestamp_ms",
+    "written_timestamp_ms",
+    "agent_id",
+    "agent_version",
+    "agent_did",
+    "agent_workload_id",
+    "operator_id",
+    "operator_pubkey_id",
+    "principal_id",
+    "delegation_chain",
+    "intent_attestation",
+    "auth_context",
+    "input_hash",
+    "input_summary",
+    "outcome_state",
+    "outcome_hash",
+    "outcome_summary",
+    "tool_calls",
+    "jurisdiction",
+    "retention_class",
+    "policy_refs",
+    "external_refs",
+    "parent_record_id",
+    "workflow_id",
+    "trace_id",
+    "consumer_instructions",
+    "reasoning_hash",
+    "redaction_receipts",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "air-1.0",
+      "description": "EES schema version. MUST be \"air-1.0\"."
+    },
+    "record_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID v7 (time-ordered, RFC 9562). Unique identifier for this record."
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Workflow or session UUID grouping related actions."
+    },
+    "action_type": {
+      "type": "string",
+      "description": "Classification of the Material Action. Values without a namespace prefix are reserved for the specification (see section 4.3); implementations may define additional values using a reverse-DNS namespace.",
+      "examples": [
+        "payment_initiation",
+        "payment_execution",
+        "contract_formation",
+        "contract_modification",
+        "regulated_data_access",
+        "regulated_data_export",
+        "trade_execution",
+        "credit_decision",
+        "authorisation_grant",
+        "authorisation_revocation",
+        "external_commitment",
+        "key_rotation"
+      ]
+    },
+    "action_subtype": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Optional refinement of the action type."
+    },
+    "action_timestamp_ms": {
+      "$ref": "#/$defs/uint",
+      "description": "Unix epoch in milliseconds. When the Material Action completed."
+    },
+    "captured_timestamp_ms": {
+      "$ref": "#/$defs/uint",
+      "description": "When the capture pipeline recorded the action."
+    },
+    "written_timestamp_ms": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/uint"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "When the Evidence Custodian admitted the record. Null until admission."
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Stable deployment identifier for the agent."
+    },
+    "agent_version": {
+      "type": "string",
+      "description": "Model and framework version string."
+    },
+    "agent_did": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "W3C Decentralized Identifier, if available."
+    },
+    "agent_workload_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "SPIFFE ID for workload identity, if available."
+    },
+    "operator_id": {
+      "type": "string",
+      "description": "Identifier for the Agent Operator."
+    },
+    "operator_pubkey_id": {
+      "type": "string",
+      "description": "Key identifier for the signing key used."
+    },
+    "principal_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Identifier for the human or institutional principal."
+    },
+    "delegation_chain": {
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Array of Verifiable Credential references establishing the authority chain."
+    },
+    "intent_attestation": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Reference to a signed attestation of the principal's intent."
+    },
+    "auth_context": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/AuthContext"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "OAuth/authorisation context at execution time."
+    },
+    "input_hash": {
+      "$ref": "#/$defs/bytes",
+      "description": "SHA-256 hash of the raw input to the agent."
+    },
+    "input_summary": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Human-readable summary of the input (post-redaction)."
+    },
+    "outcome_state": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "failed",
+        "partially_completed",
+        "reversed",
+        "pending_confirmation"
+      ],
+      "description": "Terminal state of the Material Action."
+    },
+    "outcome_hash": {
+      "$ref": "#/$defs/bytes",
+      "description": "SHA-256 hash of the raw output."
+    },
+    "outcome_summary": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Human-readable summary of the outcome (post-redaction)."
+    },
+    "tool_calls": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ToolCallRecord"
+      },
+      "description": "Array of tool/API calls made during execution."
+    },
+    "jurisdiction": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "ISO 3166-1 alpha-2 country code."
+    },
+    "retention_class": {
+      "type": "string",
+      "enum": [
+        "regulatory_7yr",
+        "regulatory_5yr",
+        "regulatory_3yr",
+        "operational_1yr",
+        "custom"
+      ],
+      "description": "Applicable retention period."
+    },
+    "policy_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "References to applicable policies governing this action."
+    },
+    "external_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ExternalRef"
+      },
+      "description": "Cross-references to external systems (trade IDs, payment references)."
+    },
+    "parent_record_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "UUID of the parent AIR in a multi-step workflow."
+    },
+    "workflow_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Identifier for the broader workflow this action belongs to."
+    },
+    "trace_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "OpenTelemetry trace ID for observability correlation."
+    },
+    "consumer_instructions": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Principal-defined constraints for agentic commerce (price thresholds, merchant restrictions)."
+    },
+    "reasoning_hash": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/bytes"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "SHA-256 hash of the reasoning trace. Preserves evidence of reasoning without requiring the raw trace in the AIR."
+    },
+    "redaction_receipts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RedactionReceipt"
+      },
+      "description": "Attestations of redacted fields."
+    },
+    "integrity": {
+      "$ref": "#/$defs/IntegrityEnvelope",
+      "description": "Hash chain and signature."
+    }
+  },
+  "$defs": {
+    "uint": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "bytes": {
+      "type": "string",
+      "contentEncoding": "base64url",
+      "description": "PROVISIONAL: byte string represented as base64url without padding (RFC 4648 section 5). JSON representation of bytes-typed fields is pending Engineering confirmation for EES v0.2."
+    },
+    "AuthContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "token_type",
+        "scopes"
+      ],
+      "properties": {
+        "token_type": {
+          "type": "string",
+          "description": "e.g. \"Bearer\""
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "OAuth scopes granted"
+        },
+        "audience": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Intended audience"
+        },
+        "expires_at_ms": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/uint"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Token expiry, epoch ms"
+        }
+      }
+    },
+    "ToolCallRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tool_id",
+        "tool_type",
+        "input_hash",
+        "output_hash",
+        "is_write",
+        "timestamp_ms"
+      ],
+      "properties": {
+        "tool_id": {
+          "type": "string",
+          "description": "Tool identifier"
+        },
+        "tool_type": {
+          "type": "string",
+          "description": "e.g. \"api_call\", \"mcp_tool\""
+        },
+        "input_hash": {
+          "$ref": "#/$defs/bytes",
+          "description": "SHA-256 of tool input"
+        },
+        "output_hash": {
+          "$ref": "#/$defs/bytes",
+          "description": "SHA-256 of tool output"
+        },
+        "is_write": {
+          "type": "boolean",
+          "description": "True if tool mutates state"
+        },
+        "timestamp_ms": {
+          "$ref": "#/$defs/uint",
+          "description": "When this call completed"
+        }
+      }
+    },
+    "ExternalRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref_type",
+        "ref_value"
+      ],
+      "properties": {
+        "ref_type": {
+          "type": "string",
+          "description": "e.g. \"payment_ref\", \"trade_id\""
+        },
+        "ref_value": {
+          "type": "string",
+          "description": "The reference value"
+        },
+        "ref_system": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Originating system"
+        }
+      }
+    },
+    "RedactionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field_path",
+        "original_hash",
+        "policy_id",
+        "timestamp_ms"
+      ],
+      "properties": {
+        "field_path": {
+          "type": "string",
+          "description": "Dot-path to redacted field"
+        },
+        "original_hash": {
+          "$ref": "#/$defs/bytes",
+          "description": "SHA-256 of original value"
+        },
+        "policy_id": {
+          "type": "string",
+          "description": "Which policy triggered redaction"
+        },
+        "timestamp_ms": {
+          "$ref": "#/$defs/uint",
+          "description": "When redaction was applied"
+        }
+      }
+    },
+    "IntegrityEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "content_hash",
+        "prev_chain_hash",
+        "chain_hash",
+        "sequence_number",
+        "signature"
+      ],
+      "properties": {
+        "content_hash": {
+          "$ref": "#/$defs/bytes",
+          "description": "SHA-256 of canonical payload"
+        },
+        "prev_chain_hash": {
+          "$ref": "#/$defs/bytes",
+          "description": "chain_hash of preceding record; 32 zero bytes for the first record in a chain"
+        },
+        "chain_hash": {
+          "$ref": "#/$defs/bytes",
+          "description": "SHA-256(content_hash || prev_chain_hash || action_timestamp_ms || agent_id) per EES section 5.1"
+        },
+        "sequence_number": {
+          "$ref": "#/$defs/uint",
+          "description": "Monotonically increasing, 0-based"
+        },
+        "signature": {
+          "$ref": "#/$defs/bytes",
+          "description": "ECDSA-P256 over chain_hash"
+        }
+      }
+    }
+  }
+}

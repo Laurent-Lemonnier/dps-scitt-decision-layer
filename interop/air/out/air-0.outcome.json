@@ -1,0 +1,1 @@
+{"charges":[{"amount_minor":12000,"charge_ref":"urn:example:charge:C-9001"},{"amount_minor":12000,"charge_ref":"urn:example:charge:C-9002"}],"order_ref":"urn:example:order:8812"}
