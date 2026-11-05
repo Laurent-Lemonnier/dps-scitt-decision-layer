@@ -148,6 +148,37 @@ def n19(b, art=None):
         b["action_requested_at"] = B.at(44)
 
 
+# ---------------------------------------------------------------- the junction: each EP alone would be satisfied
+
+@case("N20-dps-approver-key-revoked-before-the-signoffs", "ep:binding_source_does_not_verify",
+      "the relying party's DPS trust policy states the person's key revoked (superseded) at 09:44, before the approval "
+      "it signed at 09:45 and the EP signoffs at 09:55: the DPS approval fails natively (key state), so the source the "
+      "binding names does not verify at step 10, though every EP signature, context and the binding's bytes are intact")
+def n20(b, art=None):
+    if art is not None:
+        k = next(k for k in art["trust"]["keys"] if k["key_ref"] == B.OWNER_KEY_REF)
+        k.update(revoked_at=B.at(44), revocation_reason="superseded")
+
+
+@case("N21-dps-approver-is-the-ep-initiator", "ep:dps_approver_is_the_ep_initiator",
+      "the EP action is initiated as ep:entity:treasury-controller-1, whom the relying party's pinned identity links "
+      "attribute to the person who approved the specification under the DPS (treasury-controller-1): separation of "
+      "duties across the junction, refused at step 10 by the binding profile's rule, though EP alone (initiator not an "
+      "EP approver) and the DPS alone are satisfied")
+def n21(b, art=None):
+    if art is None:
+        b["spec"]["parameters"]["initiator"] = B.IDENTITY_LINKS[B.OWNER][0]
+
+
+@case("N22-ep-policy-changed-before-execution", "ep:policy_digest_mismatch",
+      "the relying party's EP policy (same policy_id) is changed after the DPS approval and the EP signoffs: at the "
+      "pre-execution recheck its digest is not the one every context signed, refused at step 11 (policy_hash X does not "
+      "satisfy a requirement under policy_hash Y, section 4); A2's recheck stage still reads 'authorised', as its issuer wrote it")
+def n22(b, art=None):
+    if art is None:
+        b["ep_policy_at_execution"] = dict(B.POLICY, rule="three approvers: controller, treasurer and risk officer; the DPS approval of the exact specification first")
+
+
 def build_case(name, fn):
     b = B.build()
     fn(b)

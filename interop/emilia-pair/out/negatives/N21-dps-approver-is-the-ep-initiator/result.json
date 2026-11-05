@@ -1,0 +1,8 @@
+{
+ "what": "the EP action is initiated as ep:entity:treasury-controller-1, whom the relying party's pinned identity links attribute to the person who approved the specification under the DPS (treasury-controller-1): separation of duties across the junction, refused at step 10 by the binding profile's rule, though EP alone (initiator not an EP approver) and the DPS alone are satisfied",
+ "caught_by": [
+  "ep:dps_approver_is_the_ep_initiator"
+ ],
+ "expected_place": "ep:dps_approver_is_the_ep_initiator",
+ "as_expected": true
+}

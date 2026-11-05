@@ -67,7 +67,8 @@ echo "== An EP authorization bundle and a DPS decision, bound both ways (emilia-
 mkdir -p emilia-pair/out
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 emilia-pair/build.py > emilia-pair/out/build-ci.log || { echo "emilia pair: not all verified"; tail -30 emilia-pair/out/build-ci.log; exit 1; }
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 emilia-pair/negatives.py > emilia-pair/out/negatives-ci.log || { echo "emilia pair: a failing case was not caught where expected"; cat emilia-pair/out/negatives-ci.log; exit 1; }
-echo "# DPS A1 and A2 verified; EP bundle SATISFIED by a verifier written from section 6.2, and the author's valid-non-oauth-native-binding example SATISFIED; 5 joins true; 11 failing cases caught where expected"
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 emilia-pair/build.py --vector emilia-pair/vectors/authorization-bundle.v1.json > emilia-pair/out/vector-ci.log || { echo "emilia pair: the vector run did not complete"; tail -5 emilia-pair/out/vector-ci.log; exit 1; }
+echo "# DPS A1 and A2 verified; EP bundle SATISFIED by a verifier written from section 6.2 (steps 1 to 11); 5 joins true; 22 failing cases caught where expected (3 at the DPS/EP junction); the author's pinned vector (00fa00a7) predates section 3's minimum: run over its 27 cases and reported, not checked (emilia-pair/README.md)"
 
 echo "== PALA-1 bridge run B3 (Assault-Consulting/Palimpsests, SCITT-bridge statement v3) from the text, pinned at $(awk '{print substr($NF,1,12)}' pala/vectors/PINNED_COMMIT.txt)"
 (cd pala/vectors && sha256sum -c --quiet SHA256SUMS) || { echo "pala: pinned vector files changed"; exit 1; }

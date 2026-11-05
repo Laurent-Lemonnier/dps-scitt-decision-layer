@@ -63,6 +63,10 @@ EXECUTOR = "urn:example:executor:payments-gateway"
 
 POLICY = {"policy_id": "ep:policy:releases-over-100@v3", "rule": "two approvers: controller and treasurer; the DPS approval of the exact specification first"}
 POLICY_HASH = "sha256:" + sha256(jcs(POLICY))
+POLICY_CHECKED_AT, POLICY_EXPIRES_AT = at(55, 30), at(57)    # the relying party's current policy evaluation, around NOW
+# the binding profile's identity links (provisional, this repository's): for each DPS identity, the EP identifiers the
+# relying party's own directories attribute to the same person; nothing is compared across the two namespaces otherwise
+IDENTITY_LINKS = {OWNER: ["ep:entity:treasury-controller-1"]}
 DPS_POLICY_REF = "urn:example:policy:payment-releases#v3"
 DPS_POLICY_VERSION = "sha256:" + sha256(compact({"policy_id": "urn:example:policy:payment-releases", "version": "v3",
                                                   "approver": OWNER, "single_use": True}))
@@ -128,13 +132,8 @@ def schema_reasons(b):
                 r.append(f"context_{i}_missing:{m}")
         if c.get("ep_version", "1.0") != "1.0" or c.get("context_type", "ep.signoff.v1") != "ep.signoff.v1":
             r.append(f"context_{i}_type_or_version_unsupported")
-    if not r:
-        if sorted(c["approver_index"] for c in ctxs) != list(range(1, len(ctxs) + 1)):
-            r.append("context_approver_index_not_1_to_n")
-        if any(c["initiator"] != a["initiator"] for c in ctxs):
-            r.append("context_initiator_not_the_actions")
-        if any(c["policy_id"] != a["policy_id"] for c in ctxs):
-            r.append("context_policy_id_not_the_actions")
+    # the consistency of the members (same initiator and policy_id as the action, indexes 1 to n) is read at steps 3
+    # and 6 of section 6.2, once every member is known to be present (5 November 2026)
     return r
 
 
@@ -154,7 +153,7 @@ def build():
             "valid_until": "2026-11-06T12:00:00Z"}
     return {"spec": spec, "ep_action_override": None, "binding_override": None, "binding_on": [True, True],
             "signers": [EP_APPROVERS[0], EP_APPROVERS[1]], "receipt_reference_in": "A2", "a2_spec_override": None,
-            "action_policy_id": None, "action_requested_at": None, "context_drop": []}
+            "action_policy_id": None, "action_requested_at": None, "context_drop": [], "ep_policy_at_execution": None}
 
 
 def dps_record():
@@ -289,6 +288,11 @@ def assemble(b):
     art = {"record": record, "record_bytes": compact(record), "a1": a1, "a1_bytes": a1_bytes, "a2": a2,
            "a2_bytes": compact(a2), "sig_attachment": sig_att, "trust": trust, "spec": spec, "bundle": bundle,
            "receipt": receipt, "view": view.decode()}
+    # the relying party's EP policy as re-evaluated at the pre-execution check (step 11): the one the contexts were
+    # signed under, unless a failing case changes it between the DPS approval and the execution
+    policy_now = b["ep_policy_at_execution"] or POLICY
+    art["current_policy"] = {"policy_id": policy_now["policy_id"], "policy_hash": "sha256:" + sha256(jcs(policy_now)),
+                             "decision": "PERMIT", "checked_at": POLICY_CHECKED_AT, "expires_at": POLICY_EXPIRES_AT}
     if b["receipt_reference_in"] == "A1":
         # the reverse reference moved into the attachment the binding names: the binding then names bytes that
         # depend on a receipt that contains the binding; this build can only re-seal A1 after the fact
@@ -302,10 +306,11 @@ def assemble(b):
 NOT_YET = ("authorisation_recheck", "observed_results")   # an attachment as issued at the approval has no execution yet
 
 
-def verify_dps(record_bytes, record, att, sig_att, trust, executed=True):
+def verify_dps(record_bytes, record, att, sig_att, trust, executed=True, detail=False):
     """The DPS side natively, by the Standard's reference checks: every binding dimension, the issuer's seal, the
     person's approval under the verifier's trust policy. For the attachment as issued at the approval (executed=False),
-    the recheck and the observed results are not checked, because there are none yet; every other dimension must hold."""
+    the recheck and the observed results are not checked, because there are none yet; every other dimension must hold.
+    detail=True adds, for the bundle verifier's step 10 only, each person approval's status and its key holder."""
     out = {}
     ab = AB.check_attachment(att, record_bytes)
     out["dimensions"] = {d: ab[d][0] for d in PR.DIMENSIONS}
@@ -316,6 +321,12 @@ def verify_dps(record_bytes, record, att, sig_att, trust, executed=True):
     out["person_approvals_verified"] = sum(p["status"] == "verified" for p in persons)
     dims_ok = all(v == "verified" or (not executed and d in NOT_YET and v == "not_checked") for d, v in out["dimensions"].items())
     out["verified"] = dims_ok and out["issuer_seal"] == "verified" and out["person_approvals_verified"] == len(persons) >= 1
+    if detail:
+        holders = {k["key_ref"]: k["holder"] for k in trust.get("keys", [])}
+        out["persons"] = [{"status": p["status"], "stage_id": p.get("stage_id"), "holder": holders.get(p.get("key_ref"))}
+                          for p in persons]
+        out["only_unavailable"] = (dims_ok and out["issuer_seal"] == "verified" and len(persons) >= 1
+                                   and all(p["status"] in ("verified", "unavailable") for p in out["persons"]))
     return out
 
 
@@ -324,24 +335,42 @@ def b64u_dec(s):
     return base64.urlsafe_b64decode(s + "=" * (-len(s) % 4))
 
 
+def _dedupe(xs):
+    return list(dict.fromkeys(xs))
+
+
 def verify_bundle(art, pinned):
     """Section 6.2 of draft-schrock-ep-authorization-receipts-13, in its order, for this case's inputs. Returns
-    (result, reasons): SATISFIED, REFUSE or INDETERMINATE. Step 9 (directory, revocation, presentation, delegation
-    evidence) is not required by the pinned policy here; step 5's directory proofs likewise (empty arrays allowed)."""
+    (result, reasons): SATISFIED, REFUSE or INDETERMINATE. A definite mismatch at any step is REFUSE, and outranks an
+    unavailable input elsewhere (the reasons then name the mismatches only); with no mismatch, any unavailable required
+    input is INDETERMINATE; SATISFIED otherwise. Each check sits at the step the text places it; where the text does
+    not name a step, the README says which reading was taken. Optional pinned inputs (absent = not required by the
+    relying party): expected_action, require_authorization_binding, require_current_status and current_status,
+    expected_authorization_binding (a native verifier's derived object for a profile other than this repository's),
+    identity_links (this repository's binding profile), and the key entries' valid_from, valid_to, compromised_at.
+    Directory proofs (step 5), presentation and delegation evidence (step 9) are not exercised: the arrays are empty,
+    as section 6 allows when the pinned policy does not require them."""
     b = art["bundle"]
-    reasons = []
+    reasons, indeterminate = [], []
     members = {"bundle_version", "bundle_id", "action", "action_hash", "contexts", "signoffs", "approver_key_proofs", "presentation_evidence"}
     if set(b) != members or b["bundle_version"] != "EP-AUTHORIZATION-BUNDLE-v1":                                    # 1
         return "REFUSE", ["bundle_malformed"]
     schema = schema_reasons(b)                                                                                         # 1, schema
     if schema:
         return "REFUSE", schema
+    now = pinned["now"]
     if hx(jcs(b["action"])) != b["action_hash"]:                                                                       # 2
         reasons.append("action_hash_mismatch")
+    if pinned.get("expected_action") is not None and jcs(b["action"]) != jcs(pinned["expected_action"]):
+        reasons.append("action_mismatch")          # the action the relying party is about to admit, same native format
     ctxs = b["contexts"]
     chs = [hx(jcs(c)) for c in ctxs]                                                                                    # 3
     if any(c["action_hash"] != b["action_hash"] for c in ctxs):
         reasons.append("context_action_hash_mismatch")
+    if any(c["initiator"] != b["action"]["initiator"] for c in ctxs):
+        reasons.append("context_initiator_not_the_actions")
+    if any(c["policy_id"] != b["action"]["policy_id"] for c in ctxs):
+        reasons.append("context_policy_id_not_the_actions")
     for m in ("policy_hash", "audience", "authorization_instance"):
         if len({c[m] for c in ctxs}) != 1:
             reasons.append(f"context_{m}_not_shared")
@@ -350,20 +379,42 @@ def verify_bundle(art, pinned):
         reasons.append("authorization_binding_mixed_or_unequal")
     if len({c["nonce"] for c in ctxs}) != len(ctxs):
         reasons.append("nonce_reused")
-    if any(c["authorization_instance"] != pinned["authorization_instance"] for c in ctxs):                             # 4
+    if pinned.get("authorization_instance") is None:                                                                   # 4
+        indeterminate.append("authorization_instance_unavailable")
+    elif any(c["authorization_instance"] != pinned["authorization_instance"] for c in ctxs):
         reasons.append("authorization_instance_mismatch")
-    covered = set()                                                                                                    # 5
+    m_required = min(c["required_approvals"] for c in ctxs)                                                           # 5
+    if not (m_required <= len(b["signoffs"]) <= len(ctxs)):
+        reasons.append("signoffs_fewer_than_m_or_more_than_n")
+    covered, signers = set(), []
     for so in b["signoffs"]:
         key = pinned["approver_keys"].get(so["approver_key_id"])
-        if key is None or so["key_class"] not in pinned["accepted_key_classes"]:
+        if key is None or so["key_class"] not in pinned["accepted_key_classes"] or so["key_class"] != key.get("key_class", so["key_class"]):
             reasons.append("approver_key_not_trusted")
             continue
         if so["context_hash"] not in chs:
             reasons.append("signoff_covers_no_selected_context")
             continue
         i = chs.index(so["context_hash"])
-        if ctxs[i]["approver"] != key["approver_id"] or i in covered:
-            reasons.append("signoff_context_or_approver_mismatch")
+        if i in covered:
+            reasons.append("signoff_covers_an_already_covered_context")
+            continue
+        if ctxs[i]["approver"] != key["approver_id"]:
+            reasons.append("signoff_approver_not_the_contexts")
+            continue
+        if not (key.get("valid_from", ctxs[i]["issued_at"]) <= ctxs[i]["issued_at"] <= key.get("valid_to", ctxs[i]["issued_at"])
+                and key.get("valid_from", so["signed_at"]) <= so["signed_at"] <= key.get("valid_to", so["signed_at"])):
+            reasons.append("approver_key_outside_its_validity")
+            continue
+        if not (ctxs[i]["issued_at"] <= so["signed_at"] <= ctxs[i]["expires_at"]) or so["signed_at"] > now:
+            reasons.append("signoff_time_outside_the_context_window")
+            continue
+        if key.get("compromised_at") and key["compromised_at"] <= now:
+            # section 13.3: a signer-asserted time cannot show that the signature preceded the compromise
+            if so["signed_at"] >= key["compromised_at"]:
+                reasons.append("approver_key_compromised_before_signing")
+            else:
+                indeterminate.append("approver_key_compromised_signing_order_unestablished")
             continue
         try:
             serialization.load_der_public_key(b64u_dec(key["public_key"])).verify(b64u_dec(so["signature"]), bytes.fromhex(so["context_hash"][7:]))
@@ -371,22 +422,44 @@ def verify_bundle(art, pinned):
             reasons.append("signoff_signature_invalid")
             continue
         covered.add(i)
-    if {c["approver"] for c in ctxs} != set(pinned["expected_approvers"]):                                              # 6
+        signers.append(key["approver_id"])
+    approvers = [c["approver"] for c in ctxs]                                                                          # 6
+    if set(approvers) != set(pinned["expected_approvers"]):
         reasons.append("approver_set_not_the_selected_one")
-    if len(covered) < min(c["required_approvals"] for c in ctxs):
+    if b["action"]["initiator"] in approvers or b["action"]["initiator"] in signers:
+        reasons.append("initiator_is_an_approver")                 # initiator exclusion (sections 6.2 step 6, 7.1)
+    if len(set(approvers)) != len(approvers) or len(set(signers)) != len(signers):
+        reasons.append("approvers_not_pairwise_distinct")          # pairwise independence; one approver, one signoff
+    if sorted(c["approver_index"] for c in ctxs) != list(range(1, len(ctxs) + 1)):
+        reasons.append("context_approver_index_not_1_to_n")        # section 6: distinct indexes
+    if len(covered) < m_required:
         reasons.append("threshold_not_met")
-    if any(not (c["issued_at"] <= pinned["now"] <= c["expires_at"]) for c in ctxs):                                    # 7
+    if any(not (c["issued_at"] <= now <= c["expires_at"]) for c in ctxs):                                              # 7
         reasons.append("outside_validity_window")
     if any(c["audience"] != pinned["audience"] for c in ctxs):                                                         # 8
         reasons.append("audience_mismatch")
-    indeterminate = []
-    if bindings[0] is not None:                                                                                        # 10
-        if pinned["dps"] is None:
+    if pinned.get("require_current_status"):                                                                           # 9
+        st = pinned.get("current_status")
+        listed = st is not None and any(so["approver_key_id"] in st.get("revoked_key_ids", []) for so in b["signoffs"])
+        if listed:
+            reasons.append("approver_key_revoked")    # a revocation stays one even when read from a stale list
+        elif st is None or st.get("unavailable") or not (st.get("checked_at", "~") <= now <= st.get("expires_at", "")):
+            indeterminate.append("current_status_unavailable_or_stale")
+    present = next((x for x in bindings if x is not None), None)                                                      # 10
+    if present is None:
+        if pinned.get("require_authorization_binding"):
+            reasons.append("authorization_binding_required")
+    elif not isinstance(json.loads(present).get("profile"), str) or not json.loads(present)["profile"]:
+        reasons.append("authorization_binding_malformed")
+    elif json.loads(present)["profile"] == PROFILE or pinned.get("dps") is not None:
+        if pinned.get("dps") is None:
             indeterminate.append("dps_trust_inputs_unavailable")
         else:
             dps = pinned["dps"]
-            native = verify_dps(dps["record_bytes"], dps["record"], dps["a1"], dps["sig_attachment"], dps["trust"], executed=False)
-            if not native["verified"]:
+            native = verify_dps(dps["record_bytes"], dps["record"], dps["a1"], dps["sig_attachment"], dps["trust"], executed=False, detail=True)
+            if not native["verified"] and native["only_unavailable"]:
+                indeterminate.append("binding_source_state_unavailable")     # e.g. a compromised key, no timestamp
+            elif not native["verified"]:
                 reasons.append("binding_source_does_not_verify")
             else:
                 outcome = next(s for s in dps["a1"]["stages"] if s["kind"] == "outcome" and s["outcome"] == "approved")
@@ -399,17 +472,104 @@ def verify_bundle(art, pinned):
                     reasons.append("action_requested_at_not_the_proposal_time")
                 mapped = action_from_spec(spec, pinned["policy_id"], proposal["at"])
                 expected = binding_of(dps["record"], dps["a1_bytes"], outcome["stage_id"], outcome["approved_spec_digest"], hx(jcs(mapped)))
-                if jcs(expected) != bindings[0]:
+                if jcs(expected) != present:
                     reasons.append("authorization_binding_unequal")
                 if jcs(mapped) != jcs(b["action"]) or action_back(b["action"]) != {k: spec[k] for k in SPEC_PROJECTED}:
                     reasons.append("mapping_not_lossless_to_the_action")
-    if any(c["policy_hash"] != pinned["policy_hash"] for c in ctxs):                                                   # 11
+                # separation of duties across the junction (this profile's rule, README): the persons who approved the
+                # specification under the DPS, read from the verified source, must not be the EP initiator; identities
+                # are compared only through the relying party's pinned links, never across namespaces by their text
+                dps_approvers = {outcome["actor_ref"]} | {p["holder"] for p in native["persons"]
+                                                          if p["stage_id"] == outcome["stage_id"] and p["holder"]}
+                links = pinned.get("identity_links") or {}
+                if any(x not in links for x in dps_approvers):
+                    indeterminate.append("identity_link_unavailable")
+                if any(b["action"]["initiator"] in links.get(x, []) for x in dps_approvers):
+                    reasons.append("dps_approver_is_the_ep_initiator")
+    else:                       # another profile: its native verifier's derived object, when the relying party holds one
+        exp = pinned.get("expected_authorization_binding")
+        if exp is None:
+            indeterminate.append("native_binding_unavailable")
+        elif jcs(exp) != present:
+            reasons.append("authorization_binding_unequal")
+    cp = pinned.get("current_policy")                                                                                  # 11
+    if cp is None or cp.get("unavailable") or not (cp.get("checked_at", "~") <= now <= cp.get("expires_at", "")):
+        indeterminate.append("current_policy_unavailable_or_stale")
+    elif cp.get("decision", "PERMIT") != "PERMIT":
+        reasons.append("current_policy_refuses")
+    elif any(c["policy_hash"] != cp["policy_hash"] for c in ctxs):
         reasons.append("policy_digest_mismatch")
     if reasons:
-        return "REFUSE", reasons
+        return "REFUSE", _dedupe(reasons)
     if indeterminate:
-        return "INDETERMINATE", indeterminate
+        return "INDETERMINATE", _dedupe(indeterminate)
     return "SATISFIED", []
+
+
+# The reason names of the author's vector, for the reasons whose reading of the text supports it (README, "Reason
+# names"); a reason not listed keeps this verifier's own name.
+VECTOR_REASON = {
+    "bundle_malformed": "bundle_malformed",
+    "action_mismatch": "action_mismatch",
+    "context_policy_hash_not_shared": "contexts_do_not_share_one_policy_audience_and_binding",
+    "context_audience_not_shared": "contexts_do_not_share_one_policy_audience_and_binding",
+    "authorization_binding_mixed_or_unequal": "contexts_do_not_share_one_policy_audience_and_binding",
+    "context_authorization_instance_not_shared": "authorization_instance_mismatch",
+    "authorization_instance_mismatch": "authorization_instance_mismatch",
+    "signoffs_fewer_than_m_or_more_than_n": "signoff_context_coverage_failed",
+    "signoff_covers_no_selected_context": "signoff_context_coverage_failed",
+    "signoff_covers_an_already_covered_context": "signoff_context_coverage_failed",
+    "signoff_signature_invalid": "signoff_signature_invalid",
+    "approver_set_not_the_selected_one": "approver_selection_mismatch",
+    "initiator_is_an_approver": "separation_of_duties_or_quorum_failed",
+    "approvers_not_pairwise_distinct": "separation_of_duties_or_quorum_failed",
+    "threshold_not_met": "separation_of_duties_or_quorum_failed",
+    "outside_validity_window": "context_outside_validity_window",
+    "audience_mismatch": "context_audience_mismatch",
+    "current_status_unavailable_or_stale": "current_status_unavailable_or_stale",
+    "approver_key_revoked": "approver_key_revoked",
+    "authorization_binding_required": "authorization_binding_required",
+    "authorization_binding_malformed": "authorization_binding_malformed",
+    "authorization_binding_unequal": "authorization_binding_mismatch",
+    "native_binding_unavailable": "native_authorization_binding_unavailable",
+    "dps_trust_inputs_unavailable": "native_authorization_binding_unavailable",
+    "binding_source_state_unavailable": "native_authorization_binding_unavailable",
+    "current_policy_unavailable_or_stale": "current_policy_unavailable_or_stale",
+}
+
+
+def pinned_of_case(c):
+    """A vector case's relying-party inputs, as the case gives them; the native source of a binding is outside the
+    vector, so the case's expected_authorization_binding stands for the object a native verifier derived."""
+    cp = c.get("current_policy")
+    return {"authorization_instance": c.get("expected_authorization_instance"), "audience": c["audience"], "now": c["now"],
+            "current_policy": cp, "policy_id": (cp or {}).get("policy_id"),
+            "expected_approvers": c["expected_approvers"], "accepted_key_classes": c["accepted_key_classes"],
+            "approver_keys": c["approver_keys"], "expected_action": c.get("expected_action"),
+            "require_authorization_binding": c.get("require_authorization_binding", False),
+            "require_current_status": c.get("require_current_status", False), "current_status": c.get("current_status"),
+            "expected_authorization_binding": c.get("expected_authorization_binding"), "dps": None}
+
+
+def run_case(c):
+    res, why = verify_bundle({"bundle": c["bundle"]}, pinned_of_case(c))
+    named = sorted({VECTOR_REASON.get(x, x) for x in why})
+    exp = sorted(set(c["expect"].get("reasons", [])))
+    return {"id": c["id"], "expected": c["expect"]["verdict"], "expected_reasons": exp, "ours": res, "our_reasons": why,
+            "our_reasons_as_vector_names": named, "verdict_agrees": res == c["expect"]["verdict"],
+            "reasons_equal": res == c["expect"]["verdict"] and named == exp,
+            "reasons_cover_expected": res == c["expect"]["verdict"] and set(exp) <= set(named)}
+
+
+def run_vector(path):
+    """Every case of an EP-AUTHORIZATION-BUNDLE-CASES-v1 vector file through verify_bundle; a report, nothing written."""
+    raw = pathlib.Path(path).read_bytes()
+    d = json.loads(raw)
+    cases = [run_case(c) for c in d["cases"]]
+    return {"vector": str(path), "sha256": PR.hashlib.sha256(raw).hexdigest(), "cases": cases,
+            "tally": {"cases": len(cases), "verdict_agrees": sum(x["verdict_agrees"] for x in cases),
+                      "reasons_equal": sum(x["reasons_equal"] for x in cases),
+                      "reasons_cover_expected": sum(x["reasons_cover_expected"] for x in cases)}}
 
 
 def joins(art, bundle_result):
@@ -439,10 +599,14 @@ def joins(art, bundle_result):
 
 
 def pinned_inputs(art, with_dps=True):
-    return {"authorization_instance": AUTH_INSTANCE, "audience": AUDIENCE, "now": NOW, "policy_hash": POLICY_HASH,
+    """The relying party's own inputs. No expected_action: the action it is about to admit is the one the binding
+    profile derives from A1 at step 10. No current status required (step 9): the pinned keys are the whole state."""
+    return {"authorization_instance": AUTH_INSTANCE, "audience": AUDIENCE, "now": NOW, "current_policy": art["current_policy"],
             "policy_id": POLICY["policy_id"],
             "expected_approvers": [a for a, _, _ in EP_APPROVERS], "accepted_key_classes": ["B"],
-            "approver_keys": {kid: {"approver_id": a, "public_key": spki_b64u(k), "key_class": "B"} for a, kid, k in EP_APPROVERS},
+            "approver_keys": {kid: {"approver_id": a, "public_key": spki_b64u(k), "key_class": "B", "valid_from": "2026-10-01T00:00:00Z",
+                                    "valid_to": "2027-09-30T23:59:59Z"} for a, kid, k in EP_APPROVERS},
+            "require_authorization_binding": True, "require_current_status": False, "identity_links": IDENTITY_LINKS,
             "dps": {"record": art["record"], "record_bytes": art["record_bytes"], "a1": art["a1"], "a1_bytes": art["a1_bytes"],
                     "sig_attachment": art["sig_attachment"], "trust": art["trust"]} if with_dps else None}
 
@@ -460,18 +624,12 @@ def verify(art, with_dps=True):
 def published_example():
     """The bundle verifier above, run on the author's own example at the pin: valid-non-oauth-native-binding, whose
     binding profile is the vector's (EXAMPLE-NATIVE-MANDATE-BINDING-v1): its expected binding is the case's
-    expected_authorization_binding, taken as given (the native source is outside the vector)."""
+    expected_authorization_binding, taken as given (the native source is outside the vector). The same run as
+    run_vector() (pinned_of_case, run_case), for this one case, in the shape summary.json has carried since 4 November."""
     d = json.loads((HERE / "vectors" / "authorization-bundle.v1.json").read_text())
     c = next(x for x in d["cases"] if x["id"] == "valid-non-oauth-native-binding")
-    pinned = {"authorization_instance": c["expected_authorization_instance"], "audience": c["audience"], "now": c["now"],
-              "policy_hash": c["current_policy"]["policy_hash"], "policy_id": c["current_policy"].get("policy_id"),
-              "expected_approvers": c["expected_approvers"],
-              "accepted_key_classes": c["accepted_key_classes"], "approver_keys": c["approver_keys"], "dps": None}
-    res, why = verify_bundle({"bundle": c["bundle"]}, pinned)
-    bindings = {jcs(x["authorization_binding"]) for x in c["bundle"]["contexts"]}
-    eq = bindings == {jcs(c["expected_authorization_binding"])}
-    # with no DPS source, step 10 is INDETERMINATE here; the example's profile is compared with its expected object instead
-    final = "SATISFIED" if res == "INDETERMINATE" and why == ["dps_trust_inputs_unavailable"] and eq else res
+    r = run_case(c)
+    final, why = r["ours"], r["our_reasons"]
     # with the schema controls of section 3, the vector's action (action_type, initiator, parameters only) is refused;
     # the author wrote on 4 November 2026 that the published vector is incomplete against section 3 and needs correcting
     return {"case": c["id"], "expected": c["expect"]["verdict"], "ours": final, "reasons": why, "agree": final == c["expect"]["verdict"],
@@ -492,7 +650,24 @@ def write(out, art):
     (out / "ep-pinned-inputs.json").write_text(json.dumps({k: v for k, v in pinned_inputs(art).items() if k != "dps"}, indent=1) + "\n")
 
 
+def vector_main(argv):
+    """build.py --vector <file> [--report <file>]: every case of a vector file, a report on stdout (and in --report),
+    nothing written under out/. Exit 0 whatever the agreement: a report, not a check."""
+    path = argv[argv.index("--vector") + 1]
+    rep = run_vector(path)
+    text = json.dumps(rep, ensure_ascii=False, indent=1) + "\n"
+    if "--report" in argv:
+        pathlib.Path(argv[argv.index("--report") + 1]).write_text(text)
+    for x in rep["cases"]:
+        flag = "same" if x["reasons_equal"] else ("covers" if x["reasons_cover_expected"] else ("verdict" if x["verdict_agrees"] else "DIFF"))
+        print(f"{flag:7} {x['id']}: expected {x['expected']} {x['expected_reasons']}, ours {x['ours']} {x['our_reasons_as_vector_names']}")
+    print(json.dumps(rep["tally"]), rep["sha256"])
+    return 0
+
+
 if __name__ == "__main__":
+    if "--vector" in sys.argv:
+        sys.exit(vector_main(sys.argv))
     art = assemble(build())
     write(HERE / "out", art)
     r = verify(art)

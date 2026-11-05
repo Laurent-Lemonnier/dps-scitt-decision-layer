@@ -1,0 +1,8 @@
+{
+ "what": "the relying party's EP policy (same policy_id) is changed after the DPS approval and the EP signoffs: at the pre-execution recheck its digest is not the one every context signed, refused at step 11 (policy_hash X does not satisfy a requirement under policy_hash Y, section 4); A2's recheck stage still reads 'authorised', as its issuer wrote it",
+ "caught_by": [
+  "ep:policy_digest_mismatch"
+ ],
+ "expected_place": "ep:policy_digest_mismatch",
+ "as_expected": true
+}

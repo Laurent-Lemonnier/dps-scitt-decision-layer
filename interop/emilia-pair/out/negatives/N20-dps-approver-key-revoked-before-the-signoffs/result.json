@@ -1,0 +1,10 @@
+{
+ "what": "the relying party's DPS trust policy states the person's key revoked (superseded) at 09:44, before the approval it signed at 09:45 and the EP signoffs at 09:55: the DPS approval fails natively (key state), so the source the binding names does not verify at step 10, though every EP signature, context and the binding's bytes are intact",
+ "caught_by": [
+  "dps_a1",
+  "dps_a2",
+  "ep:binding_source_does_not_verify"
+ ],
+ "expected_place": "ep:binding_source_does_not_verify",
+ "as_expected": true
+}

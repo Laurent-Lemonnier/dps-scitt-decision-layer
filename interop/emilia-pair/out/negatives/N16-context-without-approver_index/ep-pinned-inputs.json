@@ -2,7 +2,13 @@
  "authorization_instance": "b64u:a3mUyPx1vp8z6rPW1eUYxg",
  "audience": "https://payments.example.com",
  "now": "2026-11-06T09:56:00Z",
- "policy_hash": "sha256:366df78f225cc65e42be0af30800ad73af35273f20eaae76987acc33aab9e9ad",
+ "current_policy": {
+  "policy_id": "ep:policy:releases-over-100@v3",
+  "policy_hash": "sha256:366df78f225cc65e42be0af30800ad73af35273f20eaae76987acc33aab9e9ad",
+  "decision": "PERMIT",
+  "checked_at": "2026-11-06T09:55:30Z",
+  "expires_at": "2026-11-06T09:57:00Z"
+ },
  "policy_id": "ep:policy:releases-over-100@v3",
  "expected_approvers": [
   "ep:approver:controller",
@@ -15,12 +21,23 @@
   "ep:key:controller#1": {
    "approver_id": "ep:approver:controller",
    "public_key": "MCowBQYDK2VwAyEArAxwNHsQmyPhK_weG_VcTn4silYsVY1M3hOgLrK2GDM",
-   "key_class": "B"
+   "key_class": "B",
+   "valid_from": "2026-10-01T00:00:00Z",
+   "valid_to": "2027-09-30T23:59:59Z"
   },
   "ep:key:treasurer#1": {
    "approver_id": "ep:approver:treasurer",
    "public_key": "MCowBQYDK2VwAyEAbfN-bIbVGc3fQO4D4QtJ6h2sIj-th9H2H5kSMLXQTyw",
-   "key_class": "B"
+   "key_class": "B",
+   "valid_from": "2026-10-01T00:00:00Z",
+   "valid_to": "2027-09-30T23:59:59Z"
   }
+ },
+ "require_authorization_binding": true,
+ "require_current_status": false,
+ "identity_links": {
+  "treasury-controller-1": [
+   "ep:entity:treasury-controller-1"
+  ]
  }
 }
