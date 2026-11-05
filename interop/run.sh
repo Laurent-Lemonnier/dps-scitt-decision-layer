@@ -120,3 +120,5 @@ python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report gilda/judg
 echo "== approval-binding/v1 (the same package's vectors-approval-binding contract), verifier written from the corpus README's eleven checks"
 AB_CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-approval-binding'))")
 python3 gilda/approval_binding_verify_independent.py --corpus "$AB_CORPUS" --report gilda/judge-approval-binding-ci.json | tail -1
+# Local candidate addition (2026-10-30): source-to-record aggregation controls.
+GILDA_CORPUS="$CORPUS" python3 -m unittest discover -s gilda -p 'test_gilda_aggregation.py' -v

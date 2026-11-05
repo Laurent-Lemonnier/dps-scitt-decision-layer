@@ -2,7 +2,7 @@
 
 Verifiers written from the text of other authors' drafts, run against their published test vectors, as a third party.
 Each one imports nothing from the author's reference code; the point is to check that the text alone is enough to
-reach the published verdicts, and to say where it is not. Results as of 2026-10-29.
+reach the published verdicts, and to say where it is not. Historical results as of 2026-10-29; later additions are dated separately.
 
 | Draft | Vectors | Result | Not covered |
 |---|---|---|---|
@@ -25,7 +25,9 @@ reach the published verdicts, and to say where it is not. Results as of 2026-10-
   ECMA-262 number form, whole-value ASCII-digit patterns of §7. Runs: `run-attestation-20261029.txt`, `run-action-20261029.txt`.
 - `gilda/gilda_verify_independent.py` — RFC 7493 strict parse, RFC 8785 bytes under DSSE PAE, the membership and closed
   vocabularies of Section 5, the recomputes of Section 4.6 (request digest, write chain, agreement, commitment, evaluation
-  freshness, tier), the set checks of 5.9 and 5.10, and the parts of 4.7 that need no anchor. Report: `judge-20261029.json`.
+  freshness, tier), the set checks of 5.9 and 5.10, and the parts of 4.7 that need no anchor. Historical report: `judge-20261029.json` (unchanged).
+  Addition of 2026-10-30: supplied-source aggregation correspondence is checked separately from record validity;
+  `run.sh` also runs its 12 focused regression tests. See [scope, controls and commands](gilda/AGGREGATION.md).
 
 - `composition-who/README.md` — not a verifier of another author's vectors but a reading: the DPS action-binding
   attachment and person approval against the producer and verifier requirements and the negative classes of the WHO

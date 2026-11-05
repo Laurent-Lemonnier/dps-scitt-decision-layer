@@ -1,0 +1,6 @@
+# 5 November 2026 — PR #1 by Mikhail Sergeev (fr14-aggregation-correspondence, 3e2dc07), replayed on current main (89c09e7) after conflict resolution
+# Python 3.12.15, cryptography 50.0.2
+## corpus 0.28.0: 141/141 agree; first code 81/81; aggregation correspondence 1/1; FR14 {"input": "standing-source", "selected": {"lastResult": "2026-09-19T11:03:32Z", "maxAge": 60}, "carried": {"lastResult": "2026-09-19T11:03:32Z", "maxAge": 60}, "status": "match"}
+## corpus 0.31.0: 184/184 agree; first code 101/101; aggregation correspondence 1/1; FR14 {"input": "standing-source", "selected": {"lastResult": "2026-09-19T11:03:32Z", "maxAge": 60}, "carried": {"lastResult": "2026-09-19T11:03:32Z", "maxAge": 60}, "status": "match"}
+## test_gilda_aggregation.py: 12 tests OK on each corpus
+## selector checked against draft -03 section 5.4 (never held -> none + smallest maxAge; else earliest lastResult+maxAge, tie -> earlier lastResult): same rule
