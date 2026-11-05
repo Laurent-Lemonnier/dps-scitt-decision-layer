@@ -1,0 +1,434 @@
+{
+ "agree": 20,
+ "decoded_tB": 71,
+ "disagree": [],
+ "in_scope": 20,
+ "rows": {
+  "N0": {
+   "agree": true,
+   "expected": ".reject .c9_refsNotExactRelevantSet",
+   "in_scope": true,
+   "subset_result": "c9_refsNotExactRelevantSet"
+  },
+  "N1": {
+   "agree": true,
+   "expected": ".reject .c9_refsNotExactRelevantSet",
+   "in_scope": true,
+   "subset_result": "c9_refsNotExactRelevantSet"
+  },
+  "N10": {
+   "agree": true,
+   "expected": ".accept (.obs false none)",
+   "in_scope": true,
+   "subset_result": null
+  },
+  "N11": {
+   "agree": null,
+   "expected": ".reject .c1_rowsNotContiguous",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N12": {
+   "agree": null,
+   "expected": ".halt .c6_noValidClosure",
+   "in_scope": false,
+   "subset_result": "c9_refsNotExactRelevantSet"
+  },
+  "N13a": {
+   "agree": null,
+   "expected": ".halt .c3_noProfileCommitment",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N13b": {
+   "agree": null,
+   "expected": ".reject .c3_profileAfterFirstAdmission",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N14": {
+   "agree": null,
+   "expected": ".reject .c5_citesNonOwnerLifecycle",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N15": {
+   "agree": true,
+   "expected": ".reject .c8_refNotRelevantAdmission",
+   "in_scope": true,
+   "subset_result": "c8_refNotRelevantAdmission"
+  },
+  "N16": {
+   "agree": null,
+   "expected": ".halt .c2_rowUnavailable",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N17": {
+   "agree": true,
+   "expected": ".reject .c8_refNotRelevantAdmission",
+   "in_scope": true,
+   "subset_result": "c8_refNotRelevantAdmission"
+  },
+  "N18": {
+   "agree": true,
+   "expected": ".accept (.obs false none)",
+   "in_scope": true,
+   "subset_result": null
+  },
+  "N19": {
+   "agree": null,
+   "expected": ".reject .c1_profileDigest",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N2": {
+   "agree": true,
+   "expected": ".reject .c7_refsNotStrictlyAscending",
+   "in_scope": true,
+   "subset_result": "c7_refsNotStrictlyAscending"
+  },
+  "N20": {
+   "agree": true,
+   "expected": ".accept (.obs false none)",
+   "in_scope": true,
+   "subset_result": null
+  },
+  "N21": {
+   "agree": true,
+   "expected": ".accept (.obs false none)",
+   "in_scope": true,
+   "subset_result": null
+  },
+  "N22a": {
+   "agree": null,
+   "expected": ".reject .c1_profileFields",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N22b": {
+   "agree": null,
+   "expected": ".reject .c1_profileFields",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N22c": {
+   "agree": null,
+   "expected": ".reject .c1_profileFields",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N23a": {
+   "agree": null,
+   "expected": ".reject .c1_profileDecode",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N23b": {
+   "agree": null,
+   "expected": ".reject .c1_profileDecode",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N23c": {
+   "agree": null,
+   "expected": ".reject .c1_profileDecode",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N24": {
+   "agree": null,
+   "expected": ".reject .c13_closedEvidenceDigest",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N25": {
+   "agree": null,
+   "expected": ".reject .c13_closedEvidenceDigest",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N26": {
+   "agree": null,
+   "expected": ".reject .c1a_ownerNotIssuer",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N27": {
+   "agree": null,
+   "expected": ".reject .c1a_subjectDerivation",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N28a": {
+   "agree": null,
+   "expected": ".reject .c1c_subjectDerivationDigest",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N28b": {
+   "agree": null,
+   "expected": ".reject .c1c_leafEncodingProfileDigest",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N28c": {
+   "agree": null,
+   "expected": ".reject .c1c_evidenceScopeDigest",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N28d": {
+   "agree": null,
+   "expected": ".reject .c1c_admissionRuleDigest",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N28e": {
+   "agree": null,
+   "expected": ".reject .c1c_coverageRuleDigest",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N29": {
+   "agree": null,
+   "expected": ".reject .c1b_admittersDigest",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N3": {
+   "agree": true,
+   "expected": ".reject .c7_refsNotStrictlyAscending",
+   "in_scope": true,
+   "subset_result": "c7_refsNotStrictlyAscending"
+  },
+  "N30": {
+   "agree": true,
+   "expected": ".reject .c8_refNotRelevantAdmission",
+   "in_scope": true,
+   "subset_result": "c8_refNotRelevantAdmission"
+  },
+  "N31": {
+   "agree": null,
+   "expected": ".halt .c2_keyUnavailable",
+   "in_scope": false,
+   "subset_result": "c8_refNotRelevantAdmission"
+  },
+  "N32a": {
+   "agree": null,
+   "expected": ".reject .c11_adjudicationRefsMismatch",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N32b": {
+   "agree": null,
+   "expected": ".reject .c11_adjudicationRefsMismatch",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N32c": {
+   "agree": null,
+   "expected": ".reject .c11_adjudicationRefsMismatch",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N32d": {
+   "agree": null,
+   "expected": ".reject .c11_adjudicationRefsMismatch",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N33": {
+   "agree": true,
+   "expected": ".accept (.obs false none)",
+   "in_scope": true,
+   "subset_result": null
+  },
+  "N34": {
+   "agree": null,
+   "expected": ".halt .c6_noValidClosure",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N35": {
+   "agree": null,
+   "expected": ".reject .c1b_keyResolutionDigest",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N36a": {
+   "agree": null,
+   "expected": ".reject .c3_multipleProfileCommitments",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N36b": {
+   "agree": null,
+   "expected": ".reject .c3_multipleProfileCommitments",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N36c": {
+   "agree": null,
+   "expected": ".reject .c3_profileDigestMismatch",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N4": {
+   "agree": true,
+   "expected": ".reject .c8_refNotRelevantAdmission",
+   "in_scope": true,
+   "subset_result": "c8_refNotRelevantAdmission"
+  },
+  "N4b": {
+   "agree": true,
+   "expected": ".accept (.obs false none)",
+   "in_scope": true,
+   "subset_result": null
+  },
+  "N5": {
+   "agree": true,
+   "expected": ".reject .c10_relevantAdmissionAfterClosure",
+   "in_scope": true,
+   "subset_result": "c10_relevantAdmissionAfterClosure"
+  },
+  "N6a": {
+   "agree": null,
+   "expected": ".halt .c4_noInstanceCommitment",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N6b": {
+   "agree": null,
+   "expected": ".reject .c4_multipleCommitments",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N6c": {
+   "agree": null,
+   "expected": ".reject .c4_multipleCommitments",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N7a": {
+   "agree": null,
+   "expected": ".halt .c2_subjectPayloadUnavailable",
+   "in_scope": false,
+   "subset_result": "c8_refNotRelevantAdmission"
+  },
+  "N7c": {
+   "agree": null,
+   "expected": ".halt .c2_keyUnavailable",
+   "in_scope": false,
+   "subset_result": "c8_refNotRelevantAdmission"
+  },
+  "N7d": {
+   "agree": null,
+   "expected": ".halt .c2_keyUnavailable",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N8": {
+   "agree": null,
+   "expected": ".reject .c1_logIdentity",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "N9": {
+   "agree": null,
+   "expected": ".reject .c1b_keyResolutionDigest",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "P1": {
+   "agree": true,
+   "expected": ".accept (.obs false (some false))",
+   "in_scope": true,
+   "subset_result": null
+  },
+  "P2": {
+   "agree": true,
+   "expected": ".accept (.obs false none)",
+   "in_scope": true,
+   "subset_result": null
+  },
+  "P2x": {
+   "agree": null,
+   "expected": ".halt .c11_noAdjudicationAfterClosure",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "P3": {
+   "agree": true,
+   "expected": ".accept P10.S1.Evidence.inconsistent",
+   "in_scope": true,
+   "subset_result": null
+  },
+  "P3b": {
+   "agree": true,
+   "expected": ".reject .c9_refsNotExactRelevantSet",
+   "in_scope": true,
+   "subset_result": "c9_refsNotExactRelevantSet"
+  },
+  "X1": {
+   "agree": null,
+   "expected": ".reject .c1b_admittersDigest",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "X10": {
+   "agree": null,
+   "expected": ".reject .c1a_issuerNotToken",
+   "in_scope": false,
+   "subset_result": "outside_subset:closures=0"
+  },
+  "X2": {
+   "agree": null,
+   "expected": ".reject .c4_commitmentMismatch",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "X3": {
+   "agree": null,
+   "expected": ".reject .c4_commitmentAfterFirstAdmission",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "X4": {
+   "agree": null,
+   "expected": ".reject .c6_multipleClosures",
+   "in_scope": false,
+   "subset_result": "outside_subset:closures=2"
+  },
+  "X5": {
+   "agree": null,
+   "expected": ".reject .c12_evidenceOutsideE",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "X6": {
+   "agree": null,
+   "expected": ".halt .c6_noValidClosure",
+   "in_scope": false,
+   "subset_result": "outside_subset:closures=0"
+  },
+  "X7": {
+   "agree": true,
+   "expected": ".reject .c9_refsNotExactRelevantSet",
+   "in_scope": true,
+   "subset_result": "c9_refsNotExactRelevantSet"
+  },
+  "X8": {
+   "agree": null,
+   "expected": ".halt .c11_noAdjudicationAfterClosure",
+   "in_scope": false,
+   "subset_result": null
+  },
+  "X9": {
+   "agree": null,
+   "expected": ".reject .c1_ownerInAdmitters",
+   "in_scope": false,
+   "subset_result": null
+  }
+ }
+}

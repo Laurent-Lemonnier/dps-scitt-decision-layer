@@ -86,6 +86,20 @@ python3 p10/replay_from_text.py --vectors p10/s2b --pass 1 --report p10/out/repo
 python3 p10/replay_from_text.py --vectors p10/s2b --pass 2 --report p10/out/report-ci-pass2.json \
   --pass1-report p10/out/report-pass1.json | tail -1
 
+echo "== P10 Appendix A (M1-M35, AP1) read from the text, the profile, S1 and S2a pinned per the draft's Appendix C.1"
+for pin in "p10-underdetermination-profile e2a02a73df9e50f624512043dcb007fc337ba587" \
+           "p10-underdetermination-lean-s1 e4db3747eaeeb1a07227bb9029f9a9c3b566cdb1" \
+           "p10-coverage-lean-s2 741d56d36d7b2bfe2e9e0080a1cba4393e4a47da"; do
+  set -- $pin
+  [ -d "p10/appendix-a/repos/$1" ] || git clone --quiet "https://github.com/VolMax-Studio/$1.git" "p10/appendix-a/repos/$1"
+  git -C "p10/appendix-a/repos/$1" checkout --quiet "$2"
+done
+(cd p10/appendix-a/repos && sha256sum -c --quiet ../SHA256SUMS) || { echo "p10 appendix A: a file read changed at the pin"; exit 1; }
+python3 p10/appendix-a/appendix_a_checks.py | grep -q 'S1 vectors: 15/15 agree' || { echo "p10 appendix A: S1 vectors"; exit 1; }
+python3 p10/appendix-a/s2a_from_text.py | grep -q '72 vectors, 72 agree' || { echo "p10 appendix A: S2a coverage"; exit 1; }
+git diff --exit-code --quiet -- p10/appendix-a/out || { echo "p10 appendix A: the outputs differ from the committed ones"; exit 1; }
+echo "# Appendix A: S1 15/15, S2a coverage 72/72 with exact reason codes, TB7 72/72"
+
 echo "== draft-fassbender-scitt-time-anchor-08, Appendix D vectors, route 2 (no OTS software)"
 CP=957289:000000000000000000018e5b8c68a63c45b3eeac3a05ecf621a3b3f7890e3534
 for n in 1 2 3 4; do

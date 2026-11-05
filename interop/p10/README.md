@@ -64,7 +64,7 @@ above, not on the transcript bytes.
   and S2a. The prereg cross-references the profile's M27 alone, as the class of its binding codes (C10b, M27-attached,
   M27-detached here, all agreeing); which other tests of Appendix A have an S2b counterpart is not established here. A
   reading of Appendix A needs the S2a text and vectors (`p10-coverage-lean-s2`, MIT since 1 November) and the S1
-  certificate: not attempted in either pass.
+  certificate: not attempted in either pass; read since in `appendix-a/` (below).
 
 ## Second pass, 5 November 2026 (`out/report-pass2.json`)
 
@@ -115,8 +115,11 @@ Several readings below are not separated by the vectors: switching each to its a
 only; `crit` understanding alg alone; the predicate's `instance_subject` compared locally for every kind, or for none)
 leaves all 338 results and all 216 transcripts unchanged. They are recorded as readings, not as confirmed.
 
-Appendix A of the draft (M1 to M35, AP1, against the S2a text and vectors) is still not attempted and remains for a
-later pass, before the IETF 127 hackathon (14 November 2026), in this directory, with the same boundary.
+Appendix A of the draft (M1 to M35, AP1) is read in `appendix-a/` (5 November 2026, same boundary, the profile, S1
+and S2a pinned to the draft's Appendix C.1): 3 tests covered by this S2b reading, 25 reconstructed and run (4 of them
+in part; S1 vectors 15 of 15; S2a coverage from the text, 72 of 72 vectors with the exact reason code), 4
+reconstructible but not run, 4 needing Lean or a human review; no disagreement with a published vector. See
+`appendix-a/README.md`.
 
 ## Ambiguity log
 

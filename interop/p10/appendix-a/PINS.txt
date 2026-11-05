@@ -1,0 +1,16 @@
+# Repositories read for the Appendix A reading, pinned to the identifiers of
+# draft-nestorov-scitt-p10-underdetermination-02, Appendix C.1 (Table 2).
+# Checked 2026-11-05 with `git rev-parse <tag>` and `git rev-parse <tag>^{commit}`.
+#
+# repo                                            tag                   tag object (C)                            commit (C)                                draft label
+VolMax-Studio/p10-underdetermination-profile      v0.1.1                caa53b854367cf1253e431246e725dcd88570e9b  e2a02a73df9e50f624512043dcb007fc337ba587  A02/A01
+VolMax-Studio/p10-underdetermination-lean-s1      v0.1.0-s1-ratified    7c3df437de454466b932a5d0dc889b3287c64e05  e4db3747eaeeb1a07227bb9029f9a9c3b566cdb1  A05/A04
+VolMax-Studio/p10-coverage-lean-s2                v0.1.0-s2a-ratified   c356cde5295dc82860b70305e3048db8f2717db3  741d56d36d7b2bfe2e9e0080a1cba4393e4a47da  A08/A07
+#
+# File digests named by Appendix C.1, recomputed at those commits (all equal):
+# A03 P10_Underdetermination_Profile_v0.1.1.md            b92c0d689b9f16f2184ba2addb8653ed881595cc3a0117c62cadadf5c6dc6558
+# A06 lean-s1 manifest/VerifierManifestS1.json            06bf9129bf480c79ed5281ec2e944ac5613d1c340552ce5a415f5bf4c8965907
+# A09 lean-s2 manifest/VerifierManifestS2aV0.json         f8380b19b43334925e7f7621e1f7d7912f36c789199d3f8d069b87f5ea176d46
+# A10 lean-s2 manifest/VectorManifestS2aV0.json           dd2d567e04fae52244feec988a56df26e4721f833f072dd7073959d9170e39ec
+# A11 lean-s2 profile/LeafEncodeV0_SPEC.md                d142e636a9a92fdc57bbc49e77e077607ff12e96c19b79ad539b2f6b17b16008
+# S2b (A13) is the replay verifier read in ../ (PINNED_COMMIT.txt), not re-read here.

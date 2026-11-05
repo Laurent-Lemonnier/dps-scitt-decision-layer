@@ -1,0 +1,746 @@
+{
+ "pins": {
+  "all_equal": true,
+  "files": {
+   "p10-coverage-lean-s2/manifest/VectorManifestS2aV0.json": true,
+   "p10-coverage-lean-s2/manifest/VerifierManifestS2aV0.json": true,
+   "p10-coverage-lean-s2/profile/LeafEncodeV0_SPEC.md": true,
+   "p10-underdetermination-lean-s1/manifest/VerifierManifestS1.json": true,
+   "p10-underdetermination-profile/P10_Underdetermination_Profile_v0.1.1.md": true
+  },
+  "s2a_vector_files_listed": 315,
+  "s2a_vector_files_mismatch": [],
+  "s2a_vector_files_unlisted": []
+ },
+ "s1_statement_digests": {
+  "digests": {
+   "claim": true,
+   "claim_in_statement": true,
+   "evidence": true,
+   "evidence_in_statement": true,
+   "instance_sha256": true,
+   "m6_mutated_witness_changes_digest": true,
+   "w0": true,
+   "w1": true,
+   "witness_digests_in_statement": true
+  },
+  "limitations": {
+   "limitations_digest_recorded": "091116f19a63f244aaf119451a540b50b385deb6e40a9de9058ee2f46f43fd1c",
+   "m6_m31_altered_text_changes_jcs_digest": true,
+   "reproduced_by_jcs_array": true,
+   "sha256_jcs_limitations_array": "091116f19a63f244aaf119451a540b50b385deb6e40a9de9058ee2f46f43fd1c"
+  },
+  "m35": {
+   "manifest_file_sha256": "06bf9129bf480c79ed5281ec2e944ac5613d1c340552ce5a415f5bf4c8965907",
+   "statement_records_it": true
+  }
+ },
+ "s1_statement_limitations": {
+  "accept_as_published": true,
+  "accept_without_limitations": false,
+  "ap1_present": true,
+  "coverage_instance_present": true,
+  "ids": [
+   "AP1",
+   "COVERAGE_INSTANCE",
+   "S1_MODEL_ADEQUACY",
+   "S1_NO_SEARCH_INFERENCE",
+   "S1_TOY_PROFILE",
+   "S1_NOT_A_CONFORMING_RECEIPT",
+   "S1_CODEC_SUBSET",
+   "S1_TEST_SIGNATURE",
+   "S1_STATUS"
+  ],
+  "profile_verbatim": {
+   "AP1": true,
+   "COVERAGE_INSTANCE": true
+  }
+ },
+ "s1_toy_m2": {
+  "agree": true,
+  "expected": "M2: FUC false for every claim with Compatible := true. Sanity: FUC true for the P1 claim secondBit on the reconstructed profile (firstBit is fixed by every observation, so it is never underdetermined there)",
+  "firstBit": {
+   "any_determinate_with_compatible_true": false,
+   "fuc_reconstructed_profile": false,
+   "fuc_with_compatible_true": false
+  },
+  "secondBit": {
+   "any_determinate_with_compatible_true": false,
+   "fuc_reconstructed_profile": true,
+   "fuc_with_compatible_true": false
+  }
+ },
+ "s1_vectors": {
+  "agree": 15,
+  "rows": [
+   {
+    "accept": true,
+    "agree": true,
+    "expected_accept": true,
+    "reason": "CertificateTargetV0 holds",
+    "vector": "p1.instance.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "spec digest differs from the profile digest",
+    "vector": "negative/m32_wrong_spec.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "witness wOut not in W",
+    "vector": "negative/m3_outside_world.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "decode: not canonical (re-encoding differs)",
+    "vector": "negative/m8_escape.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "decode: not canonical (re-encoding differs)",
+    "vector": "negative/m8_key_order.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "decode: not canonical (re-encoding differs)",
+    "vector": "negative/m8_trailing_newline.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "decode: world token",
+    "vector": "negative/m8_unknown_token.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "decode: not canonical (re-encoding differs)",
+    "vector": "negative/m8_whitespace.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "evidence not in E",
+    "vector": "negative/m_outside_evidence.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "decode: kind",
+    "vector": "negative/m_wrong_kind.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "decode: profile id",
+    "vector": "negative/m_wrong_profile.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "witness w01 not Compatible with f0s0",
+    "vector": "negative/n1_determined.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "witness w10 not Compatible with f0s_",
+    "vector": "negative/n2_incompatible.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "same claim value under firstBit",
+    "vector": "negative/n3_same_value.json"
+   },
+   {
+    "accept": false,
+    "agree": true,
+    "expected_accept": false,
+    "reason": "witness w00 not Compatible with inconsistent",
+    "vector": "negative/n4_empty_compatible.json"
+   }
+  ],
+  "total": 15
+ },
+ "s2a_pB_strict": {
+  "agree": 72,
+  "distinct_pB": 12,
+  "not_ok": {
+   "N20": "tb7_manifestDigest",
+   "N22a": "c1_profileFields",
+   "N22b": "c1_profileFields",
+   "N22c": "c1_profileFields",
+   "N23a": "c1_profileDecode",
+   "N23b": "c1_profileDecode",
+   "N23c": "c1_profileDecode"
+  },
+  "rows": {
+   "N0": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c9_refsNotExactRelevantSet",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N1": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c9_refsNotExactRelevantSet",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N10": {
+    "agree": true,
+    "detail": "",
+    "expected": ".accept (.obs false none)",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N11": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1_rowsNotContiguous",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N12": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .c6_noValidClosure",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N13a": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .c3_noProfileCommitment",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N13b": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c3_profileAfterFirstAdmission",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N14": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c5_citesNonOwnerLifecycle",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N15": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c8_refNotRelevantAdmission",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N16": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .c2_rowUnavailable",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N17": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c8_refNotRelevantAdmission",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N18": {
+    "agree": true,
+    "detail": "",
+    "expected": ".accept (.obs false none)",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N19": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1_profileDigest",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N2": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c7_refsNotStrictlyAscending",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N20": {
+    "agree": true,
+    "detail": "verifier_manifest_digest differs from VerifierManifestS2aV0",
+    "expected": ".accept (.obs false none)",
+    "pB_level": "tb7_manifestDigest",
+    "tb7": "REJECT"
+   },
+   "N21": {
+    "agree": true,
+    "detail": "",
+    "expected": ".accept (.obs false none)",
+    "pB_level": "ok",
+    "tb7": "HALT"
+   },
+   "N22a": {
+    "agree": true,
+    "detail": "fixture_id / normative_profile_digest / s1_profile_token",
+    "expected": ".reject .c1_profileFields",
+    "pB_level": "c1_profileFields",
+    "tb7": "-"
+   },
+   "N22b": {
+    "agree": true,
+    "detail": "fixture_id / normative_profile_digest / s1_profile_token",
+    "expected": ".reject .c1_profileFields",
+    "pB_level": "c1_profileFields",
+    "tb7": "-"
+   },
+   "N22c": {
+    "agree": true,
+    "detail": "fixture_id / normative_profile_digest / s1_profile_token",
+    "expected": ".reject .c1_profileFields",
+    "pB_level": "c1_profileFields",
+    "tb7": "-"
+   },
+   "N23a": {
+    "agree": true,
+    "detail": "field set",
+    "expected": ".reject .c1_profileDecode",
+    "pB_level": "c1_profileDecode",
+    "tb7": "-"
+   },
+   "N23b": {
+    "agree": true,
+    "detail": "field set",
+    "expected": ".reject .c1_profileDecode",
+    "pB_level": "c1_profileDecode",
+    "tb7": "-"
+   },
+   "N23c": {
+    "agree": true,
+    "detail": "not canonical",
+    "expected": ".reject .c1_profileDecode",
+    "pB_level": "c1_profileDecode",
+    "tb7": "-"
+   },
+   "N24": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c13_closedEvidenceDigest",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N25": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c13_closedEvidenceDigest",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N26": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1a_ownerNotIssuer",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N27": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1a_subjectDerivation",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N28a": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1c_subjectDerivationDigest",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N28b": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1c_leafEncodingProfileDigest",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N28c": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1c_evidenceScopeDigest",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N28d": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1c_admissionRuleDigest",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N28e": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1c_coverageRuleDigest",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N29": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1b_admittersDigest",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N3": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c7_refsNotStrictlyAscending",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N30": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c8_refNotRelevantAdmission",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N31": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .c2_keyUnavailable",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N32a": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c11_adjudicationRefsMismatch",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N32b": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c11_adjudicationRefsMismatch",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N32c": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c11_adjudicationRefsMismatch",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N32d": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c11_adjudicationRefsMismatch",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N33": {
+    "agree": true,
+    "detail": "",
+    "expected": ".accept (.obs false none)",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N34": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .c6_noValidClosure",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N35": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1b_keyResolutionDigest",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N36a": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c3_multipleProfileCommitments",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N36b": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c3_multipleProfileCommitments",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N36c": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c3_profileDigestMismatch",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N4": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c8_refNotRelevantAdmission",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N4b": {
+    "agree": true,
+    "detail": "",
+    "expected": ".accept (.obs false none)",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N5": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c10_relevantAdmissionAfterClosure",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N6a": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .c4_noInstanceCommitment",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N6b": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c4_multipleCommitments",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N6c": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c4_multipleCommitments",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N7a": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .c2_subjectPayloadUnavailable",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N7b": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .tb5_checkpointMaterialUnavailable",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N7c": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .c2_keyUnavailable",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N7d": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .c2_keyUnavailable",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N8": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1_logIdentity",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "N9": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1b_keyResolutionDigest",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "P1": {
+    "agree": true,
+    "detail": "",
+    "expected": ".accept (.obs false (some false))",
+    "pB_level": "ok",
+    "tb7": "PASS"
+   },
+   "P2": {
+    "agree": true,
+    "detail": "",
+    "expected": ".accept (.obs false none)",
+    "pB_level": "ok",
+    "tb7": "PASS"
+   },
+   "P2x": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .c11_noAdjudicationAfterClosure",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "P3": {
+    "agree": true,
+    "detail": "",
+    "expected": ".accept P10.S1.Evidence.inconsistent",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "P3b": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c9_refsNotExactRelevantSet",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "X1": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1b_admittersDigest",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "X10": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1a_issuerNotToken",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "X2": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c4_commitmentMismatch",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "X3": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c4_commitmentAfterFirstAdmission",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "X4": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c6_multipleClosures",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "X5": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c12_evidenceOutsideE",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "X6": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .c6_noValidClosure",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "X7": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c9_refsNotExactRelevantSet",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "X8": {
+    "agree": true,
+    "detail": "",
+    "expected": ".halt .c11_noAdjudicationAfterClosure",
+    "pB_level": "ok",
+    "tb7": "-"
+   },
+   "X9": {
+    "agree": true,
+    "detail": "",
+    "expected": ".reject .c1_ownerInAdmitters",
+    "pB_level": "ok",
+    "tb7": "-"
+   }
+  },
+  "total": 72,
+  "verifier_manifest_sha256": "f8380b19b43334925e7f7621e1f7d7912f36c789199d3f8d069b87f5ea176d46"
+ },
+ "s2a_preclosure_k": {
+  "agree": 7,
+  "rows": {
+   "K1": {
+    "agree": true,
+    "expected": "f6a13471a3d83b209e20d032e009f9b34ec8ccf08d4f35e00f076b3694901049",
+    "got": "f6a13471a3d83b209e20d032e009f9b34ec8ccf08d4f35e00f076b3694901049"
+   },
+   "K2": {
+    "agree": true,
+    "expected": "e6df04feb34214b662d882472345eb72a3f6fbbf2912083db34f19acfe67ca32",
+    "got": "e6df04feb34214b662d882472345eb72a3f6fbbf2912083db34f19acfe67ca32"
+   },
+   "K3": {
+    "agree": true,
+    "expected": "6c65a27b6f951633302cba21f4760ef6b7fd15fbfc52ba761a2fbaf09c973dd3",
+    "got": "6c65a27b6f951633302cba21f4760ef6b7fd15fbfc52ba761a2fbaf09c973dd3"
+   },
+   "K4": {
+    "agree": true,
+    "expected": "d8cb3193f9cd3a2d582a3f809da910e8dbe72c905bdfca29e5235d35c432bf6a",
+    "got": "d8cb3193f9cd3a2d582a3f809da910e8dbe72c905bdfca29e5235d35c432bf6a"
+   },
+   "K5": {
+    "agree": true,
+    "expected": "3adcfe25eaea80607375e1575e657b5270332cc1c5911212f1a4cadfbd86f804",
+    "got": "3adcfe25eaea80607375e1575e657b5270332cc1c5911212f1a4cadfbd86f804"
+   },
+   "K6": {
+    "agree": true,
+    "expected": "6ff98382828faca48de0bc2ace1eb233043a48d660291cb9516cf4b85420c956",
+    "got": "6ff98382828faca48de0bc2ace1eb233043a48d660291cb9516cf4b85420c956"
+   },
+   "K7": {
+    "agree": true,
+    "expected": "679708f452ee69dde496ddc5b381383ae02f410930f2dc19ef5406710a44f87f",
+    "got": "679708f452ee69dde496ddc5b381383ae02f410930f2dc19ef5406710a44f87f"
+   }
+  },
+  "total": 7
+ }
+}
