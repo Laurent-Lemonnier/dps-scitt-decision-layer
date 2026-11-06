@@ -1,0 +1,1 @@
+body carries an object chain making the record exactly 32 levels deep (record, body, 30 objects; Wright's vector a11): Section 2.1 refuses only deeper than 32, so released (until 6 November 2026 this checker refused it, off by one)

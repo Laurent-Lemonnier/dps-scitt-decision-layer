@@ -1,0 +1,1 @@
+the container is signed by a key the anchors bind to other-audit.example and names that party; the record's writer is audit.example (Wright Section 3: the key must be shown to belong to the party the record names in writer): held

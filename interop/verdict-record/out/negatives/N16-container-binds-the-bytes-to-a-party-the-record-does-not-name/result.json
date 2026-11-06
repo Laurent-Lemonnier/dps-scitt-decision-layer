@@ -1,0 +1,20 @@
+{
+ "what": "the container is signed by a key the anchors bind to other-audit.example and names that party; the record's writer is audit.example (Wright Section 3: the key must be shown to belong to the party the record names in writer): held",
+ "as_expected": true,
+ "states": {
+  "A_version_1": "held",
+  "A_mismatch_stated": "released",
+  "C_version_2": "released"
+ },
+ "dps_verified": {
+  "A_approval_A1": true,
+  "A_executed_A2": true,
+  "B_closing": true,
+  "C_corrected_A1": true,
+  "C_corrected_A2": true
+ },
+ "joins_false": [
+  "B1",
+  "C1"
+ ]
+}

@@ -1,0 +1,358 @@
+{
+ "standard_commit": "007f8c99ec910564bac1c508b76c8ce8391fa11e",
+ "checker_inputs": {
+  "policy_sha256": "c2839fed12d7a006c89810a8e5dfaab83558fcca314e080191a4a84bb5c02582",
+  "trust_anchors_sha256": "f02ba2154cab0b738b386ee3bfb56644992fd14b7ac040319a494ce0f23cdf83",
+  "rule_specifications_held": [
+   "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/verdict-record#executed-as-approved-v1"
+  ],
+  "format_rules_held": [
+   "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+   "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/standard/v5.0"
+  ]
+ },
+ "dps": {
+  "A_approval_A1": {
+   "schema_errors": {
+    "record": [],
+    "attachment": [],
+    "signatures": []
+   },
+   "dimensions": {
+    "specification_digests": "verified",
+    "specification_statements": "verified",
+    "record_statements": "verified",
+    "action_binding": "verified",
+    "stage_order": "verified",
+    "authorisation_recheck": "not_checked",
+    "observed_results": "not_checked",
+    "rationale_provenance": "verified"
+   },
+   "findings": {
+    "authorisation_recheck": [
+     "no recheck or attempt is recorded"
+    ],
+    "observed_results": [
+     "no execution attempt is recorded"
+    ]
+   },
+   "issuer_seal": "verified",
+   "person_approvals_verified": 1,
+   "verified": true
+  },
+  "A_executed_A2": {
+   "schema_errors": {
+    "record": [],
+    "attachment": [],
+    "signatures": []
+   },
+   "dimensions": {
+    "specification_digests": "verified",
+    "specification_statements": "verified",
+    "record_statements": "verified",
+    "action_binding": "verified",
+    "stage_order": "verified",
+    "authorisation_recheck": "verified",
+    "observed_results": "verified",
+    "rationale_provenance": "verified"
+   },
+   "findings": {},
+   "issuer_seal": "verified",
+   "person_approvals_verified": 1,
+   "verified": true
+  },
+  "B_closing": {
+   "schema_errors": {
+    "record": [],
+    "attachment": [],
+    "signatures": []
+   },
+   "dimensions": {
+    "specification_digests": "verified",
+    "specification_statements": "verified",
+    "record_statements": "verified",
+    "action_binding": "verified",
+    "stage_order": "verified",
+    "authorisation_recheck": "verified",
+    "observed_results": "verified",
+    "rationale_provenance": "verified"
+   },
+   "findings": {},
+   "issuer_seal": "verified",
+   "person_approvals_verified": 1,
+   "verified": true
+  },
+  "C_corrected_A1": {
+   "schema_errors": {
+    "record": [],
+    "attachment": [],
+    "signatures": []
+   },
+   "dimensions": {
+    "specification_digests": "verified",
+    "specification_statements": "verified",
+    "record_statements": "verified",
+    "action_binding": "verified",
+    "stage_order": "verified",
+    "authorisation_recheck": "not_checked",
+    "observed_results": "not_checked",
+    "rationale_provenance": "verified"
+   },
+   "findings": {
+    "authorisation_recheck": [
+     "no recheck or attempt is recorded"
+    ],
+    "observed_results": [
+     "no execution attempt is recorded"
+    ]
+   },
+   "issuer_seal": "verified",
+   "person_approvals_verified": 1,
+   "verified": true
+  },
+  "C_corrected_A2": {
+   "schema_errors": {
+    "record": [],
+    "attachment": [],
+    "signatures": []
+   },
+   "dimensions": {
+    "specification_digests": "verified",
+    "specification_statements": "verified",
+    "record_statements": "verified",
+    "action_binding": "verified",
+    "stage_order": "verified",
+    "authorisation_recheck": "verified",
+    "observed_results": "verified",
+    "rationale_provenance": "verified"
+   },
+   "findings": {},
+   "issuer_seal": "verified",
+   "person_approvals_verified": 1,
+   "verified": true
+  }
+ },
+ "verdict": {
+  "A_version_1": {
+   "record_sha256": "3f8e864e01418ba2b7022c0428f89b4b5857c0664ced402319c3a24ebe467b18",
+   "depth": 0,
+   "policy_sha256": "c2839fed12d7a006c89810a8e5dfaab83558fcca314e080191a4a84bb5c02582",
+   "trust_anchors_sha256": "f02ba2154cab0b738b386ee3bfb56644992fd14b7ac040319a494ce0f23cdf83",
+   "rule_specifications_held": [
+    "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/verdict-record#executed-as-approved-v1"
+   ],
+   "format_rules_held": [
+    "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+    "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/standard/v5.0"
+   ],
+   "upper_time_bound": "2026-11-06T10:05:00.000000Z",
+   "key": "dps/refund-8812/executed-as-approved",
+   "version": 1,
+   "supersedes": null,
+   "writer": "audit.example",
+   "container": {
+    "shows_the_record": true
+   },
+   "state": "released",
+   "steps": {
+    "1": {
+     "result": "PASS"
+    },
+    "2": {
+     "result": "PASS",
+     "items": [
+      {
+       "index": 0,
+       "sha256": "d7059a2f7ecde31006997bd9dc157daf5c11ebdbca7a6ffdaf4b8158fe6eaca1",
+       "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+       "held": true,
+       "format_rules": "met"
+      },
+      {
+       "index": 1,
+       "sha256": "de0b0e51c330d7666f868a0772b6779458b9c7936b292a9fe7f638888e262b02",
+       "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+       "held": true,
+       "format_rules": "met"
+      },
+      {
+       "index": 2,
+       "sha256": "ccbef3094bb13c0a9dc6035598731b56c23e385fa353e59282f976beae81bfc2",
+       "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/standard/v5.0",
+       "held": true,
+       "format_rules": "met"
+      }
+     ]
+    },
+    "3": {
+     "result": "PASS",
+     "re_run_result": "executed_as_approved"
+    }
+   },
+   "body_inputs_read": [],
+   "first_failed_step": null,
+   "first_not_run_step": null,
+   "summary": "state released; step 1 PASS; step 2 PASS; step 3 PASS"
+  },
+  "A_mismatch_stated": {
+   "record_sha256": "d9b4b88b42bbaa292b734d238a6959ae304ae328f9fbbe6a271c059253d7f0ad",
+   "depth": 0,
+   "policy_sha256": "c2839fed12d7a006c89810a8e5dfaab83558fcca314e080191a4a84bb5c02582",
+   "trust_anchors_sha256": "f02ba2154cab0b738b386ee3bfb56644992fd14b7ac040319a494ce0f23cdf83",
+   "rule_specifications_held": [
+    "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/verdict-record#executed-as-approved-v1"
+   ],
+   "format_rules_held": [
+    "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+    "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/standard/v5.0"
+   ],
+   "upper_time_bound": "2026-11-06T10:05:00.000000Z",
+   "key": "dps/refund-8812/executed-as-approved/mismatch-stated",
+   "version": 1,
+   "supersedes": null,
+   "writer": "audit.example",
+   "container": {
+    "shows_the_record": true
+   },
+   "state": "released",
+   "steps": {
+    "1": {
+     "result": "PASS"
+    },
+    "2": {
+     "result": "PASS",
+     "items": [
+      {
+       "index": 0,
+       "sha256": "d7059a2f7ecde31006997bd9dc157daf5c11ebdbca7a6ffdaf4b8158fe6eaca1",
+       "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+       "held": true,
+       "format_rules": "met"
+      },
+      {
+       "index": 1,
+       "sha256": "50853317ed68389b974a2232a9c9ea5e0a6de5205ec261276bfa31bff2085999",
+       "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+       "held": true,
+       "format_rules": "met"
+      },
+      {
+       "index": 2,
+       "sha256": "ccbef3094bb13c0a9dc6035598731b56c23e385fa353e59282f976beae81bfc2",
+       "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/standard/v5.0",
+       "held": true,
+       "format_rules": "met"
+      }
+     ]
+    },
+    "3": {
+     "result": "PASS",
+     "re_run_result": "not_as_approved"
+    }
+   },
+   "body_inputs_read": [],
+   "first_failed_step": null,
+   "first_not_run_step": null,
+   "summary": "state released; step 1 PASS; step 2 PASS; step 3 PASS"
+  },
+  "C_version_2": {
+   "record_sha256": "e883585f358c3f0dbb1cb0b534cb3e0aab756effadab4ad4625ec17f9ff9813d",
+   "depth": 0,
+   "policy_sha256": "c2839fed12d7a006c89810a8e5dfaab83558fcca314e080191a4a84bb5c02582",
+   "trust_anchors_sha256": "f02ba2154cab0b738b386ee3bfb56644992fd14b7ac040319a494ce0f23cdf83",
+   "rule_specifications_held": [
+    "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/verdict-record#executed-as-approved-v1"
+   ],
+   "format_rules_held": [
+    "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+    "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/standard/v5.0"
+   ],
+   "upper_time_bound": "2026-11-06T11:35:00.000000Z",
+   "key": "dps/refund-8812/executed-as-approved",
+   "version": 2,
+   "supersedes": "3f8e864e01418ba2b7022c0428f89b4b5857c0664ced402319c3a24ebe467b18",
+   "writer": "audit.example",
+   "container": {
+    "shows_the_record": true
+   },
+   "state": "released",
+   "steps": {
+    "1": {
+     "result": "PASS"
+    },
+    "2": {
+     "result": "PASS",
+     "items": [
+      {
+       "index": 0,
+       "sha256": "39e466767ac63eead6504fc21d940c41621360b82855e844a61e7f2cca7113a3",
+       "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+       "held": true,
+       "format_rules": "met"
+      },
+      {
+       "index": 1,
+       "sha256": "622ec19384979276c8d7c204637b762be029ba56143807e0301f9f619e28f7c9",
+       "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+       "held": true,
+       "format_rules": "met"
+      },
+      {
+       "index": 2,
+       "sha256": "7168dcef3fb960c2e38999d09e85cd1067de58c42a8ee9aeacc8634f188068a3",
+       "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/standard/v5.0",
+       "held": true,
+       "format_rules": "met"
+      }
+     ]
+    },
+    "3": {
+     "result": "PASS",
+     "re_run_result": "executed_as_approved"
+    }
+   },
+   "body_inputs_read": [],
+   "first_failed_step": null,
+   "first_not_run_step": null,
+   "summary": "state released; step 1 PASS; step 2 PASS; step 3 PASS"
+  }
+ },
+ "report_wording": {
+  "A_version_1": true,
+  "A_mismatch_stated": true,
+  "C_version_2": true
+ },
+ "joins": {
+  "A1. the verdict's evidence entries are the digests of the exact bytes of A1, A2 and the decision record's file held, and the record's file digest is not its seal_hash (Wright Section 7: the payload cited as an item of its own)": true,
+  "A2. the verdict's rule re-run by the checker gives the result the auditor stated, and that result is what the Standard's checks say natively (every dimension of A2 verified, the attempt's digest the approved one)": true,
+  "A3. every rule input is bound to evidence, none read from body (Wright Section 2.2, Section 4.5): the checker's evidence-only policy ran step 3": true,
+  "A4. over the chain where 150.00 EUR was executed for 120.00 approved, the auditor's verdict stating not_as_approved is released, and the Standard's action binding dimension fails on that A2": true,
+  "B1. the closing decision's approved specification names the verdict record held by the digest of its bytes, in input_version_refs and in its parameters, and that record's state is released": true,
+  "B2. the verdict cited is about the chain the closing decision names: its evidence includes the file of the refund's decision record, whose decision_id the closing specification carries": true,
+  "B3. the result the support lead decided on equals the result the checker re-derived": true,
+  "B4. the verdict was reached (the issuer's act_time) and taken in by the checker (its upper time bound) before the closing decision was shown and approved": true,
+  "C1. version 2 supersedes version 1 by the digest of its exact bytes, under the same key, one version later (Wright Section 6); both are released": true,
+  "C2. version 2 cites the corrected decision record, which supersedes (DPS Core) the record version 1 cites: the current pair is (version 2, corrected record), the earlier pair (version 1, original record)": true,
+  "C3. the correction changed the record, not the action: the approved specification's digest and the view shown are the same in both pairs; the approver signed again for the corrected record (the person_approval names the decision_id), with the same key over the same specification and view digests": true
+ },
+ "reported_not_joined": {
+  "the closing decision (part B) cites version 1 of the verdict, which version 2 supersedes; Wright's Appendix B leaves open how a checker holding version 2 treats a citation of version 1, and Section 6 says the later version does not by itself change the state of the earlier one": {
+   "closing_decision_cites": "3f8e864e01418ba2b7022c0428f89b4b5857c0664ced402319c3a24ebe467b18",
+   "superseded_by": "e883585f358c3f0dbb1cb0b534cb3e0aab756effadab4ad4625ec17f9ff9813d",
+   "state_of_version_1_with_version_2_held": "released"
+  },
+  "supersedes is read by no step of Section 4.3: a version 2 naming a digest of nothing held would be released by the steps; this case joins on it (C1) outside the checker": true,
+  "the rule re-derives nothing about the person: that the approver's person_approval verifies is the Standard's check (dps.*.person_approvals_verified), not a step of the verdict": 1
+ },
+ "wright_appendix_a": {
+  "A.1_claim_digest_agrees": true,
+  "A.1_record_digest_agrees": true,
+  "A.2_hop_digests_agree": true,
+  "A.2_record_digest_agrees": true,
+  "A.2_under_a_parsing_only_hop_format": "state released; step 1 PASS; step 2 PASS; step 3 PASS",
+  "A.2_under_a_hop_format_requiring_the_signature": "state held; step 1 PASS; step 2 NOT RUN; step 3 NOT RUN",
+  "A.2_child_scopes_widened": "state refused; step 1 PASS; step 2 PASS; step 3 FAIL",
+  "A.2_child_hop_not_held": "state held; step 1 PASS; step 2 NOT RUN; step 3 NOT RUN"
+ },
+ "all_verified": true
+}
