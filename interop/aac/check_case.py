@@ -9,29 +9,43 @@ attachment's bytes.
 
 Standard side (the reference checks of its repository, unchanged): the record against its schema and its seal; the
 attachment against its schema and the action binding reference check; the signatures attachment, when one travels
-beside, through the signatures reference check with the trust policy. The Standard is consulted only when every
-reference resolved, as a verifier would.
+beside, through the signatures reference check with the trust policy.
+
+The composition (the Standard's side and the join) runs only when the capsule cites both references this case expects
+(the decision record and the action-binding attachment, under the Standard's declared artifact types) and both
+resolve, as a verifier would. A reference the capsule does not carry is a failure of its own,
+`required_reference_missing:<type>`, never "verified": resolving the references present beside the capsule would
+not show that the capsule cites them (Ivan Nestorov's outside review of 6 November 2026, cases 15 and 16).
 
 Usage: check_case.py <case folder> [...]. Writes result.json in each folder; exit 0 when every case matches expected.
+DPS_STANDARD names the Standard's checkout (main at 007f8c9); without it, the checkout interop/run.sh makes beside
+aqta/approval-record is used.
 """
+import importlib
 import importlib.util
 import json
+import os
 import pathlib
 import re
 import sys
+from urllib.parse import urljoin
 
 from jsonschema import Draft202012Validator
-
-import importlib
+from referencing import Registry, Resource
+from referencing.jsonschema import DRAFT202012
 
 parse = importlib.import_module("agent_action_capsule.parse")
 verify = importlib.import_module("agent_action_capsule.verify")
 
-import os
+HERE = pathlib.Path(__file__).resolve().parent
 # the Standard's checkout the DPS side runs (main at 007f8c9 since 29 October 2026: #87 and #91 merged)
-DPS = pathlib.Path(os.environ.get("DPS_STANDARD", "/root/claude-ops/dps/wt-007f8c9"))
+DPS = pathlib.Path(os.environ.get("DPS_STANDARD") or (HERE.parent / "aqta/approval-record/dps-standard"))
+if not (DPS / "extensions/action-binding/tests/run_checks.py").exists():
+    sys.exit(f"the Standard's checkout is not at {DPS}: set DPS_STANDARD (see interop/run.sh)")
 NS = "org.decisionprovenancestandard"
 ZEROS = "0" * 64
+# the two typed references a capsule of these cases must carry (draft -01 section 5; the Standard's declared types)
+REQUIRED = (f"{NS}.decision_record", f"{NS}.action_binding_attachment")
 
 
 def load(name, path):
@@ -56,8 +70,43 @@ def sha256(b):
     return hashlib.sha256(b).hexdigest()
 
 
+def relative_refs(node, out=None):
+    """Every $ref of a schema that names another file (not a fragment of this one, not an absolute URI)."""
+    out = [] if out is None else out
+    if isinstance(node, dict):
+        ref = node.get("$ref")
+        if isinstance(ref, str) and not ref.startswith("#") and "://" not in ref:
+            out.append(ref.split("#", 1)[0])
+        for v in node.values():
+            relative_refs(v, out)
+    elif isinstance(node, list):
+        for v in node:
+            relative_refs(v, out)
+    return out
+
+
+def load_schema(path):
+    """The schema and a registry resolving each relative $ref against the schema's own file, never the network: the
+    file the ref names, taken beside the referring file, is registered under the URI the ref resolves to (the
+    referring schema's $id as base) and under its own $id."""
+    registry = Registry()
+
+    def add(path, uri):
+        nonlocal registry
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        base = doc.get("$id", uri)
+        for u in {uri, base}:
+            registry = registry.with_resource(u, Resource.from_contents(doc, default_specification=DRAFT202012))
+        for ref in relative_refs(doc):
+            add((path.parent / ref).resolve(), urljoin(base, ref))
+        return doc
+
+    return add(path, path.as_uri()), registry
+
+
 def schema_errors(which, doc):
-    validator = Draft202012Validator(json.loads(SCHEMAS[which].read_text(encoding="utf-8")))
+    schema, registry = load_schema(SCHEMAS[which])
+    validator = Draft202012Validator(schema, registry=registry)
     return [e.message[:160] for e in validator.iter_errors(doc)]
 
 
@@ -145,8 +194,16 @@ def check(folder):
     record_bytes = (folder / "decision-record.json").read_bytes()
     att_bytes = (folder / "action-binding-attachment.json").read_bytes()
     cap, refs = capsule_side(folder, capsule, record_bytes, att_bytes)
-    result = {"case": folder.name, "capsule": cap, "references": refs}
-    if all(r["resolved"] for r in refs.values()):
+    result = {"case": folder.name, "capsule": cap, "references": refs,
+              "required_references": {t: "missing" if t not in refs else "resolved" if refs[t]["resolved"] else "unresolved" for t in REQUIRED}}
+    missing = [t for t in REQUIRED if t not in refs]
+    if missing:
+        # the capsule does not cite a document this case expects it to cite: nothing beside the capsule can stand in
+        # for the citation, so neither the Standard's side nor the join runs, and the case fails by name
+        result["failures"] = [f"required_reference_missing:{t}" for t in missing]
+        result["dps"] = {"consulted": False, "note": "a required reference is missing from the capsule: the documents beside it are not the ones it cites, so they are not checked"}
+        result["join"] = {"request_digest": "not_checked", "note": "a required reference is missing: there is no cited attachment to join with"}
+    elif all(r["resolved"] for r in refs.values()):
         result["dps"] = dps_side(folder, record_bytes, att_bytes)
         result["join"] = join(capsule, json.loads(att_bytes))
     else:
@@ -163,9 +220,11 @@ def main():
         r = check(arg)
         ok = ok and r["matches_expected"]
         print(("PASS " if r["matches_expected"] else "FAIL ") + r["case"] + ": capsule " + ("ok" if r["capsule"]["verify_ok"] else "refused")
-              + ", references " + ", ".join(f"{k.split('.')[-1]}={'resolved' if v['resolved'] else 'FAILED'}" for k, v in r["references"].items())
+              + ", references " + ", ".join(f"{k.split('.')[-1]}={v.upper() if v != 'resolved' else v}" for k, v in r["required_references"].items())
+              + (", " + ", ".join(r["failures"]) if r.get("failures") else "")
               + ", DPS " + (("binding " + str(r["dps"].get("attachment", {}).get("action_binding")) + ", approval "
-                             + str((r["dps"].get("signatures") or {}).get("person_approval") or "absent")) if r["dps"].get("consulted") else "not consulted"))
+                             + str((r["dps"].get("signatures") or {}).get("person_approval") or "absent")) if r["dps"].get("consulted") else "not consulted")
+              + (", join " + r["join"]["request_digest"] if "join" in r else ""))
     return 0 if ok else 1
 
 

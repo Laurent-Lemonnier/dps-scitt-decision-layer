@@ -1,0 +1,22 @@
+{
+ "about": "case 01 with every reference removed and capsule_id recomputed by the library: the capsule verifies as a document and cites nothing; the documents beside it are not the ones it cites (it cites none), so the Standard is not consulted and the join is not checked: both required references missing, never verified",
+ "capsule": {
+  "parse_ok": true,
+  "verify_ok": true
+ },
+ "references": {},
+ "required_references": {
+  "org.decisionprovenancestandard.decision_record": "missing",
+  "org.decisionprovenancestandard.action_binding_attachment": "missing"
+ },
+ "failures": [
+  "required_reference_missing:org.decisionprovenancestandard.decision_record",
+  "required_reference_missing:org.decisionprovenancestandard.action_binding_attachment"
+ ],
+ "dps": {
+  "consulted": false
+ },
+ "join": {
+  "request_digest": "not_checked"
+ }
+}

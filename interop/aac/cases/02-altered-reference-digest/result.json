@@ -25,6 +25,10 @@
    "citation_purpose": "acted_on"
   }
  },
+ "required_references": {
+  "org.decisionprovenancestandard.decision_record": "unresolved",
+  "org.decisionprovenancestandard.action_binding_attachment": "resolved"
+ },
  "dps": {
   "consulted": false,
   "note": "a reference did not resolve: the Standard's documents are not the ones cited, so they are not checked"

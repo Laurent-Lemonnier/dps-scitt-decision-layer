@@ -43,6 +43,13 @@ DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 agent-pass/build.p
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 agent-pass/negatives.py > agent-pass/out/negatives-ci.log || { echo "agent pass: a failing case was not caught where expected"; cat agent-pass/out/negatives-ci.log; exit 1; }
 echo "# 40 Seal records valid; 8 DPS dimensions and 13 person signatures verified; 41 capsules verified; 7 joins true; 10 failing cases caught where expected"
 
+echo "== Agent Action Capsule interop cases (aac): the capsule library 0.12.0 and the Standard's reference checks, both sides and the join, cases 01 to 05 and 14 to 16"
+# cases 06 to 08 (the live Transparency Service, the COSE forms under scitt-cose, the NOA receipt) have their own scripts and are not replayed here
+python3 -m pip install --quiet jsonschema referencing "agent-action-capsule==0.12.0"
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 aac/check_case.py aac/cases/0[1-5]-* aac/cases/1[4-6]-* > aac/check-ci.log || { echo "aac: a case did not report what its expected.json says"; cat aac/check-ci.log; exit 1; }
+git diff --exit-code --quiet -- aac/cases/*/result.json || { echo "aac: a result.json differs from the committed one"; git --no-pager diff -- aac/cases/*/result.json; exit 1; }
+echo "# 8 cases as expected: 01 verified on both sides and the join; 02 and 05 reference unresolved, Standard not consulted; 03 approval absent; 04 resolution is not validity; 14 join failed; 15 and 16 required reference missing, never verified (Ivan Nestorov's review of 6 November 2026); result.json byte-identical to the committed ones"
+
 echo "== One plan approved as a whole, executed as steps (plan-run): one DPS exact approval, N capsules, a run manifest between them"
 mkdir -p plan-run/out
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-run/build.py > plan-run/out/build-ci.log || { echo "plan run: not all verified"; tail -30 plan-run/out/build-ci.log; exit 1; }

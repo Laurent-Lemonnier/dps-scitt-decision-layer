@@ -1,0 +1,8 @@
+PASS 01-valid: capsule ok, references decision_record=resolved, action_binding_attachment=resolved, DPS binding verified, approval {'signature': 'verified', 'subject': 'verified', 'key_state': 'verified', 'identity': 'verified'}, join verified
+PASS 02-altered-reference-digest: capsule ok, references decision_record=UNRESOLVED, action_binding_attachment=resolved, DPS not consulted
+PASS 03-unsigned-attachment: capsule ok, references decision_record=resolved, action_binding_attachment=resolved, DPS binding verified, approval absent, join verified
+PASS 04-attachment-fails-its-own-check: capsule ok, references decision_record=resolved, action_binding_attachment=resolved, DPS binding failed, approval {'signature': 'verified', 'subject': 'failed', 'key_state': 'verified', 'identity': 'verified'}, join verified
+PASS 05-reencoded-record: capsule ok, references decision_record=UNRESOLVED, action_binding_attachment=resolved, DPS not consulted
+PASS 14-capsule-cites-another-action: capsule ok, references decision_record=resolved, action_binding_attachment=resolved, DPS binding verified, approval {'signature': 'verified', 'subject': 'verified', 'key_state': 'verified', 'identity': 'verified'}, join failed
+PASS 15-attachment-reference-missing: capsule ok, references decision_record=resolved, action_binding_attachment=MISSING, required_reference_missing:org.decisionprovenancestandard.action_binding_attachment, DPS not consulted, join not_checked
+PASS 16-no-references: capsule ok, references decision_record=MISSING, action_binding_attachment=MISSING, required_reference_missing:org.decisionprovenancestandard.decision_record, required_reference_missing:org.decisionprovenancestandard.action_binding_attachment, DPS not consulted, join not_checked

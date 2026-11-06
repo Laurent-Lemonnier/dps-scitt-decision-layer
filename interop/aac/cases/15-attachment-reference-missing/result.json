@@ -1,0 +1,37 @@
+{
+ "case": "15-attachment-reference-missing",
+ "capsule": {
+  "parse_ok": true,
+  "parse_error": null,
+  "verify_ok": true,
+  "findings": [
+   "info unknown_registry_value",
+   "info domain_unknown_value"
+  ]
+ },
+ "references": {
+  "org.decisionprovenancestandard.decision_record": {
+   "cited": "e4adee54d9314c58b10b61487d21c895d8ea76652d26438285b49ae373b8213b",
+   "held": "e4adee54d9314c58b10b61487d21c895d8ea76652d26438285b49ae373b8213b",
+   "digest_alg": "SHA-256",
+   "resolved": true,
+   "citation_purpose": "ran_under"
+  }
+ },
+ "required_references": {
+  "org.decisionprovenancestandard.decision_record": "resolved",
+  "org.decisionprovenancestandard.action_binding_attachment": "missing"
+ },
+ "failures": [
+  "required_reference_missing:org.decisionprovenancestandard.action_binding_attachment"
+ ],
+ "dps": {
+  "consulted": false,
+  "note": "a required reference is missing from the capsule: the documents beside it are not the ones it cites, so they are not checked"
+ },
+ "join": {
+  "request_digest": "not_checked",
+  "note": "a required reference is missing: there is no cited attachment to join with"
+ },
+ "matches_expected": true
+}

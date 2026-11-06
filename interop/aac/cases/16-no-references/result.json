@@ -1,0 +1,30 @@
+{
+ "case": "16-no-references",
+ "capsule": {
+  "parse_ok": true,
+  "parse_error": null,
+  "verify_ok": true,
+  "findings": [
+   "info unknown_registry_value",
+   "info domain_unknown_value"
+  ]
+ },
+ "references": {},
+ "required_references": {
+  "org.decisionprovenancestandard.decision_record": "missing",
+  "org.decisionprovenancestandard.action_binding_attachment": "missing"
+ },
+ "failures": [
+  "required_reference_missing:org.decisionprovenancestandard.decision_record",
+  "required_reference_missing:org.decisionprovenancestandard.action_binding_attachment"
+ ],
+ "dps": {
+  "consulted": false,
+  "note": "a required reference is missing from the capsule: the documents beside it are not the ones it cites, so they are not checked"
+ },
+ "join": {
+  "request_digest": "not_checked",
+  "note": "a required reference is missing: there is no cited attachment to join with"
+ },
+ "matches_expected": true
+}

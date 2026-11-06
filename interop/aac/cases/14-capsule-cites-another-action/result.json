@@ -25,6 +25,10 @@
    "citation_purpose": "acted_on"
   }
  },
+ "required_references": {
+  "org.decisionprovenancestandard.decision_record": "resolved",
+  "org.decisionprovenancestandard.action_binding_attachment": "resolved"
+ },
  "dps": {
   "consulted": true,
   "record": {

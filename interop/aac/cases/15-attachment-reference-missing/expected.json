@@ -1,0 +1,25 @@
+{
+ "about": "case 01 with the action-binding attachment's reference removed and capsule_id recomputed by the library: the capsule verifies as a document and the record's reference resolves, but the capsule does not cite the attachment beside it; the attachment is not checked and there is nothing to join: required_reference_missing, never verified",
+ "capsule": {
+  "parse_ok": true,
+  "verify_ok": true
+ },
+ "references": {
+  "org.decisionprovenancestandard.decision_record": {
+   "resolved": true
+  }
+ },
+ "required_references": {
+  "org.decisionprovenancestandard.decision_record": "resolved",
+  "org.decisionprovenancestandard.action_binding_attachment": "missing"
+ },
+ "failures": [
+  "required_reference_missing:org.decisionprovenancestandard.action_binding_attachment"
+ ],
+ "dps": {
+  "consulted": false
+ },
+ "join": {
+  "request_digest": "not_checked"
+ }
+}

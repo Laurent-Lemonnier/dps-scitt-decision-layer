@@ -21,14 +21,22 @@ The Decision Provenance Standard, Yohay Etsion, 2026, CC-BY 4.0, https://decisio
 |---|---|
 | Draft | `-00` posted on the IETF Datatracker on 26 October 2026 and announced on scitt@ietf.org; `-01` due before the 2 November cutoff, with a Related Work section (the SCITT group holds some thirty drafts on agent decision records) and an Implementation Status section (RFC 7942) that names the Standard's reference checks and the interop below |
 | Standard | all four extensions written against the Standard's main branch (`007f8c9`); the commit each artefact is pinned to is stated in its directory. [#93](https://github.com/decision-provenance-standard/standard/issues/93) answered by the Steward with no change to the Standard: the designating policy is signed through the specification (`policy_version` = SHA-256 of the issuer's policy), and a short validity is checked at the recheck |
-| Interop with the Agent Action Capsule (Steven Mih) | seven cases, both sides passing, including the two COSE forms; the service's transparency receipt read by the Standard's anchoring check; see `interop/aac/` |
+| Interop with the Agent Action Capsule (Steven Mih) | eleven cases, both sides passing, including the two COSE forms; the service's transparency receipt read by the Standard's anchoring check; since 6 November 2026 the checker requires both typed references before the composition runs, with two negative cases, after Ivan Nestorov's outside review of that day; see `interop/aac/` |
 | Independent verifiers of neighbouring drafts | written from the drafts' text and run on their published vectors: Seal (Chueayen) 67/67, VERIFY-ANCHOR (Fassbender) 4/4, AER-1 (Zambo) 119/119, agent audit record (Gilda) 141/141; discrepancies found are listed in each README and reported to the authors |
 | Seal Section 8.3 | the approval record that draft calls for, as a DPS signed outcome, with the failing cases its author asked for and those proposed on #93, which the Steward agreed fit; see `interop/aqta/approval-record/` |
 | AER-1 composed (Zambo) | at the author's request, a decision record and an AER-1 receipt bound both ways (the attempt cites the receipt's id and output_hash; the receipt's recorded input carries the DPS request_id and the approved values), with 10 failing cases; building it found that the AER-1 kit never recomputed the receipt's metadata block, which the author confirmed and fixed in both runners (`5d1504b`, with credit, verified here); the kit lists the verifier in its IMPLEMENTERS.md; see `interop/aer1-decision/` |
 | One agent pass, three layers | a synthetic pass of 35 actions and 5 refusals carried by the DPS (two standing approvals of exact lists, ten exact approvals of comments, one rejection, 13 signatures), Seal ACTION-v1 (40 records) and the capsule (41), with the joins across them and 10 failing cases; see `interop/agent-pass/` |
 | IETF 127 (San Francisco, 14–20 November) | Hackathon 14–15 November (capsule interop, remote); AUDIT BoF Tuesday 17 November; SCITT session Wednesday 18 November |
 
-Everything under `interop/` is replayed by the CI from a clean machine on every push and weekly (`interop/run.sh`).
+The CI (`interop/run.sh`, from a clean machine on every push and weekly) replays what that script names: the verifiers
+of the neighbouring drafts over their published vectors (Seal, VERIFY-ANCHOR, AER-1, the agent audit record and its
+approval-binding contract, PALA-1, P10 S2b and Appendix A), the composed cases (`aqta/approval-record`, `agent-pass`,
+`plan-run`, `plan-checkpoint`, `plan-workflow`, `emilia-pair`, `aer1-decision`, `air`, `verdict-record`,
+`agent-execution-evidence`, `one-chain`, `one-chain-real`) and, since 6 November 2026, the AAC cases 01 to 05 and 14
+to 16 of `interop/aac/` through `check_case.py`. Not replayed: AAC cases 06 to 08 (the live Transparency Service, the
+COSE forms, the NOA receipt; their outputs are committed as run), `interop/composition-who/`, `demo/` and `examples/`.
+Until 6 November this sentence said that everything under `interop/` was replayed; Ivan Nestorov's outside review of
+that day found that the AAC cases were not.
 
 ## What is here
 
@@ -53,7 +61,9 @@ Everything under `interop/` is replayed by the CI from a clean machine on every 
   `result.json`: 01–05 typed digest references (valid; altered digest; unsigned attachment; an attachment that fails
   its own check, which resolves and then fails; a re-encoded record), 06 the capsule registered at the library's
   Transparency Service with its COSE Receipt, 07 the two COSE forms (a Producer Envelope the library verifies; a
-  CPB-bound Signed Statement with the references in the protected `cpb-refs` header, with negatives), and
+  CPB-bound Signed Statement with the references in the protected `cpb-refs` header, with negatives), 08 a NOA receipt
+  bound to the decision it executed, 14 a valid capsule citing another action (only the join catches it), 15 and 16 a
+  capsule missing the attachment's reference, or every reference (`required_reference_missing`, never verified), and
   `anchoring_case06.py`, the receipt of case 06 read by the Standard's anchoring extension.
 - `interop/aqta/`, `interop/umarise/`, `interop/aer1/`, `interop/gilda/`: verifiers written from the text of four
   neighbouring drafts, their replays and what each left out; `interop/README.md` has the table.
