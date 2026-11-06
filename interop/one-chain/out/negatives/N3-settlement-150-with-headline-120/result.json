@@ -1,0 +1,22 @@
+{
+ "case": "N3-settlement-150-with-headline-120",
+ "expected_to_fail_at": [
+  "goshi:SETTLEMENT_HEADLINE_MISMATCH",
+  "K8"
+ ],
+ "failed_at": [
+  "K12",
+  "K8",
+  "goshi:SETTLEMENT_HEADLINE_MISMATCH"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "SETTLEMENT_HEADLINE_MISMATCH"
+ ],
+ "joins_false": [
+  "K8",
+  "K12"
+ ]
+}

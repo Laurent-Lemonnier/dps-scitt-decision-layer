@@ -1,0 +1,7 @@
+{
+ "harness_evidence_service_ed25519_pub": "7234840a7eb25adc3b8a08b10e40aa20f05900d73018439745fa0ee9979a90cb",
+ "agent_ed25519_pub": "fd41d1be02bd708319f2f5a7c2d8df08f89bc10f38c8c17c2da23a4406d31ee1",
+ "finance_controller_ed25519_pub": "b524530b9c3cd2d59f4b48e090f09e1fc48e5aababa456f8dd6bca069b1704e5",
+ "dps_issuer_ed25519_pub": "eda5a16a2f8d7dfc4282bf23a489ac106d1c169d739828d8a492792292a85064",
+ "note": "test keys from fixed seeds; never use them for anything real"
+}

@@ -1,0 +1,1 @@
+the auditor's record was re-issued one second later (act_time) after the packet cited the earlier bytes' digest: no verdict record held has the digest the packet's anchor names

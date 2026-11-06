@@ -1,0 +1,22 @@
+{
+ "case": "N2-verdict-altered-after-the-packet-cited-it",
+ "expected_to_fail_at": [
+  "goshi:ANCHOR_UNRESOLVED",
+  "K7"
+ ],
+ "failed_at": [
+  "K12",
+  "K7",
+  "goshi:ANCHOR_UNRESOLVED"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "ANCHOR_UNRESOLVED"
+ ],
+ "joins_false": [
+  "K7",
+  "K12"
+ ]
+}

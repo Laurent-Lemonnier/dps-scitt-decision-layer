@@ -1,0 +1,1 @@
+the signatures attachment carries no person signature while o1 is still claimed: the confirm receipt has no member for who confirmed (Thaha 6.7), the Standard's person_approval check is where the absence shows, and no later link notices (the packet verifies)
