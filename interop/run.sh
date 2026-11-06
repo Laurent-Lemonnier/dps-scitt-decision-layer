@@ -113,7 +113,8 @@ neg=$(python3 umarise/verify_anchor.py --artifact /tmp/umarise-bad.txt --proof u
 grep -q '"result": "invalid"' <<<"$neg" || { echo "D.6 negative: not invalid: $neg"; exit 1; }
 nochain=$(python3 umarise/verify_anchor.py --artifact umarise/vectors/vector1.txt --proof umarise/vectors/vector1.ots || true)
 grep -q '"result": "unverifiable"' <<<"$nochain" || { echo "D.6 no chain: not unverifiable: $nochain"; exit 1; }
-echo "# 4 vectors valid at height 957289; D.6 negative invalid; no validated chain unverifiable"
+python3 umarise/synthetic_headers_check.py || { echo "umarise: synthetic linked headers above mainnet's target were validated"; exit 1; }
+echo "# 4 vectors valid at height 957289; D.6 negative invalid; no validated chain unverifiable; synthetic headers with nBits 0x207fffff refused"
 
 echo "== draft-zambo-aer1-26, conformance kit v1.5.7 (all seven vector suites, and the seq-output-v1 workflow vectors)"
 AER1_REPO=https://gitlab.com/rambozambodotdev/zambo.git

@@ -31,9 +31,15 @@ What this implementation holds:
 
 - `headers-957289-957300.json`: twelve 80-byte headers obtained on 2026-10-29 from two independent public sources
   (blockstream.info and mempool.space), byte-identical between the two (`headers-sources.json`).
-- `validate_chain()` checks, offline, that every header meets its own target (proof-of-work), that each links to the
-  previous by hash, and that the set is anchored at a checkpoint the verifier holds: the hash of block 957289 as printed
-  in Appendix D.3 and as reported by both sources.
+- `validate_chain()` checks, offline, that every header meets its own target (proof-of-work), that its target does not
+  exceed mainnet's limit (`powLimit`, nBits `0x1d00ffff`), that nBits does not change between two retarget boundaries
+  (every 2016 blocks; at a boundary the retarget cannot be recomputed from a short set, and validation stops there),
+  that each links to the previous by hash, and that the set is anchored at a checkpoint the verifier holds: the hash of
+  block 957289 as printed in Appendix D.3 and as reported by both sources. The first of these checks was the only one
+  until 6 November 2026: Yohay Etsion, reading the demonstration at `c597904` for the Standard's issue #96, found that
+  five linked headers forged with nBits `0x207fffff` after the real checkpoint were accepted, each meeting its own,
+  absurdly easy, target. `synthetic_headers_check.py` keeps that set, and a real header with its nBits rewritten, as
+  failing cases.
 
 So the residual trust is in that checkpoint: twelve headers of valid proof-of-work above it show real work, but not that
 this is the most-work chain from genesis. A verifier with its own node would replace the checkpoint by its chain tip.

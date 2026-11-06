@@ -24,6 +24,12 @@ MAGIC = b"\x00OpenTimestamps\x00\x00Proof\x00\xbf\x89\xe2\xe8\x84\xe8\x92\x94"
 BITCOIN_TAG = bytes.fromhex("0588960d73d71901")
 PENDING_TAG = bytes.fromhex("83dfe30d2ef90c8e")
 MIN_CONFIRMATIONS = 6  # Assumption A2
+# Bitcoin mainnet consensus limits the verifier applies to a header set (Yohay Etsion's finding on #96, 5 November
+# 2026: linked headers with nBits 0x207fffff, a target above mainnet's, were accepted): the maximum target
+# (powLimit, nBits 0x1d00ffff), and the difficulty rule, nBits unchanged between two retarget boundaries (every 2016
+# blocks). A retarget at a boundary cannot be recomputed from a short header set, so validation stops there.
+POW_LIMIT_BITS = 0x1D00FFFF
+RETARGET_INTERVAL = 2016
 
 
 def sha256(b):
@@ -134,17 +140,26 @@ def validate_chain(headers, checkpoint):
     cp_h, cp_hash = checkpoint
     if cp_h not in hs or block_hash(hs[cp_h]) != cp_hash:
         return {}
+    validated = {}
     for i, h in enumerate(heights):
         hdr = hs[h]
         if len(hdr) != 80:
             return {}
         bits = struct.unpack("<I", hdr[72:76])[0]
+        if bits_to_target(bits) > bits_to_target(POW_LIMIT_BITS):
+            return {}                                   # target above mainnet's limit: not a mainnet header
         if int.from_bytes(sha256(sha256(hdr)), "little") > bits_to_target(bits):
             return {}
         if i > 0:
             if heights[i - 1] != h - 1 or hdr[4:36][::-1].hex() != block_hash(hs[h - 1]):
                 return {}
-    return hs
+            prev_bits = struct.unpack("<I", hs[h - 1][72:76])[0]
+            if bits != prev_bits:
+                if h % RETARGET_INTERVAL != 0:
+                    return {}                           # difficulty may only change at a retarget boundary
+                break                                   # a retarget this set cannot recompute: validated up to here
+        validated[h] = hdr
+    return validated
 
 
 def verify_anchor(artifact_bytes, proof_bytes, claimed_hash, validated_chain, min_conf=MIN_CONFIRMATIONS):
