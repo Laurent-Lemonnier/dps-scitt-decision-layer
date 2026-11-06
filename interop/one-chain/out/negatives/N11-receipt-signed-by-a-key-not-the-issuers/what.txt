@@ -1,0 +1,1 @@
+the envelope names the merchant's kid but the signature is another key's: the key resolved out of band does not verify it (Farley 5.2, 9.5)

@@ -1,0 +1,25 @@
+{
+ "case": "N10-receipt-payload-edited-after-signing",
+ "expected_to_fail_at": [
+  "goshi:RECEIPT_SIGNATURE_INVALID",
+  "goshi:SCOPE_HEADLINE_MISMATCH",
+  "K7"
+ ],
+ "failed_at": [
+  "K12",
+  "K7",
+  "goshi:RECEIPT_SIGNATURE_INVALID",
+  "goshi:SCOPE_HEADLINE_MISMATCH"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "RECEIPT_SIGNATURE_INVALID",
+  "SCOPE_HEADLINE_MISMATCH"
+ ],
+ "joins_false": [
+  "K7",
+  "K12"
+ ]
+}

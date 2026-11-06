@@ -1,0 +1,33 @@
+{
+ "case": "N1-approval-of-other-arguments-everything-downstream-claims-as-approved",
+ "expected_to_fail_at": [
+  "J1",
+  "dps",
+  "verdict:refused",
+  "goshi:SCOPE_HEADLINE_MISMATCH",
+  "K5",
+  "K7"
+ ],
+ "failed_at": [
+  "J1",
+  "K12",
+  "K5",
+  "K7",
+  "K8",
+  "dps",
+  "goshi:SCOPE_HEADLINE_MISMATCH",
+  "verdict:refused"
+ ],
+ "as_expected": true,
+ "verdict_state": "refused",
+ "packet": "FAILED",
+ "packet_failures": [
+  "SCOPE_HEADLINE_MISMATCH"
+ ],
+ "joins_false": [
+  "K5",
+  "K7",
+  "K8",
+  "K12"
+ ]
+}

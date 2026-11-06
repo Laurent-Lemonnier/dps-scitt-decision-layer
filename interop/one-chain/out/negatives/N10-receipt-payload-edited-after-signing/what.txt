@@ -1,0 +1,1 @@
+scope_conformance set to not_evaluated in the payload after the signature was computed: the signature over the canonical payload no longer verifies (Farley 5.2 step 6) and the headline no longer agrees with the re-derivation

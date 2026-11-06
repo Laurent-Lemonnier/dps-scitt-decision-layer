@@ -1,0 +1,19 @@
+{
+ "case": "N11-receipt-signed-by-a-key-not-the-issuers",
+ "expected_to_fail_at": [
+  "goshi:RECEIPT_SIGNATURE_INVALID"
+ ],
+ "failed_at": [
+  "K12",
+  "goshi:RECEIPT_SIGNATURE_INVALID"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "RECEIPT_SIGNATURE_INVALID"
+ ],
+ "joins_false": [
+  "K12"
+ ]
+}
