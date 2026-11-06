@@ -1,0 +1,33 @@
+{
+ "case": "R7-confirm-without-approval",
+ "expected_to_fail_at": [
+  "dps",
+  "J2",
+  "K2"
+ ],
+ "failed_at": [
+  "J2",
+  "K1",
+  "K2",
+  "dps"
+ ],
+ "as_expected": true,
+ "person_signature": {
+  "status": "absent",
+  "signature": null,
+  "subject": null,
+  "key_state": null,
+  "identity": null,
+  "authenticator": null
+ },
+ "person_signature_findings": [
+  "no person signature in the attachment"
+ ],
+ "verdict_state": "released",
+ "packet": "VERIFIED",
+ "packet_failures": [],
+ "joins_false": [
+  "K1",
+  "K2"
+ ]
+}

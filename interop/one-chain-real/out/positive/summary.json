@@ -1,0 +1,429 @@
+{
+ "standard_commit": "007f8c99ec910564bac1c508b76c8ce8391fa11e",
+ "link1_2_thaha_dps": {
+  "route": "1 (separate Signed Statement)",
+  "schema_errors": {
+   "record": [],
+   "a1": [],
+   "a2": [],
+   "signatures": []
+  },
+  "aee": {
+   "result": "CHECKS_PERFORMED",
+   "checks": [
+    {
+     "check": "Bundle is a CBOR map with statements (1) and receipts (2)",
+     "section": "8",
+     "ok": true
+    },
+    {
+     "check": "6 Signed Statement(s): header per Section 5, Issuer signature, aee_type = payload key 1, sub = agent_id, Registration Policy checks needing no other statement",
+     "section": "5; 7; 9 steps 2, 3",
+     "ok": true
+    },
+    {
+     "check": "shape of every receipt: closed integer-key map, required keys, enumerations, digests",
+     "section": "6.7 CDDL; 5",
+     "ok": true
+    },
+    {
+     "check": "seq from 0 by exactly one; prev_hash chains from 32 zero octets by record-hash",
+     "section": "6.7.1; 9 step 6",
+     "ok": true
+    },
+    {
+     "check": "ts non-decreasing along the chain",
+     "section": "6.7; 9 step 9",
+     "ok": true
+    },
+    {
+     "check": "every receipt names an earlier allow task_start of its Task, not ended, with the same principal",
+     "section": "6.7.1",
+     "ok": true
+    },
+    {
+     "check": "parent_seq earlier, present, of the required type and Task; one tool_result per tool_call, after an allow",
+     "section": "6.7; 9 step 8",
+     "ok": true
+    },
+    {
+     "check": "every confirm_seq names an earlier confirm with the same parent_seq, target, request_digest and Task; one outcome each; no tool_result before an allow outcome; no Task ends with a confirm pending",
+     "section": "6.7; 9 step 8",
+     "ok": true
+    },
+    {
+     "check": "agent_sig verified on 1 receipt(s): COSE_Sign1, detached payload = canonical receipt without key 15, CWT iss and sub = agent_id",
+     "section": "6.7; 9 step 10",
+     "ok": true
+    },
+    {
+     "check": "every receipt of key 2 has its own Signed Statement in key 1 (no epoch here)",
+     "section": "8; 6.7.4",
+     "ok": true
+    }
+   ],
+   "not_performed": [
+    "step 1: Transparency Service Receipts (label 394) - no TS in this case",
+    "step 4, 5: Agent Credential and Agent Registration Statements - not built",
+    "step 7: Execution Epoch - receipts registered individually (6.7.4 permits it), no epoch to check",
+    "steps 11-17: Policy Pack, Configuration Integrity, Assurance, Status Lists, Sub-agents, admission, delegation - not built"
+   ],
+   "record_hashes": {
+    "0": "cad5ea50ad0b1aa0163f3f7bc88c542f6a55f7ac43f9134a546abf0b1209243d",
+    "1": "680f6530d75d97a6b8cbcd2b4545da6df772bf26f3546bb8c5b4271f65e0a6b0",
+    "2": "098f9e4365cdbbab1d6a30635afbe1a5091bfdfa9617e0711d460acaa23373d2",
+    "3": "3fcb696d7ca85d06d6f794918af72d134537a11adc2903b74dd3f9c71f277300",
+    "4": "4e7e5283fd9d27c7f451d8d8b4327f9e3680377c6205dd25610a9ddd27886508",
+    "5": "6c8ecca169c4af978376eddf26491db86802e346ac0f59fc216da81b23f9ce85"
+   },
+   "confirm_outcomes": {
+    "2": 3
+   },
+   "confirms_pending": []
+  },
+  "dps_a1": {
+   "dimensions": {
+    "specification_digests": "verified",
+    "specification_statements": "verified",
+    "record_statements": "verified",
+    "action_binding": "verified",
+    "stage_order": "verified",
+    "authorisation_recheck": "not_checked",
+    "observed_results": "not_checked",
+    "rationale_provenance": "verified"
+   },
+   "findings": {
+    "authorisation_recheck": [
+     "no recheck or attempt is recorded"
+    ],
+    "observed_results": [
+     "no execution attempt is recorded"
+    ]
+   },
+   "issuer_seal": "verified",
+   "person_approval": {
+    "status": "verified",
+    "signature": "verified",
+    "subject": "verified",
+    "key_state": "verified",
+    "identity": "verified"
+   },
+   "trust_policy": "verified"
+  },
+  "dps_a2": {
+   "dimensions": {
+    "specification_digests": "verified",
+    "specification_statements": "verified",
+    "record_statements": "verified",
+    "action_binding": "verified",
+    "stage_order": "verified",
+    "authorisation_recheck": "verified",
+    "observed_results": "verified",
+    "rationale_provenance": "verified"
+   },
+   "findings": {},
+   "issuer_seal": "verified",
+   "person_approval": {
+    "status": "verified",
+    "signature": "verified",
+    "subject": "verified",
+    "key_state": "verified",
+    "identity": "verified"
+   },
+   "trust_policy": "verified"
+  },
+  "route1": {
+   "signature": "verified",
+   "references": [
+    {
+     "type": "org.decisionprovenancestandard.action_binding_attachment",
+     "digest": "a09cb632c406f4e465e12588cc7663a2300dca5598c8fa04ceee2baeddb0afc8",
+     "state": "Verified"
+    },
+    {
+     "type": "org.decisionprovenancestandard.signatures_attachment",
+     "digest": "d9f7ddf5864cc1423477275ab44bbb4a1ad598bcec9d0226eb1acf43c59598df",
+     "state": "Verified"
+    },
+    {
+     "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+     "digest": "098f9e4365cdbbab1d6a30635afbe1a5091bfdfa9617e0711d460acaa23373d2",
+     "state": "Verified"
+    },
+    {
+     "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+     "digest": "3fcb696d7ca85d06d6f794918af72d134537a11adc2903b74dd3f9c71f277300",
+     "state": "Verified"
+    }
+   ],
+   "sub": "urn:example:decision-records:DR-2026-1104",
+   "bound": true
+  },
+  "route2": {
+   "present": false,
+   "bound": false
+  },
+  "joins": {
+   "J1 the confirm receipt's request_digest is the SHA-256 of the parameters of the approved specification (the tool arguments the Harness hashed), its target the specification's operation and its egress_host the host of its target": true,
+   "J2 the person's approval (verified by the Standard) names the same specification, and was signed after the confirm receipt and before the allow outcome (6.7: the call did not proceed until the outcome)": true,
+   "J3 the allow outcome resolves the confirm (verifier: confirm_seq, same parent_seq, target, request_digest, Task) and is recorded after the DPS request stage authorised by o1 (no allow without a request)": true,
+   "J4 the DPS attempt cites the allow outcome by record-hash (trace_refs) and the result cites the tool_result by record-hash and response_digest, under the issuer's seal": true,
+   "J5 the receipts' principal is SHA-256 over the Harness pepper and the canonical identifier of the person o1 names (Section 3; pepper obtained from the Harness out of band, test value here)": true,
+   "J6 A2 extends A1: A1's stages (proposal, review, outcome) are A2's first stages unchanged, and the same person signature stands beside both": true,
+   "J7 the agent asked for this call: agent_sig on the confirm receipt verified with the agent key (6.7)": true
+  },
+  "binding_inside_bundle_probe": {
+   "result": "FAIL",
+   "error": "E_TYPE_MISMATCH",
+   "detail": "statement 6: content type 'application/vnd.org.decisionprovenancestandard.binding+cbor' is not a statement media type of Section 12.1"
+  },
+  "all_verified": true
+ },
+ "checker_inputs": {
+  "policy_sha256": "c2839fed12d7a006c89810a8e5dfaab83558fcca314e080191a4a84bb5c02582",
+  "trust_anchors_sha256": "24f316c429e8c800563a18ee8a1dab82881b79824edb688105af39213e9219a3",
+  "rule_specifications_held": [
+   "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/verdict-record#executed-as-approved-v1"
+  ],
+  "format_rules_held": [
+   "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+   "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/standard/v5.0"
+  ]
+ },
+ "link3_verdict": {
+  "record_sha256": "f2c1b153c338848f63918c30f2b614440a3ad1cb4e4fadba01bf5a6ea2522c94",
+  "depth": 0,
+  "policy_sha256": "c2839fed12d7a006c89810a8e5dfaab83558fcca314e080191a4a84bb5c02582",
+  "trust_anchors_sha256": "24f316c429e8c800563a18ee8a1dab82881b79824edb688105af39213e9219a3",
+  "rule_specifications_held": [
+   "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/verdict-record#executed-as-approved-v1"
+  ],
+  "format_rules_held": [
+   "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+   "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/standard/v5.0"
+  ],
+  "upper_time_bound": "2026-11-06T20:05:00.000000Z",
+  "key": "dps/refund-8812/one-chain/executed-as-approved",
+  "version": 1,
+  "supersedes": null,
+  "writer": "audit.example",
+  "container": {
+   "shows_the_record": true
+  },
+  "state": "released",
+  "steps": {
+   "1": {
+    "result": "PASS"
+   },
+   "2": {
+    "result": "PASS",
+    "items": [
+     {
+      "index": 0,
+      "sha256": "c22c454f26e0ddad125654d7d8255d06e51353702a0ef686d82692b8cae537be",
+      "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+      "held": true,
+      "format_rules": "met"
+     },
+     {
+      "index": 1,
+      "sha256": "a09cb632c406f4e465e12588cc7663a2300dca5598c8fa04ceee2baeddb0afc8",
+      "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+      "held": true,
+      "format_rules": "met"
+     },
+     {
+      "index": 2,
+      "sha256": "880929aed8888aaafd556da9168e5c10049a0b91d4e6cb675c4126ca926a5cb7",
+      "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/standard/v5.0",
+      "held": true,
+      "format_rules": "met"
+     }
+    ]
+   },
+   "3": {
+    "result": "PASS",
+    "re_run_result": "executed_as_approved"
+   }
+  },
+  "body_inputs_read": [],
+  "first_failed_step": null,
+  "first_not_run_step": null,
+  "summary": "state released; step 1 PASS; step 2 PASS; step 3 PASS"
+ },
+ "link3_other_verdict": {
+  "record_sha256": "4ae8254b1d6819f9e0febfdef9ba5e7ee2d41c2bb6dafbd2f92902687ab1fd12",
+  "depth": 0,
+  "policy_sha256": "c2839fed12d7a006c89810a8e5dfaab83558fcca314e080191a4a84bb5c02582",
+  "trust_anchors_sha256": "24f316c429e8c800563a18ee8a1dab82881b79824edb688105af39213e9219a3",
+  "rule_specifications_held": [
+   "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/verdict-record#executed-as-approved-v1"
+  ],
+  "format_rules_held": [
+   "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+   "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/standard/v5.0"
+  ],
+  "upper_time_bound": "2026-11-06T20:05:00.000000Z",
+  "key": "dps/refund-8812/one-chain/executed-as-approved",
+  "version": 1,
+  "supersedes": null,
+  "writer": "audit.example",
+  "container": {
+   "shows_the_record": true
+  },
+  "state": "refused",
+  "steps": {
+   "1": {
+    "result": "PASS"
+   },
+   "2": {
+    "result": "PASS",
+    "items": [
+     {
+      "index": 0,
+      "sha256": "c22c454f26e0ddad125654d7d8255d06e51353702a0ef686d82692b8cae537be",
+      "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+      "held": true,
+      "format_rules": "met"
+     },
+     {
+      "index": 1,
+      "sha256": "a09cb632c406f4e465e12588cc7663a2300dca5598c8fa04ceee2baeddb0afc8",
+      "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/extensions/action-binding",
+      "held": true,
+      "format_rules": "met"
+     },
+     {
+      "index": 2,
+      "sha256": "880929aed8888aaafd556da9168e5c10049a0b91d4e6cb675c4126ca926a5cb7",
+      "format": "https://github.com/decision-provenance-standard/standard/tree/007f8c99ec910564bac1c508b76c8ce8391fa11e/standard/v5.0",
+      "held": true,
+      "format_rules": "met"
+     }
+    ]
+   },
+   "3": {
+    "result": "FAIL",
+    "why": "Section 4.3 step 3: the re-run result does not equal check.result",
+    "re_run_result": "executed_as_approved",
+    "check_result": "not_as_approved"
+   }
+  },
+  "body_inputs_read": [],
+  "first_failed_step": "3",
+  "first_not_run_step": null,
+  "summary": "state refused; step 1 PASS; step 2 PASS; step 3 FAIL"
+ },
+ "link4_packet": {
+  "result": "VERIFIED",
+  "failures": [],
+  "checks": [
+   "receipt signature verified over the canonical payload bytes with the key resolved out of band (F-5.2 steps 2-5)",
+   "the receipt carries the three base members and the eleven profile members of Section 3",
+   "settlement anchor_hash recomputed over the block's content (4.3)",
+   "settlement amount and currency equal the manifest's headline amount (5: headline consistency)",
+   "5 ledger events recompute and link (5)",
+   "scope verdict re-derived from intent scope and executed action: in_scope; receipt and manifest headline agree (4.2, 5)",
+   "evidence_set_hash recomputed over the digests the packet cites",
+   "3 custody events each bound to a ledger event hash (4.4)"
+  ],
+  "re_derived": {
+   "canonical_payload_sha256": "ec766dface204da39ebc2a35e995724f103237e19ff5ab4ca059e333380457c5",
+   "anchors": [
+    {
+     "name": "approval_event_hash",
+     "type": "org.decisionprovenancestandard.action_binding_attachment",
+     "alg": "SHA-256",
+     "digest": "c22c454f26e0ddad125654d7d8255d06e51353702a0ef686d82692b8cae537be",
+     "state": "resolved"
+    },
+    {
+     "name": "verdict_record",
+     "type": "verdict-record/1",
+     "alg": "SHA-256",
+     "digest": "f2c1b153c338848f63918c30f2b614440a3ad1cb4e4fadba01bf5a6ea2522c94",
+     "state": "resolved"
+    },
+    {
+     "name": "signatures_attachment",
+     "type": "org.decisionprovenancestandard.signatures_attachment",
+     "alg": "SHA-256",
+     "digest": "d9f7ddf5864cc1423477275ab44bbb4a1ad598bcec9d0226eb1acf43c59598df",
+     "state": "resolved"
+    },
+    {
+     "name": "allow_outcome_receipt",
+     "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+     "alg": "SHA-256",
+     "digest": "3fcb696d7ca85d06d6f794918af72d134537a11adc2903b74dd3f9c71f277300",
+     "state": "resolved"
+    },
+    {
+     "name": "tool_result_receipt",
+     "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+     "alg": "SHA-256",
+     "digest": "4e7e5283fd9d27c7f451d8d8b4327f9e3680377c6205dd25610a9ddd27886508",
+     "state": "resolved"
+    }
+   ],
+   "approval_event_uses": {
+    "c22c454f26e0ddad125654d7d8255d06e51353702a0ef686d82692b8cae537be": [
+     "txn-2026-1104-8812"
+    ]
+   },
+   "scope_conformance": "in_scope",
+   "absent": []
+  }
+ },
+ "joins": {
+  "K1 one action digest end to end: the confirm receipt's request_digest (Thaha key 12), the SHA-256 of the parameters of the specification the DPS attempt names, the packet's action_hash and its executed_action_sha256 are the same hex; the intent scope the packet re-derives from is the approved specification's parameters, whose digest the person approved": true,
+  "K2 approval before allow in every record of it: the person's signature (signed_at) and o1 are at the same moment, after the confirm receipt and before the allow outcome; the ledger's ApprovalRecorded event names that moment and precedes ActionExecuted; the ActorValidated event precedes the approval": true,
+  "K3 what executed is cited by record-hash in three places: the DPS attempt (trace_refs) and result (evidence_ref) cite the allow outcome and the tool_result; the ledger's ActionExecuted event carries the same two record-hashes and the response digest; the packet's further anchors name them; the settlement txn_ref is the outcome receipt's transaction id (key 25) and the attempt's trace_ref": true,
+  "K4 the verdict's evidence is the exact bytes held of A1, A2 and the record's file (Wright 2.1, 7), and the route 1 statement cites A2 and the signatures attachment by the same digests (the Standard's identity of an attachment is its file's SHA-256)": true,
+  "K5 the verdict's result is the re-run's and the Standard's: executed_as_approved exactly when A2 verifies on all eight dimensions natively; not_as_approved exactly when the action_binding dimension fails": true,
+  "K6 the packet's approval event is our attachment: agent_anchors.approval_event_hash is the typed digest of A1's exact bytes, the same hex as the verdict's evidence[0] and the ledger's ApprovalRecorded event; the signatures attachment anchor is the route 1 statement's reference": true,
+  "K7 the packet cites the verdict the checker released, by the digest of its bytes, and states as scope_conformance what that verdict's result says: in_scope for executed_as_approved, BREACH:amount_minor for not_as_approved over a different amount": true,
+  "K8 what moved is what the result stage observed: the settlement anchor's amount is the executed specification's amount, the amount the ActionExecuted event recorded, and the manifest's headline; equal to the approved amount in the positive chain, different from it in the negative one, where the BREACH names amount_minor": true,
+  "K9 the custody chain closes on the ledger: every custody event is bound to a ledger event that recomputes; the receipt's ledger_entry_hash is the ApprovalRecorded event, whose data are the digests of A1 and the signatures attachment held": true,
+  "K10 one person in every link: the receipts' principal (Thaha 3) is the pepper hash of the canonical identifier of the person o1 names; the ledger's ActorValidated event and the packet's identity category name that identifier": true,
+  "K11 the moments are in order across the four: task_end (Thaha) < A2 sealed (DPS) < verdict act_time < the checker's intake (upper bound) < the packet's issued_at; the settlement was captured after the result stage and before the packet": true,
+  "K12 four verifiers, the same bytes: Thaha's reaches CHECKS_PERFORMED over the Bundle, the Standard verifies A2 (or fails its action_binding dimension in the negative chain), the checker releases the verdict, the packet verifier reports VERIFIED, and the hex digests they report for A1, A2 and the verdict are identical": true
+ },
+ "all_verified": true,
+ "real_approval": {
+  "status": "verified",
+  "key_ref": "laurent-passkey-1",
+  "algorithm": "WebAuthn-ES256",
+  "signature": "verified",
+  "subject": "verified",
+  "key_state": "verified",
+  "identity": "verified",
+  "authenticator": {
+   "user_present": true,
+   "user_verified": true,
+   "cross_origin": false
+  },
+  "identity_holder": "laurent-lemonnier",
+  "identity_issuer_named": "laurent-lemonnier",
+  "key_state_time": "2026-11-06T19:05:00Z",
+  "key_state_basis": "stated_time",
+  "findings": [],
+  "client_data": {
+   "type": "webauthn.get",
+   "origin": "https://sign.pria.fr",
+   "crossOrigin": false
+  },
+  "challenge_is_sha256_of_signed_bytes": true,
+  "rp_id_hash_is": "sign.pria.fr",
+  "flags_byte": "0x1d",
+  "signature_counter": 0,
+  "signed_bytes_sha256": "56cd9dea0c06a41bec53fa6263e238a4ec3ed7ea96905e0d31c87ae35df1786b",
+  "signature_value_sha256": "9cdba62ae4e0df39b232891f2fa2c8616ce7c2261323cafd81efe1c2923d1466"
+ },
+ "pinned_inputs": {
+  "specification_bytes_are_the_signed_ones": true,
+  "view_bytes_are_the_signed_ones": true,
+  "person_approval_is_the_pinned_one": true,
+  "o1_at_is_signed_at": true
+ }
+}

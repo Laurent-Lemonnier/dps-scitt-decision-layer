@@ -1,0 +1,239 @@
+{
+ "receipt": {
+  "payload": {
+   "type": "actaseal:policy_decision",
+   "issued_at": "2026-11-06T21:00:00Z",
+   "issuer_id": "sb:issuer:example-merchant-dispute-1",
+   "decision": "allow",
+   "reason_code": "approved_by_accountable_person",
+   "action_hash": "aa88aac47dc1cc16d8af327e1cd128ca09ea3f5190bf0c995e012e324156c91f",
+   "evidence_set_hash": "d6c1c03f1124b92b3d7524326b8493a1723c36ba1b1d1085123c9a527f5baf43",
+   "ledger_entry_hash": "144e428ab739a05f96ab8f5776ce8d24c0332a79833a84634e418c1a58586856",
+   "timestamp": "2026-11-06T19:07:08.000Z",
+   "mandate_hash": null,
+   "rail_anchors_hash": "4a99f22ff87bbd8b8e9360944704942fd20de9ee79c0a95f5551a3b844966d87",
+   "scope_conformance": "BREACH:amount_minor",
+   "key_id": "sb:issuer:example-merchant-dispute-1",
+   "signer_pubkey_hash": "51c9964fcb8e3d6e52aabf5b3048dcf228870bfa43cb9776d97965d523cfdf0a"
+  },
+  "signature": {
+   "alg": "EdDSA",
+   "kid": "sb:issuer:example-merchant-dispute-1",
+   "sig": "dc79445119a05473f66fa21667012ad8de14685dd63d1cddf1285699bdd53afe4be448b17716ebce1eee8f859aec9ca90c7ae7d995f33f16c2e60df6e412d904"
+  }
+ },
+ "manifest": {
+  "profile": "draft-xg-payment-dispute-profile-01",
+  "base": "draft-farley-acta-signed-receipts-03",
+  "dispute_reason_code": "duplicate_processing",
+  "receipt_public_key_hex": "83949f703748d2281073b5c8b39da9c76434ab9a46c2194d12b9f822e8273936",
+  "headline": {
+   "scope_conformance": "BREACH:amount_minor",
+   "amount_minor": "15000",
+   "currency": "EUR"
+  },
+  "agent_anchors": {
+   "mandate_hash": null,
+   "agent_id": "wimse://agents.example.com/agent/invoicing-assistant",
+   "approval_event_hash": {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "alg": "SHA-256",
+    "digest": "c22c454f26e0ddad125654d7d8255d06e51353702a0ef686d82692b8cae537be"
+   },
+   "receipt_signature": "dc79445119a05473f66fa21667012ad8de14685dd63d1cddf1285699bdd53afe4be448b17716ebce1eee8f859aec9ca90c7ae7d995f33f16c2e60df6e412d904",
+   "network_token_id": null,
+   "threeds_acs_result": null
+  },
+  "further_anchors": {
+   "verdict_record": {
+    "type": "verdict-record/1",
+    "alg": "SHA-256",
+    "digest": "8b28d5e980d69939e2c5c8c740d4a11d5507ea6d33068923046535c010e21eb7"
+   },
+   "signatures_attachment": {
+    "type": "org.decisionprovenancestandard.signatures_attachment",
+    "alg": "SHA-256",
+    "digest": "d9f7ddf5864cc1423477275ab44bbb4a1ad598bcec9d0226eb1acf43c59598df"
+   },
+   "allow_outcome_receipt": {
+    "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+    "alg": "SHA-256",
+    "digest": "2687e0a0f652cae0951c162b3cee56c353bdc60fb6cf140582e155808f24435e"
+   },
+   "tool_result_receipt": {
+    "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+    "alg": "SHA-256",
+    "digest": "04d2f403133d9e12cc0810bff2d38f7cad21f035cd611428711b534bfec31c08"
+   }
+  },
+  "intent_scope": {
+   "amount_minor": 12000,
+   "currency": "EUR",
+   "order_ref": "urn:example:order:8812",
+   "reason": "duplicate charge of 2026-11-02"
+  },
+  "intent_scope_sha256": "a6349c355c6315d939bb9969c11fe07f0cacd7f2453f0cdcf4198aeae6753e5a",
+  "intent_scope_source": {
+   "attachment": {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "alg": "SHA-256",
+    "digest": "c22c454f26e0ddad125654d7d8255d06e51353702a0ef686d82692b8cae537be"
+   },
+   "spec_digest": "103ac55a9a3f32d501f91264ff8ace856fa255316fb963b91fcfdbfa8f83d8b7",
+   "pointer": "/parameters"
+  },
+  "executed_action": {
+   "amount_minor": 15000,
+   "currency": "EUR",
+   "order_ref": "urn:example:order:8812",
+   "reason": "duplicate charge of 2026-11-02"
+  },
+  "executed_action_sha256": "aa88aac47dc1cc16d8af327e1cd128ca09ea3f5190bf0c995e012e324156c91f",
+  "executed_action_source": {
+   "receipt": {
+    "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+    "alg": "SHA-256",
+    "digest": "f9ba4b1eeef3c9ba94c369ddca6ad1ce3bb35d8a91a2ef4da8f40584e46cb3d9"
+   },
+   "member": "request_digest (key 12)"
+  },
+  "settlement_anchor": {
+   "rail": "example-rail",
+   "txn_ref": "txn-2026-1104-8812",
+   "finality_status": "final",
+   "amount_minor": "15000",
+   "currency": "EUR",
+   "captured_at": "2026-11-06T19:07:30Z",
+   "network": null,
+   "payer": "urn:example:customer:C-4471",
+   "unanchored_fields": [
+    "network"
+   ],
+   "anchor_hash": "4a99f22ff87bbd8b8e9360944704942fd20de9ee79c0a95f5551a3b844966d87"
+  },
+  "ce3_fpt_categories": {
+   "device_identity": {
+    "populated": false,
+    "value": null,
+    "gap_note": "no device data in the packet"
+   },
+   "delivery_information": {
+    "populated": false,
+    "value": null,
+    "gap_note": "a refund: nothing delivered"
+   },
+   "additional_identity_factor": {
+    "populated": true,
+    "value": "user:laurent-lemonnier@example.com",
+    "gap_note": null,
+    "source": "ActorValidated ledger event"
+   }
+  }
+ },
+ "ledger_slice": [
+  {
+   "seq": "0",
+   "type": "ActorValidated",
+   "at": "2026-11-06T19:04:40Z",
+   "data": {
+    "actor": "user:laurent-lemonnier@example.com",
+    "method": "finance console login, directory urn:example:directory:people"
+   },
+   "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+   "event_hash": "e4095e87948348eefed57d6dba9ef5895d2c3651b3b2d2d7c7201d7ff380d14c"
+  },
+  {
+   "seq": "1",
+   "type": "ApprovalRecorded",
+   "at": "2026-11-06T19:07:02Z",
+   "data": {
+    "decision_id": "DR-2026-1104",
+    "approved_spec_digest": "103ac55a9a3f32d501f91264ff8ace856fa255316fb963b91fcfdbfa8f83d8b7",
+    "attachment_sha256": "c22c454f26e0ddad125654d7d8255d06e51353702a0ef686d82692b8cae537be",
+    "signatures_attachment_sha256": "d9f7ddf5864cc1423477275ab44bbb4a1ad598bcec9d0226eb1acf43c59598df",
+    "approved_at": "2026-11-06T19:05:00Z"
+   },
+   "prev_hash": "e4095e87948348eefed57d6dba9ef5895d2c3651b3b2d2d7c7201d7ff380d14c",
+   "event_hash": "144e428ab739a05f96ab8f5776ce8d24c0332a79833a84634e418c1a58586856"
+  },
+  {
+   "seq": "2",
+   "type": "ActionExecuted",
+   "at": "2026-11-06T19:07:11Z",
+   "data": {
+    "txn_ref": "txn-2026-1104-8812",
+    "allow_outcome_record_hash": "2687e0a0f652cae0951c162b3cee56c353bdc60fb6cf140582e155808f24435e",
+    "tool_result_record_hash": "04d2f403133d9e12cc0810bff2d38f7cad21f035cd611428711b534bfec31c08",
+    "response_sha256": "67445e1dd42bcfd670492e12711cb6ed1e17f6f5058260e0e517f5d1333af3a3",
+    "amount_minor": "15000",
+    "currency": "EUR"
+   },
+   "prev_hash": "144e428ab739a05f96ab8f5776ce8d24c0332a79833a84634e418c1a58586856",
+   "event_hash": "f433fa785026979383211755e06d02824f106ff1a868591d563898b65ae8b120"
+  },
+  {
+   "seq": "3",
+   "type": "SettlementObserved",
+   "at": "2026-11-06T19:07:30Z",
+   "data": {
+    "anchor_hash": "4a99f22ff87bbd8b8e9360944704942fd20de9ee79c0a95f5551a3b844966d87",
+    "txn_ref": "txn-2026-1104-8812"
+   },
+   "prev_hash": "f433fa785026979383211755e06d02824f106ff1a868591d563898b65ae8b120",
+   "event_hash": "b1b0b74f2016936a5c26f79013151c163bc844a8206306f49dd7c45af78418a5"
+  },
+  {
+   "seq": "4",
+   "type": "VerdictReceived",
+   "at": "2026-11-06T20:05:01Z",
+   "data": {
+    "verdict_sha256": "8b28d5e980d69939e2c5c8c740d4a11d5507ea6d33068923046535c010e21eb7",
+    "format": "verdict-record/1",
+    "result": "not_as_approved"
+   },
+   "prev_hash": "b1b0b74f2016936a5c26f79013151c163bc844a8206306f49dd7c45af78418a5",
+   "event_hash": "0a9be3e4dab823123ecc77584d7652159b359f589f21909f0f2eeb791d13ab48"
+  }
+ ],
+ "fre901": {
+  "acquisition": {
+   "captured_by": "urn:example:merchant:dispute-desk",
+   "captured_at": "2026-11-06T21:00:00Z",
+   "tool": "one-chain/build.py (synthetic)",
+   "clock_source": "host clock, declared untrusted (no external time anchor)",
+   "gaps": [
+    "no RFC 3161 or SCITT time anchor"
+   ]
+  },
+  "custody": [
+   {
+    "event": "ledger slice exported",
+    "at": "2026-11-06T19:07:11Z",
+    "actor": "urn:example:merchant:ledger-export",
+    "ledger_event_hash": "f433fa785026979383211755e06d02824f106ff1a868591d563898b65ae8b120"
+   },
+   {
+    "event": "settlement anchor captured",
+    "at": "2026-11-06T19:07:30Z",
+    "actor": "urn:example:merchant:rail-feed",
+    "ledger_event_hash": "b1b0b74f2016936a5c26f79013151c163bc844a8206306f49dd7c45af78418a5"
+   },
+   {
+    "event": "verdict record received",
+    "at": "2026-11-06T20:05:01Z",
+    "actor": "urn:example:merchant:dispute-desk",
+    "ledger_event_hash": "0a9be3e4dab823123ecc77584d7652159b359f589f21909f0f2eeb791d13ab48"
+   }
+  ],
+  "authentication_statement": {
+   "re_derivable": [
+    "receipt signature over JCS payload",
+    "ledger event hashes and links",
+    "scope verdict from intent scope and executed action",
+    "settlement anchor_hash",
+    "headline consistency",
+    "agent anchors against the items held"
+   ]
+  }
+ }
+}

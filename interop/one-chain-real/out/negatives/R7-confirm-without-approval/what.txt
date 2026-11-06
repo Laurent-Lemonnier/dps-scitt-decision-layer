@@ -1,0 +1,1 @@
+case 18's N4 on this chain: the signatures attachment carries no person signature while o1 is still claimed: the Standard's person_approval check is where the absence shows; the receipts and the packet say nothing

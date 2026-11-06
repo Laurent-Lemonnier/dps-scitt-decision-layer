@@ -1,0 +1,36 @@
+{
+ "case": "R8-signed-at-moved-by-one-second",
+ "expected_to_fail_at": [
+  "dps",
+  "J2",
+  "K2"
+ ],
+ "failed_at": [
+  "J2",
+  "K2",
+  "dps"
+ ],
+ "as_expected": true,
+ "person_signature": {
+  "status": "failed",
+  "signature": "failed",
+  "subject": "verified",
+  "key_state": "not_checked",
+  "identity": "not_checked",
+  "authenticator": {
+   "user_present": true,
+   "user_verified": true,
+   "cross_origin": false
+  }
+ },
+ "person_signature_findings": [
+  "the challenge is not the SHA-256 of the signed bytes",
+  "the signature is not verified, so no one signed these bytes with this key"
+ ],
+ "verdict_state": "released",
+ "packet": "VERIFIED",
+ "packet_failures": [],
+ "joins_false": [
+  "K2"
+ ]
+}

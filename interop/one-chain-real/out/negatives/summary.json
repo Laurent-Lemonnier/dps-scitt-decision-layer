@@ -1,0 +1,259 @@
+[
+ {
+  "case": "R1-assertion-presented-over-other-bytes",
+  "expected_to_fail_at": [
+   "dps"
+  ],
+  "failed_at": [
+   "dps"
+  ],
+  "as_expected": true,
+  "person_signature": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "not_checked",
+   "authenticator": {
+    "user_present": true,
+    "user_verified": true,
+    "cross_origin": false
+   }
+  },
+  "person_signature_findings": [
+   "the challenge is not the SHA-256 of the signed bytes",
+   "the signature is not verified, so no one signed these bytes with this key"
+  ],
+  "verdict_state": "released",
+  "packet": "VERIFIED",
+  "packet_failures": [],
+  "joins_false": []
+ },
+ {
+  "case": "R2-client-data-from-another-origin",
+  "expected_to_fail_at": [
+   "dps"
+  ],
+  "failed_at": [
+   "dps"
+  ],
+  "as_expected": true,
+  "person_signature": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "not_checked",
+   "authenticator": {
+    "user_present": true,
+    "user_verified": true,
+    "cross_origin": false
+   }
+  },
+  "person_signature_findings": [
+   "the origin 'https://sign.example.org' is not one the policy allows for laurent-passkey-1",
+   "the signature does not verify over authenticatorData || SHA-256(clientDataJSON)",
+   "the signature is not verified, so no one signed these bytes with this key"
+  ],
+  "verdict_state": "released",
+  "packet": "VERIFIED",
+  "packet_failures": [],
+  "joins_false": []
+ },
+ {
+  "case": "R3-user-verification-flag-cleared",
+  "expected_to_fail_at": [
+   "dps"
+  ],
+  "failed_at": [
+   "dps"
+  ],
+  "as_expected": true,
+  "person_signature": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "not_checked",
+   "authenticator": {
+    "user_present": true,
+    "user_verified": false,
+    "cross_origin": false
+   }
+  },
+  "person_signature_findings": [
+   "the signature does not verify over authenticatorData || SHA-256(clientDataJSON)",
+   "the signature is not verified, so no one signed these bytes with this key"
+  ],
+  "verdict_state": "released",
+  "packet": "VERIFIED",
+  "packet_failures": [],
+  "joins_false": []
+ },
+ {
+  "case": "R4-another-credential-under-the-same-key-ref",
+  "expected_to_fail_at": [
+   "dps"
+  ],
+  "failed_at": [
+   "dps"
+  ],
+  "as_expected": true,
+  "person_signature": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "not_checked",
+   "authenticator": {
+    "user_present": true,
+    "user_verified": true,
+    "cross_origin": false
+   }
+  },
+  "person_signature_findings": [
+   "the signature does not verify over authenticatorData || SHA-256(clientDataJSON)",
+   "the signature is not verified, so no one signed these bytes with this key"
+  ],
+  "verdict_state": "released",
+  "packet": "VERIFIED",
+  "packet_failures": [],
+  "joins_false": []
+ },
+ {
+  "case": "R5-approval-after-the-allow-on-the-real-timeline",
+  "expected_to_fail_at": [
+   "J2",
+   "K2",
+   "dps",
+   "verdict:refused"
+  ],
+  "failed_at": [
+   "J2",
+   "K12",
+   "K2",
+   "K5",
+   "K7",
+   "dps",
+   "verdict:refused"
+  ],
+  "as_expected": true,
+  "person_signature": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified",
+   "authenticator": {
+    "user_present": true,
+    "user_verified": true,
+    "cross_origin": false
+   }
+  },
+  "person_signature_findings": [],
+  "verdict_state": "refused",
+  "packet": "VERIFIED",
+  "packet_failures": [],
+  "joins_false": [
+   "K2",
+   "K5",
+   "K7",
+   "K12"
+  ]
+ },
+ {
+  "case": "R6-case-18-test-signature-under-this-policy",
+  "expected_to_fail_at": [
+   "dps"
+  ],
+  "failed_at": [
+   "dps"
+  ],
+  "as_expected": true,
+  "person_signature": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "not_checked",
+   "authenticator": null
+  },
+  "person_signature_findings": [
+   "finance-controller-1-key-1 is not a key in the trust policy",
+   "the key is not in the trust policy, so it binds no one"
+  ],
+  "verdict_state": "released",
+  "packet": "VERIFIED",
+  "packet_failures": [],
+  "joins_false": []
+ },
+ {
+  "case": "R7-confirm-without-approval",
+  "expected_to_fail_at": [
+   "dps",
+   "J2",
+   "K2"
+  ],
+  "failed_at": [
+   "J2",
+   "K1",
+   "K2",
+   "dps"
+  ],
+  "as_expected": true,
+  "person_signature": {
+   "status": "absent",
+   "signature": null,
+   "subject": null,
+   "key_state": null,
+   "identity": null,
+   "authenticator": null
+  },
+  "person_signature_findings": [
+   "no person signature in the attachment"
+  ],
+  "verdict_state": "released",
+  "packet": "VERIFIED",
+  "packet_failures": [],
+  "joins_false": [
+   "K1",
+   "K2"
+  ]
+ },
+ {
+  "case": "R8-signed-at-moved-by-one-second",
+  "expected_to_fail_at": [
+   "dps",
+   "J2",
+   "K2"
+  ],
+  "failed_at": [
+   "J2",
+   "K2",
+   "dps"
+  ],
+  "as_expected": true,
+  "person_signature": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "not_checked",
+   "authenticator": {
+    "user_present": true,
+    "user_verified": true,
+    "cross_origin": false
+   }
+  },
+  "person_signature_findings": [
+   "the challenge is not the SHA-256 of the signed bytes",
+   "the signature is not verified, so no one signed these bytes with this key"
+  ],
+  "verdict_state": "released",
+  "packet": "VERIFIED",
+  "packet_failures": [],
+  "joins_false": [
+   "K2"
+  ]
+ }
+]

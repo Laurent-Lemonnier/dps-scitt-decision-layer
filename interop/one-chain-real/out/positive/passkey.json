@@ -1,0 +1,19 @@
+{
+ "key_ref": "laurent-passkey-1",
+ "holder": "laurent-lemonnier",
+ "display_name": "Laurent Lemonnier",
+ "algorithm": "WebAuthn-ES256",
+ "cose_alg": -7,
+ "credential_id_b64url": "EIizOLLyODbgxwAJ14mWZMK3hyg",
+ "public_key_spki_b64": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+ufY7l5wyxLdpbQLNAiM6s2ou8H9pTz8Zz5yjPqFG0oPH6er18p+HI5MD8++fG7HcQIZ1gSkljkLfulyk1IdIw==",
+ "public_key_hex": "04fae7d8ee5e70cb12dda5b40b34088ceacda8bbc1fda53cfc673e728cfa851b4a0f1fa7abd7ca7e1c8e4c0fcfbe7c6ec7710219d604a496390b7ee97293521d23",
+ "enrolled_at": "2026-11-04T23:06:01Z",
+ "rp_id": "sign.pria.fr",
+ "origins": [
+  "https://sign.pria.fr"
+ ],
+ "assertion_received_at": "2026-11-06T19:06:54Z",
+ "assertion_request_id": "b2ed709f3388f24d8c364b847d78c3af",
+ "assertion_credential_id_b64url": "EIizOLLyODbgxwAJ14mWZMK3hyg",
+ "note": "the enrolled passkey's public key and credential id, nothing else of the enrolment record"
+}

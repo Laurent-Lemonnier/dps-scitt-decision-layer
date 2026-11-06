@@ -1,0 +1,1 @@
+the person_approval's signed_at is written 19:05:01Z where the person signed bytes saying 19:05:00Z: the challenge is not the SHA-256 of the bytes the Standard rebuilds, the signature fails; and o1 (19:05:00Z) is no longer the signature's moment (J2, K2)
