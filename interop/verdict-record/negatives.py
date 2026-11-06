@@ -184,6 +184,38 @@ def n15(p):
     p["extra"] = ("reassess", 0)
 
 
+# ---- added 6 November 2026, after adapting Darren Wright's test vectors (diggertydog/verdict-record-test-vectors) to this checker
+
+@case("N16-container-binds-the-bytes-to-a-party-the-record-does-not-name",
+      "the container is signed by a key the anchors bind to other-audit.example and names that party; the record's writer is "
+      "audit.example (Wright Section 3: the key must be shown to belong to the party the record names in writer): held",
+      lambda r: v(r, "A_version_1")["state"] == "held" and v(r, "A_version_1")["container"]["shows_the_record"] is False
+      and "not to the party the record names in writer" in v(r, "A_version_1")["container"]["reason"]
+      and all(s["result"] == "PASS" for s in v(r, "A_version_1")["steps"].values()))
+def n16(p):
+    p["container"] = "other_writer"
+    p["extra_writers"] = {B.OTHER_WRITER: {B.OTHER_WRITER_KEY_REF: B.raw_public(B.other_key).hex()}}
+
+
+def _nest(n):
+    return {"a": _nest(n - 1)} if n > 1 else {"a": 1}
+
+
+@case("N17-body-nested-to-exactly-32-levels",
+      "body carries an object chain making the record exactly 32 levels deep (record, body, 30 objects; Wright's vector a11): "
+      "Section 2.1 refuses only deeper than 32, so released (until 6 November 2026 this checker refused it, off by one)",
+      lambda r: v(r, "A_version_1")["state"] == "released")
+def n17(p):
+    p["verdict_kwargs"] = {"body_extra": {"deep": _nest(30)}}
+
+
+@case("N18-body-nested-to-33-levels",
+      "the same chain one object longer, 33 levels (Wright's vector a12): refused before any step",
+      lambda r: v(r, "A_version_1")["state"] == "refused" and "deeper than 32" in v(r, "A_version_1")["before_steps"])
+def n18(p):
+    p["verdict_kwargs"] = {"body_extra": {"deep": _nest(31)}}
+
+
 def run(p):
     extra = p.pop("extra", None)
     art = B.assemble(p)
@@ -216,7 +248,7 @@ def publish(d, art, what, entry, r):
     (d / "A-action-binding-attachment-A2.as-held.json").write_bytes(art["A"]["a2_held"])
     (d / "B-closing-action-binding-attachment.json").write_bytes(art["B"]["attachment_bytes"])
     (d / "checker-policy.json").write_bytes(B.V.canonical_bytes(art.get("extra", {}).get("policy") or art["policy"]))
-    (d / "checker-trust-anchors.json").write_bytes(B.V.canonical_bytes(B.anchors(art.get("extra", {}).get("intake") or art["intake"])))
+    (d / "checker-trust-anchors.json").write_bytes(B.V.canonical_bytes(B.anchors(art.get("extra", {}).get("intake") or art["intake"], art.get("extra_writers"))))
     (d / "what.txt").write_text(what + "\n")
     (d / "result.json").write_text(json.dumps(entry, ensure_ascii=False, indent=1) + "\n")
     (d / "summary.json").write_text(json.dumps(r, ensure_ascii=False, indent=1) + "\n")

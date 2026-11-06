@@ -90,7 +90,7 @@ of step 3 re-derives. See the ambiguity log, entry 5.
   `supersedes` is read by no step of Section 4.3 (join C1 is this case's); nothing in the verdict re-derives the
   person's approval, which is the Standard's check beside.
 
-## The failing cases (`out/negatives/`, 16, each as expected)
+## The failing cases (`out/negatives/`, 19, each as expected)
 
 | Case | Changed | Wright's text says | Observed |
 |---|---|---|---|
@@ -110,6 +110,14 @@ of step 3 re-derives. See the ambiguity log, entry 5.
 | N13 | version 2 with `supersedes` null | Section 2.2 | **refused** before steps |
 | N14 | a reassessment record cites N1's refused verdict under `verdict-record/1` | Section 4.3, Section 6: relied on only while released | **held** at step 2, cited record refused |
 | N15 | the same, citing the released version 1, policy depth 0 | step 2: beyond the depth, NOT RUN | **held**, "beyond the citation depth 0" |
+| N16 | the container is signed by a key the anchors bind to `other-audit.example` and names that party; the record's writer is `audit.example` | Section 3: a key shown to belong to the party the record names in writer | **held**, "not to the party the record names in writer"; steps 1 to 3 PASS |
+| N17 | body carries an object chain making the record exactly 32 levels deep (his vector a11) | Section 2.1: refuse deeper than 32; each object or array inside adds one level | **released** (refused before 6 November 2026: off by one) |
+| N18 | the same chain one object longer, 33 levels (his vector a12) | Section 2.1 | **refused** before steps |
+
+N16 to N18 were added on 6 November 2026 after running the author's test vectors (below): a11 found the depth count off
+by one (a scalar inside the 32nd level counted as a 33rd); the writer comparison of N16 was seen while adapting, exercised
+by none of his cases (one writer throughout). Both fixed in `verdict.py` the same day; cases 01 to 15 and cases 18 and 18b
+(`../one-chain`, `../one-chain-real`), which use this checker, keep their outputs.
 
 Each case directory holds the verdict records as bytes, their containers, every evidence item by its digest, the
 checker's policy and anchors, `result.json` and the full `summary.json`: enough to re-run the checker on them.
@@ -121,9 +129,10 @@ checker's policy and anchors, `result.json` and the full `summary.json`: enough 
   container his text names; none is built here, and nothing about a Transparency Service is shown.
 - The upper time bound is the checker's own intake time of the bytes, a checker input written as data. No clock is
   read; nothing establishes that time against a third party.
-- No vectors of the author's test-vector repository were read or run; the checker is read against his text and his
-  Appendix A only. A checker written by a party other than the author is what his Appendix B asks for; this is one,
-  offered for his review, not a conformance claim.
+- The checker is read against his text and his Appendix A, not against his vectors: none was read while writing it.
+  On 6 November 2026, at his request, his vectors were run through it unchanged (`wright-vectors/`, below): a
+  presenter's adapter, not a change to the checker. A checker written by a party other than the author is what his
+  Appendix B asks for; this is one, offered for his review, not a conformance claim.
 - The rule, its name and its result set are this repository's (provisional); Wright's Appendix B asks where rule
   names and results are registered.
 - Nothing here shows that the claim is true (his Section 5), nor that the approver is who the trust policy says.
@@ -175,6 +184,32 @@ checker's policy and anchors, `result.json` and the full `summary.json`: enough 
 
 An assistant wrote the code and the first draft of this README; Laurent Lemonnier read both.
 
+## The author's vectors run through this checker (`wright-vectors/`, 6 November 2026)
+
+At Darren Wright's request of 6 November 2026, his repository `diggertydog/verdict-record-test-vectors` at `97b63b2`
+(37 vectors of -01 under `main/`, 8 proposal cases p01 to p08 for his -03 under `proposals/`) was run through
+`verdict.py`. `wright-vectors/run_wright_cases.py` is the presenter: it hands the checker the record bytes, every
+evidence item by its digest, a stand-in container (a test key bound in the anchors to the party the record names
+in writer), the case's upper time bound as the intake time, the test-only formats his READMEs define, and the policy
+with his `max_depth` renamed to this checker's `citation_depth` (Section 4.5 names no member). Three runs per case:
+raw (his files as they are: every case **no verdict**, the policy member name), policy-only (no container: every
+case **held**), adapter. `wright-vectors/results.json` holds the three per case beside his `expected_under_02`;
+`main-vectors-run.json` the 37, states only.
+
+- Proposals: p01 to p07 agree on state and steps; p08 agrees on state (held), not on step 2: his PASS, this checker
+  NOT RUN, holding no rule for the two IronTrellis formats his policy lists (Section 4.5 does not say what a checker
+  does with a listed format it cannot verify). Two more readings differ in the text, not the run: an extra policy
+  member (p05) does not make a policy invalid under Section 4.5 as written; a cited verdict record given with a bound
+  and no container (p04, p05) is held under Section 3 as written, so the adapter adds a stand-in container per cited
+  record.
+- Main vectors: 37/37 same state after the fixes above (36/37 before: a11); step results differ on b03 only (step 3
+  after a step 1 FAIL: his PASS, this checker NOT RUN; same state).
+
+The vectors themselves are not copied here; the run names the commit. p08 cites two IronTrellis files his repository
+links rather than carries: `wright-vectors/p08-evidence/` holds `budget-v2.json` as fetched and the digests of both
+(`SHA256SUMS`); `vectors.json` (1.4 MB) is fetched before a run (below), its digest checked by the adapter before the
+item is handed over. `run.log` is the run of 6 November 2026.
+
 ## How to run
 
 ```
@@ -184,3 +219,12 @@ DPS_STANDARD=/path/to/decision-provenance-standard/standard python3 negatives.py
 
 Dependencies: Python 3.12, `cryptography`, `jsonschema` (with `referencing`) for the Standard's schemas; the
 checker itself (`verdict.py`) uses the standard library and `cryptography` only. `../run.sh` runs both.
+
+The author's vectors (not in CI; his repository is not pinned here):
+
+```
+git clone https://github.com/diggertydog/verdict-record-test-vectors /tmp/wright-vectors && git -C /tmp/wright-vectors checkout 97b63b2
+curl -sSL -o wright-vectors/p08-evidence/vectors.json https://raw.githubusercontent.com/zerohourzulu/irontrellis/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3/vectors.json
+(cd wright-vectors/p08-evidence && sha256sum -c SHA256SUMS)
+WRIGHT_VECTORS=/tmp/wright-vectors python3 wright-vectors/run_wright_cases.py   # results.json, main-vectors-run.json, reports-full.json
+```

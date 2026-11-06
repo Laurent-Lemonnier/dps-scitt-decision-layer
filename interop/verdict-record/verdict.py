@@ -100,13 +100,19 @@ def _no_constant(s):
 
 
 def _depth(v, level):
-    if level > MAX_DEPTH:
-        raise Refused(f"Section 2.1: JSON nested deeper than {MAX_DEPTH} levels")
+    """level: the objects and arrays enclosing v, the record itself counted as the first. Section 2.1: "each object
+    or array inside it adds one level"; a scalar adds none, so a record exactly 32 levels deep passes and 33 are
+    refused. Until 6 November 2026 a scalar inside the 32nd level counted as a 33rd (found by Darren Wright's vector
+    a11-depth-32, which expects released)."""
     if isinstance(v, dict):
+        if level > MAX_DEPTH:
+            raise Refused(f"Section 2.1: JSON nested deeper than {MAX_DEPTH} levels")
         for k, x in v.items():
             _surrogates(k)
             _depth(x, level + 1)
     elif isinstance(v, list):
+        if level > MAX_DEPTH:
+            raise Refused(f"Section 2.1: JSON nested deeper than {MAX_DEPTH} levels")
         for x in v:
             _depth(x, level + 1)
     elif isinstance(v, str):
@@ -229,13 +235,15 @@ def policy_valid(p):
 
 # ---------------------------------------------------------------- Section 3: the container
 
-def container_shows(raw, container, anchors):
+def container_shows(raw, container, anchors, record_writer=None):
     """Section 3: from the container a checker needs the exact bytes, a key that bound them shown to belong to the
     party named in writer, and an upper time bound it establishes itself. This case's container is a detached
     Ed25519 signature over the exact bytes (a stand-in for a SCITT Signed Statement and its Receipt); the key is
     shown to belong to the writer by the checker's trust anchors (writer -> key_ref -> public key). The upper time
     bound is the checker's own intake time for those bytes (anchors['intake'][digest]), not a statement of the
-    issuer or of the container. Returns (shown, reason, upper_time_bound)."""
+    issuer or of the container. record_writer: the record's own writer member once parsed; the party the key is
+    shown to belong to must be that one, not merely the one the container names (until 6 November 2026 the two were
+    not compared; seen while adapting Darren Wright's cases). Returns (shown, reason, upper_time_bound)."""
     d = sha256(raw)
     bound = (anchors.get("intake") or {}).get(d)
     if container is None:
@@ -243,6 +251,8 @@ def container_shows(raw, container, anchors):
     if container.get("record_sha256") != d:
         return False, "the container names other bytes than those held", bound
     writer = container.get("writer")
+    if record_writer is not None and writer != record_writer:
+        return False, f"the container binds the bytes to {writer!r}, not to the party the record names in writer, {record_writer!r}", bound
     keys = (anchors.get("writers") or {}).get(writer) or {}
     pub_hex = keys.get(container.get("key_ref"))
     if pub_hex is None:
@@ -320,6 +330,8 @@ class Checker:
             report.update({"state": "refused", "before_steps": str(e), "steps": {}})
             return report
         report["key"], report["version"], report["supersedes"], report["writer"] = r["key"], r["version"], r.get("supersedes"), r["writer"]
+        if shown:   # the record parsed: the party the key is shown to belong to must be the one the record names
+            shown, reason, bound = container_shows(raw, container, self.anchors, r["writer"])
         steps, relied, body_inputs = {}, {}, []
         # Step 1
         chk = r.get("check")

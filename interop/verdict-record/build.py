@@ -60,6 +60,7 @@ approver_key = key_from_seed("dps-scitt-decision-layer verdict-record: support l
 issuer_key = key_from_seed("dps-scitt-decision-layer verdict-record: issuer seal key (test only)")
 auditor_key = key_from_seed("dps-scitt-decision-layer verdict-record: auditor key (test only)")
 other_key = key_from_seed("dps-scitt-decision-layer verdict-record: a key of nobody (test only)")
+OTHER_WRITER, OTHER_WRITER_KEY_REF = "other-audit.example", "other-audit-example-key-1"   # a second party the anchors may know (N16)
 APPROVER, APPROVER_KEY_REF = "support-lead-1", "support-lead-1-key-1"
 ISSUER, ISSUER_KEY_REF = "Example Merchant", "example-merchant-seal-1"
 AUDITOR, AUDITOR_KEY_REF = "audit.example", "audit-example-key-1"
@@ -219,10 +220,12 @@ POLICY = {"judgement_kinds": ["model-decision"], "formats": [FMT_ATTACHMENT, FMT
           "citation_depth": 1, "inputs_from_evidence_only": True}
 
 
-def anchors(intake):
+def anchors(intake, extra_writers=None):
     """The checker's trust anchors: the auditor's key (writer -> key_ref -> public key), the DPS trust policy the
-    format rules read, and the checker's own intake times of the record bytes it was handed (upper time bounds)."""
-    return {"writers": {AUDITOR: {AUDITOR_KEY_REF: raw_public(auditor_key).hex()}}, "dps_trust_policy": TRUST, "intake": intake}
+    format rules read, and the checker's own intake times of the record bytes it was handed (upper time bounds).
+    extra_writers: further writers the checker knows (N16 only; the valid case's anchors are unchanged)."""
+    return {"writers": {AUDITOR: {AUDITOR_KEY_REF: raw_public(auditor_key).hex()}, **(extra_writers or {})},
+            "dps_trust_policy": TRUST, "intake": intake}
 
 
 def _schema_errors(path, doc):
@@ -449,7 +452,8 @@ def build():
     """Every part as data; a failing case changes one thing before assembly."""
     return {"approved_amount": 12000, "executed_amount": None,          # part A: None = executed as approved
             "verdict_result": "executed_as_approved", "verdict_kwargs": {},
-            "container": "writer",                                      # writer | none | other_key
+            "container": "writer",                                      # writer | none | other_key | other_writer
+            "extra_writers": {},                                        # further writers in the checker's anchors (N16)
             "policy": copy.deepcopy(POLICY), "intake": {"1": T["intake_1"], "2": T["intake_2"]},
             "mutate_verdict_bytes": None,                               # a function over the verdict's bytes
             "mutate_a2_bytes": None,                                    # a function over A2's bytes after citation
@@ -469,7 +473,9 @@ def assemble(b):
     v1 = verdict(a1b, a2b, rb, b["verdict_result"], **b["verdict_kwargs"])
     if b["mutate_verdict_bytes"]:
         v1 = b["mutate_verdict_bytes"](v1)
-    c1 = {"writer": container(v1), "none": None, "other_key": container(v1, other_key, AUDITOR_KEY_REF)}[b["container"]]
+    c1 = {"writer": container(v1), "none": None, "other_key": container(v1, other_key, AUDITOR_KEY_REF),
+          "other_writer": container(v1, other_key, OTHER_WRITER_KEY_REF, OTHER_WRITER)}[b["container"]]
+    art["extra_writers"] = b["extra_writers"]
     a2_held = b["mutate_a2_bytes"](a2b) if b["mutate_a2_bytes"] else a2b
     art["A"] = {"record": record, "record_bytes": rb, "a1": a1, "a1_bytes": a1b, "a2": a2, "a2_bytes": a2b, "a2_held": a2_held,
                 "sig_attachment": sig, "verdict_bytes": v1, "container": c1, "approved": approved, "executed": executed}
@@ -508,7 +514,7 @@ def items_of(art):
 
 def verify(art):
     A, B, C = art["A"], art["B"], art["C"]
-    checker = V.Checker(art["policy"], anchors(art["intake"]), RULES, FORMATS)
+    checker = V.Checker(art["policy"], anchors(art["intake"], art.get("extra_writers")), RULES, FORMATS)
     items = items_of(art)
     r = {"standard_commit": art["standard_commit"], "checker_inputs": checker.own_inputs()}
     # the DPS side, natively
@@ -700,7 +706,7 @@ def write(out, art):
     (out / "C-verdict-record-v2.container.json").write_text(json.dumps(C["container"], indent=1) + "\n")
     (out / "trust-policy.json").write_bytes(compact(TRUST))
     (out / "checker-policy.json").write_bytes(V.canonical_bytes(art["policy"]))
-    (out / "checker-trust-anchors.json").write_bytes(V.canonical_bytes(anchors(art["intake"])))
+    (out / "checker-trust-anchors.json").write_bytes(V.canonical_bytes(anchors(art["intake"], art.get("extra_writers"))))
     (out / "refund-policy.json").write_bytes(POLICY_BYTES)
 
 
