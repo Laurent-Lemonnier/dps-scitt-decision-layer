@@ -150,6 +150,12 @@ DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 agent-execution-ev
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 agent-execution-evidence/negatives.py > agent-execution-evidence/out/negatives-ci.log || { echo "agent-execution-evidence: a failing case was not caught where expected"; cat agent-execution-evidence/out/negatives-ci.log; exit 1; }
 echo "# 9 Appendix A digests reproduced from the text; Bundle of 6 receipts and 6 Signed Statements: CHECKS_PERFORMED (never PASS: steps 1, 4, 5, 7, 11-17 not performed); DPS A1, A2, seal and approval verified; route 1 bound, route 2 (proposal) bound; 7 joins true; 12 failing cases caught where expected"
 
+echo "== Case 18: one chain (one-chain): Thaha confirm/allow -> DPS approval and execution -> Wright verdict -> Goshi/Farley dispute packet, each verified by the verifier its text yields, twelve joins across the four"
+mkdir -p one-chain/out
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 one-chain/build.py > one-chain/out/build-ci.log || { echo "one-chain: not all verified"; tail -30 one-chain/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 one-chain/negatives.py > one-chain/out/negatives-ci.log || { echo "one-chain: a failing case was not caught where expected"; cat one-chain/out/negatives-ci.log; exit 1; }
+echo "# positive chain: CHECKS_PERFORMED, A1/A2 verified on every dimension, verdict released, packet VERIFIED, 12 joins true (+ case 17's 7); stated negative (150 executed for 120 approved): J1 false, action_binding failed, verdict not_as_approved released, packet BREACH:amount_minor VERIFIED, 12 joins true; 15 failing cases caught where expected; the Goshi/Farley link is from the text, unreviewed by its author"
+
 echo "== draft-gilda-audit-agent-audit-record-03, corpus vectors-agent-audit-record from agent-evidence-vectors ${GILDA_VERSION} (anchors validated offline against the manifest's tree heads and test-chain headers; dating complete)"
 CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-agent-audit-record'))")
 python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report gilda/judge-ci.json | tail -1
