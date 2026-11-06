@@ -1,0 +1,18 @@
+{
+ "case": "N5-packet-cites-another-verdict-about-the-same-chain",
+ "expected_to_fail_at": [
+  "K7"
+ ],
+ "failed_at": [
+  "K12",
+  "K7"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "VERIFIED",
+ "packet_failures": [],
+ "joins_false": [
+  "K7",
+  "K12"
+ ]
+}

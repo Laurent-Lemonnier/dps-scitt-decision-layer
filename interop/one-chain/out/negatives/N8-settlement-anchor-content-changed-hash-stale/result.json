@@ -1,0 +1,24 @@
+{
+ "case": "N8-settlement-anchor-content-changed-hash-stale",
+ "expected_to_fail_at": [
+  "goshi:SETTLEMENT_ANCHOR_HASH_MISMATCH",
+  "K8"
+ ],
+ "failed_at": [
+  "K12",
+  "K8",
+  "goshi:SETTLEMENT_ANCHOR_HASH_MISMATCH",
+  "goshi:SETTLEMENT_HEADLINE_MISMATCH"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "SETTLEMENT_ANCHOR_HASH_MISMATCH",
+  "SETTLEMENT_HEADLINE_MISMATCH"
+ ],
+ "joins_false": [
+  "K8",
+  "K12"
+ ]
+}

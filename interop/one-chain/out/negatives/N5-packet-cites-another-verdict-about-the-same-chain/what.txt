@@ -1,0 +1,1 @@
+the packet's anchor names a verdict record that is held (so the packet verifier resolves it) but that the checker refuses, since it states not_as_approved over a chain whose re-run gives executed_as_approved: only the join across links sees that the packet rests on a verdict the checker did not release

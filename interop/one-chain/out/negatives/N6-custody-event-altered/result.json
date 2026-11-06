@@ -1,0 +1,22 @@
+{
+ "case": "N6-custody-event-altered",
+ "expected_to_fail_at": [
+  "goshi:CUSTODY_EVENT_UNBOUND",
+  "K9"
+ ],
+ "failed_at": [
+  "K12",
+  "K9",
+  "goshi:CUSTODY_EVENT_UNBOUND"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "CUSTODY_EVENT_UNBOUND"
+ ],
+ "joins_false": [
+  "K9",
+  "K12"
+ ]
+}

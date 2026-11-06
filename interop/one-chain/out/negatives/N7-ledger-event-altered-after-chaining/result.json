@@ -1,0 +1,25 @@
+{
+ "case": "N7-ledger-event-altered-after-chaining",
+ "expected_to_fail_at": [
+  "goshi:LEDGER_EVENT_HASH_MISMATCH",
+  "K8",
+  "K9"
+ ],
+ "failed_at": [
+  "K12",
+  "K8",
+  "K9",
+  "goshi:LEDGER_EVENT_HASH_MISMATCH"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "LEDGER_EVENT_HASH_MISMATCH"
+ ],
+ "joins_false": [
+  "K8",
+  "K9",
+  "K12"
+ ]
+}

@@ -1,0 +1,1 @@
+the settlement block's amount was changed without recomputing anchor_hash (Goshi 4.3, 5)

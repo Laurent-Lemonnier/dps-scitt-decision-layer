@@ -1,0 +1,1 @@
+the ActionExecuted event's amount was changed after the slice was chained: its hash no longer recomputes (the next event still links to the stale hash it carries, so the link check alone would not see it); the join on what moved (K8) fails with it
