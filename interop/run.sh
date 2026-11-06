@@ -144,6 +144,12 @@ DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 verdict-record/bui
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 verdict-record/negatives.py > verdict-record/out/negatives-ci.log || { echo "verdict record: a failing case was not caught where expected"; cat verdict-record/out/negatives-ci.log; exit 1; }
 echo "# DPS: A1, A2, the closing decision and the corrected pair verified (dimensions, seals, approvals); verdict version 1, the stated negative over the 150/120 chain and version 2 released by the checker written from the text; Wright's Appendix A digests reproduced and his A.2 record released, held, refused and held as his text predicts; 11 joins true; 16 failing cases as expected (N10b released and named by design)"
 
+echo "== Case 17: the proof behind confirm (agent-execution-evidence): draft-thaha-scitt-agent-execution-evidence-02 Sections 5, 6.7, 6.7.1, 7, 8, 9 and Appendix A, and the DPS signed outcome"
+mkdir -p agent-execution-evidence/out
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 agent-execution-evidence/build.py > agent-execution-evidence/out/build-ci.log || { echo "agent-execution-evidence: not all verified"; tail -30 agent-execution-evidence/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 agent-execution-evidence/negatives.py > agent-execution-evidence/out/negatives-ci.log || { echo "agent-execution-evidence: a failing case was not caught where expected"; cat agent-execution-evidence/out/negatives-ci.log; exit 1; }
+echo "# 9 Appendix A digests reproduced from the text; Bundle of 6 receipts and 6 Signed Statements: CHECKS_PERFORMED (never PASS: steps 1, 4, 5, 7, 11-17 not performed); DPS A1, A2, seal and approval verified; route 1 bound, route 2 (proposal) bound; 7 joins true; 12 failing cases caught where expected"
+
 echo "== draft-gilda-audit-agent-audit-record-03, corpus vectors-agent-audit-record from agent-evidence-vectors ${GILDA_VERSION} (anchors validated offline against the manifest's tree heads and test-chain headers; dating complete)"
 CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-agent-audit-record'))")
 python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report gilda/judge-ci.json | tail -1
