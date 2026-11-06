@@ -1,0 +1,1 @@
+a member 'note' added to the record (Section 2.2: no other member is allowed)

@@ -1,0 +1,1 @@
+a space after the first comma: re-serializing the parsed record does not give the same bytes (Section 2.1)
