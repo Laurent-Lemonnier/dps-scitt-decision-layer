@@ -1,0 +1,348 @@
+[
+ {
+  "case": "N1-approval-of-other-arguments-everything-downstream-claims-as-approved",
+  "expected_to_fail_at": [
+   "J1",
+   "dps",
+   "verdict:refused",
+   "goshi:SCOPE_HEADLINE_MISMATCH",
+   "K5",
+   "K7"
+  ],
+  "failed_at": [
+   "J1",
+   "K12",
+   "K5",
+   "K7",
+   "K8",
+   "dps",
+   "goshi:SCOPE_HEADLINE_MISMATCH",
+   "verdict:refused"
+  ],
+  "as_expected": true,
+  "verdict_state": "refused",
+  "packet": "FAILED",
+  "packet_failures": [
+   "SCOPE_HEADLINE_MISMATCH"
+  ],
+  "joins_false": [
+   "K5",
+   "K7",
+   "K8",
+   "K12"
+  ]
+ },
+ {
+  "case": "N2-verdict-altered-after-the-packet-cited-it",
+  "expected_to_fail_at": [
+   "goshi:ANCHOR_UNRESOLVED",
+   "K7"
+  ],
+  "failed_at": [
+   "K12",
+   "K7",
+   "goshi:ANCHOR_UNRESOLVED"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "ANCHOR_UNRESOLVED"
+  ],
+  "joins_false": [
+   "K7",
+   "K12"
+  ]
+ },
+ {
+  "case": "N3-settlement-150-with-headline-120",
+  "expected_to_fail_at": [
+   "goshi:SETTLEMENT_HEADLINE_MISMATCH",
+   "K8"
+  ],
+  "failed_at": [
+   "K12",
+   "K8",
+   "goshi:SETTLEMENT_HEADLINE_MISMATCH"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "SETTLEMENT_HEADLINE_MISMATCH"
+  ],
+  "joins_false": [
+   "K8",
+   "K12"
+  ]
+ },
+ {
+  "case": "N4-confirm-without-approval",
+  "expected_to_fail_at": [
+   "dps",
+   "J2",
+   "K2"
+  ],
+  "failed_at": [
+   "J2",
+   "K1",
+   "K2",
+   "dps"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "VERIFIED",
+  "packet_failures": [],
+  "joins_false": [
+   "K1",
+   "K2"
+  ]
+ },
+ {
+  "case": "N5-packet-cites-another-verdict-about-the-same-chain",
+  "expected_to_fail_at": [
+   "K7"
+  ],
+  "failed_at": [
+   "K12",
+   "K7"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "VERIFIED",
+  "packet_failures": [],
+  "joins_false": [
+   "K7",
+   "K12"
+  ]
+ },
+ {
+  "case": "N6-custody-event-altered",
+  "expected_to_fail_at": [
+   "goshi:CUSTODY_EVENT_UNBOUND",
+   "K9"
+  ],
+  "failed_at": [
+   "K12",
+   "K9",
+   "goshi:CUSTODY_EVENT_UNBOUND"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "CUSTODY_EVENT_UNBOUND"
+  ],
+  "joins_false": [
+   "K9",
+   "K12"
+  ]
+ },
+ {
+  "case": "N7-ledger-event-altered-after-chaining",
+  "expected_to_fail_at": [
+   "goshi:LEDGER_EVENT_HASH_MISMATCH",
+   "K8",
+   "K9"
+  ],
+  "failed_at": [
+   "K12",
+   "K8",
+   "K9",
+   "goshi:LEDGER_EVENT_HASH_MISMATCH"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "LEDGER_EVENT_HASH_MISMATCH"
+  ],
+  "joins_false": [
+   "K8",
+   "K9",
+   "K12"
+  ]
+ },
+ {
+  "case": "N8-settlement-anchor-content-changed-hash-stale",
+  "expected_to_fail_at": [
+   "goshi:SETTLEMENT_ANCHOR_HASH_MISMATCH",
+   "K8"
+  ],
+  "failed_at": [
+   "K12",
+   "K8",
+   "goshi:SETTLEMENT_ANCHOR_HASH_MISMATCH",
+   "goshi:SETTLEMENT_HEADLINE_MISMATCH"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "SETTLEMENT_ANCHOR_HASH_MISMATCH",
+   "SETTLEMENT_HEADLINE_MISMATCH"
+  ],
+  "joins_false": [
+   "K8",
+   "K12"
+  ]
+ },
+ {
+  "case": "N9-manifest-without-settlement-block",
+  "expected_to_fail_at": [
+   "goshi:SETTLEMENT_UNANCHORED",
+   "K8"
+  ],
+  "failed_at": [
+   "K11",
+   "K12",
+   "K3",
+   "K8",
+   "goshi:SETTLEMENT_UNANCHORED"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "SETTLEMENT_UNANCHORED"
+  ],
+  "joins_false": [
+   "K3",
+   "K8",
+   "K11",
+   "K12"
+  ]
+ },
+ {
+  "case": "N10-receipt-payload-edited-after-signing",
+  "expected_to_fail_at": [
+   "goshi:RECEIPT_SIGNATURE_INVALID",
+   "goshi:SCOPE_HEADLINE_MISMATCH",
+   "K7"
+  ],
+  "failed_at": [
+   "K12",
+   "K7",
+   "goshi:RECEIPT_SIGNATURE_INVALID",
+   "goshi:SCOPE_HEADLINE_MISMATCH"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "RECEIPT_SIGNATURE_INVALID",
+   "SCOPE_HEADLINE_MISMATCH"
+  ],
+  "joins_false": [
+   "K7",
+   "K12"
+  ]
+ },
+ {
+  "case": "N11-receipt-signed-by-a-key-not-the-issuers",
+  "expected_to_fail_at": [
+   "goshi:RECEIPT_SIGNATURE_INVALID"
+  ],
+  "failed_at": [
+   "K12",
+   "goshi:RECEIPT_SIGNATURE_INVALID"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "RECEIPT_SIGNATURE_INVALID"
+  ],
+  "joins_false": [
+   "K12"
+  ]
+ },
+ {
+  "case": "N12-issuer-id-not-the-kid",
+  "expected_to_fail_at": [
+   "goshi:RECEIPT_ISSUER_KID_MISMATCH"
+  ],
+  "failed_at": [
+   "K12",
+   "goshi:RECEIPT_ISSUER_KID_MISMATCH"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "RECEIPT_ISSUER_KID_MISMATCH"
+  ],
+  "joins_false": [
+   "K12"
+  ]
+ },
+ {
+  "case": "N13-a2-altered-after-the-verdict-cited-it",
+  "expected_to_fail_at": [
+   "verdict:held",
+   "K12"
+  ],
+  "failed_at": [
+   "K12",
+   "K5",
+   "K7",
+   "verdict:held"
+  ],
+  "as_expected": true,
+  "verdict_state": "held",
+  "packet": "VERIFIED",
+  "packet_failures": [],
+  "joins_false": [
+   "K5",
+   "K7",
+   "K12"
+  ]
+ },
+ {
+  "case": "N14-dispute-reason-code-missing",
+  "expected_to_fail_at": [
+   "goshi:DISPUTE_REASON_CODE_MISSING"
+  ],
+  "failed_at": [
+   "K12",
+   "goshi:DISPUTE_REASON_CODE_MISSING"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "DISPUTE_REASON_CODE_MISSING"
+  ],
+  "joins_false": [
+   "K12"
+  ]
+ },
+ {
+  "case": "N15-approval-after-the-allow-outcome",
+  "expected_to_fail_at": [
+   "J2",
+   "K2",
+   "dps",
+   "verdict:refused"
+  ],
+  "failed_at": [
+   "J2",
+   "K12",
+   "K2",
+   "K5",
+   "K7",
+   "dps",
+   "verdict:refused"
+  ],
+  "as_expected": true,
+  "verdict_state": "refused",
+  "packet": "VERIFIED",
+  "packet_failures": [],
+  "joins_false": [
+   "K2",
+   "K5",
+   "K7",
+   "K12"
+  ]
+ }
+]

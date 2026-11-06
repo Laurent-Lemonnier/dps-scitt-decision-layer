@@ -1,0 +1,1 @@
+the manifest has no settlement_anchor: Goshi 4.3 says absence MUST be stated as SETTLEMENT_UNANCHORED and the manifest MUST fail
