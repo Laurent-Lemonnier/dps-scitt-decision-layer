@@ -1,0 +1,1 @@
+the closing decision names the digest of a verdict record whose act_time is one second later than the one held: the DPS checks of the closing decision verify (they do not read the citation), the join does not

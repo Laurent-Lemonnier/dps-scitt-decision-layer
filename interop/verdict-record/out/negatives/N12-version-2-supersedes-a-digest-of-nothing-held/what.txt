@@ -1,0 +1,1 @@
+version 2 names another digest in supersedes: the steps of Section 4.3 do not read supersedes, the record is released; the join on the pair does not hold

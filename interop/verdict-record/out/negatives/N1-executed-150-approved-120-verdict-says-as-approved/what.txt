@@ -1,0 +1,1 @@
+A2 requests and attempts a specification of 150.00 EUR where 120.00 was approved; the auditor's verdict still states executed_as_approved: the re-run gives not_as_approved

@@ -1,0 +1,4 @@
+Close support case 8812 and release the reserve of 120.00 EUR
+verdict record d6ec62b19052694a840b20d7203bb39cc0429308f0e3cd53f350afc54bafd374 (verdict-record/1): result executed_as_approved
+refund decision DR-2026-11068
+policy urn:example:policy:refunds#2026-10-01 (sha256:4fe8ff077f2cc0889042c55a606ea97ae2df29610dacedc9f15a9636c7acdfc6)

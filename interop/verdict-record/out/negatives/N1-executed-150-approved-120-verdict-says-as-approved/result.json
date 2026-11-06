@@ -1,0 +1,23 @@
+{
+ "what": "A2 requests and attempts a specification of 150.00 EUR where 120.00 was approved; the auditor's verdict still states executed_as_approved: the re-run gives not_as_approved",
+ "as_expected": true,
+ "states": {
+  "A_version_1": "refused",
+  "A_mismatch_stated": "released",
+  "C_version_2": "released"
+ },
+ "dps_verified": {
+  "A_approval_A1": true,
+  "A_executed_A2": false,
+  "B_closing": true,
+  "C_corrected_A1": true,
+  "C_corrected_A2": true
+ },
+ "joins_false": [
+  "A2",
+  "A3",
+  "B1",
+  "B3",
+  "C1"
+ ]
+}

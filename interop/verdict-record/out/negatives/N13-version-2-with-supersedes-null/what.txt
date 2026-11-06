@@ -1,0 +1,1 @@
+version 2 with supersedes null (Section 2.2: for a later version, the digest of the previous version): refused before any step

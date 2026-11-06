@@ -1,0 +1,23 @@
+{
+ "what": "attempted_spec_digest copied into body instead of bound to A2; the checker reads inputs from evidence only (Section 4.5): step 3 NOT RUN",
+ "as_expected": true,
+ "states": {
+  "A_version_1": "held",
+  "A_mismatch_stated": "released",
+  "C_version_2": "released"
+ },
+ "dps_verified": {
+  "A_approval_A1": true,
+  "A_executed_A2": true,
+  "B_closing": true,
+  "C_corrected_A1": true,
+  "C_corrected_A2": true
+ },
+ "joins_false": [
+  "A2",
+  "A3",
+  "B1",
+  "B3",
+  "C1"
+ ]
+}

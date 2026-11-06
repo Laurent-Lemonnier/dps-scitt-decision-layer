@@ -1,0 +1,1 @@
+attempted_spec_digest copied into body instead of bound to A2; the checker reads inputs from evidence only (Section 4.5): step 3 NOT RUN
