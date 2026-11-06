@@ -1,0 +1,8 @@
+{
+ "kind": "detached-ed25519-signature",
+ "record_sha256": "7c929d5b85a68502f644f29ae393af8bcf214d2ed348e41a608593fd9ed79093",
+ "writer": "audit.example",
+ "key_ref": "audit-example-key-1",
+ "algorithm": "Ed25519",
+ "signature_b64": "vzAUK1RuXZ/L8qLRMf0pcIcffMFUKJb4HTrj+74lvnzhtxMc65GKw5gac1ENhmDXFnOwTDGLEafBWJ3Xk9EcCA=="
+}

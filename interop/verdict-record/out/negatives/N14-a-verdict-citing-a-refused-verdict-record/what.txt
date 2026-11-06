@@ -1,0 +1,1 @@
+a reassessment record cites, under the format verdict-record/1, the verdict of N1 (refused): the cited record is checked as a record of its own and is not released, so step 2 is NOT RUN (Section 4.3, Section 6)

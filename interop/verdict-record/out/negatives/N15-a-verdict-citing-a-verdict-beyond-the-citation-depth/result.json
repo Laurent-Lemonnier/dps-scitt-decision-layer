@@ -1,0 +1,18 @@
+{
+ "what": "the same reassessment over the released verdict of part A, the checker's policy following citations to depth 0: step 2 NOT RUN",
+ "as_expected": true,
+ "states": {
+  "A_version_1": "released",
+  "A_mismatch_stated": "released",
+  "C_version_2": "released",
+  "reassessment": "held"
+ },
+ "dps_verified": {
+  "A_approval_A1": true,
+  "A_executed_A2": true,
+  "B_closing": true,
+  "C_corrected_A1": true,
+  "C_corrected_A2": true
+ },
+ "joins_false": []
+}

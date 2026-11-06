@@ -1,0 +1,20 @@
+{
+ "what": "the record's bytes arrive without a container: no key shown to bind them to the writer (Wright Section 3)",
+ "as_expected": true,
+ "states": {
+  "A_version_1": "held",
+  "A_mismatch_stated": "released",
+  "C_version_2": "released"
+ },
+ "dps_verified": {
+  "A_approval_A1": true,
+  "A_executed_A2": true,
+  "B_closing": true,
+  "C_corrected_A1": true,
+  "C_corrected_A2": true
+ },
+ "joins_false": [
+  "B1",
+  "C1"
+ ]
+}

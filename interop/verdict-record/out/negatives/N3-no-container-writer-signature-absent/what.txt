@@ -1,0 +1,1 @@
+the record's bytes arrive without a container: no key shown to bind them to the writer (Wright Section 3)
