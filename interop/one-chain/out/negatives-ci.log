@@ -13,4 +13,6 @@ ok  N12-issuer-id-not-the-kid: expected ['goshi:RECEIPT_ISSUER_KID_MISMATCH'], f
 ok  N13-a2-altered-after-the-verdict-cited-it: expected ['verdict:held', 'K12'], failed at ['K12', 'K5', 'K7', 'verdict:held']
 ok  N14-dispute-reason-code-missing: expected ['goshi:DISPUTE_REASON_CODE_MISSING'], failed at ['K12', 'goshi:DISPUTE_REASON_CODE_MISSING']
 ok  N15-approval-after-the-allow-outcome: expected ['J2', 'K2', 'dps', 'verdict:refused'], failed at ['J2', 'K12', 'K2', 'K5', 'K7', 'dps', 'verdict:refused']
-15/15 failing cases caught where expected
+ok  N16-one-approval-used-twice: expected ['dps', 'verdict:refused', 'goshi:APPROVAL_EVENT_CITED_TWICE', 'K5'], failed at ['J7', 'K12', 'K5', 'K7', 'dps', 'goshi:APPROVAL_EVENT_CITED_TWICE', 'verdict:refused']
+ok  N17-money-moved-nothing-recorded: expected ['goshi:NOTHING_RECORDED', 'K3', 'K6', 'K7'], failed at ['K1', 'K10', 'K12', 'K2', 'K3', 'K6', 'K7', 'K8', 'K9', 'goshi:NOTHING_RECORDED']
+17/17 failing cases caught where expected

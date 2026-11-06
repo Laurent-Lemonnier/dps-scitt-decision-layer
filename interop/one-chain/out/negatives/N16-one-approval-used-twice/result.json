@@ -1,0 +1,29 @@
+{
+ "case": "N16-one-approval-used-twice",
+ "expected_to_fail_at": [
+  "dps",
+  "verdict:refused",
+  "goshi:APPROVAL_EVENT_CITED_TWICE",
+  "K5"
+ ],
+ "failed_at": [
+  "J7",
+  "K12",
+  "K5",
+  "K7",
+  "dps",
+  "goshi:APPROVAL_EVENT_CITED_TWICE",
+  "verdict:refused"
+ ],
+ "as_expected": true,
+ "verdict_state": "refused",
+ "packet": "FAILED",
+ "packet_failures": [
+  "APPROVAL_EVENT_CITED_TWICE"
+ ],
+ "joins_false": [
+  "K5",
+  "K7",
+  "K12"
+ ]
+}
