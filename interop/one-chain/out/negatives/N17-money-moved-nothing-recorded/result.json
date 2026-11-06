@@ -1,0 +1,38 @@
+{
+ "case": "N17-money-moved-nothing-recorded",
+ "expected_to_fail_at": [
+  "goshi:NOTHING_RECORDED",
+  "K3",
+  "K6",
+  "K7"
+ ],
+ "failed_at": [
+  "K1",
+  "K10",
+  "K12",
+  "K2",
+  "K3",
+  "K6",
+  "K7",
+  "K8",
+  "K9",
+  "goshi:NOTHING_RECORDED"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "NOTHING_RECORDED",
+ "packet_failures": [
+  "NOTHING_RECORDED"
+ ],
+ "joins_false": [
+  "K1",
+  "K2",
+  "K3",
+  "K6",
+  "K7",
+  "K8",
+  "K9",
+  "K10",
+  "K12"
+ ]
+}

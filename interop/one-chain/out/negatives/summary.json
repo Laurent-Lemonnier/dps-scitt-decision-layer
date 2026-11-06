@@ -344,5 +344,72 @@
    "K7",
    "K12"
   ]
+ },
+ {
+  "case": "N16-one-approval-used-twice",
+  "expected_to_fail_at": [
+   "dps",
+   "verdict:refused",
+   "goshi:APPROVAL_EVENT_CITED_TWICE",
+   "K5"
+  ],
+  "failed_at": [
+   "J7",
+   "K12",
+   "K5",
+   "K7",
+   "dps",
+   "goshi:APPROVAL_EVENT_CITED_TWICE",
+   "verdict:refused"
+  ],
+  "as_expected": true,
+  "verdict_state": "refused",
+  "packet": "FAILED",
+  "packet_failures": [
+   "APPROVAL_EVENT_CITED_TWICE"
+  ],
+  "joins_false": [
+   "K5",
+   "K7",
+   "K12"
+  ]
+ },
+ {
+  "case": "N17-money-moved-nothing-recorded",
+  "expected_to_fail_at": [
+   "goshi:NOTHING_RECORDED",
+   "K3",
+   "K6",
+   "K7"
+  ],
+  "failed_at": [
+   "K1",
+   "K10",
+   "K12",
+   "K2",
+   "K3",
+   "K6",
+   "K7",
+   "K8",
+   "K9",
+   "goshi:NOTHING_RECORDED"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "NOTHING_RECORDED",
+  "packet_failures": [
+   "NOTHING_RECORDED"
+  ],
+  "joins_false": [
+   "K1",
+   "K2",
+   "K3",
+   "K6",
+   "K7",
+   "K8",
+   "K9",
+   "K10",
+   "K12"
+  ]
  }
 ]

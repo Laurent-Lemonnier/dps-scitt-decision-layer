@@ -375,7 +375,13 @@
      "state": "resolved"
     }
    ],
-   "scope_conformance": "in_scope"
+   "approval_event_uses": {
+    "0c51d7ce4bc9a94aeb40d904464c65105639bde953fa3350602aa865685c2023": [
+     "txn-2026-1104-8812"
+    ]
+   },
+   "scope_conformance": "in_scope",
+   "absent": []
   }
  },
  "joins": {

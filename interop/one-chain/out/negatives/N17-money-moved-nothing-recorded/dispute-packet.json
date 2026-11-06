@@ -1,0 +1,123 @@
+{
+ "receipt": {
+  "payload": {
+   "type": "actaseal:policy_decision",
+   "issued_at": "2026-11-04T12:00:00Z",
+   "issuer_id": "sb:issuer:example-merchant-dispute-1",
+   "decision": "require_approval",
+   "reason_code": "no_decision_record_found",
+   "action_hash": null,
+   "evidence_set_hash": "bb58dae74aa2b36f1722ba411e17ca3134d6d651f9e28e2c16b8487b3543fbfd",
+   "ledger_entry_hash": "5d3927fa8a9c545c09c5b8c8f48bef05f8d3ac55283f22281abef4856852c2a5",
+   "timestamp": "2026-11-04T10:01:30Z",
+   "mandate_hash": null,
+   "rail_anchors_hash": "e1fc2d054813e6a1657dbfc3610847e7576272748f99217bab3b2b5e9788bcde",
+   "scope_conformance": "not_evaluated",
+   "key_id": "sb:issuer:example-merchant-dispute-1",
+   "signer_pubkey_hash": "51c9964fcb8e3d6e52aabf5b3048dcf228870bfa43cb9776d97965d523cfdf0a"
+  },
+  "signature": {
+   "alg": "EdDSA",
+   "kid": "sb:issuer:example-merchant-dispute-1",
+   "sig": "c513ce7aeec8dd0d6ad88924353a952a426fb28ff96a9831657e9e5d18748b36fc62df26e59920636e132c409e13a64abc1c317e16cda6f1616c45d2c5df5c04"
+  }
+ },
+ "manifest": {
+  "profile": "draft-xg-payment-dispute-profile-01",
+  "base": "draft-farley-acta-signed-receipts-03",
+  "dispute_reason_code": "unrecognized_transaction",
+  "receipt_public_key_hex": "83949f703748d2281073b5c8b39da9c76434ab9a46c2194d12b9f822e8273936",
+  "headline": {
+   "scope_conformance": "not_evaluated",
+   "amount_minor": "12000",
+   "currency": "EUR"
+  },
+  "agent_anchors": {
+   "mandate_hash": null,
+   "agent_id": null,
+   "approval_event_hash": null,
+   "receipt_signature": "c513ce7aeec8dd0d6ad88924353a952a426fb28ff96a9831657e9e5d18748b36fc62df26e59920636e132c409e13a64abc1c317e16cda6f1616c45d2c5df5c04",
+   "network_token_id": null,
+   "threeds_acs_result": null
+  },
+  "further_anchors": {},
+  "intent_scope": null,
+  "intent_scope_sha256": null,
+  "intent_scope_source": null,
+  "executed_action": null,
+  "executed_action_sha256": null,
+  "executed_action_source": null,
+  "settlement_anchor": {
+   "rail": "example-rail",
+   "txn_ref": "txn-2026-1104-0931",
+   "finality_status": "final",
+   "amount_minor": "12000",
+   "currency": "EUR",
+   "captured_at": "2026-11-04T10:01:30Z",
+   "network": null,
+   "payer": "urn:example:customer:C-4471",
+   "unanchored_fields": [
+    "network"
+   ],
+   "anchor_hash": "e1fc2d054813e6a1657dbfc3610847e7576272748f99217bab3b2b5e9788bcde"
+  },
+  "ce3_fpt_categories": {
+   "device_identity": {
+    "populated": false,
+    "value": null,
+    "gap_note": "no device data in the packet"
+   },
+   "delivery_information": {
+    "populated": false,
+    "value": null,
+    "gap_note": "a transfer: nothing delivered"
+   },
+   "additional_identity_factor": {
+    "populated": false,
+    "value": null,
+    "gap_note": "no ActorValidated event: nothing is recorded behind the transfer"
+   }
+  }
+ },
+ "ledger_slice": [
+  {
+   "seq": "0",
+   "type": "SettlementObserved",
+   "at": "2026-11-04T10:01:30Z",
+   "data": {
+    "anchor_hash": "e1fc2d054813e6a1657dbfc3610847e7576272748f99217bab3b2b5e9788bcde",
+    "txn_ref": "txn-2026-1104-0931"
+   },
+   "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+   "event_hash": "5d3927fa8a9c545c09c5b8c8f48bef05f8d3ac55283f22281abef4856852c2a5"
+  }
+ ],
+ "fre901": {
+  "acquisition": {
+   "captured_by": "urn:example:merchant:dispute-desk",
+   "captured_at": "2026-11-04T12:00:00Z",
+   "tool": "one-chain/build.py (synthetic)",
+   "clock_source": "host clock, declared untrusted (no external time anchor)",
+   "gaps": [
+    "no RFC 3161 or SCITT time anchor"
+   ]
+  },
+  "custody": [
+   {
+    "event": "settlement anchor captured",
+    "at": "2026-11-04T10:01:30Z",
+    "actor": "urn:example:merchant:rail-feed",
+    "ledger_event_hash": "5d3927fa8a9c545c09c5b8c8f48bef05f8d3ac55283f22281abef4856852c2a5"
+   }
+  ],
+  "authentication_statement": {
+   "re_derivable": [
+    "receipt signature over JCS payload",
+    "ledger event hash",
+    "settlement anchor_hash",
+    "headline consistency",
+    "the absence: no approval event, no verdict, no executed action cited"
+   ]
+  }
+ }
+}
