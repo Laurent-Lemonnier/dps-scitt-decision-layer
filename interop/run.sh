@@ -156,6 +156,14 @@ DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 one-chain/build.py
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 one-chain/negatives.py > one-chain/out/negatives-ci.log || { echo "one-chain: a failing case was not caught where expected"; cat one-chain/out/negatives-ci.log; exit 1; }
 echo "# positive chain: CHECKS_PERFORMED, A1/A2 verified on every dimension, verdict released, packet VERIFIED, 12 joins true (+ case 17's 7); stated negative (150 executed for 120 approved): J1 false, action_binding failed, verdict not_as_approved released, packet BREACH:amount_minor VERIFIED, 12 joins true; 17 failing cases caught where expected (one approval used twice: the Standard's request_limit first; money moved with nothing recorded: only the packet, NOTHING_RECORDED); the Goshi/Farley link is from the text, unreviewed by its author"
 
+echo "== Case 18b: the same chain with a real approver (one-chain-real): Laurent Lemonnier's passkey assertion (WebAuthn-ES256, sign.pria.fr) over the exact person_approval bytes, pinned in signed/, verified by the Standard's check"
+(cd one-chain-real/signed && sha256sum -c --quiet SHA256SUMS) || { echo "one-chain-real: the pinned signed inputs changed"; exit 1; }
+mkdir -p one-chain-real/out
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 one-chain-real/build.py > one-chain-real/out/build-ci.log || { echo "one-chain-real: not all verified"; tail -30 one-chain-real/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 one-chain-real/negatives.py > one-chain-real/out/negatives-ci.log || { echo "one-chain-real: a failing case was not caught where expected"; cat one-chain-real/out/negatives-ci.log; exit 1; }
+(cd one-chain-real/anchoring/subjects && sha256sum -c --quiet SHA256SUMS) || { echo "one-chain-real: the anchoring subjects are not the bytes build.py wrote"; exit 1; }
+echo "# one real signature: verified (signature, UP, UV, origin, rpId, key state, identity under the pinned trust policy); the chain as in case 18: CHECKS_PERFORMED, A1/A2 verified, verdict released, packet VERIFIED, 12 joins true; stated negative as expected; 8 failing cases caught where expected, five of them by the Standard's signatures check alone; anchoring subjects prepared, not submitted (stamp.sh is never run here)"
+
 echo "== draft-gilda-audit-agent-audit-record-03, corpus vectors-agent-audit-record from agent-evidence-vectors ${GILDA_VERSION} (anchors validated offline against the manifest's tree heads and test-chain headers; dating complete)"
 CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-agent-audit-record'))")
 python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report gilda/judge-ci.json | tail -1
