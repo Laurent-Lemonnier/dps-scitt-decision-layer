@@ -138,6 +138,12 @@ DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 air/build.py > air
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 air/negatives.py > air/out/negatives-ci.log || { echo "air: a failing case was not caught where expected"; cat air/out/negatives-ci.log; exit 1; }
 echo "# two AIRs VERIFIED by the verifier written from the text (32 checks each, 5.8 four steps and 6.1/6.3/6.4), chain of two VERIFIED; DPS dimensions, seal and approval verified; 6 joins true, binding BOUND; 13 failing cases caught where expected (N8 NOT_BOUND and N9 UNRESOLVED by design)"
 
+echo "== Case 16: a verdict record over the signed decision chain, and a decision over a verdict (verdict-record): draft-wright-verdict-record-02 Sections 2, 3, 4, 6, 7, checker written from the text"
+mkdir -p verdict-record/out
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 verdict-record/build.py > verdict-record/out/build-ci.log || { echo "verdict record: not all verified"; tail -30 verdict-record/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 verdict-record/negatives.py > verdict-record/out/negatives-ci.log || { echo "verdict record: a failing case was not caught where expected"; cat verdict-record/out/negatives-ci.log; exit 1; }
+echo "# DPS: A1, A2, the closing decision and the corrected pair verified (dimensions, seals, approvals); verdict version 1, the stated negative over the 150/120 chain and version 2 released by the checker written from the text; Wright's Appendix A digests reproduced and his A.2 record released, held, refused and held as his text predicts; 11 joins true; 16 failing cases as expected (N10b released and named by design)"
+
 echo "== draft-gilda-audit-agent-audit-record-03, corpus vectors-agent-audit-record from agent-evidence-vectors ${GILDA_VERSION} (anchors validated offline against the manifest's tree heads and test-chain headers; dating complete)"
 CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-agent-audit-record'))")
 python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report gilda/judge-ci.json | tail -1
