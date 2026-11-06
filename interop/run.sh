@@ -10,9 +10,12 @@ AQTA_REPO=https://github.com/Aqta-ai/attestation-spec.git
 AQTA_COMMIT="${AQTA_COMMIT:-$(cat aqta/PINNED_COMMIT)}"
 AQTA_ATTESTATION_KEY=alWzEnrA_z9McN9z_MFfQCnH9mVgOwRZ26wrI7oix4E   # test-vectors/README.md
 AQTA_ACTION_KEY=pOaccW6Csyo1POtxjixPH80oux9--YC1tzzaENT4vQ0        # test-vectors/action/README.md
-GILDA_VERSION=0.31.0
+# The agent-evidence-vectors release is pinned in requirements-gilda.txt (Dependabot opens a weekly PR when a new one
+# is published, .github/dependabot.yml). 0.31.0 is the last release both verifiers in gilda/ agree with in full: at
+# 0.35.0 the approval-binding verifier agrees 36/36 but the audit-record verifier 184/193 (gilda/run-20261107.txt).
+GILDA_VERSION=$(sed -n 's/^agent-evidence-vectors==//p' requirements-gilda.txt)
 
-python3 -m pip install --quiet "cryptography>=42" "cbor2>=5" "agent-evidence-vectors==${GILDA_VERSION}"
+python3 -m pip install --quiet "cryptography>=42" "cbor2>=5" -r requirements-gilda.txt
 
 if [ ! -d aqta/attestation-spec ]; then
   git clone --quiet "$AQTA_REPO" aqta/attestation-spec
@@ -175,7 +178,7 @@ echo "== draft-gilda-audit-agent-audit-record-03, corpus vectors-agent-audit-rec
 CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-agent-audit-record'))")
 python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report gilda/judge-ci.json | tail -1
 
-echo "== approval-binding/v1 (the same package's vectors-approval-binding contract), verifier written from the corpus README's eleven checks"
+echo "== approval-binding/v1 (the same package's vectors-approval-binding contract), verifier written from the corpus README's checks (eleven at 0.31.0, sixteen at 0.35.0: 23/23 here, 36/36 and 37/37 on 0.35.0 and PR #472 in gilda/run-approval-binding-20261107.txt)"
 AB_CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-approval-binding'))")
 python3 gilda/approval_binding_verify_independent.py --corpus "$AB_CORPUS" --report gilda/judge-approval-binding-ci.json | tail -1
 # Local candidate addition (2026-10-30): source-to-record aggregation controls.

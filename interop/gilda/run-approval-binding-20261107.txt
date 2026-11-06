@@ -1,0 +1,34 @@
+# 7 November 2026 — approval_binding_verify_independent.py extended from the eleven checks of 0.31.0 to the sixteen
+# checks of the corpus README at 0.35.0 ("The checks, in order", 1 to 16, and "Renewal by replacement") and PR #472's
+# wording of check 4 (whole-object comparison). Written from the text alone; the reference reader was not read.
+# Python 3.12.15 (venv312); packages installed with pip from PyPI.
+## corpus 0.35.0 (pip install "agent-evidence-vectors==0.35.0"; corpusDigest 54ad08f0dd40429440393a706ef7fed361e00c12ce3033d18b353231a9a266a5; 36 cases, 8 allow, 28 deny)
+# approval-binding/v1: 36/36 cases agree with MANIFEST on decision and reason
+approval-binding/v1: /tmp/ab-verifier.sh answered 36 of 36 cases, 0 disagreements      (the corpus's own harness driving the verifier through its record.json --json contract)
+## corpus of PR #472 (git -C /tmp/aev-pr472 checkout pr472, head 0c61e401; corpusDigest f6f0fb39e913bdaacdb411903d946243d1b3d6c4703daa563c0277a43be64ccb; 37 cases, 8 allow, 29 deny; then checkout v0.35.0 again)
+# approval-binding/v1: 37/37 cases agree with MANIFEST on decision and reason
+## corpus 0.31.0 (pip install "agent-evidence-vectors==0.31.0"; corpusDigest 49f077e5da1227669292e7524c1d3d52eb12c2b7ad58b09c0df27d19d00fb170; 23 cases)
+# approval-binding/v1: 23/23 cases agree with MANIFEST on decision and reason
+approval-binding/v1: /tmp/ab-verifier.sh answered 23 of 23 cases, 0 disagreements
+## corpus 0.28.0 (pip install "agent-evidence-vectors==0.28.0"; same corpusDigest 49f077e5…; 23 cases)
+# approval-binding/v1: 23/23 cases agree with MANIFEST on decision and reason
+approval-binding/v1: /tmp/ab-verifier.sh answered 23 of 23 cases, 0 disagreements
+## the eleven cases the 1 November verifier allowed (25/36 at 0.35.0, 26/37 on PR #472), now refused by the check the text names
+approval-use-cites-predecessor          deny approval_not_cited          (check 3)
+approval-use-cites-no-approval          deny approval_not_cited          (check 3)
+approval-reused-after-renewal           deny approval_superseded         (check 6)
+approval-renewal-transition-not-accepted deny renewal_transition_missing (check 7: status proposed)
+approval-renewal-accepted-after-use     deny renewal_transition_missing  (check 7: acceptedAt one second after usedAt)
+approval-renewal-decision-not-distinct  deny renewal_binding_invalid     (check 8: B's decisionId is A's)
+approval-renewal-predecessor-decision-not-cited deny renewal_binding_invalid (check 8: transition cites dec-0099, A's is dec-0001)
+approval-renewal-bounds-differ          deny renewal_binding_invalid     (check 8: target differs between A and B)
+approval-renewal-predecessor-ambiguous  deny renewal_binding_invalid     (check 8: two presented records under A's identifier differ)
+approval-renewal-reopens-consumed-effect deny effect_already_closed      (check 14: CONSUMED)
+approval-renewal-reopens-uncertain-effect deny effect_already_closed     (check 14: UNCERTAIN_CLOSE)
+## the 37th case of PR #472
+approval-id-reused-unread-member        deny approval_id_ambiguous       (check 4: the duplicate differs only in a "note" member; the 1 November verifier already compared whole objects, so it agreed before the text said so)
+## readings taken (also in the verifier's docstring): a use with no approvalId fails check 3; checks 4 and 8 compare presented records as whole parsed objects;
+## a replacement is a transitions entry with status "accepted" and a readable acceptedAt at or before usedAt (mode not tested; the text names exclusive-replacement as this suite's only policy);
+## check 8 = predecessor presented once or in equal copies, decisionIds present, distinct and cited by the transition on both sides, six bounds equal, validity window not compared;
+## check 14 passes when the use names no effectKey or the registry has no entry. No case disagreed under these readings; none of them decided a case (each refused case fails on the member the manifest's edit names).
+## reports: judge-approval-binding-20261107-0.35.0.json, -pr472.json, -0.31.0.json, -0.28.0.json

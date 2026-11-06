@@ -1,0 +1,24 @@
+# 7 November 2026 — gilda_verify_independent.py (unchanged since 31 October / 5 November) run on release 0.35.0 of
+# agent-evidence-vectors, to decide whether run.sh's pin (GILDA_VERSION, now read from interop/requirements-gilda.txt)
+# can move from 0.31.0 to 0.35.0. Python 3.12.15 (venv312); pip install "agent-evidence-vectors==0.35.0".
+## corpus 0.35.0, vectors-agent-audit-record (corpusDigest 47fab839747e0ab798fdeb7c028dbe31a5d0ce381934fc4f7a630c99a19a8654; 193 members: 85 accept, 1 indeterminate, 107 reject)
+# command: python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report /tmp/judge-audit-0.35.0.json
+# agent-audit-record-conformance: 184/193 members agree with MANIFEST (verdict, codes, derivedTier, withinLimit, set, dating: codes, datedAt, entry, receipt, delegation root); first refusal code agrees on 101/106 reject members; 0 retained members with an anchor not attempted (rfc3161 only); aggregation correspondence 1/1
+## the nine disagreements, all among the x402 consumption members added since 0.31.0 (CS41 to CS49: a payment settled on chain beside an "upto" permit)
+member  expected                                         got by this verifier
+CS41    valid      []                                    malformed [consumption-malformed]                                       (CS4 retried, payment signed again to the same payee P; held entry and request carry P's payee digest)
+CS42    malformed  [consumption-key-reused]              malformed [consumption-malformed]                                       (payment signed again to payee Q inside the same call)
+CS43    valid      []                                    malformed [consumption-malformed]                                       (CS1 paid under an x402 upto permit of 12 USDC, settled 7 USDC, settled read from the chain)
+CS44    malformed  [consumption-settled-exceeds]         malformed [consumption-malformed]                                       (settled 13 USDC above the 12 authorised)
+CS45    malformed  [consumption-settled-differs]         malformed [consumption-malformed]                                       (settled in another asset)
+CS46    malformed  [consumption-settled-differs]         malformed [consumption-malformed]                                       (settled to payee Q)
+CS47    malformed  [consumption-value-invalid]           malformed [consumption-malformed]                                       (settled.source signed-payload)
+CS48    valid      []                                    malformed [consumption-malformed, consumption-malformed] set=[set-record-malformed]  (a later record counts the call at the 7 USDC settled, consumed 37)
+CS49    valid      []                                    malformed [consumption-malformed, consumption-malformed] set=[set-record-malformed]  (CS48 with the later record counting 35; expected: each record valid, the set malformed)
+# The verifier reads the new "settled" members of a consumption entry as a malformed consumption; it was written from the -03 text and the 0.31.0
+# corpus README, which do not have them. Not fixed here: it is a separate reading, to be taken up against the text that defines "settled".
+## decision: the pin stays at 0.31.0 (interop/requirements-gilda.txt: agent-evidence-vectors==0.31.0); Dependabot (.github/dependabot.yml, pip on /interop, weekly) will propose the move.
+## CI run as run.sh does it, at 0.31.0 (pip install -r requirements-gilda.txt; corpusDigest 5c584eb9e9594d7a0265ab7afb302da0803ee8811ca6b4be0a6fca2b08ddd509)
+# agent-audit-record-conformance: 184/184 members agree with MANIFEST (verdict, codes, derivedTier, withinLimit, set, dating: codes, datedAt, entry, receipt, delegation root); first refusal code agrees on 101/101 reject members; 0 retained members with an anchor not attempted (rfc3161 only); aggregation correspondence 1/1
+# approval-binding/v1: 23/23 cases agree with MANIFEST on decision and reason
+## approval-binding at 0.35.0 and PR #472 with the extended verifier: 36/36 and 37/37 (gilda/run-approval-binding-20261107.txt)

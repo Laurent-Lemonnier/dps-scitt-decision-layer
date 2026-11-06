@@ -1,0 +1,9 @@
+# Dependabot keeps the pinned agent-evidence-vectors release in interop/requirements-gilda.txt under review:
+# a weekly pull request when a new release is published, as its author suggested on probityai/agent-evidence-vectors#401.
+# The pin moves only when both verifiers in interop/gilda/ still agree with the new release's manifests (interop/run.sh).
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/interop"
+    schedule:
+      interval: "weekly"
