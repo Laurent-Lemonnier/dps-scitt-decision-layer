@@ -1,0 +1,3 @@
+Refund order urn:example:order:8812: 120.00 EUR, reason: duplicate charge of 2026-11-02
+via https://payments.example/refunds; policy urn:example:policy:refunds#2026-10-01 (sha256:955cda399f0e594a0a59353648b05ba3c051ec7324edd6cf20cc718cff2964d2)
+valid until 2026-11-07T12:00:00Z

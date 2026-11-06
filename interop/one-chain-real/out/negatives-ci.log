@@ -1,0 +1,23 @@
+ok  R1-assertion-presented-over-other-bytes: expected ['dps'], failed at ['dps']
+      signature finding: the challenge is not the SHA-256 of the signed bytes
+      signature finding: the signature is not verified, so no one signed these bytes with this key
+ok  R2-client-data-from-another-origin: expected ['dps'], failed at ['dps']
+      signature finding: the origin 'https://sign.example.org' is not one the policy allows for laurent-passkey-1
+      signature finding: the signature does not verify over authenticatorData || SHA-256(clientDataJSON)
+      signature finding: the signature is not verified, so no one signed these bytes with this key
+ok  R3-user-verification-flag-cleared: expected ['dps'], failed at ['dps']
+      signature finding: the signature does not verify over authenticatorData || SHA-256(clientDataJSON)
+      signature finding: the signature is not verified, so no one signed these bytes with this key
+ok  R4-another-credential-under-the-same-key-ref: expected ['dps'], failed at ['dps']
+      signature finding: the signature does not verify over authenticatorData || SHA-256(clientDataJSON)
+      signature finding: the signature is not verified, so no one signed these bytes with this key
+ok  R5-approval-after-the-allow-on-the-real-timeline: expected ['J2', 'K2', 'dps', 'verdict:refused'], failed at ['J2', 'K12', 'K2', 'K5', 'K7', 'dps', 'verdict:refused']
+ok  R6-case-18-test-signature-under-this-policy: expected ['dps'], failed at ['dps']
+      signature finding: finance-controller-1-key-1 is not a key in the trust policy
+      signature finding: the key is not in the trust policy, so it binds no one
+ok  R7-confirm-without-approval: expected ['dps', 'J2', 'K2'], failed at ['J2', 'K1', 'K2', 'dps']
+      signature finding: no person signature in the attachment
+ok  R8-signed-at-moved-by-one-second: expected ['dps', 'J2', 'K2'], failed at ['J2', 'K2', 'dps']
+      signature finding: the challenge is not the SHA-256 of the signed bytes
+      signature finding: the signature is not verified, so no one signed these bytes with this key
+8/8 failing cases caught where expected

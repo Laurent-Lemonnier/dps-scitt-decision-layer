@@ -1,0 +1,31 @@
+{
+ "case": "R2-client-data-from-another-origin",
+ "expected_to_fail_at": [
+  "dps"
+ ],
+ "failed_at": [
+  "dps"
+ ],
+ "as_expected": true,
+ "person_signature": {
+  "status": "failed",
+  "signature": "failed",
+  "subject": "verified",
+  "key_state": "not_checked",
+  "identity": "not_checked",
+  "authenticator": {
+   "user_present": true,
+   "user_verified": true,
+   "cross_origin": false
+  }
+ },
+ "person_signature_findings": [
+  "the origin 'https://sign.example.org' is not one the policy allows for laurent-passkey-1",
+  "the signature does not verify over authenticatorData || SHA-256(clientDataJSON)",
+  "the signature is not verified, so no one signed these bytes with this key"
+ ],
+ "verdict_state": "released",
+ "packet": "VERIFIED",
+ "packet_failures": [],
+ "joins_false": []
+}
