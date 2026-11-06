@@ -1,0 +1,24 @@
+{
+ "what": "the checker's policy does not list the action-binding format: the items are held but not relied on (step 2)",
+ "as_expected": true,
+ "states": {
+  "A_version_1": "held",
+  "A_mismatch_stated": "held",
+  "C_version_2": "held"
+ },
+ "dps_verified": {
+  "A_approval_A1": true,
+  "A_executed_A2": true,
+  "B_closing": true,
+  "C_corrected_A1": true,
+  "C_corrected_A2": true
+ },
+ "joins_false": [
+  "A2",
+  "A3",
+  "A4",
+  "B1",
+  "B3",
+  "C1"
+ ]
+}

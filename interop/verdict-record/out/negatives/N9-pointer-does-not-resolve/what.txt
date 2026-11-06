@@ -1,0 +1,1 @@
+the attempted digest is bound to /stages/9/spec_digest; A2 has seven stages (step 3 FAILs, not a result of the rule)

@@ -1,0 +1,1 @@
+the checker's policy does not list the action-binding format: the items are held but not relied on (step 2)

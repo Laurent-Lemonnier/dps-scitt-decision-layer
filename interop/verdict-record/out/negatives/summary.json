@@ -1,0 +1,345 @@
+{
+ "N1-executed-150-approved-120-verdict-says-as-approved": {
+  "what": "A2 requests and attempts a specification of 150.00 EUR where 120.00 was approved; the auditor's verdict still states executed_as_approved: the re-run gives not_as_approved",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "refused",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": false,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "A2",
+   "A3",
+   "B1",
+   "B3",
+   "C1"
+  ]
+ },
+ "N2-evidence-bytes-altered-after-citation": {
+  "what": "one member of A2 changed after the verdict cited it (observed succeeded -> failed): no item held has the cited digest",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "held",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "A2",
+   "A3",
+   "B1",
+   "B3",
+   "C1"
+  ]
+ },
+ "N3-no-container-writer-signature-absent": {
+  "what": "the record's bytes arrive without a container: no key shown to bind them to the writer (Wright Section 3)",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "held",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "B1",
+   "C1"
+  ]
+ },
+ "N4-container-signed-by-a-key-not-the-writers": {
+  "what": "the container names the writer's key reference but the signature is another key's",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "held",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "B1",
+   "C1"
+  ]
+ },
+ "N5-record-not-in-canonical-form": {
+  "what": "a space after the first comma: re-serializing the parsed record does not give the same bytes (Section 2.1)",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "refused",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "A2",
+   "A3",
+   "B1",
+   "B3",
+   "C1"
+  ]
+ },
+ "N6-a-member-this-document-does-not-define": {
+  "what": "a member 'note' added to the record (Section 2.2: no other member is allowed)",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "refused",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "A2",
+   "A3",
+   "B1",
+   "B3",
+   "C1"
+  ]
+ },
+ "N7-judgement-on-a-check-run": {
+  "what": "rule judgement on a record of kind check-run, which the checker's policy does not list for judgement (step 1)",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "refused",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "A2",
+   "A3",
+   "B1",
+   "B3",
+   "C1"
+  ]
+ },
+ "N8-evidence-format-not-in-the-checkers-policy": {
+  "what": "the checker's policy does not list the action-binding format: the items are held but not relied on (step 2)",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "held",
+   "A_mismatch_stated": "held",
+   "C_version_2": "held"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "A2",
+   "A3",
+   "A4",
+   "B1",
+   "B3",
+   "C1"
+  ]
+ },
+ "N9-pointer-does-not-resolve": {
+  "what": "the attempted digest is bound to /stages/9/spec_digest; A2 has seven stages (step 3 FAILs, not a result of the rule)",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "refused",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "A2",
+   "A3",
+   "B1",
+   "B3",
+   "C1"
+  ]
+ },
+ "N10-an-input-copied-into-body-under-an-evidence-only-policy": {
+  "what": "attempted_spec_digest copied into body instead of bound to A2; the checker reads inputs from evidence only (Section 4.5): step 3 NOT RUN",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "held",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "A2",
+   "A3",
+   "B1",
+   "B3",
+   "C1"
+  ]
+ },
+ "N10b-the-same-copy-under-the-default-policy-released-and-named": {
+  "what": "the same record under the default policy: released, the report naming the input read from body (Section 4.2, Section 4.4). Expected by Wright's text, not a failure: it shows what the evidence-only policy adds",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "released",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "A3"
+  ]
+ },
+ "N11-the-verdict-cited-by-the-closing-decision-altered-after-citation": {
+  "what": "the closing decision names the digest of a verdict record whose act_time is one second later than the one held: the DPS checks of the closing decision verify (they do not read the citation), the join does not",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "released",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "B1"
+  ]
+ },
+ "N12-version-2-supersedes-a-digest-of-nothing-held": {
+  "what": "version 2 names another digest in supersedes: the steps of Section 4.3 do not read supersedes, the record is released; the join on the pair does not hold",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "released",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "C1"
+  ]
+ },
+ "N13-version-2-with-supersedes-null": {
+  "what": "version 2 with supersedes null (Section 2.2: for a later version, the digest of the previous version): refused before any step",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "released",
+   "A_mismatch_stated": "released",
+   "C_version_2": "refused"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "C1"
+  ]
+ },
+ "N14-a-verdict-citing-a-refused-verdict-record": {
+  "what": "a reassessment record cites, under the format verdict-record/1, the verdict of N1 (refused): the cited record is checked as a record of its own and is not released, so step 2 is NOT RUN (Section 4.3, Section 6)",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "refused",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released",
+   "reassessment": "held"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": false,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": [
+   "A2",
+   "A3",
+   "B1",
+   "B3",
+   "C1"
+  ]
+ },
+ "N15-a-verdict-citing-a-verdict-beyond-the-citation-depth": {
+  "what": "the same reassessment over the released verdict of part A, the checker's policy following citations to depth 0: step 2 NOT RUN",
+  "as_expected": true,
+  "states": {
+   "A_version_1": "released",
+   "A_mismatch_stated": "released",
+   "C_version_2": "released",
+   "reassessment": "held"
+  },
+  "dps_verified": {
+   "A_approval_A1": true,
+   "A_executed_A2": true,
+   "B_closing": true,
+   "C_corrected_A1": true,
+   "C_corrected_A2": true
+  },
+  "joins_false": []
+ }
+}
