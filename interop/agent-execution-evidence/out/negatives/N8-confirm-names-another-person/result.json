@@ -1,0 +1,34 @@
+{
+ "case": "N8-confirm-names-another-person",
+ "expected_to_fail_at": [
+  "J5"
+ ],
+ "failed_at": [
+  "J5"
+ ],
+ "as_expected": true,
+ "aee": {
+  "result": "CHECKS_PERFORMED",
+  "error": null,
+  "detail": null
+ },
+ "dps_a2_dimensions": {
+  "specification_digests": "verified",
+  "specification_statements": "verified",
+  "record_statements": "verified",
+  "action_binding": "verified",
+  "stage_order": "verified",
+  "authorisation_recheck": "verified",
+  "observed_results": "verified",
+  "rationale_provenance": "verified"
+ },
+ "dps_person_approval": "verified",
+ "route1_bound": true,
+ "route2": {
+  "present": false,
+  "bound": false
+ },
+ "joins_false": [
+  "J5 the receipts' principal is SHA-256 over the Harness pepper and the canonical identifier of the person o1 names (Section 3; pepper obtained from the Harness out of band, test value here)"
+ ]
+}

@@ -1,0 +1,1 @@
+the allow outcome's prev_hash is another digest: the chain of 6.7.1 breaks at seq 3 (E_CHAIN_HASH); the DPS attempt still cites the receipt as recorded

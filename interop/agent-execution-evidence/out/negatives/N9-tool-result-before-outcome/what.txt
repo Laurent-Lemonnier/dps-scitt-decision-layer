@@ -1,0 +1,1 @@
+the tool_result's parent is the confirm receipt (seq 2), not the allow outcome: 6.7 'A tool_result for the call MUST NOT precede an allow outcome' (E_TASK)

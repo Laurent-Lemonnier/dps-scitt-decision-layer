@@ -1,0 +1,37 @@
+{
+ "case": "N9-tool-result-before-outcome",
+ "expected_to_fail_at": [
+  "aee"
+ ],
+ "failed_at": [
+  "J3",
+  "J7",
+  "aee"
+ ],
+ "as_expected": true,
+ "aee": {
+  "result": "FAIL",
+  "error": "E_TASK",
+  "detail": "seq 4: tool_result's parent is not an allow (or record) tool_call: a tool_result MUST NOT precede an allow outcome (6.7)"
+ },
+ "dps_a2_dimensions": {
+  "specification_digests": "verified",
+  "specification_statements": "verified",
+  "record_statements": "verified",
+  "action_binding": "verified",
+  "stage_order": "verified",
+  "authorisation_recheck": "verified",
+  "observed_results": "verified",
+  "rationale_provenance": "verified"
+ },
+ "dps_person_approval": "verified",
+ "route1_bound": true,
+ "route2": {
+  "present": false,
+  "bound": false
+ },
+ "joins_false": [
+  "J3 the allow outcome resolves the confirm (verifier: confirm_seq, same parent_seq, target, request_digest, Task) and is recorded after the DPS request stage authorised by o1 (no allow without a request)",
+  "J7 the agent asked for this call: agent_sig on the confirm receipt verified with the agent key (6.7)"
+ ]
+}

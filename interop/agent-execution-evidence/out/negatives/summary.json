@@ -1,0 +1,434 @@
+[
+ {
+  "case": "N1-confirm-without-approval",
+  "expected_to_fail_at": [
+   "dps",
+   "J2"
+  ],
+  "failed_at": [
+   "J2",
+   "dps"
+  ],
+  "as_expected": true,
+  "aee": {
+   "result": "CHECKS_PERFORMED",
+   "error": null,
+   "detail": null
+  },
+  "dps_a2_dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "dps_person_approval": "absent: no person signature",
+  "route1_bound": true,
+  "route2": {
+   "present": false,
+   "bound": false
+  },
+  "joins_false": [
+   "J2 the person's approval (verified by the Standard) names the same specification, and was signed after the confirm receipt and before the allow outcome (6.7: the call did not proceed until the outcome)"
+  ]
+ },
+ {
+  "case": "N2-approval-of-another-specification",
+  "expected_to_fail_at": [
+   "dps",
+   "J2"
+  ],
+  "failed_at": [
+   "J2",
+   "dps"
+  ],
+  "as_expected": true,
+  "aee": {
+   "result": "CHECKS_PERFORMED",
+   "error": null,
+   "detail": null
+  },
+  "dps_a2_dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "dps_person_approval": "failed",
+  "route1_bound": true,
+  "route2": {
+   "present": false,
+   "bound": false
+  },
+  "joins_false": [
+   "J2 the person's approval (verified by the Standard) names the same specification, and was signed after the confirm receipt and before the allow outcome (6.7: the call did not proceed until the outcome)"
+  ]
+ },
+ {
+  "case": "N3-approval-after-the-call",
+  "expected_to_fail_at": [
+   "dps",
+   "J2"
+  ],
+  "failed_at": [
+   "J2",
+   "dps"
+  ],
+  "as_expected": true,
+  "aee": {
+   "result": "CHECKS_PERFORMED",
+   "error": null,
+   "detail": null
+  },
+  "dps_a2_dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "failed",
+   "action_binding": "verified",
+   "stage_order": "failed",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "dps_person_approval": "verified",
+  "route1_bound": true,
+  "route2": {
+   "present": false,
+   "bound": false
+  },
+  "joins_false": [
+   "J2 the person's approval (verified by the Standard) names the same specification, and was signed after the confirm receipt and before the allow outcome (6.7: the call did not proceed until the outcome)"
+  ]
+ },
+ {
+  "case": "N4-record-hash-chain-broken",
+  "expected_to_fail_at": [
+   "aee"
+  ],
+  "failed_at": [
+   "J3",
+   "J7",
+   "aee"
+  ],
+  "as_expected": true,
+  "aee": {
+   "result": "FAIL",
+   "error": "E_CHAIN_HASH",
+   "detail": "seq 3: prev_hash is not the record-hash of seq 2"
+  },
+  "dps_a2_dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "dps_person_approval": "verified",
+  "route1_bound": true,
+  "route2": {
+   "present": false,
+   "bound": false
+  },
+  "joins_false": [
+   "J3 the allow outcome resolves the confirm (verifier: confirm_seq, same parent_seq, target, request_digest, Task) and is recorded after the DPS request stage authorised by o1 (no allow without a request)",
+   "J7 the agent asked for this call: agent_sig on the confirm receipt verified with the agent key (6.7)"
+  ]
+ },
+ {
+  "case": "N5-statement-cites-another-attachment",
+  "expected_to_fail_at": [
+   "route1"
+  ],
+  "failed_at": [
+   "route1"
+  ],
+  "as_expected": true,
+  "aee": {
+   "result": "CHECKS_PERFORMED",
+   "error": null,
+   "detail": null
+  },
+  "dps_a2_dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "dps_person_approval": "verified",
+  "route1_bound": false,
+  "route2": {
+   "present": false,
+   "bound": false
+  },
+  "joins_false": []
+ },
+ {
+  "case": "N6-person-signature-invalid",
+  "expected_to_fail_at": [
+   "dps"
+  ],
+  "failed_at": [
+   "dps"
+  ],
+  "as_expected": true,
+  "aee": {
+   "result": "CHECKS_PERFORMED",
+   "error": null,
+   "detail": null
+  },
+  "dps_a2_dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "dps_person_approval": "failed",
+  "route1_bound": true,
+  "route2": {
+   "present": false,
+   "bound": false
+  },
+  "joins_false": []
+ },
+ {
+  "case": "N7-allow-without-dps-request",
+  "expected_to_fail_at": [
+   "dps",
+   "J3"
+  ],
+  "failed_at": [
+   "J3",
+   "dps"
+  ],
+  "as_expected": true,
+  "aee": {
+   "result": "CHECKS_PERFORMED",
+   "error": null,
+   "detail": null
+  },
+  "dps_a2_dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "failed",
+   "stage_order": "verified",
+   "authorisation_recheck": "failed",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "dps_person_approval": "verified",
+  "route1_bound": true,
+  "route2": {
+   "present": false,
+   "bound": false
+  },
+  "joins_false": [
+   "J3 the allow outcome resolves the confirm (verifier: confirm_seq, same parent_seq, target, request_digest, Task) and is recorded after the DPS request stage authorised by o1 (no allow without a request)"
+  ]
+ },
+ {
+  "case": "N8-confirm-names-another-person",
+  "expected_to_fail_at": [
+   "J5"
+  ],
+  "failed_at": [
+   "J5"
+  ],
+  "as_expected": true,
+  "aee": {
+   "result": "CHECKS_PERFORMED",
+   "error": null,
+   "detail": null
+  },
+  "dps_a2_dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "dps_person_approval": "verified",
+  "route1_bound": true,
+  "route2": {
+   "present": false,
+   "bound": false
+  },
+  "joins_false": [
+   "J5 the receipts' principal is SHA-256 over the Harness pepper and the canonical identifier of the person o1 names (Section 3; pepper obtained from the Harness out of band, test value here)"
+  ]
+ },
+ {
+  "case": "N9-tool-result-before-outcome",
+  "expected_to_fail_at": [
+   "aee"
+  ],
+  "failed_at": [
+   "J3",
+   "J7",
+   "aee"
+  ],
+  "as_expected": true,
+  "aee": {
+   "result": "FAIL",
+   "error": "E_TASK",
+   "detail": "seq 4: tool_result's parent is not an allow (or record) tool_call: a tool_result MUST NOT precede an allow outcome (6.7)"
+  },
+  "dps_a2_dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "dps_person_approval": "verified",
+  "route1_bound": true,
+  "route2": {
+   "present": false,
+   "bound": false
+  },
+  "joins_false": [
+   "J3 the allow outcome resolves the confirm (verifier: confirm_seq, same parent_seq, target, request_digest, Task) and is recorded after the DPS request stage authorised by o1 (no allow without a request)",
+   "J7 the agent asked for this call: agent_sig on the confirm receipt verified with the agent key (6.7)"
+  ]
+ },
+ {
+  "case": "N10-outcome-for-other-arguments",
+  "expected_to_fail_at": [
+   "aee"
+  ],
+  "failed_at": [
+   "J3",
+   "J7",
+   "aee"
+  ],
+  "as_expected": true,
+  "aee": {
+   "result": "FAIL",
+   "error": "E_TASK",
+   "detail": "seq 3: outcome differs from its confirm in parent_seq, target, request_digest or Task"
+  },
+  "dps_a2_dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "dps_person_approval": "verified",
+  "route1_bound": true,
+  "route2": {
+   "present": false,
+   "bound": false
+  },
+  "joins_false": [
+   "J3 the allow outcome resolves the confirm (verifier: confirm_seq, same parent_seq, target, request_digest, Task) and is recorded after the DPS request stage authorised by o1 (no allow without a request)",
+   "J7 the agent asked for this call: agent_sig on the confirm receipt verified with the agent key (6.7)"
+  ]
+ },
+ {
+  "case": "N11-task-ends-with-confirm-pending",
+  "expected_to_fail_at": [
+   "aee"
+  ],
+  "failed_at": [
+   "J1..J7",
+   "aee"
+  ],
+  "as_expected": true,
+  "aee": {
+   "result": "FAIL",
+   "error": "E_TASK",
+   "detail": "seq 2: confirm without outcome although its Task ended or a receipt names it as parent"
+  },
+  "dps_a2_dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "not_checked",
+   "rationale_provenance": "verified"
+  },
+  "dps_person_approval": "verified",
+  "route1_bound": true,
+  "route2": {
+   "present": false,
+   "bound": false
+  },
+  "joins_false": [
+   "J1..J7"
+  ]
+ },
+ {
+  "case": "N12-proposal-key-cites-another-attachment",
+  "expected_to_fail_at": [
+   "route2"
+  ],
+  "failed_at": [
+   "route2"
+  ],
+  "as_expected": true,
+  "aee": {
+   "result": "CHECKS_PERFORMED",
+   "error": null,
+   "detail": null
+  },
+  "dps_a2_dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "dps_person_approval": "verified",
+  "route1_bound": true,
+  "route2": {
+   "present": true,
+   "references": [
+    {
+     "type": "org.decisionprovenancestandard.action_binding_attachment",
+     "digest": "6d34d70facf9adac10f7d7bc06da1800b48083c907a95508e63dfeedc02566b1",
+     "state": "Failed"
+    },
+    {
+     "type": "org.decisionprovenancestandard.signatures_attachment",
+     "digest": "772178c584a9f214113bf722dada4179bd36a12e4b5bceadaa1fa4c2969fe3d7",
+     "state": "Verified"
+    }
+   ],
+   "bound": false
+  },
+  "joins_false": []
+ }
+]

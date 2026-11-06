@@ -1,0 +1,36 @@
+{
+ "case": "N7-allow-without-dps-request",
+ "expected_to_fail_at": [
+  "dps",
+  "J3"
+ ],
+ "failed_at": [
+  "J3",
+  "dps"
+ ],
+ "as_expected": true,
+ "aee": {
+  "result": "CHECKS_PERFORMED",
+  "error": null,
+  "detail": null
+ },
+ "dps_a2_dimensions": {
+  "specification_digests": "verified",
+  "specification_statements": "verified",
+  "record_statements": "verified",
+  "action_binding": "failed",
+  "stage_order": "verified",
+  "authorisation_recheck": "failed",
+  "observed_results": "verified",
+  "rationale_provenance": "verified"
+ },
+ "dps_person_approval": "verified",
+ "route1_bound": true,
+ "route2": {
+  "present": false,
+  "bound": false
+ },
+ "joins_false": [
+  "J3 the allow outcome resolves the confirm (verifier: confirm_seq, same parent_seq, target, request_digest, Task) and is recorded after the DPS request stage authorised by o1 (no allow without a request)"
+ ]
+}

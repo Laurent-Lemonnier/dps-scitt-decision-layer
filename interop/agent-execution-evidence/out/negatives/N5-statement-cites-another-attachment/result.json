@@ -1,0 +1,32 @@
+{
+ "case": "N5-statement-cites-another-attachment",
+ "expected_to_fail_at": [
+  "route1"
+ ],
+ "failed_at": [
+  "route1"
+ ],
+ "as_expected": true,
+ "aee": {
+  "result": "CHECKS_PERFORMED",
+  "error": null,
+  "detail": null
+ },
+ "dps_a2_dimensions": {
+  "specification_digests": "verified",
+  "specification_statements": "verified",
+  "record_statements": "verified",
+  "action_binding": "verified",
+  "stage_order": "verified",
+  "authorisation_recheck": "verified",
+  "observed_results": "verified",
+  "rationale_provenance": "verified"
+ },
+ "dps_person_approval": "verified",
+ "route1_bound": false,
+ "route2": {
+  "present": false,
+  "bound": false
+ },
+ "joins_false": []
+}

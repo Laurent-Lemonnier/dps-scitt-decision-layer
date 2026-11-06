@@ -1,0 +1,1 @@
+the separate Signed Statement names another attachment's digest (one byte changed): the route 1 reference does not resolve against the bytes held; everything else verifies

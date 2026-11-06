@@ -1,0 +1,1 @@
+one byte of the person's signature changed: the Standard's person_approval check fails; the receipts are unchanged
