@@ -1,0 +1,401 @@
+{
+ "meta": {
+  "checker": "interop/verdict-record/verdict.py (Laurent-Lemonnier/dps-scitt-decision-layer)",
+  "checker_sha256": "3f3d5d995edd6523da16c2cd83f61e5df0b7852174ea413dcfed7df3bb0c7796",
+  "cases_repo": "https://github.com/diggertydog/verdict-record-test-vectors",
+  "adapter_test_key_pub_hex": "6bcc75258a6ba7d8bc3933576354cd290058d8713b19c35eafe0f111ddd34d86"
+ },
+ "cases": {
+  "p01-model-declared": {
+   "expected_under_02": {
+    "state": "released",
+    "steps": {
+     "1": "PASS",
+     "2": "PASS",
+     "3": "PASS"
+    }
+   },
+   "runs": {
+    "raw": {
+     "state": "no verdict",
+     "reason": "Section 4.5: the checker's policy is invalid",
+     "policy_sha256": null,
+     "upper_time_bound": null
+    },
+    "policy-only": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "PASS",
+      "3": "PASS"
+     },
+     "container": "no container carries the record",
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": null
+    },
+    "adapter": {
+     "state": "released",
+     "steps": {
+      "1": "PASS",
+      "2": "PASS",
+      "3": "PASS"
+     },
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": "2026-11-01T12:00:00.000000Z"
+    }
+   },
+   "agrees_with_expected_under_02": {
+    "state": true,
+    "steps": true
+   }
+  },
+  "p02-model-attested": {
+   "expected_under_02": {
+    "state": "released",
+    "steps": {
+     "1": "PASS",
+     "2": "PASS",
+     "3": "PASS"
+    }
+   },
+   "runs": {
+    "raw": {
+     "state": "no verdict",
+     "reason": "Section 4.5: the checker's policy is invalid",
+     "policy_sha256": null,
+     "upper_time_bound": null
+    },
+    "policy-only": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "PASS",
+      "3": "PASS"
+     },
+     "container": "no container carries the record",
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": null
+    },
+    "adapter": {
+     "state": "released",
+     "steps": {
+      "1": "PASS",
+      "2": "PASS",
+      "3": "PASS"
+     },
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": "2026-11-01T12:00:00.000000Z"
+    }
+   },
+   "agrees_with_expected_under_02": {
+    "state": true,
+    "steps": true
+   }
+  },
+  "p03-model-proof-after-reply": {
+   "expected_under_02": {
+    "state": "held",
+    "steps": {
+     "1": "PASS",
+     "2": "NOT RUN",
+     "3": "PASS"
+    }
+   },
+   "runs": {
+    "raw": {
+     "state": "no verdict",
+     "reason": "Section 4.5: the checker's policy is invalid",
+     "policy_sha256": null,
+     "upper_time_bound": null
+    },
+    "policy-only": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "PASS",
+      "3": "PASS"
+     },
+     "container": "no container carries the record",
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": null
+    },
+    "adapter": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "NOT RUN",
+      "3": "PASS"
+     },
+     "reasons": {
+      "2": "Section 4.3 step 2: the item at entry 1 is not relied on (its upper time bound is later than the citing record's)"
+     },
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": "2026-11-01T12:00:00.000000Z"
+    }
+   },
+   "agrees_with_expected_under_02": {
+    "state": true,
+    "steps": true
+   }
+  },
+  "p04-cites-superseded-version": {
+   "expected_under_02": {
+    "state": "released",
+    "steps": {
+     "1": "PASS",
+     "2": "PASS",
+     "3": "PASS"
+    }
+   },
+   "runs": {
+    "raw": {
+     "state": "no verdict",
+     "reason": "Section 4.5: the checker's policy is invalid",
+     "policy_sha256": null,
+     "upper_time_bound": null
+    },
+    "policy-only": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "NOT RUN",
+      "3": "PASS"
+     },
+     "reasons": {
+      "2": "Section 4.3 step 2, Section 6: the verdict record cited at entry 0 is not released"
+     },
+     "container": "no container carries the record",
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": null
+    },
+    "adapter": {
+     "state": "released",
+     "steps": {
+      "1": "PASS",
+      "2": "PASS",
+      "3": "PASS"
+     },
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": "2026-11-01T12:00:00.000000Z"
+    }
+   },
+   "agrees_with_expected_under_02": {
+    "state": true,
+    "steps": true
+   }
+  },
+  "p05-evidence-age": {
+   "expected_under_02": {
+    "state": "released",
+    "steps": {
+     "1": "PASS",
+     "2": "PASS",
+     "3": "PASS"
+    }
+   },
+   "runs": {
+    "raw": {
+     "state": "no verdict",
+     "reason": "Section 4.5: the checker's policy is invalid",
+     "policy_sha256": null,
+     "upper_time_bound": null
+    },
+    "policy-only": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "NOT RUN",
+      "3": "PASS"
+     },
+     "reasons": {
+      "2": "Section 4.3 step 2, Section 6: the verdict record cited at entry 0 is not released"
+     },
+     "container": "no container carries the record",
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": null
+    },
+    "adapter": {
+     "state": "released",
+     "steps": {
+      "1": "PASS",
+      "2": "PASS",
+      "3": "PASS"
+     },
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": "2026-11-01T12:00:00.000000Z"
+    },
+    "adapter+max_evidence_age": {
+     "state": "no verdict",
+     "reason": "Section 4.5: the checker's policy is invalid",
+     "policy_sha256": null,
+     "upper_time_bound": null
+    }
+   },
+   "agrees_with_expected_under_02": {
+    "state": true,
+    "steps": true
+   }
+  },
+  "p06-salted-commitment": {
+   "expected_under_02": {
+    "state": "held",
+    "steps": {
+     "1": "PASS",
+     "2": "NOT RUN",
+     "3": "PASS"
+    }
+   },
+   "runs": {
+    "raw": {
+     "state": "no verdict",
+     "reason": "Section 4.5: the checker's policy is invalid",
+     "policy_sha256": null,
+     "upper_time_bound": null
+    },
+    "policy-only": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "NOT RUN",
+      "3": "PASS"
+     },
+     "reasons": {
+      "2": "Section 4.3 step 2: the policy does not list format 'urn:example:verdict-record:format:salted-commitment' (entry 0)"
+     },
+     "container": "no container carries the record",
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": null
+    },
+    "adapter": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "NOT RUN",
+      "3": "PASS"
+     },
+     "reasons": {
+      "2": "Section 4.3 step 2: the policy does not list format 'urn:example:verdict-record:format:salted-commitment' (entry 0)"
+     },
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": "2026-11-01T12:00:00.000000Z"
+    }
+   },
+   "agrees_with_expected_under_02": {
+    "state": true,
+    "steps": true
+   }
+  },
+  "p07-negative-judgement-no-cause": {
+   "expected_under_02": {
+    "state": "released",
+    "steps": {
+     "1": "PASS",
+     "2": "PASS",
+     "3": "PASS"
+    }
+   },
+   "runs": {
+    "raw": {
+     "state": "no verdict",
+     "reason": "Section 4.5: the checker's policy is invalid",
+     "policy_sha256": null,
+     "upper_time_bound": null
+    },
+    "policy-only": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "PASS",
+      "3": "PASS"
+     },
+     "container": "no container carries the record",
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": null
+    },
+    "adapter": {
+     "state": "released",
+     "steps": {
+      "1": "PASS",
+      "2": "PASS",
+      "3": "PASS"
+     },
+     "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+     "upper_time_bound": "2026-11-01T12:00:00.000000Z"
+    }
+   },
+   "agrees_with_expected_under_02": {
+    "state": true,
+    "steps": true
+   }
+  },
+  "p08-irontrellis-refusal": {
+   "expected_under_02": {
+    "state": "held",
+    "steps": {
+     "1": "PASS",
+     "2": "PASS",
+     "3": "NOT RUN"
+    }
+   },
+   "runs": {
+    "raw": {
+     "state": "no verdict",
+     "reason": "Section 4.5: the checker's policy is invalid",
+     "policy_sha256": null,
+     "upper_time_bound": null
+    },
+    "policy-only": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "NOT RUN",
+      "3": "NOT RUN"
+     },
+     "reasons": {
+      "2": "Section 4.3 step 2: no item held with the digest of entry 1",
+      "3": "Section 4.3 step 3: the checker does not hold the specification of rule 'https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance#authorization'"
+     },
+     "container": "no container carries the record",
+     "policy_sha256": "e238e4cf2d6e36d6ea866075b24d88c0401beac6d22966c0ef0ef71571207745",
+     "upper_time_bound": null
+    },
+    "adapter": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "NOT RUN",
+      "3": "NOT RUN"
+     },
+     "reasons": {
+      "2": "Section 4.3 step 2: no item held with the digest of entry 1",
+      "3": "Section 4.3 step 3: the checker does not hold the specification of rule 'https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance#authorization'"
+     },
+     "policy_sha256": "e238e4cf2d6e36d6ea866075b24d88c0401beac6d22966c0ef0ef71571207745",
+     "upper_time_bound": "2026-11-01T12:00:00.000000Z"
+    },
+    "adapter+fetched-items": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "NOT RUN",
+      "3": "NOT RUN"
+     },
+     "reasons": {
+      "2": "Section 4.3 step 2: the item at entry 1 is not relied on (not met: this checker holds no rules of format 'https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#histories')",
+      "3": "Section 4.3 step 3: the checker does not hold the specification of rule 'https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance#authorization'"
+     },
+     "policy_sha256": "e238e4cf2d6e36d6ea866075b24d88c0401beac6d22966c0ef0ef71571207745",
+     "upper_time_bound": "2026-11-01T12:00:00.000000Z"
+    }
+   },
+   "agrees_with_expected_under_02": {
+    "state": true,
+    "steps": false
+   },
+   "p08_evidence_fetched_and_digest_matched": [
+    "307fdb7ceb170a7f14341a6f1ca8b54cbb7facc9e87a5e72d1e82bf4f8955777",
+    "6e97be5b26e39cae691c260787abc2f74790506348f6e62aaa25a3d5c5f8be34"
+   ]
+  }
+ }
+}

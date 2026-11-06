@@ -1,0 +1,1138 @@
+{
+ "meta": {
+  "checker": "interop/verdict-record/verdict.py (Laurent-Lemonnier/dps-scitt-decision-layer)",
+  "checker_sha256": "3f3d5d995edd6523da16c2cd83f61e5df0b7852174ea413dcfed7df3bb0c7796",
+  "cases_repo": "https://github.com/diggertydog/verdict-record-test-vectors",
+  "adapter_test_key_pub_hex": "6bcc75258a6ba7d8bc3933576354cd290058d8713b19c35eafe0f111ddd34d86"
+ },
+ "cases": {
+  "p01-model-declared": {
+   "raw": {
+    "record_sha256": "e4887183c5b24494b763ce6ca02ebcaaf86ee77cce9d7e5c4c12443915e08a85",
+    "depth": 0,
+    "policy_sha256": null,
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "state": "no verdict",
+    "reason": "Section 4.5: the checker's policy is invalid"
+   },
+   "policy-only": {
+    "record_sha256": "e4887183c5b24494b763ce6ca02ebcaaf86ee77cce9d7e5c4c12443915e08a85",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": null,
+    "key": "k-0001",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": false,
+     "reason": "no container carries the record"
+    },
+    "state": "held",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "PASS",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "e3bf3a3fcd5b95e78cf1303f9ee301d97032271dd218f038e1a2c8265bd1d56d",
+        "format": "urn:example:verdict-record:format:opaque",
+        "held": true,
+        "format_rules": "met"
+       }
+      ]
+     },
+     "3": {
+      "result": "PASS",
+      "note": "Section 5: judgement, no rule re-run; the check shows what the result was based on, and when"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": null,
+    "summary": "state held; step 1 PASS; step 2 PASS; step 3 PASS; container: no container carries the record"
+   },
+   "adapter": {
+    "record_sha256": "e4887183c5b24494b763ce6ca02ebcaaf86ee77cce9d7e5c4c12443915e08a85",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "48947d60647d7554b2c4581d195216ea71515bcb6fb2f73ea87631da78e994d2",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": "2026-11-01T12:00:00.000000Z",
+    "key": "k-0001",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": true
+    },
+    "state": "released",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "PASS",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "e3bf3a3fcd5b95e78cf1303f9ee301d97032271dd218f038e1a2c8265bd1d56d",
+        "format": "urn:example:verdict-record:format:opaque",
+        "held": true,
+        "format_rules": "met"
+       }
+      ]
+     },
+     "3": {
+      "result": "PASS",
+      "note": "Section 5: judgement, no rule re-run; the check shows what the result was based on, and when"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": null,
+    "summary": "state released; step 1 PASS; step 2 PASS; step 3 PASS"
+   }
+  },
+  "p02-model-attested": {
+   "raw": {
+    "record_sha256": "590ef636add53545c86f7fbd1bec7308bf2e137b564f9592693d98a7abb8ce8a",
+    "depth": 0,
+    "policy_sha256": null,
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "state": "no verdict",
+    "reason": "Section 4.5: the checker's policy is invalid"
+   },
+   "policy-only": {
+    "record_sha256": "590ef636add53545c86f7fbd1bec7308bf2e137b564f9592693d98a7abb8ce8a",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": null,
+    "key": "k-0001",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": false,
+     "reason": "no container carries the record"
+    },
+    "state": "held",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "PASS",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "e3bf3a3fcd5b95e78cf1303f9ee301d97032271dd218f038e1a2c8265bd1d56d",
+        "format": "urn:example:verdict-record:format:opaque",
+        "held": true,
+        "format_rules": "met"
+       },
+       {
+        "index": 1,
+        "sha256": "c173669eb8383dc5d270cedb7b23030a781d0152fb116727ea8d92d11d9cf74b",
+        "format": "urn:example:verdict-record:format:provider-attestation",
+        "held": true,
+        "format_rules": "met"
+       }
+      ]
+     },
+     "3": {
+      "result": "PASS",
+      "note": "Section 5: judgement, no rule re-run; the check shows what the result was based on, and when"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": null,
+    "summary": "state held; step 1 PASS; step 2 PASS; step 3 PASS; container: no container carries the record"
+   },
+   "adapter": {
+    "record_sha256": "590ef636add53545c86f7fbd1bec7308bf2e137b564f9592693d98a7abb8ce8a",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "307755b19bb5cec833fa5b009abacda3b3805959668d64a025fc6ea6b9cb6bfc",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": "2026-11-01T12:00:00.000000Z",
+    "key": "k-0001",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": true
+    },
+    "state": "released",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "PASS",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "e3bf3a3fcd5b95e78cf1303f9ee301d97032271dd218f038e1a2c8265bd1d56d",
+        "format": "urn:example:verdict-record:format:opaque",
+        "held": true,
+        "format_rules": "met"
+       },
+       {
+        "index": 1,
+        "sha256": "c173669eb8383dc5d270cedb7b23030a781d0152fb116727ea8d92d11d9cf74b",
+        "format": "urn:example:verdict-record:format:provider-attestation",
+        "held": true,
+        "format_rules": "met"
+       }
+      ]
+     },
+     "3": {
+      "result": "PASS",
+      "note": "Section 5: judgement, no rule re-run; the check shows what the result was based on, and when"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": null,
+    "summary": "state released; step 1 PASS; step 2 PASS; step 3 PASS"
+   }
+  },
+  "p03-model-proof-after-reply": {
+   "raw": {
+    "record_sha256": "0ea7ad56e4bf04e5705dfac264d2613965ad5bce085b558d2df6dee451588beb",
+    "depth": 0,
+    "policy_sha256": null,
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "state": "no verdict",
+    "reason": "Section 4.5: the checker's policy is invalid"
+   },
+   "policy-only": {
+    "record_sha256": "0ea7ad56e4bf04e5705dfac264d2613965ad5bce085b558d2df6dee451588beb",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": null,
+    "key": "k-0001",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": false,
+     "reason": "no container carries the record"
+    },
+    "state": "held",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "PASS",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "e3bf3a3fcd5b95e78cf1303f9ee301d97032271dd218f038e1a2c8265bd1d56d",
+        "format": "urn:example:verdict-record:format:opaque",
+        "held": true,
+        "format_rules": "met"
+       },
+       {
+        "index": 1,
+        "sha256": "6c93bb24f9217e074cdbfcf47ed60c949c63bdfa6248489d2d4f9113bce90507",
+        "format": "urn:example:verdict-record:format:inference-proof",
+        "held": true,
+        "format_rules": "met"
+       }
+      ]
+     },
+     "3": {
+      "result": "PASS",
+      "note": "Section 5: judgement, no rule re-run; the check shows what the result was based on, and when"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": null,
+    "summary": "state held; step 1 PASS; step 2 PASS; step 3 PASS; container: no container carries the record"
+   },
+   "adapter": {
+    "record_sha256": "0ea7ad56e4bf04e5705dfac264d2613965ad5bce085b558d2df6dee451588beb",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "2eece0ced9b13ceefdd675666adeb942648577312d9114b523705fac066bd403",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": "2026-11-01T12:00:00.000000Z",
+    "key": "k-0001",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": true
+    },
+    "state": "held",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "NOT RUN",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "e3bf3a3fcd5b95e78cf1303f9ee301d97032271dd218f038e1a2c8265bd1d56d",
+        "format": "urn:example:verdict-record:format:opaque",
+        "held": true,
+        "format_rules": "met"
+       },
+       {
+        "index": 1,
+        "sha256": "6c93bb24f9217e074cdbfcf47ed60c949c63bdfa6248489d2d4f9113bce90507",
+        "format": "urn:example:verdict-record:format:inference-proof",
+        "held": true,
+        "format_rules": "its upper time bound is later than the citing record's"
+       }
+      ],
+      "why": "Section 4.3 step 2: the item at entry 1 is not relied on (its upper time bound is later than the citing record's)",
+      "needs": "evidence[1]"
+     },
+     "3": {
+      "result": "PASS",
+      "note": "Section 5: judgement, no rule re-run; the check shows what the result was based on, and when"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": "2",
+    "summary": "state held; step 1 PASS; step 2 NOT RUN; step 3 PASS"
+   }
+  },
+  "p04-cites-superseded-version": {
+   "raw": {
+    "record_sha256": "3e032027cb80155553f49f4172ca6680d78d0030340efb5ea673a15f6190d045",
+    "depth": 0,
+    "policy_sha256": null,
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "state": "no verdict",
+    "reason": "Section 4.5: the checker's policy is invalid"
+   },
+   "policy-only": {
+    "record_sha256": "3e032027cb80155553f49f4172ca6680d78d0030340efb5ea673a15f6190d045",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": null,
+    "key": "k-outer",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": false,
+     "reason": "no container carries the record"
+    },
+    "state": "held",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "NOT RUN",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "1806572494506f457a358dcb149dd696e59ab10bacaf2c956ae7842f5eed0cef",
+        "format": "verdict-record/1",
+        "held": true,
+        "cited_record": {
+         "state": "held",
+         "key": "k-inner",
+         "version": 1,
+         "upper_time_bound": null
+        },
+        "format_rules": "the cited verdict record's state is held"
+       }
+      ],
+      "why": "Section 4.3 step 2, Section 6: the verdict record cited at entry 0 is not released",
+      "needs": "evidence[0]"
+     },
+     "3": {
+      "result": "PASS",
+      "re_run_result": "pass"
+     }
+    },
+    "body_inputs_read": [
+     "min",
+     "value"
+    ],
+    "first_failed_step": null,
+    "first_not_run_step": "2",
+    "summary": "state held; step 1 PASS; step 2 NOT RUN; step 3 PASS; container: no container carries the record"
+   },
+   "adapter": {
+    "record_sha256": "3e032027cb80155553f49f4172ca6680d78d0030340efb5ea673a15f6190d045",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "43338ce498a4df8c2d86b0c9c512e7a7a13b40d7e6890a3a86be8b7eca2962fd",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": "2026-11-01T12:00:00.000000Z",
+    "key": "k-outer",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": true
+    },
+    "state": "released",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "PASS",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "1806572494506f457a358dcb149dd696e59ab10bacaf2c956ae7842f5eed0cef",
+        "format": "verdict-record/1",
+        "held": true,
+        "cited_record": {
+         "state": "released",
+         "key": "k-inner",
+         "version": 1,
+         "upper_time_bound": "2026-11-01T11:00:00.000000Z"
+        },
+        "format_rules": "met"
+       }
+      ]
+     },
+     "3": {
+      "result": "PASS",
+      "re_run_result": "pass"
+     }
+    },
+    "body_inputs_read": [
+     "min",
+     "value"
+    ],
+    "first_failed_step": null,
+    "first_not_run_step": null,
+    "summary": "state released; step 1 PASS; step 2 PASS; step 3 PASS"
+   }
+  },
+  "p05-evidence-age": {
+   "raw": {
+    "record_sha256": "cfeb8fda0dc9b31a02f7cdb5b3af908cb38b9150b1f2cd2a6d393b5da38bf4dc",
+    "depth": 0,
+    "policy_sha256": null,
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "state": "no verdict",
+    "reason": "Section 4.5: the checker's policy is invalid"
+   },
+   "policy-only": {
+    "record_sha256": "cfeb8fda0dc9b31a02f7cdb5b3af908cb38b9150b1f2cd2a6d393b5da38bf4dc",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": null,
+    "key": "k-outer5",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": false,
+     "reason": "no container carries the record"
+    },
+    "state": "held",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "NOT RUN",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "c0f76ee3bd91bae71be6761d1eb9ec0048b8dddb20b4db62130e38366c9010a0",
+        "format": "verdict-record/1",
+        "held": true,
+        "cited_record": {
+         "state": "held",
+         "key": "k-old",
+         "version": 1,
+         "upper_time_bound": null
+        },
+        "format_rules": "the cited verdict record's state is held"
+       }
+      ],
+      "why": "Section 4.3 step 2, Section 6: the verdict record cited at entry 0 is not released",
+      "needs": "evidence[0]"
+     },
+     "3": {
+      "result": "PASS",
+      "re_run_result": "pass"
+     }
+    },
+    "body_inputs_read": [
+     "min",
+     "value"
+    ],
+    "first_failed_step": null,
+    "first_not_run_step": "2",
+    "summary": "state held; step 1 PASS; step 2 NOT RUN; step 3 PASS; container: no container carries the record"
+   },
+   "adapter": {
+    "record_sha256": "cfeb8fda0dc9b31a02f7cdb5b3af908cb38b9150b1f2cd2a6d393b5da38bf4dc",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "7a79b31c0a1e9af8770f5ba2f98f6752e9d7decc11e02427de2759b84cb20cd2",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": "2026-11-01T12:00:00.000000Z",
+    "key": "k-outer5",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": true
+    },
+    "state": "released",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "PASS",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "c0f76ee3bd91bae71be6761d1eb9ec0048b8dddb20b4db62130e38366c9010a0",
+        "format": "verdict-record/1",
+        "held": true,
+        "cited_record": {
+         "state": "released",
+         "key": "k-old",
+         "version": 1,
+         "upper_time_bound": "2024-11-01T11:00:00.000000Z"
+        },
+        "format_rules": "met"
+       }
+      ]
+     },
+     "3": {
+      "result": "PASS",
+      "re_run_result": "pass"
+     }
+    },
+    "body_inputs_read": [
+     "min",
+     "value"
+    ],
+    "first_failed_step": null,
+    "first_not_run_step": null,
+    "summary": "state released; step 1 PASS; step 2 PASS; step 3 PASS"
+   },
+   "adapter+max_evidence_age": {
+    "record_sha256": "cfeb8fda0dc9b31a02f7cdb5b3af908cb38b9150b1f2cd2a6d393b5da38bf4dc",
+    "depth": 0,
+    "policy_sha256": null,
+    "trust_anchors_sha256": "7a79b31c0a1e9af8770f5ba2f98f6752e9d7decc11e02427de2759b84cb20cd2",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "state": "no verdict",
+    "reason": "Section 4.5: the checker's policy is invalid"
+   }
+  },
+  "p06-salted-commitment": {
+   "raw": {
+    "record_sha256": "123bfc3279eda757e1bd435cf0d31aa53322cb6492b12ddb53b0757759cbfcef",
+    "depth": 0,
+    "policy_sha256": null,
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "state": "no verdict",
+    "reason": "Section 4.5: the checker's policy is invalid"
+   },
+   "policy-only": {
+    "record_sha256": "123bfc3279eda757e1bd435cf0d31aa53322cb6492b12ddb53b0757759cbfcef",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": null,
+    "key": "k-0001",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": false,
+     "reason": "no container carries the record"
+    },
+    "state": "held",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "NOT RUN",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "5d0a0b4f1b8ddd6bf87d6fcdc4f16b6e8977433a2b94b698a7f152beda5b1230",
+        "format": "urn:example:verdict-record:format:salted-commitment",
+        "held": true,
+        "format_rules": "not in the checker's policy"
+       }
+      ],
+      "why": "Section 4.3 step 2: the policy does not list format 'urn:example:verdict-record:format:salted-commitment' (entry 0)",
+      "needs": "evidence[0]"
+     },
+     "3": {
+      "result": "PASS",
+      "note": "Section 5: judgement, no rule re-run; the check shows what the result was based on, and when"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": "2",
+    "summary": "state held; step 1 PASS; step 2 NOT RUN; step 3 PASS; container: no container carries the record"
+   },
+   "adapter": {
+    "record_sha256": "123bfc3279eda757e1bd435cf0d31aa53322cb6492b12ddb53b0757759cbfcef",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "fcc44240ec6d1b8942aba00bc214b217d9a5a0689b576285cc70acade0dca489",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": "2026-11-01T12:00:00.000000Z",
+    "key": "k-0001",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": true
+    },
+    "state": "held",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "NOT RUN",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "5d0a0b4f1b8ddd6bf87d6fcdc4f16b6e8977433a2b94b698a7f152beda5b1230",
+        "format": "urn:example:verdict-record:format:salted-commitment",
+        "held": true,
+        "format_rules": "not in the checker's policy"
+       }
+      ],
+      "why": "Section 4.3 step 2: the policy does not list format 'urn:example:verdict-record:format:salted-commitment' (entry 0)",
+      "needs": "evidence[0]"
+     },
+     "3": {
+      "result": "PASS",
+      "note": "Section 5: judgement, no rule re-run; the check shows what the result was based on, and when"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": "2",
+    "summary": "state held; step 1 PASS; step 2 NOT RUN; step 3 PASS"
+   }
+  },
+  "p07-negative-judgement-no-cause": {
+   "raw": {
+    "record_sha256": "bbca769acf4a8b929ee5d2bf2fd44e135c0e10114a9bfeb0dd199e9f84d4abc0",
+    "depth": 0,
+    "policy_sha256": null,
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "state": "no verdict",
+    "reason": "Section 4.5: the checker's policy is invalid"
+   },
+   "policy-only": {
+    "record_sha256": "bbca769acf4a8b929ee5d2bf2fd44e135c0e10114a9bfeb0dd199e9f84d4abc0",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": null,
+    "key": "k-0001",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": false,
+     "reason": "no container carries the record"
+    },
+    "state": "held",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "PASS",
+      "items": []
+     },
+     "3": {
+      "result": "PASS",
+      "note": "Section 5: judgement, no rule re-run; the check shows what the result was based on, and when"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": null,
+    "summary": "state held; step 1 PASS; step 2 PASS; step 3 PASS; container: no container carries the record"
+   },
+   "adapter": {
+    "record_sha256": "bbca769acf4a8b929ee5d2bf2fd44e135c0e10114a9bfeb0dd199e9f84d4abc0",
+    "depth": 0,
+    "policy_sha256": "8d5b558e3aee9d0c2eaeb5cbb55edfb17c6bbb321298aa19ce7a33a7b452366b",
+    "trust_anchors_sha256": "c9452414276e0e75d5ec65d4266e262d921be2e422dfc7a82d4b1fcf3bfaa7ad",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": "2026-11-01T12:00:00.000000Z",
+    "key": "k-0001",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": true
+    },
+    "state": "released",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "PASS",
+      "items": []
+     },
+     "3": {
+      "result": "PASS",
+      "note": "Section 5: judgement, no rule re-run; the check shows what the result was based on, and when"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": null,
+    "summary": "state released; step 1 PASS; step 2 PASS; step 3 PASS"
+   }
+  },
+  "p08-irontrellis-refusal": {
+   "raw": {
+    "record_sha256": "4027b41d1f2a1cdf5afc72754b36e4de99156769c548c6f390e0f4de8dbf9759",
+    "depth": 0,
+    "policy_sha256": null,
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#histories",
+     "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#vectors",
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "state": "no verdict",
+    "reason": "Section 4.5: the checker's policy is invalid"
+   },
+   "policy-only": {
+    "record_sha256": "4027b41d1f2a1cdf5afc72754b36e4de99156769c548c6f390e0f4de8dbf9759",
+    "depth": 0,
+    "policy_sha256": "e238e4cf2d6e36d6ea866075b24d88c0401beac6d22966c0ef0ef71571207745",
+    "trust_anchors_sha256": "cf1ad347d2d68188d8c10e1f2f4d1117223f1ad6b9801087516bdd24ee3f9b5b",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#histories",
+     "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#vectors",
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": null,
+    "key": "irontrellis-v2-g3-authority-denial-precedes-budgets",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": false,
+     "reason": "no container carries the record"
+    },
+    "state": "held",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "NOT RUN",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "6e97be5b26e39cae691c260787abc2f74790506348f6e62aaa25a3d5c5f8be34",
+        "format": "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#vectors",
+        "held": false
+       },
+       {
+        "index": 1,
+        "sha256": "307fdb7ceb170a7f14341a6f1ca8b54cbb7facc9e87a5e72d1e82bf4f8955777",
+        "format": "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#histories",
+        "held": false
+       }
+      ],
+      "why": "Section 4.3 step 2: no item held with the digest of entry 1",
+      "needs": "evidence[1]"
+     },
+     "3": {
+      "result": "NOT RUN",
+      "why": "Section 4.3 step 3: the checker does not hold the specification of rule 'https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance#authorization'",
+      "needs": "the rule's specification"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": "2",
+    "summary": "state held; step 1 PASS; step 2 NOT RUN; step 3 NOT RUN; container: no container carries the record"
+   },
+   "adapter": {
+    "record_sha256": "4027b41d1f2a1cdf5afc72754b36e4de99156769c548c6f390e0f4de8dbf9759",
+    "depth": 0,
+    "policy_sha256": "e238e4cf2d6e36d6ea866075b24d88c0401beac6d22966c0ef0ef71571207745",
+    "trust_anchors_sha256": "c824f611eeb6927fc8ddceb8cd0b33013d85b45f3c7ca29b47ab4e7ebfff94c7",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#histories",
+     "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#vectors",
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": "2026-11-01T12:00:00.000000Z",
+    "key": "irontrellis-v2-g3-authority-denial-precedes-budgets",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": true
+    },
+    "state": "held",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "NOT RUN",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "6e97be5b26e39cae691c260787abc2f74790506348f6e62aaa25a3d5c5f8be34",
+        "format": "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#vectors",
+        "held": false
+       },
+       {
+        "index": 1,
+        "sha256": "307fdb7ceb170a7f14341a6f1ca8b54cbb7facc9e87a5e72d1e82bf4f8955777",
+        "format": "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#histories",
+        "held": false
+       }
+      ],
+      "why": "Section 4.3 step 2: no item held with the digest of entry 1",
+      "needs": "evidence[1]"
+     },
+     "3": {
+      "result": "NOT RUN",
+      "why": "Section 4.3 step 3: the checker does not hold the specification of rule 'https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance#authorization'",
+      "needs": "the rule's specification"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": "2",
+    "summary": "state held; step 1 PASS; step 2 NOT RUN; step 3 NOT RUN"
+   },
+   "adapter+fetched-items": {
+    "record_sha256": "4027b41d1f2a1cdf5afc72754b36e4de99156769c548c6f390e0f4de8dbf9759",
+    "depth": 0,
+    "policy_sha256": "e238e4cf2d6e36d6ea866075b24d88c0401beac6d22966c0ef0ef71571207745",
+    "trust_anchors_sha256": "c824f611eeb6927fc8ddceb8cd0b33013d85b45f3c7ca29b47ab4e7ebfff94c7",
+    "rule_specifications_held": [
+     "urn:example:verdict-record:rule:at-least"
+    ],
+    "format_rules_held": [
+     "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#histories",
+     "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#vectors",
+     "urn:example:verdict-record:format:inference-proof",
+     "urn:example:verdict-record:format:never-verifies",
+     "urn:example:verdict-record:format:opaque",
+     "urn:example:verdict-record:format:provider-attestation",
+     "urn:example:verdict-record:format:salted-commitment"
+    ],
+    "upper_time_bound": "2026-11-01T12:00:00.000000Z",
+    "key": "irontrellis-v2-g3-authority-denial-precedes-budgets",
+    "version": 1,
+    "supersedes": null,
+    "writer": "issuer.example",
+    "container": {
+     "shows_the_record": true
+    },
+    "state": "held",
+    "steps": {
+     "1": {
+      "result": "PASS"
+     },
+     "2": {
+      "result": "NOT RUN",
+      "items": [
+       {
+        "index": 0,
+        "sha256": "6e97be5b26e39cae691c260787abc2f74790506348f6e62aaa25a3d5c5f8be34",
+        "format": "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#vectors",
+        "held": true,
+        "format_rules": "not met: this checker holds no rules of format 'https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#vectors'"
+       },
+       {
+        "index": 1,
+        "sha256": "307fdb7ceb170a7f14341a6f1ca8b54cbb7facc9e87a5e72d1e82bf4f8955777",
+        "format": "https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#histories",
+        "held": true,
+        "format_rules": "not met: this checker holds no rules of format 'https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#histories'"
+       }
+      ],
+      "why": "Section 4.3 step 2: the item at entry 1 is not relied on (not met: this checker holds no rules of format 'https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance/v2-g3#histories')",
+      "needs": "evidence[1]"
+     },
+     "3": {
+      "result": "NOT RUN",
+      "why": "Section 4.3 step 3: the checker does not hold the specification of rule 'https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance#authorization'",
+      "needs": "the rule's specification"
+     }
+    },
+    "body_inputs_read": [],
+    "first_failed_step": null,
+    "first_not_run_step": "2",
+    "summary": "state held; step 1 PASS; step 2 NOT RUN; step 3 NOT RUN"
+   }
+  }
+ }
+}

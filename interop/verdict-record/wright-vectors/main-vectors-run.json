@@ -1,0 +1,787 @@
+{
+ "a01-baseline-released.json": {
+  "ours": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   },
+   "reasons": null,
+   "before_steps": null
+  },
+  "expected": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "a02-whitespace.json": {
+  "ours": {
+   "state": "refused",
+   "steps": null,
+   "reasons": null,
+   "before_steps": "Section 2.1: re-serializing the parsed record does not give the same bytes (not canonical form)"
+  },
+  "expected": {
+   "state": "refused",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-1"
+ },
+ "a03-member-order.json": {
+  "ours": {
+   "state": "refused",
+   "steps": null,
+   "reasons": null,
+   "before_steps": "Section 2.1: re-serializing the parsed record does not give the same bytes (not canonical form)"
+  },
+  "expected": {
+   "state": "refused",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-1"
+ },
+ "a04-duplicate-member.json": {
+  "ours": {
+   "state": "refused",
+   "steps": null,
+   "reasons": null,
+   "before_steps": "Section 2.1: member name 'key' appears twice in one object"
+  },
+  "expected": {
+   "state": "refused",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-1"
+ },
+ "a05-byte-order-mark.json": {
+  "ours": {
+   "state": "refused",
+   "steps": null,
+   "reasons": null,
+   "before_steps": "Section 2.1: the bytes start with a byte-order mark"
+  },
+  "expected": {
+   "state": "refused",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-1"
+ },
+ "a06-fraction.json": {
+  "ours": {
+   "state": "refused",
+   "steps": null,
+   "reasons": null,
+   "before_steps": "Section 2.1: numbers are integers; '7.5' is not one"
+  },
+  "expected": {
+   "state": "refused",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-1"
+ },
+ "a07-integer-range.json": {
+  "ours": {
+   "state": "refused",
+   "steps": null,
+   "reasons": null,
+   "before_steps": "Section 2.1: an integer lies between -(2^53 - 1) and 2^53 - 1"
+  },
+  "expected": {
+   "state": "refused",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-1"
+ },
+ "a08-escaped-non-ascii.json": {
+  "ours": {
+   "state": "refused",
+   "steps": null,
+   "reasons": null,
+   "before_steps": "Section 2.1: re-serializing the parsed record does not give the same bytes (not canonical form)"
+  },
+  "expected": {
+   "state": "refused",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-1"
+ },
+ "a09-utf8-bytes.json": {
+  "ours": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   },
+   "reasons": null,
+   "before_steps": null
+  },
+  "expected": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "a10-lone-surrogate.json": {
+  "ours": {
+   "state": "refused",
+   "steps": null,
+   "reasons": null,
+   "before_steps": "Section 2.1: an escape forms a lone surrogate"
+  },
+  "expected": {
+   "state": "refused",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-1"
+ },
+ "a11-depth-32.json": {
+  "ours": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   },
+   "reasons": null,
+   "before_steps": null
+  },
+  "expected": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "a12-depth-33.json": {
+  "ours": {
+   "state": "refused",
+   "steps": null,
+   "reasons": null,
+   "before_steps": "Section 2.1: JSON nested deeper than 32 levels"
+  },
+  "expected": {
+   "state": "refused",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-1"
+ },
+ "a13-unknown-member.json": {
+  "ours": {
+   "state": "refused",
+   "steps": null,
+   "reasons": null,
+   "before_steps": "Section 2.2: no other member is allowed (note)"
+  },
+  "expected": {
+   "state": "refused",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-1"
+ },
+ "a14-missing-writer.json": {
+  "ours": {
+   "state": "refused",
+   "steps": null,
+   "reasons": null,
+   "before_steps": "Section 2.2: members that MUST be present are missing (writer)"
+  },
+  "expected": {
+   "state": "refused",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-1"
+ },
+ "b01-check-missing.json": {
+  "ours": {
+   "state": "refused",
+   "steps": {
+    "1": "FAIL",
+    "2": "PASS",
+    "3": "NOT RUN"
+   },
+   "reasons": {
+    "1": "Section 4.3 step 1: check MUST be present, name a rule and give a result",
+    "3": "Section 4.3 step 3: no rule to re-run (step 1 failed)"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "refused",
+   "steps": {
+    "1": "FAIL",
+    "2": "PASS",
+    "3": "NOT RUN"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "b02-check-no-result.json": {
+  "ours": {
+   "state": "refused",
+   "steps": {
+    "1": "FAIL",
+    "2": "PASS",
+    "3": "NOT RUN"
+   },
+   "reasons": {
+    "1": "Section 4.3 step 1: check MUST be present, name a rule and give a result",
+    "3": "Section 4.3 step 3: no rule to re-run (step 1 failed)"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "refused",
+   "steps": {
+    "1": "FAIL",
+    "2": "PASS",
+    "3": "NOT RUN"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "b03-judgement-kind-not-listed.json": {
+  "ours": {
+   "state": "refused",
+   "steps": {
+    "1": "FAIL",
+    "2": "PASS",
+    "3": "NOT RUN"
+   },
+   "reasons": {
+    "1": "Section 4.3 step 1: judgement is not allowed for kind 'check-run' by the policy",
+    "3": "Section 4.3 step 3: no rule to re-run (step 1 failed)"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "refused",
+   "steps": {
+    "1": "FAIL",
+    "2": "PASS",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": false,
+  "depends_on_interpretation": "I-4"
+ },
+ "b04-judgement-kind-listed.json": {
+  "ours": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   },
+   "reasons": null,
+   "before_steps": null
+  },
+  "expected": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": "I-4"
+ },
+ "c01-evidence-missing.json": {
+  "ours": {
+   "state": "refused",
+   "steps": {
+    "1": "PASS",
+    "2": "FAIL",
+    "3": "PASS"
+   },
+   "reasons": {
+    "2": "Section 4.3 step 2: evidence MUST be an array of entries as in Section 2.2"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "refused",
+   "steps": {
+    "1": "PASS",
+    "2": "FAIL",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "c02-entry-extra-member.json": {
+  "ours": {
+   "state": "refused",
+   "steps": {
+    "1": "PASS",
+    "2": "FAIL",
+    "3": "PASS"
+   },
+   "reasons": {
+    "2": "Section 4.3 step 2: evidence MUST be an array of entries as in Section 2.2"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "refused",
+   "steps": {
+    "1": "PASS",
+    "2": "FAIL",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "c03-entry-uppercase-hex.json": {
+  "ours": {
+   "state": "refused",
+   "steps": {
+    "1": "PASS",
+    "2": "FAIL",
+    "3": "PASS"
+   },
+   "reasons": {
+    "2": "Section 4.3 step 2: evidence MUST be an array of entries as in Section 2.2"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "refused",
+   "steps": {
+    "1": "PASS",
+    "2": "FAIL",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "c04-item-not-held.json": {
+  "ours": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   },
+   "reasons": {
+    "2": "Section 4.3 step 2: no item held with the digest of entry 0"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "c05-format-not-in-policy.json": {
+  "ours": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   },
+   "reasons": {
+    "2": "Section 4.3 step 2: the policy does not list format 'urn:example:verdict-record:format:opaque' (entry 0)"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "c06-item-does-not-verify.json": {
+  "ours": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   },
+   "reasons": {
+    "2": "Section 4.3 step 2: the item at entry 0 is not relied on (not met: format never-verifies: no item verifies)"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "c07-cites-released-record.json": {
+  "ours": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   },
+   "reasons": null,
+   "before_steps": null
+  },
+  "expected": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "c08-beyond-depth.json": {
+  "ours": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   },
+   "reasons": {
+    "2": "Section 4.3 step 2: entry 0 is a verdict record beyond the citation depth"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": "I-5"
+ },
+ "c09-cited-bound-later.json": {
+  "ours": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   },
+   "reasons": {
+    "2": "Section 4.3 step 2: the item at entry 0 has a later upper time bound than the record citing it"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "c10-cites-refused-record.json": {
+  "ours": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   },
+   "reasons": {
+    "2": "Section 4.3 step 2, Section 6: the verdict record cited at entry 0 is not released"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": "I-6"
+ },
+ "c11-claim-ref-not-in-evidence.json": {
+  "ours": {
+   "state": "refused",
+   "steps": null,
+   "reasons": null,
+   "before_steps": "Section 2.3: the entry claim.ref names MUST also appear in evidence"
+  },
+  "expected": {
+   "state": "refused",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-2"
+ },
+ "c12-empty-evidence.json": {
+  "ours": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   },
+   "reasons": null,
+   "before_steps": null
+  },
+  "expected": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": "I-3"
+ },
+ "d01-result-mismatch.json": {
+  "ours": {
+   "state": "refused",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "FAIL"
+   },
+   "reasons": {
+    "3": "Section 4.3 step 3: the re-run result does not equal check.result"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "refused",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "FAIL"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "d02-input-wrong-type.json": {
+  "ours": {
+   "state": "refused",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "FAIL"
+   },
+   "reasons": {
+    "3": "Section 4.3 step 3: value: of the wrong JSON type (the rule reads a integer)"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "refused",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "FAIL"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": "I-7"
+ },
+ "d03-rule-not-held.json": {
+  "ours": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "NOT RUN"
+   },
+   "reasons": {
+    "3": "Section 4.3 step 3: the checker does not hold the specification of rule 'urn:example:verdict-record:rule:unknown'"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "NOT RUN"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "d04-not-run-then-fail.json": {
+  "ours": {
+   "state": "refused",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "FAIL"
+   },
+   "reasons": {
+    "2": "Section 4.3 step 2: no item held with the digest of entry 0",
+    "3": "Section 4.3 step 3: the re-run result does not equal check.result"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "refused",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "FAIL"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "d05-rule-false-low.json": {
+  "ours": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   },
+   "reasons": null,
+   "before_steps": null
+  },
+  "expected": {
+   "state": "released",
+   "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": null
+ },
+ "e01-invalid-policy.json": {
+  "ours": {
+   "state": "no verdict",
+   "steps": null,
+   "reasons": null,
+   "before_steps": null
+  },
+  "expected": {
+   "state": "no verdict",
+   "steps": null
+  },
+  "same_state": true,
+  "same_steps": null,
+  "depends_on_interpretation": "I-8"
+ },
+ "f01-appendix-a.json": {
+  "ours": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   },
+   "reasons": {
+    "2": "Section 4.3 step 2: no item held with the digest of entry 1"
+   },
+   "before_steps": null
+  },
+  "expected": {
+   "state": "held",
+   "steps": {
+    "1": "PASS",
+    "2": "NOT RUN",
+    "3": "PASS"
+   }
+  },
+  "same_state": true,
+  "same_steps": true,
+  "depends_on_interpretation": "I-4"
+ }
+}

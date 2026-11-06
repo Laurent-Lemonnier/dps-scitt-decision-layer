@@ -1,0 +1,9 @@
+p01-model-declared: raw=no verdict; adapter=released {'1': 'PASS', '2': 'PASS', '3': 'PASS'} expected=released {'1': 'PASS', '2': 'PASS', '3': 'PASS'} agree={'state': True, 'steps': True}
+p02-model-attested: raw=no verdict; adapter=released {'1': 'PASS', '2': 'PASS', '3': 'PASS'} expected=released {'1': 'PASS', '2': 'PASS', '3': 'PASS'} agree={'state': True, 'steps': True}
+p03-model-proof-after-reply: raw=no verdict; adapter=held {'1': 'PASS', '2': 'NOT RUN', '3': 'PASS'} expected=held {'1': 'PASS', '2': 'NOT RUN', '3': 'PASS'} agree={'state': True, 'steps': True}
+p04-cites-superseded-version: raw=no verdict; adapter=released {'1': 'PASS', '2': 'PASS', '3': 'PASS'} expected=released {'1': 'PASS', '2': 'PASS', '3': 'PASS'} agree={'state': True, 'steps': True}
+p05-evidence-age: raw=no verdict; adapter=released {'1': 'PASS', '2': 'PASS', '3': 'PASS'} expected=released {'1': 'PASS', '2': 'PASS', '3': 'PASS'} agree={'state': True, 'steps': True}
+p06-salted-commitment: raw=no verdict; adapter=held {'1': 'PASS', '2': 'NOT RUN', '3': 'PASS'} expected=held {'1': 'PASS', '2': 'NOT RUN', '3': 'PASS'} agree={'state': True, 'steps': True}
+p07-negative-judgement-no-cause: raw=no verdict; adapter=released {'1': 'PASS', '2': 'PASS', '3': 'PASS'} expected=released {'1': 'PASS', '2': 'PASS', '3': 'PASS'} agree={'state': True, 'steps': True}
+p08-irontrellis-refusal: raw=no verdict; adapter=held {'1': 'PASS', '2': 'NOT RUN', '3': 'NOT RUN'} expected=held {'1': 'PASS', '2': 'PASS', '3': 'NOT RUN'} agree={'state': True, 'steps': False}
+main vectors (beyond the ask): 37/37 same state; differing: 
