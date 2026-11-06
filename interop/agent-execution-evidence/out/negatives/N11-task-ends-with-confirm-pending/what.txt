@@ -1,0 +1,1 @@
+no outcome for the confirm: the chain goes confirm, task_end; 6.7 'A Task MUST NOT end while a confirm in it awaits its outcome' (E_TASK). The DPS side is rebuilt to cite what exists; the case is about his rule

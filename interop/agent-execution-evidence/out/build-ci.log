@@ -1,0 +1,424 @@
+{
+ "route": "1 (separate Signed Statement)",
+ "schema_errors": {
+  "record": [],
+  "a1": [],
+  "a2": [],
+  "signatures": []
+ },
+ "aee": {
+  "result": "CHECKS_PERFORMED",
+  "checks": [
+   {
+    "check": "Bundle is a CBOR map with statements (1) and receipts (2)",
+    "section": "8",
+    "ok": true
+   },
+   {
+    "check": "6 Signed Statement(s): header per Section 5, Issuer signature, aee_type = payload key 1, sub = agent_id, Registration Policy checks needing no other statement",
+    "section": "5; 7; 9 steps 2, 3",
+    "ok": true
+   },
+   {
+    "check": "shape of every receipt: closed integer-key map, required keys, enumerations, digests",
+    "section": "6.7 CDDL; 5",
+    "ok": true
+   },
+   {
+    "check": "seq from 0 by exactly one; prev_hash chains from 32 zero octets by record-hash",
+    "section": "6.7.1; 9 step 6",
+    "ok": true
+   },
+   {
+    "check": "ts non-decreasing along the chain",
+    "section": "6.7; 9 step 9",
+    "ok": true
+   },
+   {
+    "check": "every receipt names an earlier allow task_start of its Task, not ended, with the same principal",
+    "section": "6.7.1",
+    "ok": true
+   },
+   {
+    "check": "parent_seq earlier, present, of the required type and Task; one tool_result per tool_call, after an allow",
+    "section": "6.7; 9 step 8",
+    "ok": true
+   },
+   {
+    "check": "every confirm_seq names an earlier confirm with the same parent_seq, target, request_digest and Task; one outcome each; no tool_result before an allow outcome; no Task ends with a confirm pending",
+    "section": "6.7; 9 step 8",
+    "ok": true
+   },
+   {
+    "check": "agent_sig verified on 1 receipt(s): COSE_Sign1, detached payload = canonical receipt without key 15, CWT iss and sub = agent_id",
+    "section": "6.7; 9 step 10",
+    "ok": true
+   },
+   {
+    "check": "every receipt of key 2 has its own Signed Statement in key 1 (no epoch here)",
+    "section": "8; 6.7.4",
+    "ok": true
+   }
+  ],
+  "not_performed": [
+   "step 1: Transparency Service Receipts (label 394) - no TS in this case",
+   "step 4, 5: Agent Credential and Agent Registration Statements - not built",
+   "step 7: Execution Epoch - receipts registered individually (6.7.4 permits it), no epoch to check",
+   "steps 11-17: Policy Pack, Configuration Integrity, Assurance, Status Lists, Sub-agents, admission, delegation - not built"
+  ],
+  "record_hashes": {
+   "0": "9a9761c0580b7ce17f0b0feae0911ee320174da856c18641c3e4b1753d8960bb",
+   "1": "66721319af8d2a515c3fc2e32427331cc11e57d053bbf60598b42f9da210ec26",
+   "2": "c2154b115be64a9b6ee468a709b912fbcde509d4e695b67945c45044c0fd2efa",
+   "3": "33106e171bfd6d641ffe8ae6816f7f45a0cc5bcb4dc7562a5653961fbc267826",
+   "4": "8a7458b5e5b3e508d754ca5b0ffd614a841f815e0639ed35d749813756edd681",
+   "5": "988b80a3e1b15105a10cf9417d1f39b02c174e685252102f5f6856642fb162e9"
+  },
+  "confirm_outcomes": {
+   "2": 3
+  },
+  "confirms_pending": []
+ },
+ "dps_a1": {
+  "dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "not_checked",
+   "observed_results": "not_checked",
+   "rationale_provenance": "verified"
+  },
+  "findings": {
+   "authorisation_recheck": [
+    "no recheck or attempt is recorded"
+   ],
+   "observed_results": [
+    "no execution attempt is recorded"
+   ]
+  },
+  "issuer_seal": "verified",
+  "person_approval": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified"
+  },
+  "trust_policy": "verified"
+ },
+ "dps_a2": {
+  "dimensions": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "findings": {},
+  "issuer_seal": "verified",
+  "person_approval": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified"
+  },
+  "trust_policy": "verified"
+ },
+ "route1": {
+  "signature": "verified",
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest": "00d4170f8c57e4a6896f0ecfd4b4624954ef5d92b8b3ff9ca99bce2ed087e08a",
+    "state": "Verified"
+   },
+   {
+    "type": "org.decisionprovenancestandard.signatures_attachment",
+    "digest": "772178c584a9f214113bf722dada4179bd36a12e4b5bceadaa1fa4c2969fe3d7",
+    "state": "Verified"
+   },
+   {
+    "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+    "digest": "c2154b115be64a9b6ee468a709b912fbcde509d4e695b67945c45044c0fd2efa",
+    "state": "Verified"
+   },
+   {
+    "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+    "digest": "33106e171bfd6d641ffe8ae6816f7f45a0cc5bcb4dc7562a5653961fbc267826",
+    "state": "Verified"
+   }
+  ],
+  "sub": "urn:example:decision-records:DR-2026-1104",
+  "bound": true
+ },
+ "route2": {
+  "present": false,
+  "bound": false
+ },
+ "joins": {
+  "J1 the confirm receipt's request_digest is the SHA-256 of the parameters of the approved specification (the tool arguments the Harness hashed), its target the specification's operation and its egress_host the host of its target": true,
+  "J2 the person's approval (verified by the Standard) names the same specification, and was signed after the confirm receipt and before the allow outcome (6.7: the call did not proceed until the outcome)": true,
+  "J3 the allow outcome resolves the confirm (verifier: confirm_seq, same parent_seq, target, request_digest, Task) and is recorded after the DPS request stage authorised by o1 (no allow without a request)": true,
+  "J4 the DPS attempt cites the allow outcome by record-hash (trace_refs) and the result cites the tool_result by record-hash and response_digest, under the issuer's seal": true,
+  "J5 the receipts' principal is SHA-256 over the Harness pepper and the canonical identifier of the person o1 names (Section 3; pepper obtained from the Harness out of band, test value here)": true,
+  "J6 A2 extends A1: A1's stages (proposal, review, outcome) are A2's first stages unchanged, and the same person signature stands beside both": true,
+  "J7 the agent asked for this call: agent_sig on the confirm receipt verified with the agent key (6.7)": true
+ },
+ "binding_inside_bundle_probe": {
+  "result": "FAIL",
+  "error": "E_TYPE_MISMATCH",
+  "detail": "statement 6: content type 'application/vnd.org.decisionprovenancestandard.binding+cbor' is not a statement media type of Section 12.1"
+ },
+ "all_verified": true,
+ "appendix_a_reproduction": {
+  "A.3 principal digest (pepper || user:alice@example.com)": {
+   "computed": "355acb442721073848a4b78577b31cd2958587696cf8378ab050011c8a042638",
+   "published": "355acb442721073848a4b78577b31cd2958587696cf8378ab050011c8a042638",
+   "agree": true
+  },
+  "A.5 policy pack digest": {
+   "computed": "563a0a3a0c09b773b7f07dd66931dc56605cb0e56d53d1da9cdefe6ae4c56f4d",
+   "published": "563a0a3a0c09b773b7f07dd66931dc56605cb0e56d53d1da9cdefe6ae4c56f4d",
+   "agree": true
+  },
+  "A.5 record-hash(0)": {
+   "computed": "1942de9ac9bd019506aa5e551ede9ae92676942d4278816ab458a9deb16548c0",
+   "published": "1942de9ac9bd019506aa5e551ede9ae92676942d4278816ab458a9deb16548c0",
+   "agree": true
+  },
+  "A.5 record-hash(1)": {
+   "computed": "3d3b1f63cb07c710049eed093e439600464a47a36b37175372e1fc734f6d39a9",
+   "published": "3d3b1f63cb07c710049eed093e439600464a47a36b37175372e1fc734f6d39a9",
+   "agree": true
+  },
+  "A.5 record-hash(3), the allow outcome": {
+   "computed": "6724c98d2b78fe984db24ce2d8cb63cc214171928ec4f9ebb09770e3d9196fa7",
+   "published": "6724c98d2b78fe984db24ce2d8cb63cc214171928ec4f9ebb09770e3d9196fa7",
+   "agree": true
+  },
+  "A.5 principal_link": {
+   "computed": "1c8ec66d31e2260b8ebe9e7c602773d0b7b8803689e8a935c3d7d22002cd813d",
+   "published": "1c8ec66d31e2260b8ebe9e7c602773d0b7b8803689e8a935c3d7d22002cd813d",
+   "agree": true
+  },
+  "A.5 call_digest (HTTP binding of 6.7)": {
+   "computed": "544d017602d3f2c25b263dc8b8a7c124a27f447f9820363ba99793d5baeda60f",
+   "published": "544d017602d3f2c25b263dc8b8a7c124a27f447f9820363ba99793d5baeda60f",
+   "agree": true
+  },
+  "A.7 Serving Party principal digest": {
+   "computed": "461e46747b2b36f5a21c8ef5d0526c9d4c8b8d4d561b92ed4cef35f80b14f3f0",
+   "published": "461e46747b2b36f5a21c8ef5d0526c9d4c8b8d4d561b92ed4cef35f80b14f3f0",
+   "agree": true
+  },
+  "A.7 record-hash(admission 0)": {
+   "computed": "712bba68319f1aa5f048292b99107131d513b3ba96f3d23b2a318585bf98a425",
+   "published": "712bba68319f1aa5f048292b99107131d513b3ba96f3d23b2a318585bf98a425",
+   "agree": true
+  },
+  "A.5 record-hash(2), the confirm receipt": {
+   "computed": null,
+   "published": "7df8cc808530b8a02e78f723ddcda32645e14c66dd61b8525279fa94118f9ec9",
+   "agree": null,
+   "note": "not reproducible: agent_sig's 226 octets are elided in the text"
+  },
+  "_rules_on_appendix_a": "the 6.7 rules hold on receipts 0..3 as written (seq 2 taken without its agent_sig)"
+ },
+ "proposal_route2": {
+  "route": "2 (proposal: key 30 on the allow outcome)",
+  "schema_errors": {
+   "record": [],
+   "a1": [],
+   "a2": [],
+   "signatures": []
+  },
+  "aee": {
+   "result": "CHECKS_PERFORMED",
+   "checks": [
+    {
+     "check": "Bundle is a CBOR map with statements (1) and receipts (2)",
+     "section": "8",
+     "ok": true
+    },
+    {
+     "check": "6 Signed Statement(s): header per Section 5, Issuer signature, aee_type = payload key 1, sub = agent_id, Registration Policy checks needing no other statement",
+     "section": "5; 7; 9 steps 2, 3",
+     "ok": true
+    },
+    {
+     "check": "shape of every receipt: closed integer-key map, required keys, enumerations, digests",
+     "section": "6.7 CDDL; 5",
+     "ok": true
+    },
+    {
+     "check": "seq from 0 by exactly one; prev_hash chains from 32 zero octets by record-hash",
+     "section": "6.7.1; 9 step 6",
+     "ok": true
+    },
+    {
+     "check": "ts non-decreasing along the chain",
+     "section": "6.7; 9 step 9",
+     "ok": true
+    },
+    {
+     "check": "every receipt names an earlier allow task_start of its Task, not ended, with the same principal",
+     "section": "6.7.1",
+     "ok": true
+    },
+    {
+     "check": "parent_seq earlier, present, of the required type and Task; one tool_result per tool_call, after an allow",
+     "section": "6.7; 9 step 8",
+     "ok": true
+    },
+    {
+     "check": "every confirm_seq names an earlier confirm with the same parent_seq, target, request_digest and Task; one outcome each; no tool_result before an allow outcome; no Task ends with a confirm pending",
+     "section": "6.7; 9 step 8",
+     "ok": true
+    },
+    {
+     "check": "agent_sig verified on 1 receipt(s): COSE_Sign1, detached payload = canonical receipt without key 15, CWT iss and sub = agent_id",
+     "section": "6.7; 9 step 10",
+     "ok": true
+    },
+    {
+     "check": "every receipt of key 2 has its own Signed Statement in key 1 (no epoch here)",
+     "section": "8; 6.7.4",
+     "ok": true
+    }
+   ],
+   "not_performed": [
+    "step 1: Transparency Service Receipts (label 394) - no TS in this case",
+    "step 4, 5: Agent Credential and Agent Registration Statements - not built",
+    "step 7: Execution Epoch - receipts registered individually (6.7.4 permits it), no epoch to check",
+    "steps 11-17: Policy Pack, Configuration Integrity, Assurance, Status Lists, Sub-agents, admission, delegation - not built"
+   ],
+   "record_hashes": {
+    "0": "9a9761c0580b7ce17f0b0feae0911ee320174da856c18641c3e4b1753d8960bb",
+    "1": "66721319af8d2a515c3fc2e32427331cc11e57d053bbf60598b42f9da210ec26",
+    "2": "c2154b115be64a9b6ee468a709b912fbcde509d4e695b67945c45044c0fd2efa",
+    "3": "520afc2ff93427c03c79cbb0031e650e9981a55f3708be18a8fcde4c678d0bbf",
+    "4": "f670de037958c54b701a910c6ec4d07b9c2db68d2d2590430b1425eb5c34c4e1",
+    "5": "81d199b4c9be0fc9d2fadf37f956297772935365cc9097904419be53f3e24638"
+   },
+   "confirm_outcomes": {
+    "2": 3
+   },
+   "confirms_pending": []
+  },
+  "dps_a1": {
+   "dimensions": {
+    "specification_digests": "verified",
+    "specification_statements": "verified",
+    "record_statements": "verified",
+    "action_binding": "verified",
+    "stage_order": "verified",
+    "authorisation_recheck": "not_checked",
+    "observed_results": "not_checked",
+    "rationale_provenance": "verified"
+   },
+   "findings": {
+    "authorisation_recheck": [
+     "no recheck or attempt is recorded"
+    ],
+    "observed_results": [
+     "no execution attempt is recorded"
+    ]
+   },
+   "issuer_seal": "verified",
+   "person_approval": {
+    "status": "verified",
+    "signature": "verified",
+    "subject": "verified",
+    "key_state": "verified",
+    "identity": "verified"
+   },
+   "trust_policy": "verified"
+  },
+  "dps_a2": {
+   "dimensions": {
+    "specification_digests": "verified",
+    "specification_statements": "verified",
+    "record_statements": "verified",
+    "action_binding": "verified",
+    "stage_order": "verified",
+    "authorisation_recheck": "verified",
+    "observed_results": "verified",
+    "rationale_provenance": "verified"
+   },
+   "findings": {},
+   "issuer_seal": "verified",
+   "person_approval": {
+    "status": "verified",
+    "signature": "verified",
+    "subject": "verified",
+    "key_state": "verified",
+    "identity": "verified"
+   },
+   "trust_policy": "verified"
+  },
+  "route1": {
+   "signature": "verified",
+   "references": [
+    {
+     "type": "org.decisionprovenancestandard.action_binding_attachment",
+     "digest": "17ce68bb7975eb88af2bd246eb820dd96152daab737ef692ad969cbe68cff0c8",
+     "state": "Verified"
+    },
+    {
+     "type": "org.decisionprovenancestandard.signatures_attachment",
+     "digest": "772178c584a9f214113bf722dada4179bd36a12e4b5bceadaa1fa4c2969fe3d7",
+     "state": "Verified"
+    },
+    {
+     "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+     "digest": "c2154b115be64a9b6ee468a709b912fbcde509d4e695b67945c45044c0fd2efa",
+     "state": "Verified"
+    },
+    {
+     "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+     "digest": "520afc2ff93427c03c79cbb0031e650e9981a55f3708be18a8fcde4c678d0bbf",
+     "state": "Verified"
+    }
+   ],
+   "sub": "urn:example:decision-records:DR-2026-1104",
+   "bound": true
+  },
+  "route2": {
+   "present": true,
+   "references": [
+    {
+     "type": "org.decisionprovenancestandard.action_binding_attachment",
+     "digest": "3ada26321fb00f9893b4ee370243a271fad478d5b0570acb761db4e23651ab78",
+     "state": "Verified"
+    },
+    {
+     "type": "org.decisionprovenancestandard.signatures_attachment",
+     "digest": "772178c584a9f214113bf722dada4179bd36a12e4b5bceadaa1fa4c2969fe3d7",
+     "state": "Verified"
+    }
+   ],
+   "bound": true
+  },
+  "joins": {
+   "J1 the confirm receipt's request_digest is the SHA-256 of the parameters of the approved specification (the tool arguments the Harness hashed), its target the specification's operation and its egress_host the host of its target": true,
+   "J2 the person's approval (verified by the Standard) names the same specification, and was signed after the confirm receipt and before the allow outcome (6.7: the call did not proceed until the outcome)": true,
+   "J3 the allow outcome resolves the confirm (verifier: confirm_seq, same parent_seq, target, request_digest, Task) and is recorded after the DPS request stage authorised by o1 (no allow without a request)": true,
+   "J4 the DPS attempt cites the allow outcome by record-hash (trace_refs) and the result cites the tool_result by record-hash and response_digest, under the issuer's seal": true,
+   "J5 the receipts' principal is SHA-256 over the Harness pepper and the canonical identifier of the person o1 names (Section 3; pepper obtained from the Harness out of band, test value here)": true,
+   "J6 A2 extends A1: A1's stages (proposal, review, outcome) are A2's first stages unchanged, and the same person signature stands beside both": true,
+   "J7 the agent asked for this call: agent_sig on the confirm receipt verified with the agent key (6.7)": true
+  },
+  "binding_inside_bundle_probe": {
+   "result": "FAIL",
+   "error": "E_TYPE_MISMATCH",
+   "detail": "statement 6: content type 'application/vnd.org.decisionprovenancestandard.binding+cbor' is not a statement media type of Section 12.1"
+  },
+  "all_verified": true
+ }
+}

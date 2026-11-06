@@ -1,0 +1,1 @@
+the allow outcome's request_digest differs from the confirm's (the arguments changed between confirmation and execution): 6.7 requires the same request_digest (E_TASK); J1 is still true of the confirm receipt, so the aee verdict is where it shows

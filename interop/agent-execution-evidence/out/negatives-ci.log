@@ -1,0 +1,13 @@
+ok  N1-confirm-without-approval: expected ['dps', 'J2'], failed at ['J2', 'dps']
+ok  N2-approval-of-another-specification: expected ['dps', 'J2'], failed at ['J2', 'dps']
+ok  N3-approval-after-the-call: expected ['dps', 'J2'], failed at ['J2', 'dps']
+ok  N4-record-hash-chain-broken: expected ['aee'], failed at ['J3', 'J7', 'aee'] (E_CHAIN_HASH: seq 3: prev_hash is not the record-hash of seq 2)
+ok  N5-statement-cites-another-attachment: expected ['route1'], failed at ['route1']
+ok  N6-person-signature-invalid: expected ['dps'], failed at ['dps']
+ok  N7-allow-without-dps-request: expected ['dps', 'J3'], failed at ['J3', 'dps']
+ok  N8-confirm-names-another-person: expected ['J5'], failed at ['J5']
+ok  N9-tool-result-before-outcome: expected ['aee'], failed at ['J3', 'J7', 'aee'] (E_TASK: seq 4: tool_result's parent is not an allow (or record) tool_call: a tool_result MUST NOT precede an allow outcome (6.7))
+ok  N10-outcome-for-other-arguments: expected ['aee'], failed at ['J3', 'J7', 'aee'] (E_TASK: seq 3: outcome differs from its confirm in parent_seq, target, request_digest or Task)
+ok  N11-task-ends-with-confirm-pending: expected ['aee'], failed at ['J1..J7', 'aee'] (E_TASK: seq 2: confirm without outcome although its Task ended or a receipt names it as parent)
+ok  N12-proposal-key-cites-another-attachment: expected ['route2'], failed at ['route2']
+12/12 failing cases caught where expected

@@ -1,0 +1,1 @@
+the approval (o1 and the person's signed_at) is dated after the allow outcome and the tool_result: the call proceeded before anyone confirmed; 6.7 says the call is to be read as not having proceeded until the outcome, and the outcome preceded the approval

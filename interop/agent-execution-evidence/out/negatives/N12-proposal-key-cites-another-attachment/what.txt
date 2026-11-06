@@ -1,0 +1,1 @@
+route 2 (the proposal): key 30 on the allow outcome names another attachment's digest; verified only by our side, and only there does it fail; the author's text is not involved

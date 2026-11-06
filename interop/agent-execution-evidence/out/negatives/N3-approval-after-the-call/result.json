@@ -1,0 +1,36 @@
+{
+ "case": "N3-approval-after-the-call",
+ "expected_to_fail_at": [
+  "dps",
+  "J2"
+ ],
+ "failed_at": [
+  "J2",
+  "dps"
+ ],
+ "as_expected": true,
+ "aee": {
+  "result": "CHECKS_PERFORMED",
+  "error": null,
+  "detail": null
+ },
+ "dps_a2_dimensions": {
+  "specification_digests": "verified",
+  "specification_statements": "verified",
+  "record_statements": "failed",
+  "action_binding": "verified",
+  "stage_order": "failed",
+  "authorisation_recheck": "verified",
+  "observed_results": "verified",
+  "rationale_provenance": "verified"
+ },
+ "dps_person_approval": "verified",
+ "route1_bound": true,
+ "route2": {
+  "present": false,
+  "bound": false
+ },
+ "joins_false": [
+  "J2 the person's approval (verified by the Standard) names the same specification, and was signed after the confirm receipt and before the allow outcome (6.7: the call did not proceed until the outcome)"
+ ]
+}

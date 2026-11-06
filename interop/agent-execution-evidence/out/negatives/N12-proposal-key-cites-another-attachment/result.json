@@ -1,0 +1,44 @@
+{
+ "case": "N12-proposal-key-cites-another-attachment",
+ "expected_to_fail_at": [
+  "route2"
+ ],
+ "failed_at": [
+  "route2"
+ ],
+ "as_expected": true,
+ "aee": {
+  "result": "CHECKS_PERFORMED",
+  "error": null,
+  "detail": null
+ },
+ "dps_a2_dimensions": {
+  "specification_digests": "verified",
+  "specification_statements": "verified",
+  "record_statements": "verified",
+  "action_binding": "verified",
+  "stage_order": "verified",
+  "authorisation_recheck": "verified",
+  "observed_results": "verified",
+  "rationale_provenance": "verified"
+ },
+ "dps_person_approval": "verified",
+ "route1_bound": true,
+ "route2": {
+  "present": true,
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.action_binding_attachment",
+    "digest": "6d34d70facf9adac10f7d7bc06da1800b48083c907a95508e63dfeedc02566b1",
+    "state": "Failed"
+   },
+   {
+    "type": "org.decisionprovenancestandard.signatures_attachment",
+    "digest": "772178c584a9f214113bf722dada4179bd36a12e4b5bceadaa1fa4c2969fe3d7",
+    "state": "Verified"
+   }
+  ],
+  "bound": false
+ },
+ "joins_false": []
+}
