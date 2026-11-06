@@ -17,6 +17,8 @@ What the text lets a verifier re-derive (Section 5: "re-derivation, not trust"):
   - headline consistency across manifest, receipt and ledger slice (Section 5).
 Every failure is named (Section 5). The two names the text gives are SCOPE_HEADLINE_MISMATCH and
 SETTLEMENT_ANCHOR_HASH_MISMATCH (Section 5) and SETTLEMENT_UNANCHORED (Section 4.3); every other name is this module's.
+Three results: VERIFIED, FAILED, and NOTHING_RECORDED when the packet anchors a transfer and cites no approval event, no
+verdict and no executed action (neither a pass nor a breach: there is no record to fail; the name is this module's).
 """
 import hashlib
 import json
@@ -260,16 +262,56 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
         if isinstance(payload, dict) and aa.get("mandate_hash") != payload.get("mandate_hash"):
             fail("MANDATE_HASH_INCONSISTENT", "3 / 4.2: mandate_hash differs between receipt and block")
         R["anchors"] = []
-        for name in ("approval_event_hash",) + tuple(k for k in manifest.get("further_anchors", {})):
-            ref = aa.get(name) if name == "approval_event_hash" else manifest["further_anchors"][name]
+
+        def resolve(name, ref):
             if not isinstance(ref, dict) or set(ref) != {"type", "alg", "digest"}:
                 fail("ANCHOR_SHAPE", f"4.2: {name} is not a typed digest {{type, alg, digest}} (this module's reading)")
-                continue
+                return
             state = "not resolved: verifier holds nothing of that type" if held is None or ref["type"] not in held else \
                 ("resolved" if ref["digest"] in held[ref["type"]] else "not held")
             if state == "not held":
                 fail("ANCHOR_UNRESOLVED", f"{name}: no item of type {ref['type']} held has digest {ref['digest'][:16]}...")
             R["anchors"].append({"name": name, **ref, "state": state})
+
+        if aa.get("approval_event_hash") is None:
+            R["anchors"].append({"name": "approval_event_hash", "state": "absent: the packet cites no approval event"})
+        else:
+            resolve("approval_event_hash", aa["approval_event_hash"])
+        for name in manifest.get("further_anchors", {}):
+            resolve(name, manifest["further_anchors"][name])
+        # further executions the packet records beside the first (this module's member additional_executions: a list of
+        # {txn_ref, approval_event_hash, allow_outcome_receipt, tool_result_receipt, settlement_anchor}); the text has one
+        # approval event per packet and says nothing about a second transfer. Each is resolved like the first; an approval
+        # event cited for two transfers is named: the packet carries no count on an approval event, so whether that approval
+        # covers two requests is the Standard's request_limit check (action binding rule 5), not this verifier's.
+        extra = manifest.get("additional_executions") or []
+        approval_uses = {}
+        if isinstance(aa.get("approval_event_hash"), dict):
+            approval_uses.setdefault(aa["approval_event_hash"].get("digest"), []).append(sa.get("txn_ref") if isinstance(sa, dict) else "<first>")
+        for i, ex in enumerate(extra):
+            if not isinstance(ex, dict):
+                fail("ADDITIONAL_EXECUTION_SHAPE", f"additional_executions[{i}] is not an object")
+                continue
+            for name in ("approval_event_hash", "allow_outcome_receipt", "tool_result_receipt"):
+                resolve(f"additional_executions[{i}].{name}", ex.get(name))
+            xsa = ex.get("settlement_anchor")
+            if isinstance(xsa, dict) and "anchor_hash" in xsa:
+                try:
+                    if anchor_hash(xsa) != xsa["anchor_hash"]:
+                        fail("SETTLEMENT_ANCHOR_HASH_MISMATCH", f"4.3 / 5: additional_executions[{i}].settlement_anchor does not recompute")
+                except Refuse as e:
+                    fail("SETTLEMENT_ANCHOR_VALUE_DOMAIN", str(e))
+            else:
+                fail("SETTLEMENT_UNANCHORED", f"4.3: additional_executions[{i}] records a transfer with no settlement_anchor block")
+            if isinstance(ex.get("approval_event_hash"), dict):
+                approval_uses.setdefault(ex["approval_event_hash"].get("digest"), []).append(ex.get("txn_ref"))
+        for digest, txns in approval_uses.items():
+            if len(txns) > 1:
+                fail("APPROVAL_EVENT_CITED_TWICE", f"4.2: one approval event ({str(digest)[:16]}...) is cited for {len(txns)} transfers "
+                                                   f"({', '.join(map(str, txns))}); the packet carries no count on an approval event, so it "
+                                                   "cannot show that one approval covers two requests; that is the Standard's request_limit "
+                                                   "check (action binding rule 5), which this verifier cannot make")
+        R["approval_event_uses"] = approval_uses
     intent, executed = manifest.get("intent_scope"), manifest.get("executed_action")
     derived = scope_verdict(intent, executed)
     R["scope_conformance"] = derived
@@ -282,6 +324,8 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
             ok(f"scope verdict re-derived from intent scope and executed action: {derived}; receipt and manifest headline agree (4.2, 5)")
         # the executed action and the intent scope are bound to the items the packet cites
         for which, obj, dkey in (("intent_scope", intent, "intent_scope_sha256"), ("executed_action", executed, "executed_action_sha256")):
+            if obj is None and manifest.get(dkey) is None:
+                continue                                     # nothing recorded on that side, and the manifest says so (no digest)
             try:
                 if manifest.get(dkey) != sha256_hex(canonical(obj)):
                     fail("SCOPE_INPUT_DIGEST_MISMATCH", f"4.2: {which} does not hash to manifest.{dkey}")
@@ -297,10 +341,30 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
         if isinstance(sa, dict):
             cited.append(sa.get("anchor_hash"))
         cited.append(payload.get("ledger_entry_hash"))
+        for ex in (manifest.get("additional_executions") or []):
+            if isinstance(ex, dict):
+                cited += [ex.get(k, {}).get("digest") if isinstance(ex.get(k), dict) else None
+                          for k in ("approval_event_hash", "allow_outcome_receipt", "tool_result_receipt")]
+                cited.append(ex.get("settlement_anchor", {}).get("anchor_hash") if isinstance(ex.get("settlement_anchor"), dict) else None)
         if payload.get("evidence_set_hash") != evidence_set_hash([c for c in cited if c]):
             fail("EVIDENCE_SET_HASH_MISMATCH", "3: evidence_set_hash does not recompute over the digests the packet cites (this module's construction)")
         else:
             ok("evidence_set_hash recomputed over the digests the packet cites")
+        # what is behind the settlement: an approval event, a verdict, an executed action. A packet that anchors a transfer
+        # and cites none of the three records nothing behind the money that moved. That is a finding of its own, not a
+        # BREACH (there is no intent scope to breach) and not a pass: the text (4.1) forbids inventing evidence and
+        # provides gap notes; it does not name this case. The names below are this module's.
+        absent = [name for name, present in (("approval event", isinstance(aa, dict) and aa.get("approval_event_hash") is not None),
+                                              ("verdict", "verdict_record" in (manifest.get("further_anchors") or {})),
+                                              ("executed action", executed is not None)) if not present]
+        if absent and isinstance(sa, dict):
+            if len(absent) == 3:
+                fail("NOTHING_RECORDED", f"a transfer of {sa.get('amount_minor')} {sa.get('currency')} ({sa.get('txn_ref')}, {sa.get('finality_status')}) "
+                                         "is anchored and nothing is recorded behind it: no approval event, no verdict, no executed action. Not "
+                                         "a breach of a scope (none is recorded) and not verified: money moved and no record of a decision is cited")
+            else:
+                fail("RECORD_ABSENT", f"the packet anchors a transfer and cites no {', no '.join(absent)}")
+        R["absent"] = absent
     # ---- 4.1: the categories
     cats = manifest.get("ce3_fpt_categories")
     if not isinstance(cats, dict) or set(cats) != set(CE3_CATEGORIES):
@@ -329,4 +393,7 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
             ok(f"{len(fre['custody'])} custody events each bound to a ledger event hash (4.4)")
         if not isinstance(fre["authentication_statement"].get("re_derivable"), list) or not fre["authentication_statement"]["re_derivable"]:
             fail("AUTHENTICATION_STATEMENT_EMPTY", "4.4: it names exactly what a challenger can independently re-derive")
-    return {"result": "FAILED" if F else "VERIFIED", "failures": F, "checks": C, "re_derived": R}
+    # three results: VERIFIED; FAILED when a check fails; NOTHING_RECORDED when the only finding is that the packet anchors a
+    # transfer and records nothing behind it (neither a pass nor a breach: there is no document to fail)
+    result = "VERIFIED" if not F else ("NOTHING_RECORDED" if all(f["code"] == "NOTHING_RECORDED" for f in F) else "FAILED")
+    return {"result": result, "failures": F, "checks": C, "re_derived": R}

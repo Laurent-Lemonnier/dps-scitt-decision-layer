@@ -128,6 +128,30 @@ def n15(p):
     p["approval"] = "after_outcome"
 
 
+@case("N16-one-approval-used-twice", ["dps", "verdict:refused", "goshi:APPROVAL_EVENT_CITED_TWICE", "K5"],
+      "the same person approval (o1, request_limit 1; the same A1, the same approval event digest) is used for a second refund: a second "
+      "confirm/allow/tool_result triple in the run (txn-2026-1104-8812-2), a second DPS request, recheck, attempt and result resting on o1, "
+      "and a packet citing the same approval event for two transfers (two settlement anchors): the Standard's action_binding reference "
+      "check fails first (q2: o1 covers 1 request, already used by q1; the specification requested twice), the verdict stating "
+      "executed_as_approved is refused at step 3 (the re-run gives not_as_approved: no approval covers the second attempt), the packet "
+      "verifier names APPROVAL_EVENT_CITED_TWICE. Thaha's receipts each look fine on their own (CHECKS_PERFORMED; two well-formed "
+      "confirm/allow pairs) and J1-J6 hold: the run alone cannot see it (J7 reads false only by its wording: it looks for one signed "
+      "confirm receipt and the verifier reports two)")
+def n16(p):
+    p["second_use_of_approval"] = True
+
+
+@case("N17-money-moved-nothing-recorded", ["goshi:NOTHING_RECORDED", "K3", "K6", "K7"],
+      "the settlement anchor records a transfer of 120.00 EUR (txn-2026-1104-0931, final) for which there is no confirm/allow receipt, "
+      "no DPS request or attempt and no verdict: the packet's approval event is null, further_anchors is empty, intent scope and executed "
+      "action are null (scope not_evaluated), the ledger slice holds the one event the merchant recorded. The packet verifier reports "
+      "NOTHING_RECORDED, a result of its own, neither VERIFIED nor a BREACH; the joins fail for want of a record to join (K3, K6, K7); "
+      "the receipts, the Standard and the verdict say nothing: their documents (present here, verified, released) are those of the "
+      "recorded refund txn-2026-1104-8812 and name no such transfer. Only the dispute layer, holding the settlement, can raise it")
+def n17(p):
+    p.update(recorded="nothing", dispute_reason_code="unrecognized_transaction")
+
+
 def failed_places(a, r):
     l12, failed = r["link1_2_thaha_dps"], set()
     if l12["aee"]["result"] != "CHECKS_PERFORMED":

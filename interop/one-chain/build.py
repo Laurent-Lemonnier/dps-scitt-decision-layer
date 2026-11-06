@@ -53,11 +53,18 @@ PARAMS = {"amount_minor": 12000, "currency": "EUR", "order_ref": "urn:example:or
 assert list(PARAMS) == sorted(PARAMS)
 OPERATION, TARGET, HOST = "payments.refund.create", "https://payments.example/refunds", "payments.example"
 TXN = "txn-2026-1104-8812"
+TXN2 = "txn-2026-1104-8812-2"                    # N16: a second transfer resting on the same approval
+TXN_UNRECORDED = "txn-2026-1104-0931"            # N17: a transfer the rail shows and no record names
+REQUEST_ID_2 = "urn:example:invoicing-request:7c1f0a3e-5b1e-4d0d-9a1a-000000000002"
 MERCHANT_KEY_ID = "sb:issuer:example-merchant-dispute-1"
 packet_key = C17.key_from_seed("dps-scitt-decision-layer one-chain: merchant dispute desk key (test only)")
 other_key = C17.key_from_seed("dps-scitt-decision-layer one-chain: a key of nobody (test only)")
 T = dict(C17.T, verdict="2026-11-04T11:00:00.000000Z", intake="2026-11-04T11:05:00.000000Z", settlement="2026-11-04T10:01:30Z",
-         ledger_verdict="2026-11-04T11:05:01Z", packet="2026-11-04T12:00:00Z")
+         ledger_verdict="2026-11-04T11:05:01Z", packet="2026-11-04T12:00:00Z",
+         # N16: the second confirm/allow/tool_result triple, between the first tool_result and task_end, and its DPS stages
+         confirm2="2026-11-04T10:01:19.400Z", outcome2="2026-11-04T10:01:19.600Z", tool_result2="2026-11-04T10:01:19.800Z",
+         request2="2026-11-04T10:01:19Z", recheck2="2026-11-04T10:01:19Z", attempt2="2026-11-04T10:01:19Z", result2="2026-11-04T10:01:22Z",
+         settlement2="2026-11-04T10:01:31Z")
 TYPE_A = f"{NS}.action_binding_attachment"
 TYPE_S = f"{NS}.signatures_attachment"
 TYPE_V = f"{C16.FMT_VERDICT}"
@@ -116,9 +123,14 @@ def make_record():
     return r
 
 
-def make_receipts(principal, args, executed_args):
+RESPONSE2 = compact({"status": "refunded", "refund_ref": "urn:example:payments:refund:R-55121", "txn_ref": TXN2})
+
+
+def make_receipts(principal, args, executed_args, *, second=False):
     """Case 17's six receipts with this scenario's tool: the confirm receipt's request_digest is the SHA-256 of the
-    arguments the Harness saw at the tool door (executed_args: the approved ones, or other ones in the mismatch chain)."""
+    arguments the Harness saw at the tool door (executed_args: the approved ones, or other ones in the mismatch chain).
+    second (N16): a second confirm/allow/tool_result triple for the same arguments, between the first tool_result and
+    task_end; each receipt is well-formed and the pairing holds, so Thaha's verifier has nothing to say about it."""
     common = {1: 5, 7: C17.digest(C17.policy_bytes), 8: [AEE.SHA256_COSE, C17.CONFIG_DIGEST], 9: C17.AGENT_ID, 10: principal, 11: 0}
     rs, prev = [], AEE.ZERO32
 
@@ -129,15 +141,34 @@ def make_receipts(principal, args, executed_args):
         prev = AEE.record_hash(r)
         return r
 
+    def triple(t_confirm, t_outcome, t_result, txn, response):
+        call = {4: 4, 5: 1, 6: 3, 12: C17.digest(executed_args), 14: ms(t_confirm), 16: OPERATION, 17: HOST, 18: 2}
+        c = add({**call, 15: C17.agent_sig({**common, **call, 2: len(rs), 3: prev})})
+        add({**call, 6: 1, 14: ms(t_outcome), 19: c[2], 23: [C17.AGENT_ID], 24: hashlib.sha256(b"<delegation token octets>").digest(),
+             25: txn, 29: C17.digest(C17.AEE.cbor2.dumps(["POST", "/refunds", hashlib.sha256(executed_args).digest()], canonical=True))})
+        add({4: 5, 5: c[2] + 1, 6: 1, 13: C17.digest(response), 14: ms(t_result), 16: OPERATION, 18: 2})
+
     add({4: 1, 6: 1, 14: ms(T["task_start"]), 26: C17.digest(b"<memory state at task start>")})
     add({4: 3, 6: 1, 14: ms(T["inference"]), 12: C17.digest(C17.PROMPT), 13: C17.digest(C17.COMPLETION), 16: "example-model-2026-09", 18: 1})
-    call = {4: 4, 5: 1, 6: 3, 12: C17.digest(executed_args), 14: ms(T["confirm"]), 16: OPERATION, 17: HOST, 18: 2}
-    add({**call, 15: C17.agent_sig({**common, **call, 2: 2, 3: prev})})
-    add({**call, 6: 1, 14: ms(T["outcome"]), 19: 2, 23: [C17.AGENT_ID], 24: hashlib.sha256(b"<delegation token octets>").digest(),
-         25: TXN, 29: C17.digest(C17.AEE.cbor2.dumps(["POST", "/refunds", hashlib.sha256(executed_args).digest()], canonical=True))})
-    add({4: 5, 5: 3, 6: 1, 13: C17.digest(C17.RESPONSE), 14: ms(T["tool_result"]), 16: OPERATION, 18: 2})
+    triple(T["confirm"], T["outcome"], T["tool_result"], TXN, C17.RESPONSE)
+    if second:
+        triple(T["confirm2"], T["outcome2"], T["tool_result2"], TXN2, RESPONSE2)
     add({4: 2, 6: 1, 14: ms(T["task_end"]), 26: C17.digest(b"<memory state at task end>")})
     return rs
+
+
+def second_tail_stages(sd, receipts):
+    """N16: a second request, recheck, attempt and result resting on the same approval o1 (request_limit 1), citing the
+    second allow outcome and tool_result by record-hash; the shape of case 17's tail_stages."""
+    outcome, result = receipts[6], receipts[7]
+    return [{"stage_id": "q2", "kind": "request", "at": T["request2"], "request_id": REQUEST_ID_2, "authorised_by": "o1",
+             "spec_digest": sd, "requested_by": "urn:example:service:invoicing-assistant"},
+            {"stage_id": "c2", "kind": "recheck", "at": T["recheck2"], "request_ref": "q2", "result": "authorised",
+             "authority_source_ref": C17.POLICY_REF},
+            {"stage_id": "x2", "kind": "attempt", "at": T["attempt2"], "spec_digest": sd, "executor_ref": C17.HARNESS_ISS,
+             "trace_refs": [C17.receipt_urn(outcome), TXN2], "request_ref": "q2", "recheck_ref": "c2"},
+            {"stage_id": "r2", "kind": "result", "at": T["result2"], "attempt_ref": "x2", "observed": "succeeded",
+             "basis": "executor_observation", "evidence_ref": C17.receipt_urn(result) + "&response_digest=" + result[13][1].hex()}]
 
 
 def attachment(entries, stages):
@@ -171,7 +202,9 @@ def build():
             "receipt_key": "merchant",                               # merchant | other
             "receipt_tamper": None,                                  # function over the signed payload
             "issuer_id": None,                                       # None: the kid
-            "dispute_reason_code": "duplicate_processing"}
+            "dispute_reason_code": "duplicate_processing",
+            "second_use_of_approval": False,                         # N16: a second confirm/allow pair, request and attempt on o1; the packet cites the approval event twice
+            "recorded": "all"}                                       # all | nothing (N17: a settlement with no approval event, no verdict, no execution record)
 
 
 def chain(p):
@@ -189,9 +222,10 @@ def chain(p):
     sig_bytes = compact(sig)
     head = C17.head_stages(sd, approval_at)
     a1 = C17.seal(attachment([spec_entry(spec_bytes)], copy.deepcopy(head)), T["a1_sealed"])
-    receipts = make_receipts(C17.principal_of(C17.APPROVER_CANONICAL_ID), compact(approved), compact(executed))
+    receipts = make_receipts(C17.principal_of(C17.APPROVER_CANONICAL_ID), compact(approved), compact(executed), second=p["second_use_of_approval"])
     entries = [spec_entry(spec_bytes)] + ([spec_entry(xspec_bytes)] if xd != sd else [])
-    a2 = C17.seal(attachment(entries, copy.deepcopy(head) + C17.tail_stages(xd, receipts)), T["a2_sealed"])
+    tail = C17.tail_stages(xd, receipts) + (second_tail_stages(xd, receipts) if p["second_use_of_approval"] else [])
+    a2 = C17.seal(attachment(entries, copy.deepcopy(head) + tail), T["a2_sealed"])
     a1_bytes, a2_bytes = compact(a1), compact(a2)
     art = {"record": record, "record_bytes": compact(record), "spec_bytes": spec_bytes, "xspec_bytes": xspec_bytes, "sig": sig,
            "sig_bytes": sig_bytes, "a1": a1, "a1_bytes": a1_bytes, "a2": a2, "a2_bytes": a2_bytes, "receipts": receipts,
@@ -246,6 +280,12 @@ def packet(art, verdict_raw, verdict_result, p, *, cited_digest=None):
     exec_ev = ledger_event(events, "ActionExecuted", T["result"],
                            {"txn_ref": TXN, "allow_outcome_record_hash": rh3, "tool_result_record_hash": rh4,
                             "response_sha256": result[13][1].hex(), "amount_minor": str(art["executed"]["amount_minor"]), "currency": "EUR"})
+    second = p["second_use_of_approval"]
+    if second:                                               # N16: the second transfer, recorded by the ledger like the first
+        rh6, rh7 = AEE.record_hash(rs[6]).hex(), AEE.record_hash(rs[7]).hex()
+        ledger_event(events, "ActionExecuted", T["result2"],
+                     {"txn_ref": TXN2, "allow_outcome_record_hash": rh6, "tool_result_record_hash": rh7,
+                      "response_sha256": rs[7][13][1].hex(), "amount_minor": str(art["executed"]["amount_minor"]), "currency": "EUR"})
     sa = None
     if p["settlement"] != "absent":
         sa = {"rail": "example-rail", "txn_ref": TXN, "finality_status": "final", "amount_minor": str(moved), "currency": "EUR",
@@ -255,6 +295,14 @@ def packet(art, verdict_raw, verdict_result, p, *, cited_digest=None):
         if p["settlement"] == "stale_hash":
             sa["amount_minor"] = str(moved + 100)
     settle_ev = ledger_event(events, "SettlementObserved", T["settlement"], {"anchor_hash": sa["anchor_hash"] if sa else None, "txn_ref": TXN})
+    additional, custody_extra = [], []
+    if second:
+        sa2 = {**sa, "txn_ref": TXN2, "captured_at": T["settlement2"]}
+        del sa2["anchor_hash"]
+        sa2["anchor_hash"] = G.anchor_hash(sa2)
+        settle_ev2 = ledger_event(events, "SettlementObserved", T["settlement2"], {"anchor_hash": sa2["anchor_hash"], "txn_ref": TXN2})
+        custody_extra = [{"event": "second settlement anchor captured", "at": T["settlement2"], "actor": "urn:example:merchant:rail-feed",
+                          "ledger_event_hash": settle_ev2["event_hash"]}]
     verdict_ev = ledger_event(events, "VerdictReceived", T["ledger_verdict"], {"verdict_sha256": vdigest, "format": TYPE_V, "result": verdict_result})
     if p["ledger"] == "altered":
         events[2]["data"]["amount_minor"] = "9999"           # altered after chaining: its hash no longer recomputes
@@ -263,6 +311,11 @@ def packet(art, verdict_raw, verdict_result, p, *, cited_digest=None):
     approval_anchor = typed(TYPE_A, sha256(art["a1_bytes"]))
     intent, executed = art["approved"], art["executed"]
     cited = [approval_anchor["digest"]] + [r["digest"] for r in further.values()] + ([sa["anchor_hash"]] if sa else []) + [approval_ev["event_hash"]]
+    if second:
+        # the same approval event cited a second time, for the second transfer: the packet says so in the open
+        additional = [{"txn_ref": TXN2, "approval_event_hash": approval_anchor, "allow_outcome_receipt": typed(TYPE_R, rh6),
+                       "tool_result_receipt": typed(TYPE_R, rh7), "settlement_anchor": sa2}]
+        cited += [approval_anchor["digest"], rh6, rh7, sa2["anchor_hash"]]
     kid = MERCHANT_KEY_ID
     key = packet_key if p["receipt_key"] == "merchant" else other_key
     payload = {"type": G.RECEIPT_TYPE, "issued_at": T["packet"], "issuer_id": p["issuer_id"] or kid,
@@ -278,6 +331,7 @@ def packet(art, verdict_raw, verdict_result, p, *, cited_digest=None):
     custody = [{"event": "ledger slice exported", "at": T["result"], "actor": "urn:example:merchant:ledger-export", "ledger_event_hash": exec_ev["event_hash"]},
                {"event": "settlement anchor captured", "at": T["settlement"], "actor": "urn:example:merchant:rail-feed", "ledger_event_hash": settle_ev["event_hash"]},
                {"event": "verdict record received", "at": T["ledger_verdict"], "actor": "urn:example:merchant:dispute-desk", "ledger_event_hash": verdict_ev["event_hash"]}]
+    custody += custody_extra
     if p["custody"] == "altered":
         custody[1]["ledger_event_hash"] = "e" * 64
     manifest = {"profile": "draft-xg-payment-dispute-profile-01", "base": "draft-farley-acta-signed-receipts-03",
@@ -297,12 +351,57 @@ def packet(art, verdict_raw, verdict_result, p, *, cited_digest=None):
                                                                       "gap_note": None, "source": "ActorValidated ledger event"}}}
     if sa is None:
         del manifest["settlement_anchor"]
+    if additional:
+        manifest["additional_executions"] = additional
     fre = {"acquisition": {"captured_by": "urn:example:merchant:dispute-desk", "captured_at": T["packet"], "tool": "one-chain/build.py (synthetic)",
                            "clock_source": "host clock, declared untrusted (no external time anchor)", "gaps": ["no RFC 3161 or SCITT time anchor"]},
            "custody": custody,
            "authentication_statement": {"re_derivable": ["receipt signature over JCS payload", "ledger event hashes and links",
                                                          "scope verdict from intent scope and executed action", "settlement anchor_hash",
                                                          "headline consistency", "agent anchors against the items held"]}}
+    return {"receipt": receipt, "manifest": manifest, "ledger_slice": events, "fre901": fre}
+
+
+def packet_nothing_recorded(p):
+    """N17: the dispute desk holds a settlement anchor (120.00 EUR, TXN_UNRECORDED, final) and nothing behind it: no
+    approval event, no verdict, no execution record, no agent. The packet says so rather than invent (Goshi 4.1): the
+    approval event is null, further_anchors is empty, intent scope and executed action are null (4.2: not_evaluated),
+    the ledger slice holds the one event the merchant recorded (the settlement observed), the receipt's decision is
+    require_approval, the one value of Farley 3.1.1 that asserts no decision taken: the policy in force required an
+    approval, and none is recorded (this reading is ours)."""
+    events = []
+    sa = {"rail": "example-rail", "txn_ref": TXN_UNRECORDED, "finality_status": "final", "amount_minor": "12000", "currency": "EUR",
+          "captured_at": T["settlement"], "network": None, "payer": "urn:example:customer:C-4471", "unanchored_fields": ["network"]}
+    sa["anchor_hash"] = G.anchor_hash(sa)
+    settle_ev = ledger_event(events, "SettlementObserved", T["settlement"], {"anchor_hash": sa["anchor_hash"], "txn_ref": TXN_UNRECORDED})
+    kid = MERCHANT_KEY_ID
+    payload = {"type": G.RECEIPT_TYPE, "issued_at": T["packet"], "issuer_id": kid,
+               "decision": "require_approval", "reason_code": "no_decision_record_found",
+               "action_hash": None, "evidence_set_hash": G.evidence_set_hash([sa["anchor_hash"], settle_ev["event_hash"]]),
+               "ledger_entry_hash": settle_ev["event_hash"], "timestamp": T["settlement"], "mandate_hash": None,
+               "rail_anchors_hash": sa["anchor_hash"], "scope_conformance": "not_evaluated", "key_id": kid,
+               "signer_pubkey_hash": sha256(C17.raw_public(packet_key))}
+    sig_hex = packet_key.sign(G.canonical(payload)).hex()
+    receipt = {"payload": payload, "signature": {"alg": "EdDSA", "kid": kid, "sig": sig_hex}}
+    manifest = {"profile": "draft-xg-payment-dispute-profile-01", "base": "draft-farley-acta-signed-receipts-03",
+                "dispute_reason_code": p["dispute_reason_code"], "receipt_public_key_hex": C17.raw_public(packet_key).hex(),
+                "headline": {"scope_conformance": "not_evaluated", "amount_minor": "12000", "currency": "EUR"},
+                "agent_anchors": {"mandate_hash": None, "agent_id": None, "approval_event_hash": None,
+                                  "receipt_signature": sig_hex, "network_token_id": None, "threeds_acs_result": None},
+                "further_anchors": {},
+                "intent_scope": None, "intent_scope_sha256": None, "intent_scope_source": None,
+                "executed_action": None, "executed_action_sha256": None, "executed_action_source": None,
+                "settlement_anchor": sa,
+                "ce3_fpt_categories": {"device_identity": {"populated": False, "value": None, "gap_note": "no device data in the packet"},
+                                       "delivery_information": {"populated": False, "value": None, "gap_note": "a transfer: nothing delivered"},
+                                       "additional_identity_factor": {"populated": False, "value": None,
+                                                                      "gap_note": "no ActorValidated event: nothing is recorded behind the transfer"}}}
+    fre = {"acquisition": {"captured_by": "urn:example:merchant:dispute-desk", "captured_at": T["packet"], "tool": "one-chain/build.py (synthetic)",
+                           "clock_source": "host clock, declared untrusted (no external time anchor)", "gaps": ["no RFC 3161 or SCITT time anchor"]},
+           "custody": [{"event": "settlement anchor captured", "at": T["settlement"], "actor": "urn:example:merchant:rail-feed",
+                        "ledger_event_hash": settle_ev["event_hash"]}],
+           "authentication_statement": {"re_derivable": ["receipt signature over JCS payload", "ledger event hash", "settlement anchor_hash",
+                                                         "headline consistency", "the absence: no approval event, no verdict, no executed action cited"]}}
     return {"receipt": receipt, "manifest": manifest, "ledger_slice": events, "fre901": fre}
 
 
@@ -322,7 +421,7 @@ def assemble(p):
     altered_raw = C16.verdict(art["a1_bytes"], art["a2_bytes"], art["record_bytes"], stated, act_time="2026-11-04T11:00:01.000000Z",
                               key="dps/refund-8812/one-chain/executed-as-approved")
     cited = {"this": None, "other": sha256(other_raw), "altered": sha256(altered_raw)}[p["packet_cites_verdict"]]
-    pk = packet(art, vraw, stated, p, cited_digest=cited)
+    pk = packet_nothing_recorded(p) if p["recorded"] == "nothing" else packet(art, vraw, stated, p, cited_digest=cited)
     return {"chain": art, "verdict_raw": vraw, "verdict_container": vcont, "verdict_stated": stated, "verdict_native": native,
             "other_verdict_raw": other_raw, "other_verdict_container": other_cont, "packet": pk, "params": p}
 
@@ -367,6 +466,8 @@ def joins(a, r):
     ps = (art["sig"].get("person_signatures") or [{}])[0]
     pay, man, led, fre = pk["receipt"]["payload"], pk["manifest"], pk["ledger_slice"], pk["fre901"]
     sa = man.get("settlement_anchor") or {}
+    fa = man.get("further_anchors") or {}
+    fd = lambda name: fa.get(name, {}).get("digest")                 # a further anchor's digest, None when the packet cites none (N17)
     xspec = json.loads(art["xspec_bytes"])
     rh3, rh4 = AEE.record_hash(outcome).hex(), AEE.record_hash(result).hex()
     approved_amount, moved = art["approved"]["amount_minor"], int(sa.get("amount_minor", "-1"))
@@ -391,7 +492,7 @@ def joins(a, r):
       "the packet's further anchors name them; the settlement txn_ref is the outcome receipt's transaction id (key 25) and the attempt's trace_ref"] = (
         rh3 in x1["trace_refs"][0] and rh4 in r1["evidence_ref"] and exec_ev.get("data", {}).get("allow_outcome_record_hash") == rh3
         and exec_ev["data"]["tool_result_record_hash"] == rh4 and exec_ev["data"]["response_sha256"] == result[13][1].hex()
-        and man["further_anchors"]["allow_outcome_receipt"]["digest"] == rh3 and man["further_anchors"]["tool_result_receipt"]["digest"] == rh4
+        and fd("allow_outcome_receipt") == rh3 and fd("tool_result_receipt") == rh4
         and sa.get("txn_ref") == outcome[25] == TXN and TXN in x1["trace_refs"])
     j["K4 the verdict's evidence is the exact bytes held of A1, A2 and the record's file (Wright 2.1, 7), and the route 1 statement "
       "cites A2 and the signatures attachment by the same digests (the Standard's identity of an attachment is its file's SHA-256)"] = (
@@ -407,11 +508,11 @@ def joins(a, r):
       "statement's reference"] = (
         man["agent_anchors"]["approval_event_hash"] == typed(TYPE_A, sha256(art["a1_bytes"])) and v["evidence"][0]["sha256"] == sha256(art["a1_bytes"])
         and approval_ev.get("data", {}).get("attachment_sha256") == sha256(art["a1_bytes"])
-        and man["further_anchors"]["signatures_attachment"]["digest"] == sha256(art["sig_bytes"])
+        and fd("signatures_attachment") == sha256(art["sig_bytes"])
         and any(x["state"] == "resolved" for x in gr["re_derived"].get("anchors", []) if x["name"] == "approval_event_hash"))
     j["K7 the packet cites the verdict the checker released, by the digest of its bytes, and states as scope_conformance what that "
       "verdict's result says: in_scope for executed_as_approved, BREACH:amount_minor for not_as_approved over a different amount"] = (
-        man["further_anchors"]["verdict_record"]["digest"] == sha256(a["verdict_raw"]) == rep["record_sha256"] and rep["state"] == "released"
+        fd("verdict_record") == sha256(a["verdict_raw"]) == rep["record_sha256"] and rep["state"] == "released"
         and pay["scope_conformance"] == ("in_scope" if v["check"]["result"] == "executed_as_approved" else "BREACH:amount_minor")
         and gr["re_derived"].get("scope_conformance") == pay["scope_conformance"])
     j["K8 what moved is what the result stage observed: the settlement anchor's amount is the executed specification's amount, the "
@@ -436,7 +537,7 @@ def joins(a, r):
       "action_binding dimension in the negative chain), the checker releases the verdict, the packet verifier reports VERIFIED, and "
       "the hex digests they report for A1, A2 and the verdict are identical"] = (
         l12["aee"]["result"] == "CHECKS_PERFORMED" and rep["state"] == "released" and gr["result"] == "VERIFIED"
-        and rep["record_sha256"] == man["further_anchors"]["verdict_record"]["digest"]
+        and rep["record_sha256"] == fd("verdict_record")
         and (l12["dps_a2"]["issuer_seal"] == "verified"))
     return j
 

@@ -7,7 +7,7 @@ draft-lemonnier-scitt-decision-provenance-01), the auditor's verdict (draft-wrig
 packet (draft-xg-payment-dispute-profile-01, a vendor profile of draft-farley-acta-signed-receipts-03). Each format
 records a different moment; none is changed; each is verified by the verifier its own text yields; twelve joins across
 the four say what no single verifier says. The same chain is run twice: executed as approved, and 150.00 EUR executed
-for 120.00 approved. Fifteen failing cases, each the valid chain changed in one place, fail where expected.
+for 120.00 approved. Seventeen failing cases, each the valid chain changed in one place, fail where expected.
 
 Everything here is synthetic: test keys from fixed seeds, fixed times, no real payment, no real person. Two runs write
 the same bytes. An assistant wrote the code and the first draft of this README; Laurent Lemonnier read both.
@@ -74,7 +74,7 @@ What none of the four verifiers says alone. Every one is a comparison of values 
 - K12 four verifiers, the same bytes: CHECKS_PERFORMED, the seal verified, the verdict released, the packet VERIFIED, and the
   hex digest of the verdict in the checker's report is the one the packet cites.
 
-## The failing cases (`negatives.py`, 15/15 where expected)
+## The failing cases (`negatives.py`, 17/17 where expected)
 
 Each is the valid positive chain changed in one place. "Expected" lists where the case must be caught; a case may also
 fail elsewhere (K12 summarises, so it fails in most). Where a link says nothing, that is recorded as the finding.
@@ -96,6 +96,20 @@ fail elsewhere (K12 summarises, so it fails in most). Where a link says nothing,
 | N13 A2 altered after the verdict cited it | observed succeeded → failed in the bytes held | verdict held (step 2: evidence[1] not held); K5, K7, K12. The packet anchors on A1, not A2, and verifies |
 | N14 dispute reason code missing | | packet DISPUTE_REASON_CODE_MISSING (Goshi 4.1: the mapper MUST raise) |
 | N15 approval after the allow outcome | signed at 10:01:19, outcome at 10:01:18 | J2, K2; DPS `stage_order` and `record_statements` failed; verdict refused (the rule reads the dimensions). Thaha's receipts alone cannot see it |
+| N16 one approval used twice | a second confirm/allow/tool_result triple (txn `…-8812-2`) in the run, a second request, recheck, attempt and result resting on o1 (`request_limit` 1), the packet citing the same approval event for two transfers (`additional_executions`, a second settlement anchor) | DPS `action_binding` failed first (rule 5: `q2: o1 covers 1 request(s), already used by q1`; the specification requested twice); verdict refused at step 3 (re-run `not_as_approved`: no approval covers the second attempt); packet APPROVAL_EVENT_CITED_TWICE (it sees the duplicate, not whether a limit allows it); K5, K7. Thaha CHECKS_PERFORMED and J1-J6 true: each receipt is fine on its own, the run alone cannot see it (J7 false by its wording only: two signed confirms, not one) |
+| N17 money moved, nothing recorded | a settlement anchor for 120.00 EUR (txn `…-0931`, final) with no confirm/allow receipt, no DPS request or attempt, no verdict: approval event null, `further_anchors` empty, intent scope and executed action null | packet NOTHING_RECORDED, a result of its own (not VERIFIED, not a BREACH: scope `not_evaluated`); K3, K6, K7 (and K1, K2, K8-K10: no record to join). Thaha CHECKS_PERFORMED, DPS verified, verdict released: their documents are the recorded refund's and name no such transfer; they have nothing to say |
+
+**What N17 shows: the absent record.** The AUDIT charter discussion (Mirja, correctover) separates three outcomes a verifier can
+reach: denied (a record says no), could not be determined (a record exists and does not settle it), nothing recorded (no record
+at all). The first fifteen cases and N16 are of the first two kinds: a document is present and fails, or a verifier holds a
+document and cannot decide. N17 is the third: money moved and no link recorded a decision about it. Links 1 to 3 cannot raise it,
+not by weakness but by construction: Thaha's receipts, the Standard's attachment and Wright's verdict each verify what they hold,
+and they hold nothing about this transfer; in `out/negatives/N17…/` their documents are those of the recorded refund and verify
+as in the positive chain. Only the dispute layer holds the settlement, so only the packet can state that nothing stands behind it;
+the verifier's third result, NOTHING_RECORDED (this module's name, like `additional_executions` and APPROVAL_EVENT_CITED_TWICE
+in N16), keeps that statement apart from a pass and from a breach. N16 is the mirror: every link holds a document, and the
+first to see the second use is the one whose rule counts requests (action binding rule 5, `request_limit`); the packet sees
+one approval cited twice and cannot know whether a limit allowed it; the run sees two well-formed pairs and nothing wrong.
 
 ## The Goshi/Farley link, from the text: ambiguity log
 
@@ -149,7 +163,7 @@ that a second implementation of the profile could compute them.
 
 ```
 DPS_STANDARD=/path/to/decision-provenance-standard/standard python3 build.py      # exit 0 when all_verified
-DPS_STANDARD=... python3 negatives.py                                            # exit 0 when 15/15 where expected
+DPS_STANDARD=... python3 negatives.py                                            # exit 0 when 17/17 where expected
 ```
 
 Python 3.12, `cryptography`, `cbor2`, `jsonschema`, `referencing`. Both scripts are deterministic. `out/positive/` and
