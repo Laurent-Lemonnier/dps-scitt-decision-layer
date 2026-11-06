@@ -1,0 +1,19 @@
+{
+ "case": "N12-issuer-id-not-the-kid",
+ "expected_to_fail_at": [
+  "goshi:RECEIPT_ISSUER_KID_MISMATCH"
+ ],
+ "failed_at": [
+  "K12",
+  "goshi:RECEIPT_ISSUER_KID_MISMATCH"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "RECEIPT_ISSUER_KID_MISMATCH"
+ ],
+ "joins_false": [
+  "K12"
+ ]
+}

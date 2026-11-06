@@ -1,0 +1,19 @@
+{
+ "case": "N14-dispute-reason-code-missing",
+ "expected_to_fail_at": [
+  "goshi:DISPUTE_REASON_CODE_MISSING"
+ ],
+ "failed_at": [
+  "K12",
+  "goshi:DISPUTE_REASON_CODE_MISSING"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "DISPUTE_REASON_CODE_MISSING"
+ ],
+ "joins_false": [
+  "K12"
+ ]
+}

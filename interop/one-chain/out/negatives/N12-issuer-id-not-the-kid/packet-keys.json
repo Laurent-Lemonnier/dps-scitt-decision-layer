@@ -1,0 +1,5 @@
+{
+ "merchant_dispute_desk_ed25519_pub": "83949f703748d2281073b5c8b39da9c76434ab9a46c2194d12b9f822e8273936",
+ "auditor_ed25519_pub": "3bd8c5e157970cac5438da31f12ae7fce3115a356b2ccc3b6796ecbc3e207241",
+ "note": "test keys from fixed seeds; never use them for anything real"
+}

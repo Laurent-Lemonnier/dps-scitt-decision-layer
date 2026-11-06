@@ -1,0 +1,1 @@
+the payload's issuer_id names somebody else while the signature's kid and key_id name the merchant: Farley 2.2 says issuer_id MUST match kid; the signature itself verifies, since issuer_id is under it

@@ -1,0 +1,1 @@
+one member of A2 changed (observed succeeded -> failed) after the verdict cited its bytes: the checker holds no item with the cited digest and holds the verdict; the packet, which anchors on A1, not A2, verifies and says nothing
