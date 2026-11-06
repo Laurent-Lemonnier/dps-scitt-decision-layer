@@ -1,0 +1,26 @@
+{
+ "case": "R6-case-18-test-signature-under-this-policy",
+ "expected_to_fail_at": [
+  "dps"
+ ],
+ "failed_at": [
+  "dps"
+ ],
+ "as_expected": true,
+ "person_signature": {
+  "status": "failed",
+  "signature": "failed",
+  "subject": "verified",
+  "key_state": "not_checked",
+  "identity": "not_checked",
+  "authenticator": null
+ },
+ "person_signature_findings": [
+  "finance-controller-1-key-1 is not a key in the trust policy",
+  "the key is not in the trust policy, so it binds no one"
+ ],
+ "verdict_state": "released",
+ "packet": "VERIFIED",
+ "packet_failures": [],
+ "joins_false": []
+}

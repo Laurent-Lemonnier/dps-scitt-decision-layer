@@ -1,0 +1,41 @@
+{
+ "case": "R5-approval-after-the-allow-on-the-real-timeline",
+ "expected_to_fail_at": [
+  "J2",
+  "K2",
+  "dps",
+  "verdict:refused"
+ ],
+ "failed_at": [
+  "J2",
+  "K12",
+  "K2",
+  "K5",
+  "K7",
+  "dps",
+  "verdict:refused"
+ ],
+ "as_expected": true,
+ "person_signature": {
+  "status": "verified",
+  "signature": "verified",
+  "subject": "verified",
+  "key_state": "verified",
+  "identity": "verified",
+  "authenticator": {
+   "user_present": true,
+   "user_verified": true,
+   "cross_origin": false
+  }
+ },
+ "person_signature_findings": [],
+ "verdict_state": "refused",
+ "packet": "VERIFIED",
+ "packet_failures": [],
+ "joins_false": [
+  "K2",
+  "K5",
+  "K7",
+  "K12"
+ ]
+}

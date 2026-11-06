@@ -1,0 +1,21 @@
+{
+ "status": "failed",
+ "key_ref": "finance-controller-1-key-1",
+ "algorithm": "Ed25519",
+ "signature": "failed",
+ "subject": "verified",
+ "key_state": "not_checked",
+ "identity": "not_checked",
+ "authenticator": null,
+ "identity_holder": null,
+ "identity_issuer_named": null,
+ "key_state_time": null,
+ "key_state_basis": null,
+ "findings": [
+  "finance-controller-1-key-1 is not a key in the trust policy",
+  "the key is not in the trust policy, so it binds no one"
+ ],
+ "client_data": "unreadable: 'client_data_json_b64'",
+ "signed_bytes_sha256": "6c7c663d1324e25fba0e4eec933be95ada6261705df78fff5fb1ef22359333ae",
+ "signature_value_sha256": "7f4b7fdbaaa7ca87e91a75e0424541e63dbe1919ec5c2b8d556516dab1a6192c"
+}

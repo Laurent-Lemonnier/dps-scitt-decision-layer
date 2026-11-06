@@ -1,0 +1,8 @@
+{
+ "harness_evidence_service_ed25519_pub": "7234840a7eb25adc3b8a08b10e40aa20f05900d73018439745fa0ee9979a90cb",
+ "agent_ed25519_pub": "fd41d1be02bd708319f2f5a7c2d8df08f89bc10f38c8c17c2da23a4406d31ee1",
+ "dps_issuer_ed25519_pub": "eda5a16a2f8d7dfc4282bf23a489ac106d1c169d739828d8a492792292a85064",
+ "note": "the passkey is Laurent Lemonnier's, enrolled on sign.pria.fr on 2026-11-04T23:06:01Z (public key only); the Harness, agent, DPS issuer, auditor and merchant keys are test keys from fixed seeds, never for anything real",
+ "approver_passkey_p256_uncompressed_point_hex": "040f07a8c56630cc5fc6a11bbfe21de77d6bdbbc82b1d4272985d457620667fb8d8f837eab57fd3137b39e224b1df008e58cbcf339a1bcb77ee67aa298bf2a2943",
+ "approver_passkey_key_ref": "laurent-passkey-1"
+}

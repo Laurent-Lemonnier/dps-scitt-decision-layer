@@ -1,0 +1,30 @@
+{
+ "case": "R4-another-credential-under-the-same-key-ref",
+ "expected_to_fail_at": [
+  "dps"
+ ],
+ "failed_at": [
+  "dps"
+ ],
+ "as_expected": true,
+ "person_signature": {
+  "status": "failed",
+  "signature": "failed",
+  "subject": "verified",
+  "key_state": "not_checked",
+  "identity": "not_checked",
+  "authenticator": {
+   "user_present": true,
+   "user_verified": true,
+   "cross_origin": false
+  }
+ },
+ "person_signature_findings": [
+  "the signature does not verify over authenticatorData || SHA-256(clientDataJSON)",
+  "the signature is not verified, so no one signed these bytes with this key"
+ ],
+ "verdict_state": "released",
+ "packet": "VERIFIED",
+ "packet_failures": [],
+ "joins_false": []
+}

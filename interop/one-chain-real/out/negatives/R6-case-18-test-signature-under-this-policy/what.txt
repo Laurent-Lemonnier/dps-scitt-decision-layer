@@ -1,0 +1,1 @@
+the finance controller's Ed25519 test signature of case 18 (finance-controller-1-key-1) is attached in place of the passkey assertion: the key is not in this chain's trust policy, which binds one person's key, laurent-passkey-1; the Standard's check names it as not a key in the trust policy, and the identity dimension is not checked

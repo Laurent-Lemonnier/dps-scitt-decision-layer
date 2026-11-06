@@ -1,0 +1,30 @@
+{
+ "status": "verified",
+ "key_ref": "laurent-passkey-1",
+ "algorithm": "WebAuthn-ES256",
+ "signature": "verified",
+ "subject": "verified",
+ "key_state": "verified",
+ "identity": "verified",
+ "authenticator": {
+  "user_present": true,
+  "user_verified": true,
+  "cross_origin": false
+ },
+ "identity_holder": "laurent-lemonnier",
+ "identity_issuer_named": "laurent-lemonnier",
+ "key_state_time": "2026-11-06T19:05:00Z",
+ "key_state_basis": "stated_time",
+ "findings": [],
+ "client_data": {
+  "type": "webauthn.get",
+  "origin": "https://sign.pria.fr",
+  "crossOrigin": false
+ },
+ "challenge_is_sha256_of_signed_bytes": true,
+ "rp_id_hash_is": "sign.pria.fr",
+ "flags_byte": "0x1d",
+ "signature_counter": 0,
+ "signed_bytes_sha256": "56cd9dea0c06a41bec53fa6263e238a4ec3ed7ea96905e0d31c87ae35df1786b",
+ "signature_value_sha256": "9cdba62ae4e0df39b232891f2fa2c8616ce7c2261323cafd81efe1c2923d1466"
+}
