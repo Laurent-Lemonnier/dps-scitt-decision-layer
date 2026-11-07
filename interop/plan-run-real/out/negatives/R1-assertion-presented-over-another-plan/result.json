@@ -1,0 +1,32 @@
+{
+ "what": "the person's real assertion is presented as the approval of another plan: step 1 creates the CRM record under another legal name (the plan hash follows, A1 names that plan, the review was shown it, the run executed it, the capsules and the manifest agree with it: every join is true), and the passkey assertion is attached to the person_approval whose digests are that plan's. The Standard's check rebuilds the signed bytes from these fields and finds the challenge in the client data is not their SHA-256: the person signed the other plan. Only the Standard sees it: the joins read digests, the capsule library reads capsules",
+ "caught_by": [
+  "dps_person_signatures",
+  "real_approval"
+ ],
+ "expected_place": "real_approval",
+ "as_expected": true,
+ "real_approval": "failed",
+ "detail": {
+  "dps_person_signatures": [
+   {
+    "stage": "o0",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked"
+   }
+  ],
+  "real_approval": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "not_checked",
+   "findings": [
+    "the challenge is not the SHA-256 of the signed bytes",
+    "the signature is not verified, so no one signed these bytes with this key"
+   ]
+  }
+ }
+}

@@ -1,0 +1,136 @@
+[
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:example:plan-run:2026-11-06-0471:step:0",
+  "action_type": "decide",
+  "operator": "example broker runtime",
+  "developer": "example",
+  "timestamp": "2026-11-07T09:55:11Z",
+  "domain": "client_onboarding",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": true,
+   "authority": "urn:example:policy:onboarding-plans#2026-11-01#o0",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.drive_document_create",
+   "request_digest": "81bd7004313f1392816b028e93327614610769bccea4a2939a0e91cf47aa9594",
+   "response_digest": "cf24823761067077ac40b4a6ef8b0a14a8a0f0660d1bd0bd4570fdee9170fdea",
+   "external_ref": "urn:example:drive:document:D-88213",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "fc554f95ec2a051d0b3e9c495728cf088dd0f3d24944b20d9afdb89f203a59d8",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "net.isoluce.plan_run_context",
+    "digest_alg": "SHA-256",
+    "digest": "40be6cb34d8c0af449da7b31b35faeac61798d70ae09c1ac667149727ef0776e",
+    "citation_purpose": "ran_under"
+   }
+  ],
+  "capsule_id": "975e20334a7fca82ef8c026084644e8417662d17b9b4fa15d9c2d4e01ced9e07"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:example:plan-run:2026-11-06-0471:step:1",
+  "action_type": "decide",
+  "operator": "example broker runtime",
+  "developer": "example",
+  "timestamp": "2026-11-07T09:55:39Z",
+  "domain": "client_onboarding",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:onboarding-plans#2026-11-01#o0",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.crm_client_create",
+   "request_digest": "1af131b458b707480c940cf9a6e3254169af59d90268f36c4bf667256e1264c7",
+   "response_digest": "ed3bac706eb14251457574882a67914759e05fc22578c3f6f5b950bd54e5443e",
+   "external_ref": "urn:example:crm:client:R-30417",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "fc554f95ec2a051d0b3e9c495728cf088dd0f3d24944b20d9afdb89f203a59d8",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "net.isoluce.plan_run_context",
+    "digest_alg": "SHA-256",
+    "digest": "5eb21949294f7617b0ca32d329cb6e8ac0dc97a25dee8c3d1d406f862d4e1636",
+    "citation_purpose": "ran_under"
+   }
+  ],
+  "chain": {
+   "parent_capsule_id": "975e20334a7fca82ef8c026084644e8417662d17b9b4fa15d9c2d4e01ced9e07",
+   "relation": "follows"
+  },
+  "capsule_id": "96c638710cad64b2587b48f991d67de32eb2aedfe001dc247b8cca068e8a3d73"
+ },
+ {
+  "spec_version": "0.12",
+  "format_version": "4",
+  "canonicalization_id": "jcs",
+  "action_id": "urn:example:plan-run:2026-11-06-0471:step:2",
+  "action_type": "decide",
+  "operator": "example broker runtime",
+  "developer": "example",
+  "timestamp": "2026-11-07T09:56:04Z",
+  "domain": "client_onboarding",
+  "disposition": {
+   "decision": "accept",
+   "approver": "human",
+   "human_disposed": false,
+   "authority": "urn:example:policy:onboarding-plans#2026-11-01#o0",
+   "verdict_class": "executed"
+  },
+  "effect": {
+   "status": "confirmed",
+   "type": "org.example.chat_message_send",
+   "request_digest": "d4e884869364d76a77420e92e1c217a6293f6ff9458fc8e7c3f9e81bcc96dd47",
+   "response_digest": "9a10de449109c23bcbcc3bed07c55f379bc27ed13ffe1023742331424e1f2eb5",
+   "external_ref": "urn:example:chat:message:M-551902",
+   "irreversibility_class": "one_way_recoverable",
+   "effect_attestation": "runtime_claimed"
+  },
+  "references": [
+   {
+    "type": "org.decisionprovenancestandard.decision_record",
+    "digest_alg": "SHA-256",
+    "digest": "fc554f95ec2a051d0b3e9c495728cf088dd0f3d24944b20d9afdb89f203a59d8",
+    "citation_purpose": "ran_under"
+   },
+   {
+    "type": "net.isoluce.plan_run_context",
+    "digest_alg": "SHA-256",
+    "digest": "815da495c42ab626ed273d0785bf2118810b728aaed5878d06c6c9c0c29279bc",
+    "citation_purpose": "ran_under"
+   }
+  ],
+  "chain": {
+   "parent_capsule_id": "96c638710cad64b2587b48f991d67de32eb2aedfe001dc247b8cca068e8a3d73",
+   "relation": "follows"
+  },
+  "capsule_id": "b972ea2d201b8beecd3e05229a67beb5aa70f88095c1636e77496ac27313ed1b"
+ }
+]

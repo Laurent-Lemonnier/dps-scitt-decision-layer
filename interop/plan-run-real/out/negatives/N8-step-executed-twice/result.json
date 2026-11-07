@@ -1,0 +1,14 @@
+{
+ "what": "the CRM step runs twice: two capsules, one plan step",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "real_approval": "verified",
+ "detail": {
+  "joins": [
+   "every step of the approved plan has exactly one capsule whose request is that step, with the arguments the plan resolves from the outputs recorded, and the manifest lists that capsule at that index"
+  ]
+ }
+}

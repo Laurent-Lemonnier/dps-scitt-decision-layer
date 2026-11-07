@@ -1,0 +1,118 @@
+{
+ "profile": "dps-action-binding",
+ "profile_version": "0.3.0",
+ "decision_id": "DR-2026-1106",
+ "action_specifications": [
+  {
+   "spec_digest": "9bcd02489a574d792a35375125919c2cbba177acd44c045ee5c1211c8a1b3a7b",
+   "representation": {
+    "kind": "original_bytes",
+    "media_type": "application/json"
+   },
+   "content": {
+    "availability": "available",
+    "bytes_b64": "eyJvcGVyYXRpb24iOiJ3b3JrZmxvdy5ydW4iLCJ0YXJnZXQiOiJ1cm46ZXhhbXBsZTp0ZW5hbnQ6YnJva2VyYWdlLTEiLCJwYXJhbWV0ZXJzIjp7InVzZWNhc2VfcmVmIjoidXJuOmV4YW1wbGU6dXNlY2FzZTpvbmJvYXJkaW5nX2NsaWVudEAxLjAuMCIsInBsYW5faGFzaCI6ImExNzFjOTAyZTBmOWUxMDI4MjkwYmNhYjVhZGYwYWQwMTdmYzhhNTAzYjJhNzA5ZDIyNWY3MGQxYTg5MzhiYmQiLCJzdGVwcyI6W3siaW5kZXgiOjAsIm9wZXJhdGlvbiI6ImRyaXZlLmRvY3VtZW50LmNyZWF0ZSIsInRhcmdldCI6InVybjpleGFtcGxlOmRyaXZlOmZvbGRlcjpjbGllbnRzL0MtNDQ3MSIsInBhcmFtZXRlcnMiOnsidGVtcGxhdGVfcmVmIjoidXJuOmV4YW1wbGU6ZHJpdmU6dGVtcGxhdGU6b25ib2FyZGluZy12NyIsImNsaWVudF9yZWYiOiJ1cm46ZXhhbXBsZTpjbGllbnQ6Qy00NDcxIiwidGl0bGUiOiJPbmJvYXJkaW5nIEMtNDQ3MSJ9fSx7ImluZGV4IjoxLCJvcGVyYXRpb24iOiJjcm0uY2xpZW50LmNyZWF0ZSIsInRhcmdldCI6InVybjpleGFtcGxlOmNybTpicm9rZXJhZ2UtMSIsInBhcmFtZXRlcnMiOnsiY2xpZW50X3JlZiI6InVybjpleGFtcGxlOmNsaWVudDpDLTQ0NzEiLCJsZWdhbF9uYW1lIjoiRXhhbXBsZSBDbGllbnQgNDQ3MSBIb2xkaW5nIFNBUyIsInNlZ21lbnQiOiJzbWFsbC1idXNpbmVzcyIsImRvY3VtZW50X3JlZiI6eyIkcmVmIjoic3RlcHNbMF0ub3V0cHV0cy5kb2N1bWVudF9yZWYifX19LHsiaW5kZXgiOjIsIm9wZXJhdGlvbiI6ImNoYXQubWVzc2FnZS5zZW5kIiwidGFyZ2V0IjoidXJuOmV4YW1wbGU6Y2hhdDpjaGFubmVsOm9uYm9hcmRpbmciLCJwYXJhbWV0ZXJzIjp7InRleHQiOiJOZXcgY2xpZW50IEMtNDQ3MSBvbmJvYXJkZWQuIiwiZG9jdW1lbnRfcmVmIjp7IiRyZWYiOiJzdGVwc1swXS5vdXRwdXRzLmRvY3VtZW50X3JlZiJ9LCJjcm1fcmVjb3JkX3JlZiI6eyIkcmVmIjoic3RlcHNbMV0ub3V0cHV0cy5jcm1fcmVjb3JkX3JlZiJ9fX1dfSwiaW5wdXRfdmVyc2lvbl9yZWZzIjpbInVybjpleGFtcGxlOnVzZWNhc2U6b25ib2FyZGluZ19jbGllbnRAMS4wLjAiLCJ1cm46ZXhhbXBsZTpjbGllbnQtYnJpZWY6Qy00NDcxOnYzIl0sInBvbGljeV92ZXJzaW9uIjoic2hhMjU2OmRmNWU2MDA1ZjdjNWJmOWFkMjY5ZWVmMDZiNWRhNjk4OWIyMWVmNjk1NzFlZDEyYjFmODMyMWNlMGYwZDM3ZDEiLCJ2YWxpZF91bnRpbCI6IjIwMjYtMTEtMDlUMTI6MDA6MDBaIn0="
+   },
+   "summary": {
+    "operation": "workflow.run",
+    "target": "urn:example:tenant:brokerage-1",
+    "policy_version": "sha256:df5e6005f7c5bf9ad269eef06b5da6989b21ef69571ed12b1f8321ce0f0d37d1",
+    "input_version_refs": [
+     "urn:example:usecase:onboarding_client@1.0.0",
+     "urn:example:client-brief:C-4471:v3"
+    ]
+   }
+  }
+ ],
+ "stages": [
+  {
+   "stage_id": "p0",
+   "kind": "proposal",
+   "at": "2026-11-07T09:36:59Z",
+   "origin": "ai",
+   "spec_digest": "9bcd02489a574d792a35375125919c2cbba177acd44c045ee5c1211c8a1b3a7b",
+   "deployer_role_pointer": "urn:example:role:onboarding-drafting",
+   "system_name": "onboarding-assistant",
+   "version": "3"
+  },
+  {
+   "stage_id": "v0",
+   "kind": "review",
+   "at": "2026-11-07T09:44:59Z",
+   "reviewer_ref": "laurent-lemonnier",
+   "shown_spec_digest": "9bcd02489a574d792a35375125919c2cbba177acd44c045ee5c1211c8a1b3a7b",
+   "proposal_ref": "p0",
+   "shown_view_ref": "https://sign.pria.fr/approve.html#e88afa26561595a3bd7ce558f4ea5d83",
+   "shown_view_digest": "9f6acae4b03c7304e640722427b9115ce235198a0b4d6b45639e07929a323596"
+  },
+  {
+   "stage_id": "o0",
+   "kind": "outcome",
+   "at": "2026-11-07T09:49:59Z",
+   "review_ref": "v0",
+   "outcome": "approved",
+   "actor_ref": "laurent-lemonnier",
+   "method": "WebAuthn-ES256 passkey assertion (sign.pria.fr) over the DPS person_approval assertion",
+   "approved_spec_digest": "9bcd02489a574d792a35375125919c2cbba177acd44c045ee5c1211c8a1b3a7b",
+   "request_limit": 1,
+   "authority": {
+    "authority_ref": "urn:example:policy:onboarding-plans#2026-11-01"
+   },
+   "rationale": {
+    "timing": "contemporaneous",
+    "ai_assisted": false,
+    "recorded_at": "2026-11-07T09:49:59Z",
+    "text_ref": "urn:example:rationale:plan-0471"
+   },
+   "core_ref": {
+    "field": "review_log",
+    "index": 0
+   }
+  },
+  {
+   "stage_id": "q0",
+   "kind": "request",
+   "at": "2026-11-07T09:54:59Z",
+   "request_id": "urn:example:plan-run:2026-11-06-0471",
+   "authorised_by": "o0",
+   "spec_digest": "9bcd02489a574d792a35375125919c2cbba177acd44c045ee5c1211c8a1b3a7b",
+   "requested_by": "urn:example:service:onboarding-routine"
+  },
+  {
+   "stage_id": "c0",
+   "kind": "recheck",
+   "at": "2026-11-07T09:55:04Z",
+   "request_ref": "q0",
+   "result": "authorised",
+   "authority_source_ref": "urn:example:policy:onboarding-plans#2026-11-01"
+  },
+  {
+   "stage_id": "x0",
+   "kind": "attempt",
+   "at": "2026-11-07T09:55:09Z",
+   "request_ref": "q0",
+   "recheck_ref": "c0",
+   "spec_digest": "9bcd02489a574d792a35375125919c2cbba177acd44c045ee5c1211c8a1b3a7b",
+   "executor_ref": "urn:example:executor:broker-runtime",
+   "trace_refs": [
+    "urn:example:plan-run:2026-11-06-0471"
+   ]
+  },
+  {
+   "stage_id": "r0",
+   "kind": "result",
+   "at": "2026-11-07T09:56:19Z",
+   "attempt_ref": "x0",
+   "observed": "succeeded",
+   "basis": "executor_observation",
+   "evidence_ref": "urn:example:plan-run-manifest:sha256:fdb963cf528dcd48e2fdeea6490a88cb2128f226b6783a2ec2cd6038dea76365"
+  }
+ ],
+ "issuer_signature": {
+  "algorithm": "Ed25519",
+  "key_ref": "example-brokerage-issuer-key-1",
+  "signed_bytes_ref": "dps-signatures 0.2.0 organisation_seal",
+  "sealed_at": "2026-11-07T09:56:59Z",
+  "value_b64": "j9mAS8lY9jWTFr4VoAkbJY6fPxerXtE60hdz5heMCHJ3cELykuV+lFJaR+X/MAL+ez33M9TlynPvsbu8AegHAw=="
+ }
+}

@@ -1,0 +1,1 @@
+the whole run is issued under another decision record, DR-2026-1107 (record, A1, manifest, capsules' references agree), and the person's assertion is attached to its o0: the challenge is not the SHA-256 of bytes naming DR-2026-1107; the person approved the plan of DR-2026-1106

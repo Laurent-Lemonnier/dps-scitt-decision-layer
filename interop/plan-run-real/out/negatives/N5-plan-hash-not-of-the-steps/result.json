@@ -1,0 +1,36 @@
+{
+ "what": "the plan the person approved carries a plan_hash that is not the hash of its steps",
+ "caught_by": [
+  "dps_person_signatures",
+  "joins",
+  "real_approval"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "real_approval": "failed",
+ "detail": {
+  "dps_person_signatures": [
+   {
+    "stage": "o0",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked"
+   }
+  ],
+  "joins": [
+   "the approved plan's plan_hash is the hash of its executable steps, as the policy defines it"
+  ],
+  "real_approval": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "not_checked",
+   "findings": [
+    "the challenge is not the SHA-256 of the signed bytes",
+    "the signature is not verified, so no one signed these bytes with this key"
+   ]
+  }
+ }
+}

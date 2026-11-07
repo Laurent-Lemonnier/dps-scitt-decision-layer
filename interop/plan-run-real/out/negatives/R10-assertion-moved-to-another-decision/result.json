@@ -1,0 +1,32 @@
+{
+ "what": "the whole run is issued under another decision record, DR-2026-1107 (record, A1, manifest, capsules' references agree), and the person's assertion is attached to its o0: the challenge is not the SHA-256 of bytes naming DR-2026-1107; the person approved the plan of DR-2026-1106",
+ "caught_by": [
+  "dps_person_signatures",
+  "real_approval"
+ ],
+ "expected_place": "real_approval",
+ "as_expected": true,
+ "real_approval": "failed",
+ "detail": {
+  "dps_person_signatures": [
+   {
+    "stage": "o0",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked"
+   }
+  ],
+  "real_approval": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "not_checked",
+   "findings": [
+    "the challenge is not the SHA-256 of the signed bytes",
+    "the signature is not verified, so no one signed these bytes with this key"
+   ]
+  }
+ }
+}

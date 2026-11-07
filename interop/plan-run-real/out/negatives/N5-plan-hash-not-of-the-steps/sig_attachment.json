@@ -1,0 +1,25 @@
+{
+ "profile": "dps-signatures",
+ "profile_version": "0.2.0",
+ "person_signatures": [
+  {
+   "profile": "dps-signatures",
+   "profile_version": "0.2.0",
+   "assertion": "person_approval",
+   "decision_id": "DR-2026-1106",
+   "stage_id": "o0",
+   "outcome": "approved",
+   "shown_spec_digest": "3c0d7a54ce20d4a86204a60010b7a85162f5276ce7aaa6e0b07a7d33abd941bd",
+   "shown_view_digest": "de6c8f676510b8cad0b93d38d87782cdf9e56a6e4a6fa968e34c735dbe4feb57",
+   "approved_spec_digest": "3c0d7a54ce20d4a86204a60010b7a85162f5276ce7aaa6e0b07a7d33abd941bd",
+   "signed_at": "2026-11-07T09:49:59Z",
+   "signature": {
+    "algorithm": "WebAuthn-ES256",
+    "key_ref": "laurent-passkey-1",
+    "value_b64": "MEUCID3Qe7ECyXSApigjImdCyZA+bpjPne6eVq1HOeKan1IHAiEA3wG8XUtM+NmdJUejvUBNyPEmISSOGe0Qa2fzTgAn9II=",
+    "authenticator_data_b64": "gIrliZDj80fNdwVDDYisYqQaa4JvqzTnzGCs60DZvNsdAAAAAA==",
+    "client_data_json_b64": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiT1ByNHp6T1JWS1UzQWFkMUplS3lUOHZQd3hlaWxaa3dXOTlHRi00VXZVQSIsIm9yaWdpbiI6Imh0dHBzOi8vc2lnbi5wcmlhLmZyIiwiY3Jvc3NPcmlnaW4iOmZhbHNlfQ=="
+   }
+  }
+ ]
+}

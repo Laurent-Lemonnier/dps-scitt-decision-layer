@@ -1,0 +1,15 @@
+{
+ "what": "the manifest records another document than step 0's capsule committed to; the CRM record and the message carry that other document",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "real_approval": "verified",
+ "detail": {
+  "joins": [
+   "an argument resolved from an earlier step's output equals the output that step recorded, which its own capsule committed to (response_digest)",
+   "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+  ]
+ }
+}

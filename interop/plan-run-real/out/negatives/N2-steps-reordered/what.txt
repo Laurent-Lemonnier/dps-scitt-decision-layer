@@ -1,0 +1,1 @@
+the message (2) is sent before the CRM record (1) exists; the capsules and the manifest say so

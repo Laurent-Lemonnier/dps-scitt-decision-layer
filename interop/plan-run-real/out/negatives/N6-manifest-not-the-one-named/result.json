@@ -1,0 +1,21 @@
+{
+ "what": "the DPS result names another manifest than the one held",
+ "caught_by": [
+  "dps_issuer_seal",
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "real_approval": "verified",
+ "detail": {
+  "dps_issuer_seal": {
+   "status": "failed",
+   "key_state": "not_checked",
+   "holder": "Example Brokerage",
+   "attests": "issuer_recorded_claims_only"
+  },
+  "joins": [
+   "the DPS result names the run manifest held, by its digest"
+  ]
+ }
+}
