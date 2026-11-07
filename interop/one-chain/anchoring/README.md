@@ -90,3 +90,10 @@ DPS_STANDARD=/path/to/decision-provenance-standard/standard python3 verify.py   
 
 Python 3.12, `cryptography`, `jsonschema`, `asn1crypto` (the reference check's imports). No network: `ots verify` would
 need a Bitcoin node and is not used; the headers are the pinned file.
+
+## History note (7 November 2026)
+
+The anchoring files landed in two commits by mistake of the push tooling: 0c44f18 and 35e6d64 carried the directory
+without `subjects/verdict-record.json`, `subjects/verdict-record.json.ots` and case 18b's `verdict-record.json.ots`,
+which arrived in 647ceba with unrelated files; CI was red on 35e6d64 for that reason only. `verify.py` now names a
+missing subject or proof instead of failing on it, and `SHA256SUMS` lists the `.ots` files too.

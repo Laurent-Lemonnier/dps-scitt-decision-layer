@@ -86,6 +86,9 @@ def run(here=HERE, case=CASE):
     VA = load("verify_anchor", INTEROP / "umarise" / "verify_anchor.py")
     std_root, RC = standard()
     sub = here / "subjects"
+    missing = [n for name in SUBJECTS for n in (name, name + ".ots") if not (sub / n).exists()]
+    if missing:
+        sys.exit(f"{case.name}/anchoring: subject or proof file(s) absent from {sub} (not committed?): {', '.join(missing)}")
     hdr_dir = here / "headers"
     sources = json.loads((hdr_dir / "SOURCES.json").read_text())
     headers_path = hdr_dir / sources["file"]

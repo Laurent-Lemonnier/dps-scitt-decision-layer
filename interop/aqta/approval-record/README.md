@@ -9,6 +9,27 @@ Standard, unchanged, at the repository's main branch commit `007f8c9`.
 `build.py` makes every artefact from two test keys and verifies them three ways, then checks the bindings of §8.2.
 Output in `out/`; the run's verdicts in `out/summary.json`.
 
+**Read against attestation-spec `5c38c71` on 7 November 2026 (pin moved from `9c28d49`).** Between the two commits,
+ACTION-v1 did not change (the diff touches `CHANGELOG.md`, ATTESTATION-v1 §4 and GRANT-v1 only; no vector changed).
+GRANT-v1, still a draft, gained an optional member `approver_policy_sha256`: the lowercase hex SHA-256 of the RFC 8785
+bytes of "the approver trust policy under which the signer acts as an approver" (§4), checked for shape at step 11 of
+§7.1, compared by the relying party with the policy it holds (§7.2, "Binding the policy": equal, signed under the policy
+held; different, not designated by it even if the key is listed), approver-attested (§8); its changelog says the member
+was prompted by this example. **This example does not change.** It sets no `approver_policy_sha256` and relies on none:
+its Seal record is an ACTION-v1 record, which has no such member and refuses unknown members, and no GRANT-v1 record
+appears here. The binding the member provides already exists here under the same comparison rule: the specification's
+`policy_version` is `sha256:` + the digest of the designating policy's bytes, under the person's signature through the
+specification digest, and the verifier compares it with the policy it holds (`policy_digest`; N4 is the mismatch, N5 the
+policy not held). Two differences for a reader mapping one onto the other. The document named: GRANT-v1 §7.2 digests the
+*relying party's* approver trust policy, the one that makes a key an approver; here, since issue 93, the digest names
+the *issuer's* designating policy (who may approve this operation for this target), while the verifier's
+`trust-policy.json` maps the key to the person, designates nobody and is not digested. The form: 64 hex characters in the
+grant's own payload there; `sha256:`-prefixed, inside the specification the approval signs, here. The member is not yet
+issued by the boundary and aqta-verify-receipt 1.4.0 refuses it until the next release, so there is nothing to
+interoperate with yet; when its vectors ship (matching, mismatching, malformed digest), a GRANT-v1 record carrying the
+digest of the policy the relying party holds could be added beside the action record, as a new artefact, not a change
+to this one.
+
 **Revised on 29 October 2026, after the Standard's Steward answered issue 93.** The designating policy is the issuer's
 document that names who may approve this operation for this target, not the verifier's trust policy (the first version
 of this example used the trust policy, which was wrong). Nothing in the Standard changes: the policy is signed
