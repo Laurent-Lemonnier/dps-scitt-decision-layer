@@ -205,6 +205,14 @@ case **held**), adapter. `wright-vectors/results.json` holds the three per case 
 - Main vectors: 37/37 same state after the fixes above (36/37 before: a11); step results differ on b03 only (step 3
   after a step 1 FAIL: his PASS, this checker NOT RUN; same state).
 
+On 7 November 2026 Ramesh Rampertab (IronTrellis) posted a proposed -01 section "Checking a cited entry"; a format rule for
+the two IronTrellis formats of p08 was written from that text alone (`wright-vectors/irontrellis_formats.py`, eleven readings
+in its docstring) and run as a third mode, `adapter+irontrellis`: p08 then gives held, step 1 PASS, **step 2 PASS**, step 3
+NOT RUN (the rule `…/conformance#authorization` is the replay itself, which his text does not yet write), the state and
+steps his `expected_under_02` gives. His procedure applied to p08's own citation gives INVALID CITATION (no challenge profile
+and no suite digest in the record; the suite index did not exist at the commit p08 cites). `wright-vectors/P08-IRONTRELLIS-20261107.md`
+has the results, the readings and five points for the author.
+
 The vectors themselves are not copied here; the run names the commit. p08 cites two IronTrellis files his repository
 links rather than carries: `wright-vectors/p08-evidence/` holds `budget-v2.json` as fetched and the digests of both
 (`SHA256SUMS`); `vectors.json` (1.4 MB) is fetched before a run (below), its digest checked by the adapter before the

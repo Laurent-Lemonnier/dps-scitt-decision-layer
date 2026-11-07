@@ -386,16 +386,99 @@
      },
      "policy_sha256": "e238e4cf2d6e36d6ea866075b24d88c0401beac6d22966c0ef0ef71571207745",
      "upper_time_bound": "2026-11-01T12:00:00.000000Z"
+    },
+    "adapter+irontrellis": {
+     "state": "held",
+     "steps": {
+      "1": "PASS",
+      "2": "PASS",
+      "3": "NOT RUN"
+     },
+     "reasons": {
+      "3": "Section 4.3 step 3: the checker does not hold the specification of rule 'https://github.com/zerohourzulu/irontrellis/tree/a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387/conformance#authorization'"
+     },
+     "policy_sha256": "e238e4cf2d6e36d6ea866075b24d88c0401beac6d22966c0ef0ef71571207745",
+     "upper_time_bound": "2026-11-01T12:00:00.000000Z"
     }
    },
    "agrees_with_expected_under_02": {
     "state": true,
-    "steps": false
+    "steps": true
    },
    "p08_evidence_fetched_and_digest_matched": [
     "307fdb7ceb170a7f14341a6f1ca8b54cbb7facc9e87a5e72d1e82bf4f8955777",
     "6e97be5b26e39cae691c260787abc2f74790506348f6e62aaa25a3d5c5f8be34"
-   ]
+   ],
+   "irontrellis": {
+    "suite_index_sha256": "4c745f10e00564eb7e48af35e4e592ae6ebed003c6b16affa5556b42f338a68b",
+    "pin_accepted": "4c745f10e00564eb7e48af35e4e592ae6ebed003c6b16affa5556b42f338a68b",
+    "manifest_sha256": "7ef46dda893a7840fd0017767265633b6a1a34fe6aef372b7e9b031d5fbdade8",
+    "manifest_listed_in_index": true,
+    "challenge_profile": "g3",
+    "cited_entry": {
+     "anchoring": "UNANCHORED",
+     "head": {
+      "hash": "0x7cbde34ec02f0fcce4c50c80a4654d908bdc49d64fc4224c4b53d4cf49d67108",
+      "position": 39,
+      "canonicalTime": 1100
+     },
+     "head_source": "the vector entry bound at check.inputs.case (evidence[0]/57), published by the implementer in the suite; not an owner head attestation, witness or chain anchor",
+     "as_of": 1100,
+     "steps": [
+      {
+       "1": "INVALID CITATION",
+       "missing": [
+        "the replay identifier (challenge_profile, suite_index_sha256 not named by the record; a source commit is for retrieval only)"
+       ]
+      }
+     ],
+     "replay_identifier_in_citation": {
+      "operation_version": "continuity-authorization/0.2",
+      "challenge_profile": null,
+      "suite_index_sha256": null,
+      "source_commit_in_urls": "a2c487f6cd3afee2e35c7f7f1b64c9d966bf8387"
+     },
+     "outcome": "INVALID CITATION",
+     "why": "step 1: the citation does not bind: the replay identifier (challenge_profile, suite_index_sha256 not named by the record; a source commit is for retrieval only)",
+     "with_checker_suite_as_identifier": {
+      "identifier_taken": {
+       "operation_version": "continuity-authorization/0.2",
+       "challenge_profile": "g3",
+       "suite_index_sha256": "4c745f10e00564eb7e48af35e4e592ae6ebed003c6b16affa5556b42f338a68b"
+      },
+      "steps": [
+       {
+        "1": "done"
+       },
+       {
+        "2": "done",
+        "compared": [
+         "domain",
+         "policyVersion",
+         "rootRecognitionPolicy"
+        ]
+       },
+       {
+        "3": "stopped",
+        "position_reached": 39,
+        "timestamp_at_p": 1100,
+        "records_after_p_dropped": 0,
+        "hash_at_p": "not recomputed: the record-chain hashing and canonical record encoding are not in the text held (reading 11)"
+       },
+       {
+        "4": "NOT RUN",
+        "why": "this checker does not implement the replay identifier named",
+        "identifier": {
+         "operation_version": "continuity-authorization/0.2",
+         "challenge_profile": "g3",
+         "suite_index_sha256": "4c745f10e00564eb7e48af35e4e592ae6ebed003c6b16affa5556b42f338a68b"
+        }
+       }
+      ],
+      "outcome": "NOT RUN"
+     }
+    }
+   }
   }
  }
 }

@@ -20,8 +20,14 @@ What the adapter supplies, and why (every item is a checker input or presenter i
 - format rules (Section 4.3 step 2, Section 7): the test-only formats as the READMEs define them: opaque,
   provider-attestation and inference-proof always verify; never-verifies never does; an item's `upper_time_bound`,
   where the case gives one, is what its verification gives. salted-commitment: this checker holds no salt, so no
-  item verifies (the policy of p06 does not list it anyway). IronTrellis formats (p08): no rules held here.
-- rule urn:example:verdict-record:rule:at-least as the top-level README defines it.
+  item verifies (the policy of p06 does not list it anyway). IronTrellis formats (p08): no rules held in mode
+  "adapter"; mode "adapter+irontrellis" (7 November 2026) holds the two rules of irontrellis_formats.py, written from
+  Ramesh Rampertab's proposed section "Checking a cited entry" (issue 13) and the suite's files: an item verifies when
+  the suite index the checker holds (p08-evidence/INDEX.sha256, its sha256 = the pin his comment states) lists the
+  item's digest where the format's fragment points. That mode also runs his Procedure on the citation (steps 1 to 3,
+  stopping before the replay) and writes its outcome beside the checker's report (P08-IRONTRELLIS-20261107.md).
+- rule urn:example:verdict-record:rule:at-least as the top-level README defines it. The IronTrellis rule p08 names
+  (…/conformance#authorization) is held in no mode: its re-run is the replay itself.
 """
 import base64
 import hashlib
@@ -213,6 +219,26 @@ def main():
             full[name]["adapter+fetched-items"] = rep
             entry["runs"]["adapter+fetched-items"] = brief(rep)
             entry["agrees_with_expected_under_02"] = compare(entry["runs"]["adapter+fetched-items"], exp)
+            # mode adapter+irontrellis (7 November 2026): the two IronTrellis format rules of irontrellis_formats.py,
+            # held only when the suite index and MANIFEST.json are present and the index's digest is the pin stated.
+            idx_path, man_path = os.path.join(P08_EVIDENCE_DIR, "INDEX.sha256"), os.path.join(P08_EVIDENCE_DIR, "MANIFEST.json")
+            if os.path.exists(idx_path) and os.path.exists(man_path):
+                import irontrellis_formats as itf
+                index_bytes = open(idx_path, "rb").read()
+                manifest = json.loads(open(man_path, "rb").read().decode("utf-8"))
+                it_info = {"suite_index_sha256": verdict.sha256(index_bytes), "pin_accepted": itf.INDEX_PIN,
+                           "manifest_sha256": verdict.sha256(open(man_path, "rb").read()),
+                           "manifest_listed_in_index": itf.parse_suite_index(index_bytes).get("MANIFEST.json") == verdict.sha256(open(man_path, "rb").read()),
+                           "challenge_profile": manifest.get("challengeProfile")}
+                chk, cont, items = build(case, raw, "adapter", extra_items=extra)
+                chk.formats.update(itf.format_rules(index_bytes))
+                rep = chk.check(raw, items, cont)
+                full[name]["adapter+irontrellis"] = rep
+                entry["runs"]["adapter+irontrellis"] = brief(rep)
+                entry["agrees_with_expected_under_02"] = compare(entry["runs"]["adapter+irontrellis"], exp)
+                it_info["cited_entry"] = itf.cited_entry(json.loads(raw.decode("utf-8")), items, index_bytes, manifest.get("challengeProfile"))
+                entry["irontrellis"] = it_info
+                full[name]["irontrellis-cited-entry"] = it_info["cited_entry"]
         for r in full[name].values():
             assert verdict.report_wording_ok(r), "Section 4.4 wording"
         results[name] = entry
