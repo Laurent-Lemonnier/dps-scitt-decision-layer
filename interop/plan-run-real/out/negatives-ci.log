@@ -1,0 +1,44 @@
+ok   N1-step-missing: caught by joins; real approval verified
+ok   N2-steps-reordered: caught by capsules, joins; real approval verified
+ok   N3-capsule-of-another-plan: caught by joins; real approval verified
+ok   N4-step-arguments-changed: caught by joins; real approval verified
+ok   N5-plan-hash-not-of-the-steps: caught by dps_person_signatures, joins, real_approval; real approval failed
+      signature finding: the challenge is not the SHA-256 of the signed bytes
+      signature finding: the signature is not verified, so no one signed these bytes with this key
+ok   N6-manifest-not-the-one-named: caught by dps_issuer_seal, joins; real approval verified
+ok   N7-recorded-output-substituted: caught by joins; real approval verified
+ok   N8-step-executed-twice: caught by joins; real approval verified
+ok   N9-person-disposed-of-a-resolved-step: caught by joins; real approval verified
+ok   N10-plan-run-twice: caught by dps_action_binding; real approval verified
+ok   N11-fourth-step: caught by joins; real approval verified
+ok   N12-capsule-cites-another-record: caught by capsules, joins; real approval verified
+ok   N13-capsule-cites-a-stale-context: caught by joins; real approval verified
+ok   N14-context-link-broken: caught by joins; real approval verified
+ok   R1-assertion-presented-over-another-plan: caught by dps_person_signatures, real_approval; real approval failed
+      signature finding: the challenge is not the SHA-256 of the signed bytes
+      signature finding: the signature is not verified, so no one signed these bytes with this key
+ok   R2-client-data-from-another-origin: caught by dps_person_signatures, real_approval; real approval failed
+      signature finding: the origin 'https://sign.example.org' is not one the policy allows for laurent-passkey-1
+      signature finding: the signature does not verify over authenticatorData || SHA-256(clientDataJSON)
+ok   R3-user-verification-flag-cleared: caught by dps_person_signatures, real_approval; real approval failed
+      signature finding: the signature does not verify over authenticatorData || SHA-256(clientDataJSON)
+      signature finding: the signature is not verified, so no one signed these bytes with this key
+ok   R4-another-credential-under-the-same-key-ref: caught by dps_person_signatures, real_approval; real approval failed
+      signature finding: the signature does not verify over authenticatorData || SHA-256(clientDataJSON)
+      signature finding: the signature is not verified, so no one signed these bytes with this key
+ok   R5-run-before-the-approval: caught by dps_action_binding; real approval verified
+ok   R6-case-13-test-signature-under-this-policy: caught by dps_person_signatures, real_approval; real approval failed
+      signature finding: office-manager-1-key-1 is not a key in the trust policy
+      signature finding: the key is not in the trust policy, so it binds no one
+ok   R7-approval-absent: caught by real_approval, schema; real approval absent
+      signature finding: no person signature in the attachment
+ok   R8-signed-at-moved-by-one-second: caught by dps_person_signatures, real_approval; real approval failed
+      signature finding: the challenge is not the SHA-256 of the signed bytes
+      signature finding: the signature is not verified, so no one signed these bytes with this key
+ok   R9-another-view-shown: caught by dps_person_signatures, real_approval; real approval failed
+      signature finding: the challenge is not the SHA-256 of the signed bytes
+      signature finding: the signature is not verified, so no one signed these bytes with this key
+ok   R10-assertion-moved-to-another-decision: caught by dps_person_signatures, real_approval; real approval failed
+      signature finding: the challenge is not the SHA-256 of the signed bytes
+      signature finding: the signature is not verified, so no one signed these bytes with this key
+24/24 failing cases caught where expected

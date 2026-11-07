@@ -1,0 +1,18 @@
+{
+ "what": "the CRM step (1) has no capsule: the manifest lists it, nothing executed it",
+ "caught_by": [
+  "joins"
+ ],
+ "expected_place": "joins",
+ "as_expected": true,
+ "real_approval": "verified",
+ "detail": {
+  "joins": [
+   "the DPS result names the run manifest held, by its digest",
+   "every step of the approved plan has exactly one capsule whose request is that step, with the arguments the plan resolves from the outputs recorded, and the manifest lists that capsule at that index",
+   "the steps ran in plan order: the manifest lists them in it, each capsule follows the previous step's capsule, and the issuer's times do not go backwards",
+   "an argument resolved from an earlier step's output equals the output that step recorded, which its own capsule committed to (response_digest)",
+   "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+  ]
+ }
+}

@@ -1,0 +1,1 @@
+the CRM step (1) has no capsule: the manifest lists it, nothing executed it
