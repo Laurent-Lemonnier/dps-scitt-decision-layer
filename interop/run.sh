@@ -59,6 +59,13 @@ DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-run/build.py 
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-run/negatives.py > plan-run/out/negatives-ci.log || { echo "plan run: a failing case was not caught where expected"; cat plan-run/out/negatives-ci.log; exit 1; }
 echo "# 8 DPS dimensions, the issuer's seal and the person's approval of the plan verified; 3 capsules verified; 10 joins true (membership, completeness, order, resolved arguments, context chain); 14 failing cases caught where expected"
 
+echo "== Case 13b: the plan, approved by a real person (plan-run-real): Laurent Lemonnier's passkey assertion (WebAuthn-ES256, sign.pria.fr) over the exact person_approval bytes of the plan, pinned in signed/, verified by the Standard's check; the three capsules under it"
+(cd plan-run-real/signed && sha256sum -c --quiet SHA256SUMS) || { echo "plan-run-real: the pinned signed inputs changed"; exit 1; }
+mkdir -p plan-run-real/out
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-run-real/build.py > plan-run-real/out/build-ci.log || { echo "plan-run-real: not all verified"; tail -30 plan-run-real/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 plan-run-real/negatives.py > plan-run-real/out/negatives-ci.log || { echo "plan-run-real: a failing case was not caught where expected"; cat plan-run-real/out/negatives-ci.log; exit 1; }
+echo "# one real signature: verified (signature, UP, UV, origin, rpId, key state, identity under the pinned trust policy); the run as in case 13: 8 DPS dimensions, the issuer's seal, 3 capsules verified, 10 joins true; assemble reproduces case 13 byte for byte; 24 failing cases caught where expected (case 13's 14 and 10 on the real thing), nine of them by the Standard's signatures check alone"
+
 echo "== A human checkpoint in the middle of the plan, under an undecided claim (plan-checkpoint): a second decision record on a context state and an adjudication in the shape of P10"
 mkdir -p plan-checkpoint/out
 (cd plan-checkpoint/vectors && sha256sum -c --quiet SHA256SUMS) || { echo "plan checkpoint: the pinned copy of the P10 executed instance changed"; exit 1; }
