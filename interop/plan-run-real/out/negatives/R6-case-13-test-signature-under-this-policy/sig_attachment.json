@@ -1,0 +1,23 @@
+{
+ "profile": "dps-signatures",
+ "profile_version": "0.2.0",
+ "person_signatures": [
+  {
+   "profile": "dps-signatures",
+   "profile_version": "0.2.0",
+   "assertion": "person_approval",
+   "decision_id": "DR-2026-1106",
+   "stage_id": "o0",
+   "outcome": "approved",
+   "shown_spec_digest": "f6027c81fdcb80ba4a812a5c537a386fd53a0cfdc206d65be513c5fee6662233",
+   "shown_view_digest": "11314ec5c9535b218511f356880da93dfc64f3651b754b85b1a98ab11b9da523",
+   "approved_spec_digest": "f6027c81fdcb80ba4a812a5c537a386fd53a0cfdc206d65be513c5fee6662233",
+   "signed_at": "2026-11-07T09:49:59Z",
+   "signature": {
+    "algorithm": "Ed25519",
+    "key_ref": "office-manager-1-key-1",
+    "value_b64": "ad8AKnoz3rpRa4SGhOoDrByybiepLQc71EJznKFwcbrHeCR4ZZag8nA2FwY4qL4kFQFcES621EQMr3sRjiEVCA=="
+   }
+  }
+ ]
+}

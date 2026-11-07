@@ -1,0 +1,1 @@
+the review stage and the person_approval carry the digest of another view (one in which the plan hash line is missing), as if the person had been shown that view: the subject dimension agrees (A1 and the approval name the same view), the signature fails (the view digest is among the signed bytes); the person was shown the view pinned in signed/

@@ -1,0 +1,35 @@
+{
+ "profile": "dps-anchoring-trust-policy",
+ "profile_version": "0.2.0",
+ "policy_ref": "urn:example:trust-policy:verifier-1",
+ "tsas": [],
+ "checkpoint_sources": [],
+ "keys": [
+  {
+   "key_ref": "laurent-passkey-1",
+   "holder": "laurent-lemonnier",
+   "role": "person",
+   "algorithm": "WebAuthn-ES256",
+   "public_key_hex": "048c54796129a03755b41288ee0ec186581bb8db40409ffbc48fc45aa3cf30b867767da0064f3c4d174ca707c54defc44eeb5d49c24a403e338687b86921c18e37",
+   "not_before": "2026-11-04T23:06:01Z",
+   "not_after": "2027-11-30T23:59:59Z",
+   "identity_source_ref": "urn:pria:sign:enrolment:laurent-passkey-1",
+   "webauthn": {
+    "rp_id": "sign.pria.fr",
+    "origins": [
+     "https://sign.pria.fr"
+    ]
+   }
+  },
+  {
+   "key_ref": "example-brokerage-issuer-key-1",
+   "holder": "Example Brokerage",
+   "role": "organisation",
+   "algorithm": "Ed25519",
+   "public_key_hex": "b14f7a7e69777e223d14e0b40eb36848583d05b045b1a725d79346d6f17ed46b",
+   "not_before": "2026-10-01T00:00:00Z",
+   "not_after": "2027-09-30T23:59:59Z",
+   "identity_source_ref": "urn:example:directory:organisations"
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "status": "failed",
+ "key_ref": "laurent-passkey-1",
+ "algorithm": "WebAuthn-ES256",
+ "signature": "failed",
+ "subject": "verified",
+ "key_state": "not_checked",
+ "identity": "not_checked",
+ "authenticator": {
+  "user_present": true,
+  "user_verified": true,
+  "cross_origin": false
+ },
+ "identity_holder": null,
+ "identity_issuer_named": null,
+ "key_state_time": null,
+ "key_state_basis": null,
+ "findings": [
+  "the challenge is not the SHA-256 of the signed bytes",
+  "the signature is not verified, so no one signed these bytes with this key"
+ ],
+ "client_data": {
+  "type": "webauthn.get",
+  "origin": "https://sign.pria.fr",
+  "crossOrigin": false
+ },
+ "challenge_is_sha256_of_signed_bytes": false,
+ "rp_id_hash_is": "sign.pria.fr",
+ "flags_byte": "0x1d",
+ "signature_counter": 0,
+ "signed_bytes_sha256": "8c94908d2c92118c1cd82e367ea66258b36a85392d0ab2b868646b80b097da53",
+ "signature_value_sha256": "fa44b4539254fc1ec2d8ee888f5db7182becc866fb205c9bd12f6729bc33ea49"
+}

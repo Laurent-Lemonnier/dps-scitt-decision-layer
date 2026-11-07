@@ -1,0 +1,21 @@
+{
+ "status": "failed",
+ "key_ref": "office-manager-1-key-1",
+ "algorithm": "Ed25519",
+ "signature": "failed",
+ "subject": "verified",
+ "key_state": "not_checked",
+ "identity": "not_checked",
+ "authenticator": null,
+ "identity_holder": null,
+ "identity_issuer_named": null,
+ "key_state_time": null,
+ "key_state_basis": null,
+ "findings": [
+  "office-manager-1-key-1 is not a key in the trust policy",
+  "the key is not in the trust policy, so it binds no one"
+ ],
+ "client_data": "unreadable: 'client_data_json_b64'",
+ "signed_bytes_sha256": "225d6bc31ce89e855eb55278d6520ba2ff1165dfcce19b31d9108c87073cb236",
+ "signature_value_sha256": "2b725879889037840e536cd4895d45d2e5461da93c90a5a527e8beb9b2092bf3"
+}

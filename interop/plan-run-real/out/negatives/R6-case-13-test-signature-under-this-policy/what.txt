@@ -1,0 +1,1 @@
+the office manager's Ed25519 test signature of case 13 (office-manager-1-key-1) is attached in place of the passkey assertion: the key is not in this run's trust policy, which binds one person's key, laurent-passkey-1; the Standard's check names it as not a key in the trust policy

@@ -1,0 +1,93 @@
+{
+ "schema_errors": {
+  "record": [],
+  "attachment": [],
+  "signatures": [],
+  "trust_policy": []
+ },
+ "dps_action_binding": {
+  "specification_digests": "verified",
+  "specification_statements": "verified",
+  "record_statements": "verified",
+  "action_binding": "verified",
+  "stage_order": "verified",
+  "authorisation_recheck": "verified",
+  "observed_results": "verified",
+  "rationale_provenance": "verified"
+ },
+ "dps_action_binding_findings": {},
+ "dps_per_spec": "verified",
+ "dps_executed_how": {
+  "shown_to_reviewer": 1
+ },
+ "dps_execution_state": "attempted",
+ "dps_issuer_seal": {
+  "status": "verified",
+  "key_state": "verified",
+  "holder": "Example Brokerage",
+  "attests": "issuer_recorded_claims_only"
+ },
+ "dps_trust_policy": "verified",
+ "dps_person_signatures": {
+  "verified": 1,
+  "of": 1,
+  "failed": []
+ },
+ "capsules": {
+  "parsed": 3,
+  "verified": 3,
+  "references_resolved": 3,
+  "of": 3,
+  "problems": []
+ },
+ "joins": {
+  "the approved plan's plan_hash is the hash of its executable steps, as the policy defines it": true,
+  "the run manifest names the approved specification and carries the same plan hash": true,
+  "the DPS result names the run manifest held, by its digest": true,
+  "every step of the approved plan has exactly one capsule whose request is that step, with the arguments the plan resolves from the outputs recorded, and the manifest lists that capsule at that index": true,
+  "no capsule run under this decision is a step outside the plan": true,
+  "the steps ran in plan order: the manifest lists them in it, each capsule follows the previous step's capsule, and the issuer's times do not go backwards": true,
+  "an argument resolved from an earlier step's output equals the output that step recorded, which its own capsule committed to (response_digest)": true,
+  "a capsule says a person disposed of a step only where every argument of that step was literal in the plan approved": true,
+  "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it": true,
+  "the specification names the plan policy by the digest of the policy held": true
+ },
+ "all_verified": true,
+ "real_approval": {
+  "status": "verified",
+  "key_ref": "laurent-passkey-1",
+  "algorithm": "WebAuthn-ES256",
+  "signature": "verified",
+  "subject": "verified",
+  "key_state": "verified",
+  "identity": "verified",
+  "authenticator": {
+   "user_present": true,
+   "user_verified": true,
+   "cross_origin": false
+  },
+  "identity_holder": "laurent-lemonnier",
+  "identity_issuer_named": "laurent-lemonnier",
+  "key_state_time": "2026-11-07T09:49:59Z",
+  "key_state_basis": "stated_time",
+  "findings": [],
+  "client_data": {
+   "type": "webauthn.get",
+   "origin": "https://sign.pria.fr",
+   "crossOrigin": false
+  },
+  "challenge_is_sha256_of_signed_bytes": true,
+  "rp_id_hash_is": "sign.pria.fr",
+  "flags_byte": "0x1d",
+  "signature_counter": 0,
+  "signed_bytes_sha256": "38faf8cf339154a53701a77525e2b24fcbcfc317a29599305bdf4617ee14bd40",
+  "signature_value_sha256": "fa44b4539254fc1ec2d8ee888f5db7182becc866fb205c9bd12f6729bc33ea49"
+ },
+ "pinned_inputs": {
+  "specification_bytes_are_the_signed_ones": true,
+  "view_bytes_are_the_signed_ones": true,
+  "person_approval_is_the_pinned_one": true,
+  "o0_at_is_signed_at": true,
+  "assemble_reproduces_case_13": true
+ }
+}

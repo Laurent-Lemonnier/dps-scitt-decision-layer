@@ -1,0 +1,1 @@
+the UV bit (0x04) of the authenticatorData flags is cleared, as if the authenticator had stated presence without verifying the user: the Standard's check reports user_verified false as a fact and the signature fails, since the flags are signed

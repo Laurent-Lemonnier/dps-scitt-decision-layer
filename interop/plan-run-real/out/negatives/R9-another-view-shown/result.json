@@ -1,0 +1,32 @@
+{
+ "what": "the review stage and the person_approval carry the digest of another view (one in which the plan hash line is missing), as if the person had been shown that view: the subject dimension agrees (A1 and the approval name the same view), the signature fails (the view digest is among the signed bytes); the person was shown the view pinned in signed/",
+ "caught_by": [
+  "dps_person_signatures",
+  "real_approval"
+ ],
+ "expected_place": "real_approval",
+ "as_expected": true,
+ "real_approval": "failed",
+ "detail": {
+  "dps_person_signatures": [
+   {
+    "stage": "o0",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked"
+   }
+  ],
+  "real_approval": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "not_checked",
+   "findings": [
+    "the challenge is not the SHA-256 of the signed bytes",
+    "the signature is not verified, so no one signed these bytes with this key"
+   ]
+  }
+ }
+}

@@ -1,0 +1,1 @@
+the person_approval's signed_at is written one second after the moment the person signed bytes for: the challenge is not the SHA-256 of the bytes the Standard rebuilds, the signature fails

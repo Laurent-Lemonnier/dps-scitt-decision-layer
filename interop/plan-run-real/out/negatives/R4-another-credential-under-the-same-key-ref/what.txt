@@ -1,0 +1,1 @@
+the trust policy binds laurent-passkey-1 to another P-256 public key (a key of nobody, derived from a fixed seed): the assertion is Laurent Lemonnier's and does not verify under that key; the capsules, the manifest and the joins notice nothing

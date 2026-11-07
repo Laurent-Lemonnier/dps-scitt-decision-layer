@@ -1,0 +1,1 @@
+the clientDataJSON says origin https://sign.example.org, the rest unchanged: the Standard's check names the origin as one the policy does not allow for laurent-passkey-1, and the signature no longer verifies, since the client data hash is signed

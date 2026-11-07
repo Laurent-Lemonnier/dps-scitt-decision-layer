@@ -1,0 +1,34 @@
+{
+ "status": "failed",
+ "key_ref": "laurent-passkey-1",
+ "algorithm": "WebAuthn-ES256",
+ "signature": "failed",
+ "subject": "verified",
+ "key_state": "not_checked",
+ "identity": "not_checked",
+ "authenticator": {
+  "user_present": true,
+  "user_verified": true,
+  "cross_origin": false
+ },
+ "identity_holder": null,
+ "identity_issuer_named": null,
+ "key_state_time": null,
+ "key_state_basis": null,
+ "findings": [
+  "the origin 'https://sign.example.org' is not one the policy allows for laurent-passkey-1",
+  "the signature does not verify over authenticatorData || SHA-256(clientDataJSON)",
+  "the signature is not verified, so no one signed these bytes with this key"
+ ],
+ "client_data": {
+  "type": "webauthn.get",
+  "origin": "https://sign.example.org",
+  "crossOrigin": false
+ },
+ "challenge_is_sha256_of_signed_bytes": true,
+ "rp_id_hash_is": "sign.pria.fr",
+ "flags_byte": "0x1d",
+ "signature_counter": 0,
+ "signed_bytes_sha256": "38faf8cf339154a53701a77525e2b24fcbcfc317a29599305bdf4617ee14bd40",
+ "signature_value_sha256": "fa44b4539254fc1ec2d8ee888f5db7182becc866fb205c9bd12f6729bc33ea49"
+}

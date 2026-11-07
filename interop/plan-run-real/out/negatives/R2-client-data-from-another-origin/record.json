@@ -1,0 +1,74 @@
+{
+ "decision_id": "DR-2026-1106",
+ "charter_id": "CH-EXAMPLE-ONBOARDING-1",
+ "record_type": "decision",
+ "record_state": "closed",
+ "dispatch_mode": "mode-1-with-embedded-mode-2-summary",
+ "created_at": "2026-11-07T09:36:59Z",
+ "altitude": "individual-professional",
+ "decision_statement": "Onboard client C-4471 by running the compiled plan onboarding_client 1.0.0 as shown: create the onboarding document, create the CRM record with it, and tell the onboarding channel, under the onboarding plans policy of 1 November 2026.",
+ "context_at_decision": "The onboarding assistant compiled the plan from use case onboarding_client 1.0.0 and the client brief C-4471 v3; two of its arguments exist only after an earlier step runs.",
+ "options_considered": [
+  "Approve the compiled plan as a whole, on its exact steps (chosen).",
+  "Approve each step on its own: the two later steps cannot be shown with their final arguments.",
+  "Onboard by hand: no record of what was decided."
+ ],
+ "required_inputs_used": [
+  "use case onboarding_client 1.0.0",
+  "client brief C-4471 v3",
+  "onboarding plans policy 2026-11-01"
+ ],
+ "assumptions_depended_on": [
+  "The client brief C-4471 v3 is the one the client confirmed."
+ ],
+ "success_criteria": [
+  "The onboarding document, the CRM record and the team message exist and agree.",
+  "No step runs outside the plan shown."
+ ],
+ "accountable_owner": {
+  "full_name": "Laurent Lemonnier",
+  "role": "Office manager (for this case)",
+  "employer": "Example Brokerage (synthetic)"
+ },
+ "decision_class": "client-onboarding",
+ "drafting_authority": {
+  "deployer_role_pointer": "urn:example:role:onboarding-drafting",
+  "system_name": "onboarding-assistant",
+  "version": "3"
+ },
+ "consent_posture": {
+  "posture_class": "the client's brief, given for onboarding; no other data read"
+ },
+ "affirmation_record": {
+  "timestamp": "2026-11-07T09:49:59Z",
+  "actor_identity": "laurent-lemonnier",
+  "method": "WebAuthn-ES256 passkey assertion (sign.pria.fr) over the DPS person_approval assertion of this plan"
+ },
+ "mode_classification_attestation": {
+  "attestor_full_name": "Laurent Lemonnier",
+  "attestor_role_title": "Office manager (for this case)",
+  "attestor_employer": "Example Brokerage (synthetic)",
+  "attestation_timestamp": "2026-11-07T10:04:59Z",
+  "jurisdiction": "EU",
+  "attestation_language_version": "v5.0",
+  "attestor_capacity": "employee",
+  "attestation_text_signed": "I attest that this decision record was dispatched in mode-1 with an embedded mode-2 summary under charter CH-EXAMPLE-ONBOARDING-1: the onboarding assistant (onboarding-assistant, version 3) compiled the plan from the use case and the brief; I read the plan and the view shown on sign.pria.fr, approved the plan as shown, as a whole, with my passkey, and I am the accountable owner of this decision. The brokerage, the client, the assistant, the executor and its effects are synthetic; the approval is mine."
+ },
+ "accountable_owner_signoff": {
+  "signed_by": "laurent-lemonnier",
+  "signed_at": "2026-11-07T10:04:59Z"
+ },
+ "re_decision_trigger": "The brief changes, or a step fails, before the plan completes.",
+ "record_location": "urn:example:decision-records:DR-2026-1106",
+ "seal_algorithm": "SHA-256",
+ "supersedes": null,
+ "closed_at": "2026-11-07T10:04:59Z",
+ "seal_hash": "fc554f95ec2a051d0b3e9c495728cf088dd0f3d24944b20d9afdb89f203a59d8",
+ "review_log": [
+  {
+   "reviewer": "laurent-lemonnier",
+   "reviewed_at": "2026-11-07T09:49:59Z",
+   "outcome": "approved"
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+ "what": "the signatures attachment carries no person signature while o0 is still claimed and the run proceeds: the absence shows only in the Standard's reading of the person approval; the eight action-binding dimensions, the seal, the capsules and the joins hold",
+ "caught_by": [
+  "real_approval",
+  "schema"
+ ],
+ "expected_place": "real_approval",
+ "as_expected": true,
+ "real_approval": "absent",
+ "detail": {
+  "schema": {
+   "signatures": [
+    "[] should be non-empty"
+   ]
+  },
+  "real_approval": {
+   "status": "absent",
+   "signature": null,
+   "subject": null,
+   "key_state": null,
+   "identity": null,
+   "findings": [
+    "no person signature in the attachment"
+   ]
+  }
+ }
+}

@@ -1,0 +1,558 @@
+{
+ "N1-step-missing": {
+  "what": "the CRM step (1) has no capsule: the manifest lists it, nothing executed it",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "joins": [
+    "the DPS result names the run manifest held, by its digest",
+    "every step of the approved plan has exactly one capsule whose request is that step, with the arguments the plan resolves from the outputs recorded, and the manifest lists that capsule at that index",
+    "the steps ran in plan order: the manifest lists them in it, each capsule follows the previous step's capsule, and the issuer's times do not go backwards",
+    "an argument resolved from an earlier step's output equals the output that step recorded, which its own capsule committed to (response_digest)",
+    "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+   ]
+  }
+ },
+ "N2-steps-reordered": {
+  "what": "the message (2) is sent before the CRM record (1) exists; the capsules and the manifest say so",
+  "caught_by": [
+   "capsules",
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "capsules": [
+    "urn:example:plan-run:2026-11-06-0471:step:1: a reference does not resolve against the bytes held"
+   ],
+   "joins": [
+    "the steps ran in plan order: the manifest lists them in it, each capsule follows the previous step's capsule, and the issuer's times do not go backwards",
+    "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+   ]
+  }
+ },
+ "N3-capsule-of-another-plan": {
+  "what": "a capsule citing this decision executes a step of another client's plan",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "joins": [
+    "no capsule run under this decision is a step outside the plan"
+   ]
+  }
+ },
+ "N4-step-arguments-changed": {
+  "what": "the CRM record is created with another legal name than the plan approved",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "joins": [
+    "every step of the approved plan has exactly one capsule whose request is that step, with the arguments the plan resolves from the outputs recorded, and the manifest lists that capsule at that index",
+    "no capsule run under this decision is a step outside the plan"
+   ]
+  }
+ },
+ "N5-plan-hash-not-of-the-steps": {
+  "what": "the plan the person approved carries a plan_hash that is not the hash of its steps",
+  "caught_by": [
+   "dps_person_signatures",
+   "joins",
+   "real_approval"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "real_approval": "failed",
+  "detail": {
+   "dps_person_signatures": [
+    {
+     "stage": "o0",
+     "signature": "failed",
+     "subject": "verified",
+     "key_state": "not_checked",
+     "identity": "not_checked"
+    }
+   ],
+   "joins": [
+    "the approved plan's plan_hash is the hash of its executable steps, as the policy defines it"
+   ],
+   "real_approval": {
+    "status": "failed",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked",
+    "findings": [
+     "the challenge is not the SHA-256 of the signed bytes",
+     "the signature is not verified, so no one signed these bytes with this key"
+    ]
+   }
+  }
+ },
+ "N6-manifest-not-the-one-named": {
+  "what": "the DPS result names another manifest than the one held",
+  "caught_by": [
+   "dps_issuer_seal",
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "dps_issuer_seal": {
+    "status": "failed",
+    "key_state": "not_checked",
+    "holder": "Example Brokerage",
+    "attests": "issuer_recorded_claims_only"
+   },
+   "joins": [
+    "the DPS result names the run manifest held, by its digest"
+   ]
+  }
+ },
+ "N7-recorded-output-substituted": {
+  "what": "the manifest records another document than step 0's capsule committed to; the CRM record and the message carry that other document",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "joins": [
+    "an argument resolved from an earlier step's output equals the output that step recorded, which its own capsule committed to (response_digest)",
+    "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+   ]
+  }
+ },
+ "N8-step-executed-twice": {
+  "what": "the CRM step runs twice: two capsules, one plan step",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "joins": [
+    "every step of the approved plan has exactly one capsule whose request is that step, with the arguments the plan resolves from the outputs recorded, and the manifest lists that capsule at that index"
+   ]
+  }
+ },
+ "N9-person-disposed-of-a-resolved-step": {
+  "what": "the message's capsule says a person disposed of it, though two of its arguments were resolved at run time",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "joins": [
+    "the DPS result names the run manifest held, by its digest",
+    "a capsule says a person disposed of a step only where every argument of that step was literal in the plan approved"
+   ]
+  }
+ },
+ "N10-plan-run-twice": {
+  "what": "a second request of the plan under the same approval, which allows one",
+  "caught_by": [
+   "dps_action_binding"
+  ],
+  "expected_place": "dps_action_binding",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "dps_action_binding": {
+    "action_binding": [
+     "failed",
+     [
+      "q1: o0 covers 1 request(s), already used by q0",
+      "specification 0: requested 2 times; the most any approval or change of it covers is 1"
+     ]
+    ]
+   }
+  }
+ },
+ "N11-fourth-step": {
+  "what": "a fourth step, not in the plan, runs after the third and cites the decision",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "joins": [
+    "no capsule run under this decision is a step outside the plan"
+   ]
+  }
+ },
+ "N12-capsule-cites-another-record": {
+  "what": "the CRM step's capsule cites a decision record that is not the one held",
+  "caught_by": [
+   "capsules",
+   "joins"
+  ],
+  "expected_place": "capsules",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "capsules": [
+    "urn:example:plan-run:2026-11-06-0471:step:1: a reference does not resolve against the bytes held"
+   ],
+   "joins": [
+    "the DPS result names the run manifest held, by its digest",
+    "every step of the approved plan has exactly one capsule whose request is that step, with the arguments the plan resolves from the outputs recorded, and the manifest lists that capsule at that index",
+    "the steps ran in plan order: the manifest lists them in it, each capsule follows the previous step's capsule, and the issuer's times do not go backwards",
+    "an argument resolved from an earlier step's output equals the output that step recorded, which its own capsule committed to (response_digest)",
+    "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+   ]
+  }
+ },
+ "N13-capsule-cites-a-stale-context": {
+  "what": "the message's capsule cites the context before the CRM step, not the state after it",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "joins": [
+    "the DPS result names the run manifest held, by its digest",
+    "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+   ]
+  }
+ },
+ "N14-context-link-broken": {
+  "what": "the manifest's context after the CRM step is not the state before it plus that step's outputs",
+  "caught_by": [
+   "joins"
+  ],
+  "expected_place": "joins",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "joins": [
+    "the DPS result names the run manifest held, by its digest",
+    "the context grows one step at a time: each state recomputes from the state before it and the outputs that step's capsule committed to, the manifest carries every state, and each capsule cites the state it ran under, the one just before it"
+   ]
+  }
+ },
+ "R1-assertion-presented-over-another-plan": {
+  "what": "the person's real assertion is presented as the approval of another plan: step 1 creates the CRM record under another legal name (the plan hash follows, A1 names that plan, the review was shown it, the run executed it, the capsules and the manifest agree with it: every join is true), and the passkey assertion is attached to the person_approval whose digests are that plan's. The Standard's check rebuilds the signed bytes from these fields and finds the challenge in the client data is not their SHA-256: the person signed the other plan. Only the Standard sees it: the joins read digests, the capsule library reads capsules",
+  "caught_by": [
+   "dps_person_signatures",
+   "real_approval"
+  ],
+  "expected_place": "real_approval",
+  "as_expected": true,
+  "real_approval": "failed",
+  "detail": {
+   "dps_person_signatures": [
+    {
+     "stage": "o0",
+     "signature": "failed",
+     "subject": "verified",
+     "key_state": "not_checked",
+     "identity": "not_checked"
+    }
+   ],
+   "real_approval": {
+    "status": "failed",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked",
+    "findings": [
+     "the challenge is not the SHA-256 of the signed bytes",
+     "the signature is not verified, so no one signed these bytes with this key"
+    ]
+   }
+  }
+ },
+ "R2-client-data-from-another-origin": {
+  "what": "the clientDataJSON says origin https://sign.example.org, the rest unchanged: the Standard's check names the origin as one the policy does not allow for laurent-passkey-1, and the signature no longer verifies, since the client data hash is signed",
+  "caught_by": [
+   "dps_person_signatures",
+   "real_approval"
+  ],
+  "expected_place": "real_approval",
+  "as_expected": true,
+  "real_approval": "failed",
+  "detail": {
+   "dps_person_signatures": [
+    {
+     "stage": "o0",
+     "signature": "failed",
+     "subject": "verified",
+     "key_state": "not_checked",
+     "identity": "not_checked"
+    }
+   ],
+   "real_approval": {
+    "status": "failed",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked",
+    "findings": [
+     "the origin 'https://sign.example.org' is not one the policy allows for laurent-passkey-1",
+     "the signature does not verify over authenticatorData || SHA-256(clientDataJSON)",
+     "the signature is not verified, so no one signed these bytes with this key"
+    ]
+   }
+  }
+ },
+ "R3-user-verification-flag-cleared": {
+  "what": "the UV bit (0x04) of the authenticatorData flags is cleared, as if the authenticator had stated presence without verifying the user: the Standard's check reports user_verified false as a fact and the signature fails, since the flags are signed",
+  "caught_by": [
+   "dps_person_signatures",
+   "real_approval"
+  ],
+  "expected_place": "real_approval",
+  "as_expected": true,
+  "real_approval": "failed",
+  "detail": {
+   "dps_person_signatures": [
+    {
+     "stage": "o0",
+     "signature": "failed",
+     "subject": "verified",
+     "key_state": "not_checked",
+     "identity": "not_checked"
+    }
+   ],
+   "real_approval": {
+    "status": "failed",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked",
+    "findings": [
+     "the signature does not verify over authenticatorData || SHA-256(clientDataJSON)",
+     "the signature is not verified, so no one signed these bytes with this key"
+    ]
+   }
+  }
+ },
+ "R4-another-credential-under-the-same-key-ref": {
+  "what": "the trust policy binds laurent-passkey-1 to another P-256 public key (a key of nobody, derived from a fixed seed): the assertion is Laurent Lemonnier's and does not verify under that key; the capsules, the manifest and the joins notice nothing",
+  "caught_by": [
+   "dps_person_signatures",
+   "real_approval"
+  ],
+  "expected_place": "real_approval",
+  "as_expected": true,
+  "real_approval": "failed",
+  "detail": {
+   "dps_person_signatures": [
+    {
+     "stage": "o0",
+     "signature": "failed",
+     "subject": "verified",
+     "key_state": "not_checked",
+     "identity": "not_checked"
+    }
+   ],
+   "real_approval": {
+    "status": "failed",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked",
+    "findings": [
+     "the signature does not verify over authenticatorData || SHA-256(clientDataJSON)",
+     "the signature is not verified, so no one signed these bytes with this key"
+    ]
+   }
+  }
+ },
+ "R5-run-before-the-approval": {
+  "what": "the signature stays at its moment (the one moment here that cannot be moved); the request, the recheck, the attempt, the three steps and the result are placed five minutes before it: the Standard's stage_order dimension fails (a request authorised by an outcome that did not yet exist). The passkey signature itself still verifies: it says when the person signed, not when the run proceeded; the capsules and the joins, which read no approval time, see nothing",
+  "caught_by": [
+   "dps_action_binding"
+  ],
+  "expected_place": "dps_action_binding",
+  "as_expected": true,
+  "real_approval": "verified",
+  "detail": {
+   "dps_action_binding": {
+    "stage_order": [
+     "failed",
+     [
+      "q0 is dated before o0, which it names"
+     ]
+    ]
+   }
+  }
+ },
+ "R6-case-13-test-signature-under-this-policy": {
+  "what": "the office manager's Ed25519 test signature of case 13 (office-manager-1-key-1) is attached in place of the passkey assertion: the key is not in this run's trust policy, which binds one person's key, laurent-passkey-1; the Standard's check names it as not a key in the trust policy",
+  "caught_by": [
+   "dps_person_signatures",
+   "real_approval"
+  ],
+  "expected_place": "real_approval",
+  "as_expected": true,
+  "real_approval": "failed",
+  "detail": {
+   "dps_person_signatures": [
+    {
+     "stage": "o0",
+     "signature": "failed",
+     "subject": "verified",
+     "key_state": "not_checked",
+     "identity": "not_checked"
+    }
+   ],
+   "real_approval": {
+    "status": "failed",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked",
+    "findings": [
+     "office-manager-1-key-1 is not a key in the trust policy",
+     "the key is not in the trust policy, so it binds no one"
+    ]
+   }
+  }
+ },
+ "R7-approval-absent": {
+  "what": "the signatures attachment carries no person signature while o0 is still claimed and the run proceeds: the absence shows only in the Standard's reading of the person approval; the eight action-binding dimensions, the seal, the capsules and the joins hold",
+  "caught_by": [
+   "real_approval",
+   "schema"
+  ],
+  "expected_place": "real_approval",
+  "as_expected": true,
+  "real_approval": "absent",
+  "detail": {
+   "schema": {
+    "signatures": [
+     "[] should be non-empty"
+    ]
+   },
+   "real_approval": {
+    "status": "absent",
+    "signature": null,
+    "subject": null,
+    "key_state": null,
+    "identity": null,
+    "findings": [
+     "no person signature in the attachment"
+    ]
+   }
+  }
+ },
+ "R8-signed-at-moved-by-one-second": {
+  "what": "the person_approval's signed_at is written one second after the moment the person signed bytes for: the challenge is not the SHA-256 of the bytes the Standard rebuilds, the signature fails",
+  "caught_by": [
+   "dps_person_signatures",
+   "real_approval"
+  ],
+  "expected_place": "real_approval",
+  "as_expected": true,
+  "real_approval": "failed",
+  "detail": {
+   "dps_person_signatures": [
+    {
+     "stage": "o0",
+     "signature": "failed",
+     "subject": "verified",
+     "key_state": "not_checked",
+     "identity": "not_checked"
+    }
+   ],
+   "real_approval": {
+    "status": "failed",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked",
+    "findings": [
+     "the challenge is not the SHA-256 of the signed bytes",
+     "the signature is not verified, so no one signed these bytes with this key"
+    ]
+   }
+  }
+ },
+ "R9-another-view-shown": {
+  "what": "the review stage and the person_approval carry the digest of another view (one in which the plan hash line is missing), as if the person had been shown that view: the subject dimension agrees (A1 and the approval name the same view), the signature fails (the view digest is among the signed bytes); the person was shown the view pinned in signed/",
+  "caught_by": [
+   "dps_person_signatures",
+   "real_approval"
+  ],
+  "expected_place": "real_approval",
+  "as_expected": true,
+  "real_approval": "failed",
+  "detail": {
+   "dps_person_signatures": [
+    {
+     "stage": "o0",
+     "signature": "failed",
+     "subject": "verified",
+     "key_state": "not_checked",
+     "identity": "not_checked"
+    }
+   ],
+   "real_approval": {
+    "status": "failed",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked",
+    "findings": [
+     "the challenge is not the SHA-256 of the signed bytes",
+     "the signature is not verified, so no one signed these bytes with this key"
+    ]
+   }
+  }
+ },
+ "R10-assertion-moved-to-another-decision": {
+  "what": "the whole run is issued under another decision record, DR-2026-1107 (record, A1, manifest, capsules' references agree), and the person's assertion is attached to its o0: the challenge is not the SHA-256 of bytes naming DR-2026-1107; the person approved the plan of DR-2026-1106",
+  "caught_by": [
+   "dps_person_signatures",
+   "real_approval"
+  ],
+  "expected_place": "real_approval",
+  "as_expected": true,
+  "real_approval": "failed",
+  "detail": {
+   "dps_person_signatures": [
+    {
+     "stage": "o0",
+     "signature": "failed",
+     "subject": "verified",
+     "key_state": "not_checked",
+     "identity": "not_checked"
+    }
+   ],
+   "real_approval": {
+    "status": "failed",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked",
+    "findings": [
+     "the challenge is not the SHA-256 of the signed bytes",
+     "the signature is not verified, so no one signed these bytes with this key"
+    ]
+   }
+  }
+ }
+}

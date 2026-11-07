@@ -1,0 +1,19 @@
+{
+ "what": "the signature stays at its moment (the one moment here that cannot be moved); the request, the recheck, the attempt, the three steps and the result are placed five minutes before it: the Standard's stage_order dimension fails (a request authorised by an outcome that did not yet exist). The passkey signature itself still verifies: it says when the person signed, not when the run proceeded; the capsules and the joins, which read no approval time, see nothing",
+ "caught_by": [
+  "dps_action_binding"
+ ],
+ "expected_place": "dps_action_binding",
+ "as_expected": true,
+ "real_approval": "verified",
+ "detail": {
+  "dps_action_binding": {
+   "stage_order": [
+    "failed",
+    [
+     "q0 is dated before o0, which it names"
+    ]
+   ]
+  }
+ }
+}

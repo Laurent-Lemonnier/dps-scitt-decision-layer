@@ -1,0 +1,33 @@
+{
+ "what": "the clientDataJSON says origin https://sign.example.org, the rest unchanged: the Standard's check names the origin as one the policy does not allow for laurent-passkey-1, and the signature no longer verifies, since the client data hash is signed",
+ "caught_by": [
+  "dps_person_signatures",
+  "real_approval"
+ ],
+ "expected_place": "real_approval",
+ "as_expected": true,
+ "real_approval": "failed",
+ "detail": {
+  "dps_person_signatures": [
+   {
+    "stage": "o0",
+    "signature": "failed",
+    "subject": "verified",
+    "key_state": "not_checked",
+    "identity": "not_checked"
+   }
+  ],
+  "real_approval": {
+   "status": "failed",
+   "signature": "failed",
+   "subject": "verified",
+   "key_state": "not_checked",
+   "identity": "not_checked",
+   "findings": [
+    "the origin 'https://sign.example.org' is not one the policy allows for laurent-passkey-1",
+    "the signature does not verify over authenticatorData || SHA-256(clientDataJSON)",
+    "the signature is not verified, so no one signed these bytes with this key"
+   ]
+  }
+ }
+}

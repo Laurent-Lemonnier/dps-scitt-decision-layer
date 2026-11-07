@@ -1,0 +1,6 @@
+Run plan urn:example:usecase:onboarding_client@1.0.0 for urn:example:client:C-4471 in urn:example:tenant:brokerage-1
+policy urn:example:policy:onboarding-plans#2026-11-01 (sha256:df5e6005f7c5bf9ad269eef06b5da6989b21ef69571ed12b1f8321ce0f0d37d1)
+plan hash 9122b69190eff2d3859674cac439d49d64c71dd4e9556ddd2656999ae8aa3856; valid until 2026-11-09T12:00:00Z; one execution
+0. drive.document.create on urn:example:drive:folder:clients/C-4471: {"template_ref": "urn:example:drive:template:onboarding-v7", "client_ref": "urn:example:client:C-4471", "title": "Onboarding C-4471"}
+1. crm.client.create on urn:example:crm:brokerage-1: {"client_ref": "urn:example:client:C-4471", "legal_name": "Example Client 4471 SAS", "segment": "small-business", "document_ref": {"$ref": "steps[0].outputs.document_ref"}}
+2. chat.message.send on urn:example:chat:channel:onboarding: {"text": "New client C-4471 onboarded.", "document_ref": {"$ref": "steps[0].outputs.document_ref"}, "crm_record_ref": {"$ref": "steps[1].outputs.crm_record_ref"}}
