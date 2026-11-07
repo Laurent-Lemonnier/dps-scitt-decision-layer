@@ -1,0 +1,7 @@
+one-chain/anchoring: 5/5 proofs verified on both routes; blocks [974838, 974839, 974842, 974847]; lowest reported [974838]; headers 974838-974852 validated from checkpoint 974838: True
+  approval-signature.bin: reference not_checked (proof=verified, subject_bytes=not_checked, operations=verified, attestation=verified, header=verified), block 974838, miner_stated_time 2026-11-06T18:44:06Z; route 2 valid H=974838 confirmations=15
+  action-binding-attachment-a1.json: reference verified (proof=verified, subject_bytes=verified, operations=verified, attestation=verified, header=verified), block 974838, miner_stated_time 2026-11-06T18:44:06Z; route 2 valid H=974838 confirmations=15
+  action-binding-attachment-a2.json: reference verified (proof=verified, subject_bytes=verified, operations=verified, attestation=verified, header=verified), block 974838, miner_stated_time 2026-11-06T18:44:06Z; route 2 valid H=974838 confirmations=15
+  verdict-record.json: reference verified (proof=verified, subject_bytes=verified, operations=verified, attestation=verified, header=verified), block 974838, miner_stated_time 2026-11-06T18:44:06Z; route 2 valid H=974838 confirmations=15
+  dispute-packet.json: reference verified (proof=verified, subject_bytes=verified, operations=verified, attestation=verified, header=verified), block 974838, miner_stated_time 2026-11-06T18:44:06Z; route 2 valid H=974838 confirmations=15
+all_verified: True
