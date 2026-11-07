@@ -85,3 +85,65 @@ contenu du journal ni sur le règlement. Le contrôle propre du paquet (`recorde
 constante « arbre vide » diffère entre le texte (e3b0c442…) et le MANIFEST (6ef19b41…, arbre git vide), sans vecteur
 qui tranche (E3 porte la constante sha1 et échoue dans les deux lectures) ; (3) hypothèse hors texte : les ancres sont
 lues sur le digest recalculé de l'enveloppe, pas sur la valeur déclarée (X12 daté et noté).
+
+## Rejeu du 07/11/2026 : -03, corpus 0.35.0, membres x402 consumption
+
+Le premier passage du 07/11 (`run-20261107.txt`) donnait 184/193 à la version 0.35.0 : les neuf membres en désaccord
+étaient CS41 à CS49, un paiement x402 réglé sur la chaîne à côté d'un permit « upto », que le vérificateur lisait tous
+`consumption-malformed`. Lecture du texte avant toute modification :
+
+- **Le -03 ne porte pas ces membres.** Le §5.9 dit que `consumption` « MUST carry each of these members and no other
+  (vector CS9) » : `limitDigest`, `unit`, `limit`, `consumed`, `reserved`, `requested`, `held`, `stateRevision` ; une
+  entrée `held` porte « that permit's operationKey, requestDigest and amount ». Ni `payee`, ni `settled`, ni x402, ni
+  aucun des quatre codes n'y figurent (`consumption-key-reused` est aussi un nom du corpus). Le §5.9 du -02 et celui du
+  -03 ne diffèrent que par la phrase sur CS7/CS17 ; ce n'est donc pas un écart -02/-03. À la lettre du -03, lire CS43 à
+  CS49 `consumption-malformed` était la lecture juste ; le chemin de code n'avait simplement jamais été exercé par un
+  vecteur publié (aucun dans 0.31.0).
+- **Les membres viennent du README du corpus** (0.35.0, « Consumption state and the operation key: CS1 to CS49 »), qui
+  écrit CS41–CS49 comme « rows written for revision 04 » — aucun -04 n'est publié au 07/11 (404 sur ietf.org). Le
+  vérificateur les lit donc à partir de ce README seul, comme il le fait déjà pour CS18–CS40 et les codes X, sans
+  ouvrir le code du lecteur de référence : `consumption.payee` et `payee` sur chaque entrée `held` = SHA-256 de
+  l'identifiant de compte CAIP-10 du bénéficiaire ; un retry paie le bénéficiaire de l'entrée tenue (CS41), signé à
+  nouveau vers un autre bénéficiaire dans le même appel c'est `consumption-key-reused` (CS42) ; `consumption.settled`
+  porte exactement `amount`, `asset`, `payee`, `source`, `transaction`, les termes réglés lus sur la chaîne par la
+  transaction rendue par le serveur (`source` = `chain`), à côté des termes approuvés `requested`, `asset`, `payee` ; un
+  « upto » réglé sous son maximum est valide (CS43), au-dessus `consumption-settled-exceeds` (CS44), autre actif ou autre
+  bénéficiaire `consumption-settled-differs` (CS45, CS46), termes lus dans la charge signée
+  `consumption-value-invalid` (CS47) ; `consumed` prend le montant réglé : un enregistrement postérieur du registre qui ne
+  tient plus l'appel compte au moins le `consumed` lu par l'enregistrement qui règle plus le montant réglé (CS48), moins
+  c'est `consumption-set-settled-uncounted` (CS49), plus est permis.
+
+Ce qui a changé dans `gilda_verify_independent.py` (paragraphe daté du 07/11/2026 dans sa docstring) :
+
+- `payee` et `settled` admis dans `consumption`, `payee` admis dans une entrée `held` (X6 reste à trois membres + payee) ;
+  un `payee` est un digest de 64 hex, sinon `consumption-value-invalid` (l'identifiant CAIP-10 n'est pas dans
+  l'enregistrement, seule la forme est contrôlée ; vérifié à la main que les digests de P et Q des vecteurs sont bien
+  SHA-256 de `eip155:84532:<adresse EIP-55>`).
+- `settled` : forme exacte (`consumption-malformed`), valeurs (`amount` entier ≥ 0, `asset` de forme CAIP-19, `payee`
+  digest, `transaction` chaîne non vide, `source` ≠ `chain` → `consumption-value-invalid`), puis `amount` > `requested` →
+  `consumption-settled-exceeds`, `asset` ≠ `consumption.asset` ou `payee` ≠ `consumption.payee` →
+  `consumption-settled-differs` (absent compte comme différent).
+- Retry (clé propre tenue) dont l'entrée tenue nomme un bénéficiaire : `consumption.payee` doit être le même, sinon
+  `consumption-key-reused`.
+- Contrôle d'ensemble par registre : tout enregistrement postérieur qui ne tient plus la clé de l'enregistrement
+  réglant compte `consumed` ≥ son `consumed` + `settled.amount`, sinon `consumption-set-settled-uncounted`.
+- `withinLimit` inchangé (la réserve est `requested` : CS43 à 42 sur 50 USDC) ; rien ne lie `settled` à
+  `effect.observed`, le README ne le fait pas.
+
+Lectures prises là où le README laisse un choix, aucune tranchée par un vecteur : validité des valeurs avant les
+comparaisons (un `settled` lu dans la charge signée n'est pas un règlement, on n'en dérive ni exceeds ni differs) ;
+toute valeur de `source` autre que `chain` lue comme `signed-payload` ; absence de `payee` ou d'`asset` approuvé
+comptée comme différence ; entrée tenue sans `payee` comparée comme avant (clé, digest, montant).
+
+Résultats (`run-20261107b.txt`, `judge-20261107-0.35.0.json`) :
+
+- **0.35.0 : 193/193** (85 accept, 1 indeterminate, 107 reject ; corpusDigest 47fab839…), premier code de refus
+  106/106 ; les neuf membres CS41–CS49 concordent, CS48 ensemble valide, CS49 ensemble
+  `consumption-set-settled-uncounted`. Harnais du paquet : « every member behaves as MANIFEST.json declares ».
+- **Régression 0.31.0 : 184/184**, premier code 101/101 ; **0.28.0 : 141/141**, 81/81 ; approval-binding 23/23 à
+  0.31.0 et les 12 tests d'agrégation inchangés.
+- **Désaccord honnête restant : aucun au niveau des membres.** Au niveau du texte : CS41–CS49 ne sont pas dans le -03 ;
+  un vérificateur de la lettre du -03 les refuse (`consumption-malformed`), comme le premier passage. À ajouter au point
+  (1) de la liste pour l'auteur ci-dessus : CS41–CS49 aussi, écrits pour un -04 non publié.
+- L'épingle de CI passe à 0.35.0 dans le même commit (`interop/requirements-gilda.txt`, commentaire de `run.sh`) :
+  les deux vérificateurs concordent en entier avec cette release ; 0.31.0 et 0.28.0 restent des rejeux de régression.

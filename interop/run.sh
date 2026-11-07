@@ -11,8 +11,8 @@ AQTA_COMMIT="${AQTA_COMMIT:-$(cat aqta/PINNED_COMMIT)}"
 AQTA_ATTESTATION_KEY=alWzEnrA_z9McN9z_MFfQCnH9mVgOwRZ26wrI7oix4E   # test-vectors/README.md
 AQTA_ACTION_KEY=pOaccW6Csyo1POtxjixPH80oux9--YC1tzzaENT4vQ0        # test-vectors/action/README.md
 # The agent-evidence-vectors release is pinned in requirements-gilda.txt (Dependabot opens a weekly PR when a new one
-# is published, .github/dependabot.yml). 0.31.0 is the last release both verifiers in gilda/ agree with in full: at
-# 0.35.0 the approval-binding verifier agrees 36/36 but the audit-record verifier 184/193 (gilda/run-20261107.txt).
+# is published, .github/dependabot.yml). The pin moves only when both verifiers in gilda/ agree with the release in
+# full: 0.35.0 since 7 November 2026 (audit-record 193/193, approval-binding 36/36; gilda/run-20261107b.txt).
 GILDA_VERSION=$(sed -n 's/^agent-evidence-vectors==//p' requirements-gilda.txt)
 
 python3 -m pip install --quiet "cryptography>=42" "cbor2>=5" -r requirements-gilda.txt

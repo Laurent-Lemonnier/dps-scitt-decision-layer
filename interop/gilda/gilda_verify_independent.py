@@ -36,6 +36,46 @@ v2 predicate type with the input principal-standing-source (Section 8), the
 empty-tree constant as -03 states it, and an unreadable delegation-root
 element (entry-delegation-root-unreadable).
 
+Extended on 07/11/2026 for the payee and the settled terms of a paid call
+(corpus 0.35.0, members CS41 to CS49). These members are not in the -03 text:
+Section 5.9 of -02 and -03 lists the eight members of consumption "and no
+other" (vector CS9), and the two revisions differ there only by the note on
+CS7/CS17. The corpus README writes CS41 to CS49 as rows for a -04 not yet
+published, beside its other rules outside the text (CS18 to CS40, the X codes),
+and this verifier reads them from that README's text alone, as it did for those.
+Readings taken where the README leaves a choice (none is settled by a vector):
+  - consumption.payee and held[].payee are optional; when present each is a
+    64-hex SHA-256 digest (of the payee's CAIP-10 account id, which the verifier
+    cannot recompute: the address is not in the record), else
+    consumption-value-invalid.
+  - A retry (own key held) whose held entry names a payee must name the same
+    payee in consumption.payee, absent counting as different
+    (consumption-key-reused, CS42); a held entry without a payee is compared on
+    key, request digest and amount only, as before.
+  - consumption.settled is optional; when present it carries exactly amount,
+    asset, payee, source and transaction (consumption-malformed otherwise, as
+    CS9 reads "and no other"); amount a non-negative integer, asset an object of
+    the same shape as consumption.asset (CAIP-19 id and decimals), payee a
+    digest, source the string "chain" (the README names "signed-payload" as
+    consumption-value-invalid, CS47; any other value is read the same way, since
+    only the chain shows what moved), transaction a non-empty string whose form
+    is the chain's and is not checked.
+  - Value validity is read before the comparisons: a settled read from the
+    signed payload is not a settlement, so no exceeds/differs code is derived
+    from it. Then settled.amount above requested is consumption-settled-exceeds
+    (CS44); settled.asset not equal to consumption.asset, or settled.payee not
+    equal to consumption.payee, is consumption-settled-differs (CS45, CS46),
+    absent counting as different (a record counting in an ISO 4217 unit, or
+    naming no payee, has no approved asset or payee the settled terms can match).
+  - Nothing ties settled to effect.observed: the README does not, so neither
+    does this verifier.
+  - withinLimit is unchanged by settled: the hold is the request's amount
+    (CS43, 42 of 50 USDC). Across a ledger, every later record (higher
+    stateRevision) that does not hold the settling record's operation key must
+    count consumed at least the settling record's consumed plus settled.amount,
+    else consumption-set-settled-uncounted (CS48 valid at 37, CS49 malformed
+    at 35); more is allowed.
+
 Usage: gilda_verify_independent.py --corpus DIR [--report out.json]
 """
 import struct
@@ -254,6 +294,14 @@ def nonneg_int(v):
     return isinstance(v, int) and not isinstance(v, bool) and v >= 0
 
 
+def valid_asset(a):
+    """An exact asset (corpus README, CS34 to CS37): an object of exactly a CAIP-19 id and decimals, at most 255.
+    Also the shape of settled.asset (CS43 to CS45)."""
+    return isinstance(a, dict) and set(a) == {"id", "decimals"} and isinstance(a["id"], str) \
+        and re.fullmatch(r"[-a-z0-9]{3,8}:[-_a-zA-Z0-9]{1,32}/[-a-z0-9]{3,8}:[-.%a-zA-Z0-9]{1,128}", a["id"]) is not None \
+        and nonneg_int(a["decimals"]) and a["decimals"] <= 255
+
+
 # ---------------------------------------------------------------- the verifier
 
 class Report:
@@ -457,7 +505,9 @@ def _verify(env, keys, rep):
     for e in ev["inputs"]:
         if "consumption" in e:
             c = e["consumption"]
-            if set(c) - set(CONSUMPTION_MEMBERS) - {"supersedes", "asset"}:
+            # the eight members of Section 5.9, plus those the corpus README adds: supersedes (CS23, CS24), asset
+            # (CS34 to CS40), and since 0.35.0 the payee and the settled terms of a paid call (CS41 to CS49)
+            if set(c) - set(CONSUMPTION_MEMBERS) - {"supersedes", "asset", "payee", "settled"}:
                 raise Malformed("consumption-malformed")
             ok_ = p["decision"].get("operationKey")
             if not isinstance(ok_, str) or ok_ == "":
@@ -468,12 +518,12 @@ def _verify(env, keys, rep):
             # the denomination: an ISO 4217 unit or an exact asset (corpus README, CS34 to CS37), never both
             if "unit" in c and "asset" in c:
                 raise Malformed("consumption-unit-ambiguous")
-            if "asset" in c:
-                a = c["asset"]
-                if not isinstance(a, dict) or set(a) != {"id", "decimals"} or not isinstance(a["id"], str) \
-                        or not re.fullmatch(r"[-a-z0-9]{3,8}:[-_a-zA-Z0-9]{1,32}/[-a-z0-9]{3,8}:[-.%a-zA-Z0-9]{1,128}", a["id"]) \
-                        or not nonneg_int(a["decimals"]) or a["decimals"] > 255:
-                    raise Malformed("consumption-value-invalid")
+            if "asset" in c and not valid_asset(c["asset"]):
+                raise Malformed("consumption-value-invalid")
+            # the payee (corpus README, CS41 to CS49): the SHA-256 digest of the payee's CAIP-10 account id; the
+            # account id itself is not in the record, so only the digest's form is checked
+            if "payee" in c and not is_hex64(c["payee"]):
+                raise Malformed("consumption-value-invalid")
             # a replaced limit document (corpus README, CS23, CS24): a digest, and not this record's own limitDigest
             if "supersedes" in c:
                 if not is_hex64(c["supersedes"]):
@@ -486,16 +536,36 @@ def _verify(env, keys, rep):
             for h in c["held"]:
                 if not isinstance(h, dict) or any(k not in h for k in ("operationKey", "requestDigest", "amount")) or not nonneg_int(h["amount"]):
                     raise Malformed("consumption-value-invalid")
-                if set(h) - {"operationKey", "requestDigest", "amount"}:
-                    raise Malformed("consumption-malformed")   # vector X6
+                if set(h) - {"operationKey", "requestDigest", "amount", "payee"}:
+                    raise Malformed("consumption-malformed")   # vector X6 (payee allowed since 0.35.0, CS41)
+                if "payee" in h and not is_hex64(h["payee"]):
+                    raise Malformed("consumption-value-invalid")
                 if h["operationKey"] in keys_seen:
                     raise Malformed("consumption-held-key-repeated")
                 keys_seen.add(h["operationKey"])
             if sum(h["amount"] for h in c["held"]) != c["reserved"]:
                 raise Malformed("consumption-reserved-mismatch")
+            # the settled terms (corpus README, CS43 to CS47): exactly five members, read from the chain through the
+            # transaction the server returned, beside the approved terms requested, asset and payee carry
+            if "settled" in c:
+                s = c["settled"]
+                if not isinstance(s, dict) or set(s) != {"amount", "asset", "payee", "source", "transaction"}:
+                    raise Malformed("consumption-malformed")
+                if not nonneg_int(s["amount"]) or not valid_asset(s["asset"]) or not is_hex64(s["payee"]) \
+                        or not isinstance(s["transaction"], str) or s["transaction"] == "":
+                    raise Malformed("consumption-value-invalid")
+                if s["source"] != "chain":
+                    raise Malformed("consumption-value-invalid")   # vector CS47: signed-payload shows what was approved
+                if s["amount"] > c["requested"]:
+                    raise Malformed("consumption-settled-exceeds")   # vector CS44: above the authorized maximum
+                if s["asset"] != c.get("asset") or s["payee"] != c.get("payee"):
+                    raise Malformed("consumption-settled-differs")   # vectors CS45, CS46
             held = [h for h in c["held"] if h["operationKey"] == p["decision"]["operationKey"]]
             if held:
                 if held[0]["requestDigest"] != p["decision"]["requestDigest"] or held[0]["amount"] != c["requested"]:
+                    raise Malformed("consumption-key-reused")
+                # a retry pays the held entry's payee (CS41); signed again to another payee, it is not that permit (CS42)
+                if "payee" in held[0] and held[0]["payee"] != c.get("payee"):
                     raise Malformed("consumption-key-reused")
                 rep.within_limit = c["consumed"] + c["reserved"] <= c["limit"]
             else:
@@ -663,6 +733,17 @@ def verify_set(records, keys):
                         # showing none or occurred
                         if "consumption-set-release-unshown" not in codes:
                             codes.append("consumption-set-release-unshown")
+        # consumed takes the settled amount (corpus README, CS48, CS49): a later record of the ledger that no longer
+        # holds the settling call counts at least the consumed that record read plus what it settled; more is allowed
+        for rev, p, c in items:
+            if "settled" not in c:
+                continue
+            own = p["decision"]["operationKey"]
+            floor = c["consumed"] + c["settled"]["amount"]
+            for rev2, p2, c2 in items:
+                if rev2 > rev and not any(h["operationKey"] == own for h in c2["held"]) and c2["consumed"] < floor:
+                    if "consumption-set-settled-uncounted" not in codes:
+                        codes.append("consumption-set-settled-uncounted")
     # a held claim is keyed by the principal, the agent key and the operation key, never by the limit document
     # (corpus README, CS26 to CS33): a permit whose own key an earlier record of the same scope holds, and which
     # does not hold that key itself, presents a retry as a new operation; a call whose tool sent nothing leaves no claim
