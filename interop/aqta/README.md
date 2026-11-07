@@ -1,4 +1,15 @@
-# Rejeu indépendant des vecteurs Seal (Aqta, draft-chueayen-attestation-receipts-05) — 29/10/2026
+# Rejeu indépendant des vecteurs Seal (Aqta, draft-chueayen-attestation-receipts-05) — 29/10/2026, rejoué le 07/11/2026
+
+## Rejeu du 07/11/2026 (commit `5c38c71` du 29/10/2026)
+
+Cinq commits depuis le pin `9c28d49` : `CHANGELOG.md`, `spec/ATTESTATION-v1.md` §4 et `spec/GRANT-v1.md` ; aucun
+vecteur modifié. Le §4 dit désormais que les identifiants de `policy_applied` peuvent contenir tout caractère Unicode et
+que l'ordre par unité de code UTF-16 est la règle normative (l'ambiguïté du point 1 ci-dessous, corrigée par l'auteure
+avec crédit à ce rapport). GRANT-v1 gagne un membre optionnel `approver_policy_sha256` (SHA-256 des octets canoniques de
+la politique d'approbateur, §7.2), « prompted by the approval-record interoperability example built against ACTION-v1
+section 8.3 » ; le profil GRANT-v1 n'est pas couvert par ce vérificateur. Vérificateur inchangé : ATTESTATION-v1
+**33/33**, ACTION-v1 **34/34** (`run-attestation-20261107.txt`, `run-action-20261107.txt`, identiques ligne à ligne aux
+sorties du 29/10). Pin déplacé à `5c38c71`.
 
 ## Résultat
 

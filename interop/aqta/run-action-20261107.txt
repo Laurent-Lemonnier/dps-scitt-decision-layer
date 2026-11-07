@@ -1,0 +1,35 @@
+ok  valid   001-allowed.json                         ALLOWED
+ok  valid   002-blocked.json                         BLOCKED
+ok  valid   003-no-session.json                      ALLOWED
+ok  valid   004-session-no-intent.json               ALLOWED
+ok  valid   005-empty-policy.json                    ALLOWED
+ok  valid   006-multi-policy.json                    BLOCKED
+ok  valid   006-policy-non-bmp-sorted.json           ALLOWED
+ok  valid   007-non-ascii-tool.json                  BLOCKED
+ok  valid   008-non-utc-offset.json                  ALLOWED
+ok  valid   009-agent-empty.json                     ALLOWED
+ok  valid   010-deep-namespace.json                  ALLOWED
+ok  invalid 001-tampered-signature.json              signature check failed
+ok  invalid 002-tampered-outcome.json                signature check failed
+ok  invalid 003-tampered-public-key.json             public_key does not match the pinned key
+ok  invalid 004-missing-field.json                   missing field 'agent'
+ok  invalid 005-unknown-field.json                   unknown field 'cost_prevented_eur'
+ok  invalid 006-integer-version.json                 v must be a string
+ok  invalid 007-attestation-v1-receipt.json          unknown field 'attestation_id'
+ok  invalid 008-uppercase-args-hash.json             args_hash must be 64 lowercase hex characters
+ok  invalid 009-policy-not-sorted.json               policy_applied must be sorted by UTF-16 code unit
+ok  invalid 010-policy-not-strings.json              policy_applied must contain only strings
+ok  invalid 011-timestamp-no-offset.json             timestamp must be an RFC 3339 datetime with an explicit offset
+ok  invalid 012-suppressed-outcome.json              outcome not an ACTION-v1 value
+ok  invalid 013-empty-tool.json                      tool must be non-empty
+ok  invalid 014-intent-without-session.json          intent_hash must be '' when session_id is ''
+ok  invalid 015-escaped-unicode-signing.json         signature check failed
+ok  invalid 016-policy-code-point-order.json         policy_applied must be sorted by UTF-16 code unit
+ok  invalid 017-args-hash-trailing-newline.json      args_hash must be 64 lowercase hex characters
+ok  invalid 018-intent-hash-trailing-newline.json    intent_hash must be '' or 64 lowercase hex characters
+ok  invalid 019-timestamp-trailing-newline.json      timestamp must be an RFC 3339 datetime with an explicit offset
+ok  invalid 020-signature-trailing-newline.json      signature decode error: not base64url
+ok  invalid 021-timestamp-non-ascii-digits.json      timestamp must be an RFC 3339 datetime with an explicit offset
+ok  invalid 022-outcome-not-a-string.json            outcome must be a string
+ok  invalid 023-policy-lone-surrogate.json           policy_applied member is not valid Unicode
+# 34 vectors, 0 mismatch(es)

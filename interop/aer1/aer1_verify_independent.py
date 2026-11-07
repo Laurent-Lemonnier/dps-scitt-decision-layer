@@ -12,6 +12,18 @@ draft's (Section 6).
 anchored), unicode-vectors.json, id-binding-vectors.json and anchor-vectors.json.
 The chain, commitment and Merkle suites are not covered by this file.
 
+Extended on 07/11/2026, kit at 3287eb3 (143 vectors), from the texts alone (draft -26 Section 6 step 4 and the
+per-anchor report paragraph before step 5; the "spec" sentence of anchor-vectors.json; the two new fixtures'
+declared reasons). Readings taken: (1) a "0.4" receipt without metadata_hash fails, as step 4 says, unless the
+canonical bytes commit both receipt_schema_version and issuer_claims.provenance_class and each equals the outer
+member (the kit's reading of the three 0.4 fixtures without metadata_hash, applied since 29/10); a payload that is
+not a JSON object, or that omits either committed member, is "one side missing" and fails (payload-is-array,
+payload-omits-issuer-claims). (2) An anchor is present when the anchor member carries at least one member of the
+disinterested-tier shape {log, leaf_hash, anchored_at, proof}: a shape the verifier "can attempt to evaluate"; a
+partial profile anchor is present and fails evaluation on its missing members (anchor-partial-profile), while a
+member carrying none of them is a different anchoring record and stays "absent" (anchor-other-profile). The kit's
+runners were not read.
+
 Usage: aer1_verify_independent.py --kit <path to aer-1/> [--report out.json]
 """
 import argparse
@@ -201,6 +213,15 @@ def verify_receipt(rec, strict_id=False):
         ic = payload.get("issuer_claims")
         if isinstance(ic, dict) and "provenance_class" in ic and ic["provenance_class"] != pc:
             raise Failed("provenance_class differs from issuer_claims.provenance_class committed in the canonical bytes")
+    # Section 6 step 4: a "0.4" receipt without metadata_hash MUST fail. The kit's reading (above) lets the
+    # version and provenance class committed inside the canonical bytes stand in for the metadata block; when
+    # the payload is not an object or commits neither or only one of them, one side of that binding is missing
+    # and nothing binds the outer members (kit at 3287eb3: payload-is-array, payload-omits-issuer-claims).
+    if "metadata_hash" not in rec and ver >= (0, 4):
+        committed = isinstance(payload, dict) and "receipt_schema_version" in payload \
+            and isinstance(payload.get("issuer_claims"), dict) and "provenance_class" in payload["issuer_claims"]
+        if not committed:
+            raise Failed("0.4 receipt without metadata_hash, and the canonical bytes do not commit both receipt_schema_version and issuer_claims.provenance_class")
     # optional input commitment (Section 3.3); layout published by the producer: the canonical
     # JSON (code-point-sorted members, compact) of the payload's recorded "inputs" member
     if "input_hash" in rec:
@@ -226,7 +247,9 @@ def anchor_report(rec, raw, evaluate=True):
     anchor shape {log, leaf_hash, anchored_at, proof}."""
     a = rec.get("anchor")
     shape = {"log", "leaf_hash", "anchored_at", "proof"}
-    if not isinstance(a, dict) or not (set(a) & shape) or not {"log", "leaf_hash", "anchored_at"} <= set(a):
+    # Present when the member carries a shape the verifier can attempt to evaluate (at least one member of the
+    # tier's shape); a member in no shape it implements (another system's publication record) is absent.
+    if not isinstance(a, dict) or not (set(a) & shape):
         return {"present": False, "evaluated": False, "outcome": "absent"}
     if not evaluate:
         return {"present": True, "evaluated": False, "outcome": "not checked"}
@@ -234,7 +257,10 @@ def anchor_report(rec, raw, evaluate=True):
     if host.endswith(".invalid"):
         return {"present": True, "evaluated": True, "outcome": "rejected: unresolvable record"}
     try:
-        if "proof" not in a or not isinstance(a["proof"], dict):
+        missing = sorted(shape - set(a))
+        if missing:
+            raise Failed("partial profile anchor: missing " + ", ".join(missing))
+        if not isinstance(a["proof"], dict):
             raise Failed("proof is required")
         check_timestamp(a["anchored_at"], "anchored_at")
         if not isinstance(a["leaf_hash"], str) or not DIGEST.fullmatch(a["leaf_hash"]) or a["leaf_hash"][7:] != sha256_hex(raw):
