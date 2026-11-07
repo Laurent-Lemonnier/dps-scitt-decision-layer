@@ -1,0 +1,368 @@
+{
+ "case": "one-chain-real",
+ "profile": "dps-anchoring 0.2.0 (reference check at DPS_STANDARD) and draft-fassbender-scitt-time-anchor-08 route 2 (interop/umarise/verify_anchor.py)",
+ "standard_commit": "007f8c9",
+ "problems": [],
+ "subjects": {
+  "approval-signature.bin": {
+   "sha256": "9cdba62ae4e0df39b232891f2fa2c8616ce7c2261323cafd81efe1c2923d1466",
+   "bytes": 72,
+   "in_sha256sums": true,
+   "equals_out_positive": true
+  },
+  "action-binding-attachment-a1.json": {
+   "sha256": "c22c454f26e0ddad125654d7d8255d06e51353702a0ef686d82692b8cae537be",
+   "bytes": 2613,
+   "in_sha256sums": true,
+   "equals_out_positive": true
+  },
+  "action-binding-attachment-a2.json": {
+   "sha256": "a09cb632c406f4e465e12588cc7663a2300dca5598c8fa04ceee2baeddb0afc8",
+   "bytes": 3843,
+   "in_sha256sums": true,
+   "equals_out_positive": true
+  },
+  "verdict-record.json": {
+   "sha256": "f2c1b153c338848f63918c30f2b614440a3ad1cb4e4fadba01bf5a6ea2522c94",
+   "bytes": 1551,
+   "in_sha256sums": true,
+   "equals_out_positive": true
+  },
+  "dispute-packet.json": {
+   "sha256": "c0769496cb940657da266618e1568f47cd269bbb9da066fe59abf106cb1c08ec",
+   "bytes": 8749,
+   "in_sha256sums": true,
+   "equals_out_positive": true
+  }
+ },
+ "headers": {
+  "file": "headers-974850-974895.json",
+  "source_ref": "header-file-one-chain-real-20261107",
+  "count": 46,
+  "from": 974850,
+  "to": 974895,
+  "checkpoint": {
+   "height": 974850,
+   "block_hash": "00000000000000000000d541103f1d49fd6b0e382efbbbabfc5b4093dea4b5c5"
+  },
+  "validated_from_checkpoint": true,
+  "what_validated_means": "80 bytes each, linked by hash, proof of work under each header's target, target under mainnet's limit (powLimit), nBits constant between retarget boundaries, anchored at the checkpoint; not that this is the most-work chain from genesis"
+ },
+ "proofs": [
+  {
+   "subject": "approval-signature.bin",
+   "subject_kind": "signature value of the person_approval (laurent-passkey-1, DR-2026-1104, stage o1), anchoring 0.2.0 subject kind signature",
+   "subject_sha256": "9cdba62ae4e0df39b232891f2fa2c8616ce7c2261323cafd81efe1c2923d1466",
+   "proof_sha256": "bacbd059b8b161b543cfd12c19e5ac07ad3ef049a8ff8133ba499af350c4c30a",
+   "bitcoin_attestations": [
+    {
+     "height": 974877,
+     "calendar": "https://finney.calendar.eternitywall.com"
+    },
+    {
+     "height": 974890,
+     "calendar": "https://btc.calendar.catallaxy.com"
+    },
+    {
+     "height": 974850,
+     "calendar": "https://alice.btc.calendar.opentimestamps.org"
+    }
+   ],
+   "anchoring_0_2_0": {
+    "how": "check_timestamp of the reference check over the attachment's timestamp: proof, operations, attestation and header are its checks; subject_bytes is not_checked by design (the signatures profile checks an assertion's signature; the reference check holds checkpoints only), so its status is not_checked; the value_b64 is the signature value of out/positive/signatures-attachment.json (checked above)",
+    "status": "not_checked",
+    "checks": {
+     "proof": "verified",
+     "subject_bytes": "not_checked",
+     "operations": "verified",
+     "attestation": "verified",
+     "header": "verified"
+    },
+    "block": {
+     "height": 974850,
+     "hash_hex": "00000000000000000000d541103f1d49fd6b0e382efbbbabfc5b4093dea4b5c5",
+     "header_source_ref": "header-file-one-chain-real-20261107"
+    },
+    "miner_stated_time": "2026-11-06T20:01:21Z",
+    "findings": [
+     "the subject names a person_approval of the signatures profile, which checks it; this check holds checkpoints only",
+     "the subject's bytes existed before block 974850 was mined; its header's time is the miner's statement, not a time they existed by; the header is only as good as header-file-one-chain-real-20261107, and this check does not test proof of work"
+    ],
+    "result_against_report_schema": [
+     "{'subject': {'kind': 'signature', 'of': {'profile': 'dps-signatures', 'assertion': 'person_approval', 'key_ref': 'laurent-passkey-1', 'decision_id': 'DR-2026-1104', 'stage_id': 'o1'}}, 'checks': {'proof': 'verified', 'subject_bytes': 'not_checked', 'operations': 'verified', 'attestation': 'verified', 'header': 'verified'}, 'findings': ['the subject names a person_approval of the signatures profile, which checks it; this check holds checkpoints only', \"the subject's bytes existed before block 974850 was mined; its header's time is the miner's statement, not a time they existed by; the header is only as good as header-file-one-chain-real-20261107, and this check does not test proof of work\"], 'issuer_time': {'status': 'not_checked', 'findings': [\"an OpenTimestamps proof gives no time that holds, so no issuer's time is compared with it\"]}, 'format': 'opentimestamps', 'block': {'height': 974850, 'hash_hex': '00000000000000000000d541103f1d49fd6b0e382efbbbabfc5b4093dea4b5c5', 'header_source_ref': 'header-file-one-chain-real-20261107'}, 'miner_stated_time': '2026-11-06T20:01:21Z', 'status': 'not_checked', 'timestamp_index': 0} should not be valid under {'anyOf': [{'required': ['block']}, {'required': ['miner_stated_time']}]}"
+    ]
+   },
+   "time_anchor_08_route_2": {
+    "result": "valid",
+    "steps": [
+     "branch height 974877: verified",
+     "branch height 974890: verified",
+     "branch height 974850: verified"
+    ],
+    "block_height_H": 974850,
+    "block_time_RWCP": 1793995281,
+    "confirmations_established": 46
+   },
+   "verified": true,
+   "what_it_shows": "these bytes existed before block 974850 was mined, per the held header (miner_stated_time 2026-11-06T20:01:21Z); not who wrote them, not that they are true, not their order among the subjects of that block"
+  },
+  {
+   "subject": "action-binding-attachment-a1.json",
+   "subject_kind": "action_binding_attachment: document bytes, a subject kind anchoring 0.2.0 does not define",
+   "subject_sha256": "c22c454f26e0ddad125654d7d8255d06e51353702a0ef686d82692b8cae537be",
+   "proof_sha256": "a6bd5b8a1b9e6e73485e93c65660020cc95cd586af4711caa5d992489aa8af0b",
+   "bitcoin_attestations": [
+    {
+     "height": 974850,
+     "calendar": "https://bob.btc.calendar.opentimestamps.org"
+    },
+    {
+     "height": 974877,
+     "calendar": "https://finney.calendar.eternitywall.com"
+    },
+    {
+     "height": 974890,
+     "calendar": "https://btc.calendar.catallaxy.com"
+    }
+   ],
+   "anchoring_0_2_0": {
+    "how": "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/, the four other checks are the reference check's",
+    "status": "verified",
+    "checks": {
+     "proof": "verified",
+     "subject_bytes": "verified",
+     "operations": "verified",
+     "attestation": "verified",
+     "header": "verified"
+    },
+    "block": {
+     "height": 974850,
+     "hash_hex": "00000000000000000000d541103f1d49fd6b0e382efbbbabfc5b4093dea4b5c5",
+     "header_source_ref": "header-file-one-chain-real-20261107"
+    },
+    "miner_stated_time": "2026-11-06T20:01:21Z",
+    "findings": [
+     "the subject's bytes existed before block 974850 was mined; its header's time is the miner's statement, not a time they existed by; the header is only as good as header-file-one-chain-real-20261107, and this check does not test proof of work"
+    ],
+    "result_against_report_schema": [
+     "Additional properties are not allowed ('document', 'file' were unexpected)",
+     "'document_bytes' is not one of ['seal', 'chain_link', 'signature']"
+    ]
+   },
+   "time_anchor_08_route_2": {
+    "result": "valid",
+    "steps": [
+     "branch height 974850: verified",
+     "branch height 974877: verified",
+     "branch height 974890: verified"
+    ],
+    "block_height_H": 974850,
+    "block_time_RWCP": 1793995281,
+    "confirmations_established": 46
+   },
+   "verified": true,
+   "what_it_shows": "these bytes existed before block 974850 was mined, per the held header (miner_stated_time 2026-11-06T20:01:21Z); not who wrote them, not that they are true, not their order among the subjects of that block"
+  },
+  {
+   "subject": "action-binding-attachment-a2.json",
+   "subject_kind": "action_binding_attachment: document bytes, a subject kind anchoring 0.2.0 does not define",
+   "subject_sha256": "a09cb632c406f4e465e12588cc7663a2300dca5598c8fa04ceee2baeddb0afc8",
+   "proof_sha256": "2a48de62e34be112c03aa586fc910f6efa8b292626baf77483049e5184290b9b",
+   "bitcoin_attestations": [
+    {
+     "height": 974850,
+     "calendar": "https://bob.btc.calendar.opentimestamps.org"
+    },
+    {
+     "height": 974877,
+     "calendar": "https://finney.calendar.eternitywall.com"
+    },
+    {
+     "height": 974890,
+     "calendar": "https://btc.calendar.catallaxy.com"
+    }
+   ],
+   "anchoring_0_2_0": {
+    "how": "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/, the four other checks are the reference check's",
+    "status": "verified",
+    "checks": {
+     "proof": "verified",
+     "subject_bytes": "verified",
+     "operations": "verified",
+     "attestation": "verified",
+     "header": "verified"
+    },
+    "block": {
+     "height": 974850,
+     "hash_hex": "00000000000000000000d541103f1d49fd6b0e382efbbbabfc5b4093dea4b5c5",
+     "header_source_ref": "header-file-one-chain-real-20261107"
+    },
+    "miner_stated_time": "2026-11-06T20:01:21Z",
+    "findings": [
+     "the subject's bytes existed before block 974850 was mined; its header's time is the miner's statement, not a time they existed by; the header is only as good as header-file-one-chain-real-20261107, and this check does not test proof of work"
+    ],
+    "result_against_report_schema": [
+     "Additional properties are not allowed ('document', 'file' were unexpected)",
+     "'document_bytes' is not one of ['seal', 'chain_link', 'signature']"
+    ]
+   },
+   "time_anchor_08_route_2": {
+    "result": "valid",
+    "steps": [
+     "branch height 974850: verified",
+     "branch height 974877: verified",
+     "branch height 974890: verified"
+    ],
+    "block_height_H": 974850,
+    "block_time_RWCP": 1793995281,
+    "confirmations_established": 46
+   },
+   "verified": true,
+   "what_it_shows": "these bytes existed before block 974850 was mined, per the held header (miner_stated_time 2026-11-06T20:01:21Z); not who wrote them, not that they are true, not their order among the subjects of that block"
+  },
+  {
+   "subject": "verdict-record.json",
+   "subject_kind": "verdict_record: document bytes, a subject kind anchoring 0.2.0 does not define",
+   "subject_sha256": "f2c1b153c338848f63918c30f2b614440a3ad1cb4e4fadba01bf5a6ea2522c94",
+   "proof_sha256": "8f09180b7b5955d8a5dfad21834894f2a50ffa3ebdfe17758065a62da27923c0",
+   "bitcoin_attestations": [
+    {
+     "height": 974890,
+     "calendar": "https://btc.calendar.catallaxy.com"
+    },
+    {
+     "height": 974877,
+     "calendar": "https://finney.calendar.eternitywall.com"
+    },
+    {
+     "height": 974850,
+     "calendar": "https://alice.btc.calendar.opentimestamps.org"
+    }
+   ],
+   "anchoring_0_2_0": {
+    "how": "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/, the four other checks are the reference check's",
+    "status": "verified",
+    "checks": {
+     "proof": "verified",
+     "subject_bytes": "verified",
+     "operations": "verified",
+     "attestation": "verified",
+     "header": "verified"
+    },
+    "block": {
+     "height": 974850,
+     "hash_hex": "00000000000000000000d541103f1d49fd6b0e382efbbbabfc5b4093dea4b5c5",
+     "header_source_ref": "header-file-one-chain-real-20261107"
+    },
+    "miner_stated_time": "2026-11-06T20:01:21Z",
+    "findings": [
+     "the subject's bytes existed before block 974850 was mined; its header's time is the miner's statement, not a time they existed by; the header is only as good as header-file-one-chain-real-20261107, and this check does not test proof of work"
+    ],
+    "result_against_report_schema": [
+     "Additional properties are not allowed ('document', 'file' were unexpected)",
+     "'document_bytes' is not one of ['seal', 'chain_link', 'signature']"
+    ]
+   },
+   "time_anchor_08_route_2": {
+    "result": "valid",
+    "steps": [
+     "branch height 974890: verified",
+     "branch height 974877: verified",
+     "branch height 974850: verified"
+    ],
+    "block_height_H": 974850,
+    "block_time_RWCP": 1793995281,
+    "confirmations_established": 46
+   },
+   "verified": true,
+   "what_it_shows": "these bytes existed before block 974850 was mined, per the held header (miner_stated_time 2026-11-06T20:01:21Z); not who wrote them, not that they are true, not their order among the subjects of that block"
+  },
+  {
+   "subject": "dispute-packet.json",
+   "subject_kind": "dispute_packet: document bytes, a subject kind anchoring 0.2.0 does not define",
+   "subject_sha256": "c0769496cb940657da266618e1568f47cd269bbb9da066fe59abf106cb1c08ec",
+   "proof_sha256": "ffbee578e7a452c28ba01c1d18cad3c5f81a8f8669f4f41fda7713bbddeca5f4",
+   "bitcoin_attestations": [
+    {
+     "height": 974877,
+     "calendar": "https://finney.calendar.eternitywall.com"
+    },
+    {
+     "height": 974850,
+     "calendar": "https://bob.btc.calendar.opentimestamps.org"
+    },
+    {
+     "height": 974890,
+     "calendar": "https://btc.calendar.catallaxy.com"
+    }
+   ],
+   "anchoring_0_2_0": {
+    "how": "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/, the four other checks are the reference check's",
+    "status": "verified",
+    "checks": {
+     "proof": "verified",
+     "subject_bytes": "verified",
+     "operations": "verified",
+     "attestation": "verified",
+     "header": "verified"
+    },
+    "block": {
+     "height": 974850,
+     "hash_hex": "00000000000000000000d541103f1d49fd6b0e382efbbbabfc5b4093dea4b5c5",
+     "header_source_ref": "header-file-one-chain-real-20261107"
+    },
+    "miner_stated_time": "2026-11-06T20:01:21Z",
+    "findings": [
+     "the subject's bytes existed before block 974850 was mined; its header's time is the miner's statement, not a time they existed by; the header is only as good as header-file-one-chain-real-20261107, and this check does not test proof of work"
+    ],
+    "result_against_report_schema": [
+     "Additional properties are not allowed ('document', 'file' were unexpected)",
+     "'document_bytes' is not one of ['seal', 'chain_link', 'signature']"
+    ]
+   },
+   "time_anchor_08_route_2": {
+    "result": "valid",
+    "steps": [
+     "branch height 974877: verified",
+     "branch height 974850: verified",
+     "branch height 974890: verified"
+    ],
+    "block_height_H": 974850,
+    "block_time_RWCP": 1793995281,
+    "confirmations_established": 46
+   },
+   "verified": true,
+   "what_it_shows": "these bytes existed before block 974850 was mined, per the held header (miner_stated_time 2026-11-06T20:01:21Z); not who wrote them, not that they are true, not their order among the subjects of that block"
+  }
+ ],
+ "attachment": {
+  "sha256": "ca4350f8d47e5ca6d6b68e798d33d49d15bb30c57dff5faba85a73b90781ed81",
+  "schema_valid": true,
+  "timestamps": 1
+ },
+ "trust_policy": {
+  "schema_valid": true,
+  "reference_check": {
+   "status": "verified"
+  }
+ },
+ "summary": {
+  "proofs": 5,
+  "verified_on_both_routes": 5,
+  "blocks": [
+   974850,
+   974877,
+   974890
+  ],
+  "lowest_block_reported": [
+   974850
+  ],
+  "calendars": [
+   "https://alice.btc.calendar.opentimestamps.org",
+   "https://bob.btc.calendar.opentimestamps.org",
+   "https://btc.calendar.catallaxy.com",
+   "https://finney.calendar.eternitywall.com"
+  ],
+  "all_verified": true
+ }
+}

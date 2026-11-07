@@ -159,6 +159,18 @@ than by this case: in Thaha's receipts, a member for the reference to the approv
 2, one optional key); in Goshi's text, a construction for `action_hash`, the approval event hash and the ledger event, so
 that a second implementation of the profile could compute them.
 
+## Independent time bound (`anchoring/`, 7 November 2026)
+
+Five objects of the positive chain, the exact bytes of `out/positive/` (the finance controller's signature value, A1, A2,
+the verdict record, the dispute packet), were submitted to OpenTimestamps on 2026-11-06T17:34:21Z; the proofs reach four
+Bitcoin blocks through four calendars (alice 974838, finney 974839, bob 974842, catallaxy 974847) and are re-checked
+offline in `anchoring/verify.py` against a pinned header set (974838 to 974852, two explorers, byte-identical) by the
+Standard's anchoring 0.2.0 reference check and by `../umarise/verify_anchor.py` (route 2): 5/5 verified on both, lowest
+block 974838, `miner_stated_time` 2026-11-06T18:44:06Z. What this shows: these bytes existed before block 974838 was mined,
+per the header held, a bound from a clock none of the four issuers controls; the header's time is the miner's statement,
+never a time the bytes existed at. What it does not: who wrote an object, that its content is true, the order of two
+objects anchored in one block; the case's own times stay synthetic. Details and limits: `anchoring/README.md`.
+
 ## Running
 
 ```

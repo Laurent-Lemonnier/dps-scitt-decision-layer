@@ -12,7 +12,8 @@
 #   ./stamp.sh            # verifies SHA256SUMS, then `ots stamp` each subject, writes <subject>.ots and STAMPED-AT.txt
 #   OTS=/path/to/ots ./stamp.sh
 # Later, once a Bitcoin block includes the commitments (hours): `ots upgrade *.ots`, then the anchoring 0.2.0 attachment
-# and the two verifiers, as planned for case 18 (NOTE.md there).
+# and the two verifiers, as planned for case 18 (NOTE.md there). Done: submitted 2026-11-06T19:52:59Z (STAMPED-AT.txt),
+# upgraded 7 November 2026, checked by ./verify.py (README.md here).
 set -euo pipefail
 cd "$(dirname "$0")/subjects"
 OTS="${OTS:-/root/claude-ops/ietf/ots-venv/bin/ots}"

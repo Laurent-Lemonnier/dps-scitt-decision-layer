@@ -24,7 +24,7 @@ validity from the enrolment of 2026-11-04T23:06:01Z, relying party `sign.pria.fr
 | signature | verified | the challenge in clientDataJSON is the SHA-256 of the signed bytes the check rebuilt from the attachment's fields (profile, version, assertion, key_ref, decision, stage, outcome, the three digests, signed_at); type `webauthn.get`; origin `https://sign.pria.fr`, allowed by the policy; `crossOrigin` false, no `topOrigin`; rpIdHash = SHA-256(`sign.pria.fr`); ECDSA P-256 over authenticatorData ‖ SHA-256(clientDataJSON) under the pinned point |
 | authenticator facts | UP true, UV true | flags byte 0x1d (UP, UV, BE, BS); signature counter 0 (as iPhone passkeys report it) |
 | subject | verified | against A1: o1 is an outcome stage, `approved`; its review v1 was shown the same specification digest and the same view digest; o1's `approved_spec_digest` is the signed one |
-| key state | verified | `signed_at` 19:05:00Z inside [not_before, not_after], basis: the stated time (no independent timestamp yet, see Anchoring) |
+| key state | verified | `signed_at` 19:05:00Z inside [not_before, not_after], basis: the stated time (the OpenTimestamps proof of `anchoring/` bounds the signature value from outside, before block 974850, but this check does not read it; see Anchoring) |
 | identity | verified | the actor o1 names (`laurent-lemonnier`) is the holder the policy binds the key to; source `urn:pria:sign:enrolment:laurent-passkey-1` |
 
 The same check, read through case 17's `dps_checks`, is what `person_approval: verified` means on A1 and A2 in `summary.json`;
@@ -42,7 +42,8 @@ attempt at 19:07:08, A2 sealed 19:08, the verdict 20:00, the packet 21:00, all b
 specification); it names the role, finance controller, that the person acted in for this case. Two details worth knowing:
 the server received the assertion at 19:06:54Z while `signed_at` reads 19:05:00Z, the moment the request was prepared and
 the bytes fixed (sign.py writes `signed_at` before the ceremony; the stages that follow the approval are placed after
-19:06:54Z); and `signed_at` is the person's statement, bounded by nothing independent until a timestamp covers the signature.
+19:06:54Z); and `signed_at` is the person's statement; what is bounded from outside is the signature value's existence,
+before block 974850 (`miner_stated_time` 2026-11-06T20:01:21Z) per the OpenTimestamps proof of `anchoring/`, not the moment stated.
 
 ## The chain, as case 18 ran it
 
@@ -79,17 +80,24 @@ Each is the valid chain changed in one place. The first six touch the one real t
 Each case's directory holds every document, `what.txt`, `result.json` and `real-approval.json` (the Standard's full reading of
 the person's signature for that case, with the findings quoted above).
 
-## Anchoring (prepared, not submitted)
+## Anchoring: independent time bound (`anchoring/`, submitted 6 November, verified 7 November 2026)
 
-`anchoring/subjects/` holds the five subjects to timestamp for this chain, in the shape used for case 18: the raw DER
-signature value of the passkey assertion (`approval-signature.bin`, 72 bytes, SHA-256 `9cdba62a…`), A1, A2, the verdict record
-and the dispute packet of `out/positive/`, with `SHA256SUMS`; `anchoring/stamp.sh` submits them with the OpenTimestamps client
-and is not run by `build.py`, `run.sh` or CI. The five OpenTimestamps proofs submitted on 2026-11-06T17:34:21Z
-(`/root/claude-ops/ietf/horodatage-20261106-case18/`, to be added to case 18 once a block includes them) are over **case
-18's** bytes, the finance controller's test signature and that chain's attachments: they cover nothing here. The proofs for
-18b are to be submitted when Laurent Lemonnier decides; once upgraded, a proof over `approval-signature.bin` gives the key
-state check an upper bound from a clock none of the parties controls (anchoring 0.2.0, `time_basis independent_timestamp`),
-where today it rests on the stated time.
+`anchoring/subjects/` holds the five subjects of this chain, in the shape used for case 18: the raw DER signature value of
+the passkey assertion (`approval-signature.bin`, 72 bytes, SHA-256 `9cdba62a…`), A1, A2, the verdict record and the dispute
+packet of `out/positive/`, with `SHA256SUMS`. `anchoring/stamp.sh` submitted them to OpenTimestamps on 2026-11-06T19:52:59Z
+(Laurent Lemonnier's decision; the script is not run by `build.py`, `run.sh` or CI and refuses to stamp twice). The proofs,
+upgraded on 7 November 2026, reach three Bitcoin blocks (974850 through alice or bob, finney 974877, catallaxy 974890) and
+are re-checked offline by `anchoring/verify.py` against a pinned header set (974850 to 974895, two explorers,
+byte-identical) with the Standard's anchoring 0.2.0 reference check (`anchoring-attachment.json`: the signature value as
+the subject of a `person_approval`, `laurent-passkey-1`; `trust-policy-anchoring.json`: the case's policy plus the
+`header_file` source) and with `../umarise/verify_anchor.py` (route 2): 5/5 verified on both, lowest block 974850,
+`miner_stated_time` 2026-11-06T20:01:21Z. What this shows: the real signature value, and the four documents, existed
+before block 974850 was mined, per the header held, an upper bound from a clock none of the parties controls (`signed_at`
+19:05:00Z, received 19:06:54Z); the header's time is the miner's statement, never a time the bytes existed at. What it does
+not: who signed (the signatures check establishes that, not the proof), that any content is true, the order of two objects
+in one block; the key state check above still reads the stated time (it is not rewired to the proof). The five proofs of
+2026-11-06T17:34:21Z in `../one-chain/anchoring/` are over **case 18's** bytes and cover nothing here. Details:
+`anchoring/README.md`.
 
 ## For the pre-read
 

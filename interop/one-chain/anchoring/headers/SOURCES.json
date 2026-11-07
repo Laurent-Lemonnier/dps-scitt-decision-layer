@@ -1,0 +1,36 @@
+{
+ "about": "The Bitcoin mainnet block headers this case's verifier holds (anchoring 0.2.0: a header_file source named by the trust policy; draft-fassbender-scitt-time-anchor-08: the verifier's validated chain, route 2). Pinned on 7 November 2026; read offline by verify.py. Each entry: the 80-byte header as hex, its block hash computed locally (SHA-256 of SHA-256 of the header, bytes reversed) and miner_stated_time, the header's nTime (bytes 68 to 71, little-endian) as UTC: the miner's statement, never a time anything existed at.",
+ "source_ref": "header-file-one-chain-20261107",
+ "network": "mainnet",
+ "kind": "header_file",
+ "holder": "Laurent Lemonnier (this repository, interop/one-chain/anchoring/headers)",
+ "file": "headers-974838-974852.json",
+ "heights": {
+  "from": 974838,
+  "to": 974852,
+  "count": 15
+ },
+ "checkpoint": {
+  "height": 974838,
+  "block_hash": "00000000000000000001df1dcade8183e39a15562f369d470e42d9d965f8b1fb",
+  "about": "the point the verifier holds; validate_chain anchors the set here and checks linkage, proof of work, powLimit and the difficulty rule from it (interop/umarise/verify_anchor.py)"
+ },
+ "fetched": [
+  {
+   "source": "blockstream.info",
+   "urls": "https://blockstream.info/api/block-height/<height> (block hash), then https://blockstream.info/api/block/<hash>/header (80-byte header, hex)",
+   "via": "cc-web get, from doulassur-prod",
+   "started_at": "2026-11-07T08:38:13Z",
+   "finished_at": "2026-11-07T08:39:11Z"
+  },
+  {
+   "source": "mempool.space",
+   "urls": "https://mempool.space/api/block-height/<height>, then https://mempool.space/api/block/<hash>/header",
+   "via": "cc-web get, from doulassur-prod",
+   "started_at": "2026-11-07T08:40:06Z",
+   "finished_at": "2026-11-07T08:40:19Z"
+  }
+ ],
+ "byte_identical_between_sources": true,
+ "limit": "two block explorers are not the verifier's own node: what the set shows is real proof of work above the checkpoint, not that it is the most-work chain from genesis (interop/umarise/README.md)."
+}
