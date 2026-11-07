@@ -12,7 +12,7 @@ This directory carries that pass three ways, with existing texts and existing co
 |---|---|---|
 | WHO: who approved what | Decision Provenance Standard, action binding 0.3.0 and signatures 0.2.0, main at `007f8c9` | the decision record; two **standing approvals** (each an exact list of posts or members, a count and a period, signed with `person_standing_approval`); eleven **exact approvals or rejections** of a comment's text (signed with `person_approval` or `person_review`); for each action, its request, its recheck, its attempt and the result observed |
 | CAN: what the gate let through | Seal ACTION-v1, draft-chueayen-attestation-receipts-05 | 35 `ALLOWED` records and 5 `BLOCKED` records naming the rule that stopped them |
-| WHAT: what happened | Agent Action Capsule format 4, draft-mih-scitt-agent-action-capsule, library 0.12.0 | one capsule per action, citing the decision record and the attachment by CPB typed digest references; `human_disposed` is true only for an action a person approved exactly |
+| WHAT: what happened | Agent Action Capsule format 4, draft-mih-scitt-agent-action-capsule, library 0.15.0 (0.12.0 until 7 November 2026) | one capsule per action, citing the decision record and the attachment by CPB typed digest references; `human_disposed` is true only for an action a person approved exactly |
 
 The data is synthetic: it has the shape of a real pass (the same counts, the same kinds of action and of refusal) and
 no real person, post or text. The keys are test keys.
@@ -82,7 +82,7 @@ out, and the count under a standing approval is of requests recorded.
 ## Reproduce
 
 ```sh
-# cryptography, jsonschema, asn1crypto, agent-action-capsule==0.12.0, and the Standard at 007f8c9
+# cryptography, jsonschema, asn1crypto, agent-action-capsule==0.15.0, and the Standard at 007f8c9
 DPS_STANDARD=/path/to/standard python3 build.py
 DPS_STANDARD=/path/to/standard python3 negatives.py
 ```

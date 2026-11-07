@@ -12,7 +12,7 @@ object of its own between them:
 | Layer | Text | What it records here |
 |---|---|---|
 | WHO: who approved what | Decision Provenance Standard, action binding 0.3.0 and signatures 0.2.0, main at `007f8c9` | the decision record; **one specification, the plan** (its steps and their hash), proposed by the assistant, shown, approved once and signed with `person_approval`; one request, recheck, attempt and observed result for the plan as a whole; the issuer's seal over the attachment |
-| WHAT: what happened | Agent Action Capsule format 4, draft-mih-scitt-agent-action-capsule, library 0.12.0 | **one capsule per step**, citing the decision record and the state of the run's context it ran under (`ran_under`), each chained to the step before it (`chain.relation: follows`) |
+| WHAT: what happened | Agent Action Capsule format 4, draft-mih-scitt-agent-action-capsule, library 0.15.0 (0.12.0 until 7 November 2026) | **one capsule per step**, citing the decision record and the state of the run's context it ran under (`ran_under`), each chained to the step before it (`chain.relation: follows`) |
 | the mother | `out/plan-run-manifest.json`, a provisional shape of this repository (`net.isoluce.plan_run` 0.1.0), of neither text | names the approved specification and its plan hash; lists, for each step of the plan, the capsule that executed it, the request it sent, the outputs it recorded, and the state of the context before and after it; the DPS result names it by its digest, under the issuer's seal |
 
 The data is synthetic: a plan of the shape a broker's runtime runs, with no real client, document or person. The keys
@@ -152,7 +152,7 @@ data; the manifest is what the projection needed and found in neither.
 ## Reproduce
 
 ```sh
-# cryptography, jsonschema, asn1crypto, agent-action-capsule==0.12.0, and the Standard at 007f8c9
+# cryptography, jsonschema, asn1crypto, agent-action-capsule==0.15.0, and the Standard at 007f8c9
 DPS_STANDARD=/path/to/standard python3 build.py
 DPS_STANDARD=/path/to/standard python3 negatives.py
 ```

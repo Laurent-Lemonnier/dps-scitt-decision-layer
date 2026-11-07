@@ -12,7 +12,7 @@ after the checkpoint carry her decision.
 | WHO, the plan | Decision Provenance Standard, action binding 0.3.0 and signatures 0.2.0, main at `007f8c9` | as in `../plan-run/`: one specification, the plan, approved once and signed |
 | WHO, the checkpoint | the same | **a second decision record** (options, reasons, inputs) with its own attachment: one specification, `workflow.resume` at step 1, whose parameters name by digest **the state of the run's context after step 0** and **the adjudication** decided under; shown, approved once, signed with `person_approval`; the issuer's seal over the attachment |
 | the epistemic input | draft-nestorov-scitt-p10-underdetermination-02, Section 9 (shape only) | `out/adjudication.json`: an adjudication in the shape P10 lists, over a two-source screening fixture (`out/screening-fixture.json`): claim, closed evidence, two witness worlds, every structured digest recomputable; outcome `NotDemonstrated(reason=underdetermined)` |
-| WHAT | Agent Action Capsule format 4, library 0.12.0 | one capsule per step; the capsules of steps 1 and 2 cite the checkpoint decision as well as the plan's (`ran_under`), step 0's does not |
+| WHAT | Agent Action Capsule format 4, library 0.15.0 (0.12.0 until 7 November 2026) | one capsule per step; the capsules of steps 1 and 2 cite the checkpoint decision as well as the plan's (`ran_under`), step 0's does not |
 | the mother | `out/plan-run-manifest.json` (`net.isoluce.plan_run` 0.1.0, provisional) | the steps, the context states, and a `checkpoints` entry between steps 0 and 1: the state decided on, the decision record by its seal digest, the adjudication by its digest, when it was decided and resumed |
 
 Synthetic data, test keys, as in the plan case.
