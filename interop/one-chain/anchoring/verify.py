@@ -109,18 +109,30 @@ def run(here=HERE, case=CASE):
 
     # 1. The subjects: the pinned bytes (SHA256SUMS) are the chain's documents in out/positive/ and the signature value
     #    the signatures attachment carries. The proofs are over these bytes and nothing else.
+    #    Since 8 November 2026 one subject is known to differ from out/positive/: the dispute packet, whose anchored bytes are
+    #    the first reading of -01 while the chain now builds the packet with the constructions its author gave (readings.json,
+    #    both digests). That difference is reported, not failed; the current bytes must be the ones readings.json records.
     sums = dict(line.split()[::-1] for line in (sub / "SHA256SUMS").read_text().splitlines() if line.strip())
+    readings = json.loads((here / "readings.json").read_text()) if (here / "readings.json").exists() else {}
     positive = case / "out" / "positive"
     sig = json.loads((positive / "signatures-attachment.json").read_text())["person_signatures"][0]
     for name in SUBJECTS:
         data = (sub / name).read_bytes()
-        same_as = (base64.b64decode(sig["signature"]["value_b64"]) == data if name == "approval-signature.bin"
-                   else (positive / name).read_bytes() == data)
+        current = base64.b64decode(sig["signature"]["value_b64"]) if name == "approval-signature.bin" else (positive / name).read_bytes()
+        same_as = current == data
         result["subjects"][name] = {"sha256": sha256(data), "bytes": len(data), "in_sha256sums": sums.get(name) == sha256(data),
                                     "equals_out_positive": same_as}
         if sums.get(name) != sha256(data):
             problems.append(f"{name}: not the bytes SHA256SUMS pins")
-        if not same_as:
+        if not same_as and name in readings:
+            rd = readings[name]
+            known = rd.get("anchored_sha256") == sha256(data) and rd.get("current_sha256") == sha256(current)
+            result["subjects"][name]["known_difference"] = {"anchored_sha256": rd.get("anchored_sha256"), "anchored_reading": rd.get("anchored_reading"),
+                                                            "out_positive_sha256": sha256(current), "current_reading": rd.get("current_reading"),
+                                                            "both_digests_as_recorded": known}
+            if not known:
+                problems.append(f"{name}: differs from out/positive/ and the two digests are not the ones readings.json records")
+        elif not same_as:
             problems.append(f"{name}: not the bytes of out/positive/ (the chain was rebuilt differently)")
     # 2. The header set: every block hash recomputed, the set validated from the checkpoint by the umarise verifier.
     cp = sources["checkpoint"]
@@ -212,13 +224,15 @@ def run(here=HERE, case=CASE):
     for d in documents["proofs"]:
         name = pathlib.Path(d["subject"]["file"]).name
         data = (sub / name).read_bytes()
-        local = "verified" if result["subjects"][name]["in_sha256sums"] and result["subjects"][name]["equals_out_positive"] else "failed"
+        s = result["subjects"][name]
+        local = "verified" if s["in_sha256sums"] and (s["equals_out_positive"] or s.get("known_difference", {}).get("both_digests_as_recorded")) else "failed"
         out = {"subject": {"kind": d["subject"]["kind"], "document": d["subject"]["document"], "file": d["subject"]["file"]},
                "checks": {}, "findings": [], "issuer_time": {"status": "not_checked"}}
         ref = RC.check_ots(d, policy, out, local, data, held_headers)
         record(name, f"{d['subject']['document']}: document bytes, a subject kind anchoring 0.2.0 does not define", ref,
                "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: "
-               "subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/, the four other "
+               "subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/ (or, for a subject "
+               "readings.json names, with the two digests it records: the anchored bytes and the current ones), the four other "
                "checks are the reference check's")
 
     result["summary"] = {"proofs": len(result["proofs"]), "verified_on_both_routes": sum(p["verified"] for p in result["proofs"]),
