@@ -152,6 +152,41 @@ def n17(p):
     p.update(recorded="nothing", dispute_reason_code="unrecognized_transaction")
 
 
+# N18-N21 (8 November 2026): one failing case per construction the author gave by mail (see goshi_from_text.py)
+
+@case("N18-action-packet-hash-not-the-action-hash", ["goshi:ACTION_PACKET_HASH_MISMATCH", "K9"],
+      "the ActionExecuted event the receipt's ledger_entry_hash names carries an action_packet_hash that is not the receipt's action_hash: "
+      "the author's equality (ledger_entry_hash construction) is refused; the ledger itself recomputes and links")
+def n18(p):
+    p["action_packet_hash"] = "f" * 64
+
+
+@case("N19-scope-event-executed-action-altered-and-rechained", ["goshi:ACTION_HASH_MISMATCH", "goshi:SCOPE_HASH_MISMATCH", "goshi:SCOPE_HEADLINE_MISMATCH",
+                                                                "goshi:MANIFEST_SCOPE_INPUT_DIFFERS", "K7"],
+      "the executed_action recorded in the ScopeEvaluated event was changed (amount + 1.00) and the ledger re-chained over it, so every "
+      "event hash and link recomputes: the event's action_hash no longer recomputes from its recorded executed_action, the receipt's "
+      "action_hash is no longer the canonical hash of what the event records, the manifest's copy differs from the event's, and the "
+      "verdict re-derived from the recorded inputs (BREACH:amount_minor) is not the headline (in_scope); K1 stays true, since it reads "
+      "the hashes the records carry, which were not changed")
+def n19(p):
+    p["scope_event"] = "executed_altered"
+
+
+@case("N20-manifest-without-any-settlement-block", ["goshi:SETTLEMENT_BLOCK_MISSING", "K8"],
+      "the manifest carries no settlement block at all, where the author's shape has an unanchored packet state exactly "
+      "{status: SETTLEMENT_UNANCHORED} (N9): Goshi 4.3 says a manifest without the block MUST fail")
+def n20(p):
+    p["settlement"] = "missing"
+
+
+@case("N21-approval-event-for-another-action", ["goshi:APPROVAL_EVENT_ACTION_HASH_MISMATCH", "K6"],
+      "the ApprovalGranted event the packet cites carries an action_hash that is neither the receipt's action_hash nor the scope_hash: "
+      "the approval the ledger records is of some other action (the author's construction: the payload's action_hash must equal the "
+      "receipt's); the event itself recomputes and is in the slice")
+def n21(p):
+    p["approval_action_hash"] = "a" * 64
+
+
 def failed_places(a, r):
     l12, failed = r["link1_2_thaha_dps"], set()
     if l12["aee"]["result"] != "CHECKS_PERFORMED":

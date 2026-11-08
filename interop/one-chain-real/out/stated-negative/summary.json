@@ -324,23 +324,18 @@
   "checks": [
    "receipt signature verified over the canonical payload bytes with the key resolved out of band (F-5.2 steps 2-5)",
    "the receipt carries the three base members and the eleven profile members of Section 3",
-   "settlement anchor_hash recomputed over the block's content (4.3)",
+   "settlement anchor_hash recomputed over the anchor object inside the anchored block (4.3, the author's construction)",
    "settlement amount and currency equal the manifest's headline amount (5: headline consistency)",
-   "5 ledger events recompute and link (5)",
-   "scope verdict re-derived from intent scope and executed action: BREACH:amount_minor; receipt and manifest headline agree (4.2, 5)",
+   "6 ledger events recompute and link (5)",
+   "ledger_entry_hash is the ActionExecuted event of this action; its action_packet_hash equals action_hash (3, the author's construction)",
+   "scope verdict re-derived from the intent scope and executed action the ScopeEvaluated event records: BREACH:amount_minor; receipt and manifest headline agree (4.2, 5)",
+   "action_hash is the canonical hash of the executed_action recorded in the ScopeEvaluated event (3, 4.2)",
    "evidence_set_hash recomputed over the digests the packet cites",
    "3 custody events each bound to a ledger event hash (4.4)"
   ],
   "re_derived": {
-   "canonical_payload_sha256": "2bd4d070e7b30af93ed50bf57750ff230d8c32d53e3f73cb61f173271358ce68",
+   "canonical_payload_sha256": "0eabeac44c8c22ad90f8b57253565f9c02780cb52a81cb16cb84c869cc57d9b6",
    "anchors": [
-    {
-     "name": "approval_event_hash",
-     "type": "org.decisionprovenancestandard.action_binding_attachment",
-     "alg": "SHA-256",
-     "digest": "c22c454f26e0ddad125654d7d8255d06e51353702a0ef686d82692b8cae537be",
-     "state": "resolved"
-    },
     {
      "name": "verdict_record",
      "type": "verdict-record/1",
@@ -368,27 +363,48 @@
      "alg": "SHA-256",
      "digest": "04d2f403133d9e12cc0810bff2d38f7cad21f035cd611428711b534bfec31c08",
      "state": "resolved"
+    },
+    {
+     "name": "approval_event_hash.dps_approval.attachment (extension beyond -01)",
+     "type": "org.decisionprovenancestandard.action_binding_attachment",
+     "alg": "SHA-256",
+     "digest": "c22c454f26e0ddad125654d7d8255d06e51353702a0ef686d82692b8cae537be",
+     "state": "resolved"
+    },
+    {
+     "name": "approval_event_hash.dps_approval.signatures_attachment (extension beyond -01)",
+     "type": "org.decisionprovenancestandard.signatures_attachment",
+     "alg": "SHA-256",
+     "digest": "d9f7ddf5864cc1423477275ab44bbb4a1ad598bcec9d0226eb1acf43c59598df",
+     "state": "resolved"
+    },
+    {
+     "name": "approval_event_hash",
+     "event_hash": "a1c66747e9b1df2dd1a174b6c45941158e9bdaf3ea504b3475b0d85ca394857d",
+     "type": "ApprovalGranted",
+     "state": "resolved in the ledger slice: the event's action_hash is the scope_hash, the approval covers the intent scope and not the executed action, consistent with the BREACH re-derived (this module's reading, open for -02)",
+     "extension": "dps_approval: typed digests of the approval held outside the ledger"
     }
    ],
+   "scope_conformance": "BREACH:amount_minor",
    "approval_event_uses": {
-    "c22c454f26e0ddad125654d7d8255d06e51353702a0ef686d82692b8cae537be": [
+    "a1c66747e9b1df2dd1a174b6c45941158e9bdaf3ea504b3475b0d85ca394857d": [
      "txn-2026-1104-8812"
     ]
    },
-   "scope_conformance": "BREACH:amount_minor",
    "absent": []
   }
  },
  "joins": {
-  "K1 one action digest end to end: the confirm receipt's request_digest (Thaha key 12), the SHA-256 of the parameters of the specification the DPS attempt names, the packet's action_hash and its executed_action_sha256 are the same hex; the intent scope the packet re-derives from is the approved specification's parameters, whose digest the person approved": true,
-  "K2 approval before allow in every record of it: the person's signature (signed_at) and o1 are at the same moment, after the confirm receipt and before the allow outcome; the ledger's ApprovalRecorded event names that moment and precedes ActionExecuted; the ActorValidated event precedes the approval": true,
+  "K1 one action digest end to end: the confirm receipt's request_digest (Thaha key 12), the SHA-256 of the parameters of the specification the DPS attempt names, the packet's action_hash, its executed_action_sha256 and the ScopeEvaluated event's action_hash (the canonical hash of the executed_action it records) are the same hex; the intent scope the packet re-derives from is the approved specification's parameters, whose digest the person approved (the event's scope_hash)": true,
+  "K2 approval before allow in every record of it: the person's signature (signed_at) and o1 are at the same moment, after the confirm receipt and before the allow outcome; the ledger's ApprovalGranted event names that moment and precedes ActionExecuted; the ActorValidated event precedes the approval": true,
   "K3 what executed is cited by record-hash in three places: the DPS attempt (trace_refs) and result (evidence_ref) cite the allow outcome and the tool_result; the ledger's ActionExecuted event carries the same two record-hashes and the response digest; the packet's further anchors name them; the settlement txn_ref is the outcome receipt's transaction id (key 25) and the attempt's trace_ref": true,
   "K4 the verdict's evidence is the exact bytes held of A1, A2 and the record's file (Wright 2.1, 7), and the route 1 statement cites A2 and the signatures attachment by the same digests (the Standard's identity of an attachment is its file's SHA-256)": true,
   "K5 the verdict's result is the re-run's and the Standard's: executed_as_approved exactly when A2 verifies on all eight dimensions natively; not_as_approved exactly when the action_binding dimension fails": true,
-  "K6 the packet's approval event is our attachment: agent_anchors.approval_event_hash is the typed digest of A1's exact bytes, the same hex as the verdict's evidence[0] and the ledger's ApprovalRecorded event; the signatures attachment anchor is the route 1 statement's reference": true,
+  "K6 the packet's approval event is our attachment: agent_anchors.approval_event_hash is the event_hash of the ledger's ApprovalGranted event, whose payload carries (extension beyond -01) the typed digest of A1's exact bytes, the same hex as the verdict's evidence[0]; the signatures attachment anchor is the route 1 statement's reference; the packet verifier resolved the event in the slice and the extension's digest against the bytes held": true,
   "K7 the packet cites the verdict the checker released, by the digest of its bytes, and states as scope_conformance what that verdict's result says: in_scope for executed_as_approved, BREACH:amount_minor for not_as_approved over a different amount": true,
   "K8 what moved is what the result stage observed: the settlement anchor's amount is the executed specification's amount, the amount the ActionExecuted event recorded, and the manifest's headline; equal to the approved amount in the positive chain, different from it in the negative one, where the BREACH names amount_minor": true,
-  "K9 the custody chain closes on the ledger: every custody event is bound to a ledger event that recomputes; the receipt's ledger_entry_hash is the ApprovalRecorded event, whose data are the digests of A1 and the signatures attachment held": true,
+  "K9 the custody chain closes on the ledger: every custody event is bound to a ledger event that recomputes; the receipt's ledger_entry_hash is the ActionExecuted event of this action, whose action_packet_hash is the receipt's action_hash; the ApprovalGranted event's payload carries the digests of A1 and the signatures attachment held": true,
   "K10 one person in every link: the receipts' principal (Thaha 3) is the pepper hash of the canonical identifier of the person o1 names; the ledger's ActorValidated event and the packet's identity category name that identifier": true,
   "K11 the moments are in order across the four: task_end (Thaha) < A2 sealed (DPS) < verdict act_time < the checker's intake (upper bound) < the packet's issued_at; the settlement was captured after the result stage and before the packet": true,
   "K12 four verifiers, the same bytes: Thaha's reaches CHECKS_PERFORMED over the Bundle, the Standard verifies A2 (or fails its action_binding dimension in the negative chain), the checker releases the verdict, the packet verifier reports VERIFIED, and the hex digests they report for A1, A2 and the verdict are identical": true

@@ -32,7 +32,14 @@
    "sha256": "5bcbfea46404e8b16e9d1656da5af8b2d22349ebf39a199c7e456d8cc5d359e9",
    "bytes": 8755,
    "in_sha256sums": true,
-   "equals_out_positive": true
+   "equals_out_positive": false,
+   "known_difference": {
+    "anchored_sha256": "5bcbfea46404e8b16e9d1656da5af8b2d22349ebf39a199c7e456d8cc5d359e9",
+    "anchored_reading": "the first reading of draft-xg-payment-dispute-profile-01 (16 October to 7 November 2026): out/positive/dispute-packet.json at commit 341545a, the bytes submitted to OpenTimestamps on 2026-11-06T17:34:21Z; the proof subjects/dispute-packet.json.ots is over these bytes and no others",
+    "out_positive_sha256": "6ac56ce9dec1ae49334ba8f9c118721f20d71a21c2132e22462d5f5a4bd4d03d",
+    "current_reading": "the 8 November 2026 reading: the constructions Xavier Goshi gave by mail for -02 (ScopeEvaluated event recording intent_scope and executed_action, ApprovalGranted event whose payload carries action_hash, ledger_entry_hash with the action_packet_hash equality, anchor_hash over the anchor object inside {status: anchored, anchor, anchor_hash}); not stamped",
+    "both_digests_as_recorded": true
+   }
   }
  },
  "headers": {
@@ -135,7 +142,7 @@
     }
    ],
    "anchoring_0_2_0": {
-    "how": "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/, the four other checks are the reference check's",
+    "how": "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/ (or, for a subject readings.json names, with the two digests it records: the anchored bytes and the current ones), the four other checks are the reference check's",
     "status": "verified",
     "checks": {
      "proof": "verified",
@@ -197,7 +204,7 @@
     }
    ],
    "anchoring_0_2_0": {
-    "how": "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/, the four other checks are the reference check's",
+    "how": "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/ (or, for a subject readings.json names, with the two digests it records: the anchored bytes and the current ones), the four other checks are the reference check's",
     "status": "verified",
     "checks": {
      "proof": "verified",
@@ -259,7 +266,7 @@
     }
    ],
    "anchoring_0_2_0": {
-    "how": "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/, the four other checks are the reference check's",
+    "how": "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/ (or, for a subject readings.json names, with the two digests it records: the anchored bytes and the current ones), the four other checks are the reference check's",
     "status": "verified",
     "checks": {
      "proof": "verified",
@@ -321,7 +328,7 @@
     }
    ],
    "anchoring_0_2_0": {
-    "how": "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/, the four other checks are the reference check's",
+    "how": "check_ots of the reference check (its OpenTimestamps path) over a proof the profile cannot carry: subject_bytes is verify.py's own comparison of the file with SHA256SUMS and out/positive/ (or, for a subject readings.json names, with the two digests it records: the anchored bytes and the current ones), the four other checks are the reference check's",
     "status": "verified",
     "checks": {
      "proof": "verified",

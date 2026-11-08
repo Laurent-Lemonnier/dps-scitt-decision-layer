@@ -14,9 +14,17 @@ re-checks everything offline. An assistant wrote the code and the first draft of
 | `action-binding-attachment-a1.json` | 2,571 | `0c51d7ce…` | the attachment at approval, the bytes the approval covers |
 | `action-binding-attachment-a2.json` | 3,801 | `fc818ef4…` | the attachment after execution (attempt and result citing the Harness receipts) |
 | `verdict-record.json` | 1,551 | `875dfb88…` | Wright's verdict record (its SHA-256 is `record_sha256` of the container) |
-| `dispute-packet.json` | 8,755 | `5bcbfea4…` | the Goshi/Farley dispute packet |
+| `dispute-packet.json` | 8,755 | `5bcbfea4…` | the Goshi/Farley dispute packet, **as read on 6 November** (see below) |
 
-They are byte-identical to the files of `out/positive/` at `341545a` and today (`verify.py` checks both equalities on every run).
+Four of them are byte-identical to the files of `out/positive/` at `341545a` and today (`verify.py` checks both equalities
+on every run). The fifth, the dispute packet, is not since 8 November 2026: the anchored bytes (`5bcbfea4…`) are the first
+reading of draft-xg-payment-dispute-profile-01 (commit `341545a`); the packet the chain now builds (`6ac56ce9…`,
+`out/positive/dispute-packet.json`) follows the constructions the profile's author gave by mail on 8 November 2026
+(`ScopeEvaluated` and `ApprovalGranted` ledger events, `ledger_entry_hash` with the `action_packet_hash` equality,
+`anchor_hash` over the anchor object; `../README.md`, ambiguity log). The proof `subjects/dispute-packet.json.ots` is over
+the 6 November bytes and over nothing else; nothing in `subjects/` was changed. `readings.json` records both digests and
+`verify.py` reports the difference (`known_difference` in `result.json`) instead of failing on it, while still requiring
+that the current packet be the one recorded. The 8 November packet is not stamped.
 
 ## What the proofs reach
 

@@ -12,8 +12,10 @@ record of a different moment, none changed:
      executed-as-approved:v1, checked by the checker written from Wright's text (../verdict-record, case 16);
   4. the dispute packet, draft-xg-payment-dispute-profile-01 over draft-farley-acta-signed-receipts-03: one decision
      receipt whose scope_conformance states what the verdict re-derived, agent anchors carrying the approval event (the
-     digest of A1, typed) and the verdict record's digest, a settlement anchor recording what moved, the ledger slice
-     and the FRE 901 wrapper; verified by goshi_from_text.py, written from the two texts alone.
+     event_hash of the ledger's ApprovalGranted event, whose payload carries the typed digest of A1 as an extension) and
+     the verdict record's digest, a settlement anchor recording what moved, the ledger slice (with the ScopeEvaluated
+     event that records the intent scope and the executed action) and the FRE 901 wrapper; verified by goshi_from_text.py,
+     written from the two texts, since 8 November 2026 with the constructions the author gave by mail (see that module).
 
 The same run twice: executed as approved (the verdict positive, the packet in_scope, 120.00 EUR moved), and the stated
 negative (150.00 EUR executed for 120.00 approved: the verdict stating not_as_approved released, the packet stating
@@ -195,7 +197,10 @@ def build():
             "packet_scope": None,                                    # None: what the verdict says; a string: what the packet asserts
             "packet_headline_amount": None,                          # None: what moved
             "settlement_amount": None,                               # None: the executed amount
-            "settlement": "present",                                 # present | absent | stale_hash
+            "settlement": "present",                                 # present | absent ({status: SETTLEMENT_UNANCHORED}) | stale_hash | missing (no block) | unanchored_extra
+            "action_packet_hash": None,                              # None: action_hash; a hex: what the ActionExecuted event carries (N18)
+            "scope_event": "intact",                                 # intact | executed_altered (the ScopeEvaluated event's executed_action changed, ledger re-chained; N19)
+            "approval_action_hash": None,                            # None: the canonical hash of what the person approved; a hex: what the ApprovalGranted event carries (N21)
             "packet_cites_verdict": "this",                          # this | other | altered
             "custody": "bound",                                      # bound | altered
             "ledger": "intact",                                      # intact | altered
@@ -254,11 +259,32 @@ def typed(t, hexdigest):
     return {"type": t, "alg": "SHA-256", "digest": hexdigest}
 
 
-def ledger_event(events, type_, at, data):
-    ev = {"seq": str(len(events)), "type": type_, "at": at, "data": data, "prev_hash": events[-1]["event_hash"] if events else "0" * 64}
+ACTION_ID = "urn:example:action:refund-8812"                     # the action every event of the slice and the manifest name (the author's action_id)
+
+
+def ledger_event(events, type_, at, data, action_id=ACTION_ID):
+    ev = {"seq": str(len(events)), "action_id": action_id, "type": type_, "at": at, "data": data,
+          "prev_hash": events[-1]["event_hash"] if events else "0" * 64}
     ev["event_hash"] = G.event_hash(ev)
     events.append(ev)
     return ev
+
+
+def rechain(events):
+    """Recompute every event_hash and link after an event's data was changed and the ledger re-chained over it (the
+    alteration is then invisible to the hash and link checks and must be caught by what the data no longer recompute to)."""
+    prev = "0" * 64
+    for ev in events:
+        ev["prev_hash"] = prev
+        ev["event_hash"] = G.event_hash(ev)
+        prev = ev["event_hash"]
+
+
+def settlement_block(anchor):
+    """4.3 as the author constructs it: {status: "anchored", anchor, anchor_hash}, anchor_hash the canonical hash of anchor."""
+    block = {"status": "anchored", "anchor": anchor, "anchor_hash": None}
+    block["anchor_hash"] = G.anchor_hash(block)
+    return block
 
 
 def packet(art, verdict_raw, verdict_result, p, *, cited_digest=None):
@@ -270,59 +296,81 @@ def packet(art, verdict_raw, verdict_result, p, *, cited_digest=None):
     headline_amount = p["packet_headline_amount"] or art["executed"]["amount_minor"]
     scope = p["packet_scope"] or ("in_scope" if verdict_result == "executed_as_approved" else "BREACH:amount_minor")
     vdigest = cited_digest or sha256(verdict_raw)
-    # the ledger slice: what the merchant's ledger recorded, in order
+    intent, executed = art["approved"], art["executed"]
+    # the hashes as the author constructs them (8 November 2026): canonical hash of the recorded objects; the approved
+    # parameters and the executed arguments are sorted-key compact JSON objects, so these are the digests the other links hash
+    scope_hash, action_hash = G.canonical_hash(intent), G.canonical_hash(executed)
+    approval_anchor = typed(TYPE_A, sha256(art["a1_bytes"]))
+    # the ledger slice: what the merchant's ledger recorded, in order, every event for this action_id
     events = []
     ledger_event(events, "ActorValidated", T["review"], {"actor": art["canonical_id"], "method": "finance console login, directory urn:example:directory:people"})
-    approval_ev = ledger_event(events, "ApprovalRecorded", T["a1_sealed"],
+    # ApprovalGranted: the author's event; its payload carries action_hash, the canonical hash of what the person approved (the
+    # approved parameters: equal to the receipt's action_hash when the action executed as approved, to the scope_hash when it
+    # did not). Extension beyond -01: dps_approval, the typed digests of A1 and of the signatures attachment, the approval held
+    approval_ev = ledger_event(events, "ApprovalGranted", T["a1_sealed"],
                                {"decision_id": art["record"]["decision_id"], "approved_spec_digest": o1["approved_spec_digest"],
-                                "attachment_sha256": sha256(art["a1_bytes"]), "signatures_attachment_sha256": sha256(art["sig_bytes"]),
-                                "approved_at": o1["at"]})
+                                "action_hash": scope_hash if p["approval_action_hash"] is None else p["approval_action_hash"],
+                                "approved_at": o1["at"],
+                                "dps_approval": {"note": "extension beyond draft-xg-payment-dispute-profile-01: the approval held outside the ledger",
+                                                 "attachment": approval_anchor, "signatures_attachment": typed(TYPE_S, sha256(art["sig_bytes"]))}})
     exec_ev = ledger_event(events, "ActionExecuted", T["result"],
                            {"txn_ref": TXN, "allow_outcome_record_hash": rh3, "tool_result_record_hash": rh4,
-                            "response_sha256": result[13][1].hex(), "amount_minor": str(art["executed"]["amount_minor"]), "currency": "EUR"})
+                            "response_sha256": result[13][1].hex(), "amount_minor": str(art["executed"]["amount_minor"]), "currency": "EUR",
+                            "action_packet_hash": action_hash if p["action_packet_hash"] is None else p["action_packet_hash"]})
+    # ScopeEvaluated: the author's event; the intent scope and the executed action recorded, scope_hash and action_hash their
+    # canonical hashes, the verdict as the merchant's system evaluated it (the verifier re-derives it from the two objects)
+    scope_ev = ledger_event(events, "ScopeEvaluated", T["result"],
+                            {"intent_scope": intent, "scope_hash": scope_hash, "executed_action": executed, "action_hash": action_hash,
+                             "verdict": scope})
     second = p["second_use_of_approval"]
     if second:                                               # N16: the second transfer, recorded by the ledger like the first
         rh6, rh7 = AEE.record_hash(rs[6]).hex(), AEE.record_hash(rs[7]).hex()
         ledger_event(events, "ActionExecuted", T["result2"],
                      {"txn_ref": TXN2, "allow_outcome_record_hash": rh6, "tool_result_record_hash": rh7,
-                      "response_sha256": rs[7][13][1].hex(), "amount_minor": str(art["executed"]["amount_minor"]), "currency": "EUR"})
-    sa = None
-    if p["settlement"] != "absent":
+                      "response_sha256": rs[7][13][1].hex(), "amount_minor": str(art["executed"]["amount_minor"]), "currency": "EUR",
+                      "action_packet_hash": action_hash})
+    sa, block = None, None
+    if p["settlement"] in ("present", "stale_hash"):
         sa = {"rail": "example-rail", "txn_ref": TXN, "finality_status": "final", "amount_minor": str(moved), "currency": "EUR",
               "captured_at": T["settlement"], "network": None, "payer": "urn:example:customer:C-4471",
               "unanchored_fields": ["network"]}
-        sa["anchor_hash"] = G.anchor_hash(sa)
+        block = settlement_block(sa)
         if p["settlement"] == "stale_hash":
             sa["amount_minor"] = str(moved + 100)
-    settle_ev = ledger_event(events, "SettlementObserved", T["settlement"], {"anchor_hash": sa["anchor_hash"] if sa else None, "txn_ref": TXN})
+    elif p["settlement"] == "absent":                        # the author's exact shape of an unanchored packet
+        block = dict(G.UNANCHORED)
+    elif p["settlement"] == "unanchored_extra":              # N20: states unanchored and carries a field beside status
+        block = dict(G.UNANCHORED, txn_ref=TXN)
+    # "missing": no block at all
+    settle_ev = ledger_event(events, "SettlementObserved", T["settlement"], {"anchor_hash": block["anchor_hash"] if sa else None, "txn_ref": TXN})
     additional, custody_extra = [], []
     if second:
         sa2 = {**sa, "txn_ref": TXN2, "captured_at": T["settlement2"]}
-        del sa2["anchor_hash"]
-        sa2["anchor_hash"] = G.anchor_hash(sa2)
-        settle_ev2 = ledger_event(events, "SettlementObserved", T["settlement2"], {"anchor_hash": sa2["anchor_hash"], "txn_ref": TXN2})
+        block2 = settlement_block(sa2)
+        settle_ev2 = ledger_event(events, "SettlementObserved", T["settlement2"], {"anchor_hash": block2["anchor_hash"], "txn_ref": TXN2})
         custody_extra = [{"event": "second settlement anchor captured", "at": T["settlement2"], "actor": "urn:example:merchant:rail-feed",
                           "ledger_event_hash": settle_ev2["event_hash"]}]
     verdict_ev = ledger_event(events, "VerdictReceived", T["ledger_verdict"], {"verdict_sha256": vdigest, "format": TYPE_V, "result": verdict_result})
     if p["ledger"] == "altered":
-        events[2]["data"]["amount_minor"] = "9999"           # altered after chaining: its hash no longer recomputes
+        exec_ev["data"]["amount_minor"] = "9999"             # altered after chaining: its hash no longer recomputes
+    if p["scope_event"] == "executed_altered":               # N19: the recorded executed action changed and the ledger re-chained
+        scope_ev["data"]["executed_action"] = dict(executed, amount_minor=executed["amount_minor"] + 100)
+        rechain(events)
     further = {"verdict_record": typed(TYPE_V, vdigest), "signatures_attachment": typed(TYPE_S, sha256(art["sig_bytes"])),
                "allow_outcome_receipt": typed(TYPE_R, rh3), "tool_result_receipt": typed(TYPE_R, rh4)}
-    approval_anchor = typed(TYPE_A, sha256(art["a1_bytes"]))
-    intent, executed = art["approved"], art["executed"]
-    cited = [approval_anchor["digest"]] + [r["digest"] for r in further.values()] + ([sa["anchor_hash"]] if sa else []) + [approval_ev["event_hash"]]
+    cited = [approval_ev["event_hash"]] + [r["digest"] for r in further.values()] + ([block["anchor_hash"]] if sa else []) + [exec_ev["event_hash"]]
     if second:
         # the same approval event cited a second time, for the second transfer: the packet says so in the open
-        additional = [{"txn_ref": TXN2, "approval_event_hash": approval_anchor, "allow_outcome_receipt": typed(TYPE_R, rh6),
-                       "tool_result_receipt": typed(TYPE_R, rh7), "settlement_anchor": sa2}]
-        cited += [approval_anchor["digest"], rh6, rh7, sa2["anchor_hash"]]
+        additional = [{"txn_ref": TXN2, "approval_event_hash": approval_ev["event_hash"], "allow_outcome_receipt": typed(TYPE_R, rh6),
+                       "tool_result_receipt": typed(TYPE_R, rh7), "settlement_anchor": block2}]
+        cited += [approval_ev["event_hash"], rh6, rh7, block2["anchor_hash"]]
     kid = MERCHANT_KEY_ID
     key = packet_key if p["receipt_key"] == "merchant" else other_key
     payload = {"type": G.RECEIPT_TYPE, "issued_at": T["packet"], "issuer_id": p["issuer_id"] or kid,
                "decision": "allow", "reason_code": "approved_by_accountable_person",
-               "action_hash": sha256(compact(executed)), "evidence_set_hash": G.evidence_set_hash(cited),
-               "ledger_entry_hash": approval_ev["event_hash"], "timestamp": T["outcome"], "mandate_hash": None,
-               "rail_anchors_hash": sa["anchor_hash"] if sa else None, "scope_conformance": scope, "key_id": kid,
+               "action_hash": action_hash, "evidence_set_hash": G.evidence_set_hash(cited),
+               "ledger_entry_hash": exec_ev["event_hash"], "timestamp": T["outcome"], "mandate_hash": None,
+               "rail_anchors_hash": block["anchor_hash"] if sa else None, "scope_conformance": scope, "key_id": kid,
                "signer_pubkey_hash": sha256(C17.raw_public(packet_key))}
     sig_hex = key.sign(G.canonical(payload)).hex()
     if p["receipt_tamper"]:
@@ -335,21 +383,24 @@ def packet(art, verdict_raw, verdict_result, p, *, cited_digest=None):
     if p["custody"] == "altered":
         custody[1]["ledger_event_hash"] = "e" * 64
     manifest = {"profile": "draft-xg-payment-dispute-profile-01", "base": "draft-farley-acta-signed-receipts-03",
+                "constructions": "action_hash, scope_hash, approval event hash, ledger_entry_hash and anchor_hash as given by the author "
+                                 "on 8 November 2026 (to appear in -02); ApprovalGranted.data.dps_approval is an extension beyond -01",
+                "action_id": ACTION_ID,
                 "dispute_reason_code": p["dispute_reason_code"], "receipt_public_key_hex": C17.raw_public(packet_key).hex(),
                 "headline": {"scope_conformance": scope, "amount_minor": str(headline_amount), "currency": "EUR"},
-                "agent_anchors": {"mandate_hash": None, "agent_id": C17.AGENT_ID, "approval_event_hash": approval_anchor,
+                "agent_anchors": {"mandate_hash": None, "agent_id": C17.AGENT_ID, "approval_event_hash": approval_ev["event_hash"],
                                   "receipt_signature": sig_hex, "network_token_id": None, "threeds_acs_result": None},
                 "further_anchors": further,
-                "intent_scope": intent, "intent_scope_sha256": sha256(compact(intent)),
+                "intent_scope": intent, "intent_scope_sha256": scope_hash,
                 "intent_scope_source": {"attachment": approval_anchor, "spec_digest": o1["approved_spec_digest"], "pointer": "/parameters"},
-                "executed_action": executed, "executed_action_sha256": sha256(compact(executed)),
+                "executed_action": executed, "executed_action_sha256": action_hash,
                 "executed_action_source": {"receipt": typed(TYPE_R, AEE.record_hash(rs[2]).hex()), "member": "request_digest (key 12)"},
-                "settlement_anchor": sa,
+                "settlement_anchor": block,
                 "ce3_fpt_categories": {"device_identity": {"populated": False, "value": None, "gap_note": "no device data in the packet"},
                                        "delivery_information": {"populated": False, "value": None, "gap_note": "a refund: nothing delivered"},
                                        "additional_identity_factor": {"populated": True, "value": art["canonical_id"],
                                                                       "gap_note": None, "source": "ActorValidated ledger event"}}}
-    if sa is None:
+    if block is None:
         del manifest["settlement_anchor"]
     if additional:
         manifest["additional_executions"] = additional
@@ -370,20 +421,24 @@ def packet_nothing_recorded(p):
     require_approval, the one value of Farley 3.1.1 that asserts no decision taken: the policy in force required an
     approval, and none is recorded (this reading is ours)."""
     events = []
+    action_id = "urn:example:action:unrecorded-" + TXN_UNRECORDED       # the only name the desk has for it: the rail's transaction
     sa = {"rail": "example-rail", "txn_ref": TXN_UNRECORDED, "finality_status": "final", "amount_minor": "12000", "currency": "EUR",
           "captured_at": T["settlement"], "network": None, "payer": "urn:example:customer:C-4471", "unanchored_fields": ["network"]}
-    sa["anchor_hash"] = G.anchor_hash(sa)
-    settle_ev = ledger_event(events, "SettlementObserved", T["settlement"], {"anchor_hash": sa["anchor_hash"], "txn_ref": TXN_UNRECORDED})
+    block = settlement_block(sa)
+    settle_ev = ledger_event(events, "SettlementObserved", T["settlement"], {"anchor_hash": block["anchor_hash"], "txn_ref": TXN_UNRECORDED}, action_id)
     kid = MERCHANT_KEY_ID
     payload = {"type": G.RECEIPT_TYPE, "issued_at": T["packet"], "issuer_id": kid,
                "decision": "require_approval", "reason_code": "no_decision_record_found",
-               "action_hash": None, "evidence_set_hash": G.evidence_set_hash([sa["anchor_hash"], settle_ev["event_hash"]]),
+               "action_hash": None, "evidence_set_hash": G.evidence_set_hash([block["anchor_hash"], settle_ev["event_hash"]]),
                "ledger_entry_hash": settle_ev["event_hash"], "timestamp": T["settlement"], "mandate_hash": None,
-               "rail_anchors_hash": sa["anchor_hash"], "scope_conformance": "not_evaluated", "key_id": kid,
+               "rail_anchors_hash": block["anchor_hash"], "scope_conformance": "not_evaluated", "key_id": kid,
                "signer_pubkey_hash": sha256(C17.raw_public(packet_key))}
     sig_hex = packet_key.sign(G.canonical(payload)).hex()
     receipt = {"payload": payload, "signature": {"alg": "EdDSA", "kid": kid, "sig": sig_hex}}
     manifest = {"profile": "draft-xg-payment-dispute-profile-01", "base": "draft-farley-acta-signed-receipts-03",
+                "constructions": "as in the recorded chain's packet (the author's constructions of 8 November 2026); no ScopeEvaluated "
+                                 "and no ApprovalGranted event exist for this transfer, so action_hash and the approval event are null",
+                "action_id": action_id,
                 "dispute_reason_code": p["dispute_reason_code"], "receipt_public_key_hex": C17.raw_public(packet_key).hex(),
                 "headline": {"scope_conformance": "not_evaluated", "amount_minor": "12000", "currency": "EUR"},
                 "agent_anchors": {"mandate_hash": None, "agent_id": None, "approval_event_hash": None,
@@ -391,7 +446,7 @@ def packet_nothing_recorded(p):
                 "further_anchors": {},
                 "intent_scope": None, "intent_scope_sha256": None, "intent_scope_source": None,
                 "executed_action": None, "executed_action_sha256": None, "executed_action_source": None,
-                "settlement_anchor": sa,
+                "settlement_anchor": block,
                 "ce3_fpt_categories": {"device_identity": {"populated": False, "value": None, "gap_note": "no device data in the packet"},
                                        "delivery_information": {"populated": False, "value": None, "gap_note": "a transfer: nothing delivered"},
                                        "additional_identity_factor": {"populated": False, "value": None,
@@ -465,25 +520,32 @@ def joins(a, r):
     o1, x1, r1 = st["o1"], st["x1"], st["r1"]
     ps = (art["sig"].get("person_signatures") or [{}])[0]
     pay, man, led, fre = pk["receipt"]["payload"], pk["manifest"], pk["ledger_slice"], pk["fre901"]
-    sa = man.get("settlement_anchor") or {}
+    block = man.get("settlement_anchor") or {}
+    sa = block.get("anchor") or {}                                   # the anchor object of an anchored block; {} when unanchored or missing
     fa = man.get("further_anchors") or {}
     fd = lambda name: fa.get(name, {}).get("digest")                 # a further anchor's digest, None when the packet cites none (N17)
     xspec = json.loads(art["xspec_bytes"])
     rh3, rh4 = AEE.record_hash(outcome).hex(), AEE.record_hash(result).hex()
     approved_amount, moved = art["approved"]["amount_minor"], int(sa.get("amount_minor", "-1"))
     positive = a["verdict_native"] == "executed_as_approved"
-    approval_ev = next((e for e in led if e["type"] == "ApprovalRecorded"), {})
+    approval_ev = next((e for e in led if e["type"] == "ApprovalGranted"), {})
     exec_ev = next((e for e in led if e["type"] == "ActionExecuted"), {})
+    scope_ev = next((e for e in led if e["type"] == "ScopeEvaluated"), {})
     actor_ev = next((e for e in led if e["type"] == "ActorValidated"), {})
+    adata = approval_ev.get("data", {})
+    ext = adata.get("dps_approval") or {}                            # extension beyond -01: the approval held, by typed digest
     j = {}
     j["K1 one action digest end to end: the confirm receipt's request_digest (Thaha key 12), the SHA-256 of the parameters of the "
-      "specification the DPS attempt names, the packet's action_hash and its executed_action_sha256 are the same hex; the intent "
-      "scope the packet re-derives from is the approved specification's parameters, whose digest the person approved"] = (
+      "specification the DPS attempt names, the packet's action_hash, its executed_action_sha256 and the ScopeEvaluated event's "
+      "action_hash (the canonical hash of the executed_action it records) are the same hex; the intent scope the packet re-derives "
+      "from is the approved specification's parameters, whose digest the person approved (the event's scope_hash)"] = (
         confirm[12][1].hex() == sha256(compact(xspec["parameters"])) == pay["action_hash"] == man["executed_action_sha256"]
-        and x1["spec_digest"] == sha256(art["xspec_bytes"]) and man["intent_scope_sha256"] == sha256(compact(json.loads(art["spec_bytes"])["parameters"]))
+        == scope_ev.get("data", {}).get("action_hash")
+        and x1["spec_digest"] == sha256(art["xspec_bytes"])
+        and man["intent_scope_sha256"] == scope_ev.get("data", {}).get("scope_hash") == sha256(compact(json.loads(art["spec_bytes"])["parameters"]))
         and o1["approved_spec_digest"] == sha256(art["spec_bytes"]) == ps.get("approved_spec_digest"))
     j["K2 approval before allow in every record of it: the person's signature (signed_at) and o1 are at the same moment, after the "
-      "confirm receipt and before the allow outcome; the ledger's ApprovalRecorded event names that moment and precedes "
+      "confirm receipt and before the allow outcome; the ledger's ApprovalGranted event names that moment and precedes "
       "ActionExecuted; the ActorValidated event precedes the approval"] = (
         bool(ps) and ms(ps.get("signed_at", T["task_start"])) == ms(o1["at"]) and confirm[14] < ms(o1["at"]) < outcome[14]
         and approval_ev.get("data", {}).get("approved_at") == o1["at"] and actor_ev.get("at", "z") < approval_ev.get("at", "") < exec_ev.get("at", ""))
@@ -503,13 +565,15 @@ def joins(a, r):
         rep["steps"].get("3", {}).get("re_run_result") == v["check"]["result"] == a["verdict_stated"]
         and (all(x == "verified" for x in l12["dps_a2"]["dimensions"].values()) if positive
              else l12["dps_a2"]["dimensions"]["action_binding"] == "failed"))
-    j["K6 the packet's approval event is our attachment: agent_anchors.approval_event_hash is the typed digest of A1's exact bytes, the "
-      "same hex as the verdict's evidence[0] and the ledger's ApprovalRecorded event; the signatures attachment anchor is the route 1 "
-      "statement's reference"] = (
-        man["agent_anchors"]["approval_event_hash"] == typed(TYPE_A, sha256(art["a1_bytes"])) and v["evidence"][0]["sha256"] == sha256(art["a1_bytes"])
-        and approval_ev.get("data", {}).get("attachment_sha256") == sha256(art["a1_bytes"])
+    j["K6 the packet's approval event is our attachment: agent_anchors.approval_event_hash is the event_hash of the ledger's "
+      "ApprovalGranted event, whose payload carries (extension beyond -01) the typed digest of A1's exact bytes, the same hex as the "
+      "verdict's evidence[0]; the signatures attachment anchor is the route 1 statement's reference; the packet verifier resolved the "
+      "event in the slice and the extension's digest against the bytes held"] = (
+        man["agent_anchors"]["approval_event_hash"] == approval_ev.get("event_hash") and approval_ev.get("event_hash") is not None
+        and ext.get("attachment") == typed(TYPE_A, sha256(art["a1_bytes"])) and v["evidence"][0]["sha256"] == sha256(art["a1_bytes"])
         and fd("signatures_attachment") == sha256(art["sig_bytes"])
-        and any(x["state"] == "resolved" for x in gr["re_derived"].get("anchors", []) if x["name"] == "approval_event_hash"))
+        and any(x["name"] == "approval_event_hash" and x["state"].startswith("resolved in the ledger slice") for x in gr["re_derived"].get("anchors", []))
+        and any(x["name"].startswith("approval_event_hash.dps_approval.attachment") and x["state"] == "resolved" for x in gr["re_derived"].get("anchors", [])))
     j["K7 the packet cites the verdict the checker released, by the digest of its bytes, and states as scope_conformance what that "
       "verdict's result says: in_scope for executed_as_approved, BREACH:amount_minor for not_as_approved over a different amount"] = (
         fd("verdict_record") == sha256(a["verdict_raw"]) == rep["record_sha256"] and rep["state"] == "released"
@@ -521,9 +585,11 @@ def joins(a, r):
         moved == xspec["parameters"]["amount_minor"] == int(exec_ev.get("data", {}).get("amount_minor", -1)) == int(man["headline"]["amount_minor"])
         and r1["observed"] == "succeeded" and ((moved == approved_amount) if positive else (moved != approved_amount and pay["scope_conformance"] == "BREACH:amount_minor")))
     j["K9 the custody chain closes on the ledger: every custody event is bound to a ledger event that recomputes; the receipt's "
-      "ledger_entry_hash is the ApprovalRecorded event, whose data are the digests of A1 and the signatures attachment held"] = (
+      "ledger_entry_hash is the ActionExecuted event of this action, whose action_packet_hash is the receipt's action_hash; the "
+      "ApprovalGranted event's payload carries the digests of A1 and the signatures attachment held"] = (
         not any(f["code"] in ("CUSTODY_EVENT_UNBOUND", "LEDGER_EVENT_HASH_MISMATCH", "LEDGER_CHAIN_BROKEN") for f in gr["failures"])
-        and pay["ledger_entry_hash"] == approval_ev.get("event_hash") and approval_ev.get("data", {}).get("signatures_attachment_sha256") == sha256(art["sig_bytes"])
+        and pay["ledger_entry_hash"] == exec_ev.get("event_hash") and exec_ev.get("data", {}).get("action_packet_hash") == pay["action_hash"]
+        and ext.get("signatures_attachment", {}).get("digest") == sha256(art["sig_bytes"])
         and {c["ledger_event_hash"] for c in fre["custody"]} <= {e["event_hash"] for e in led})
     j["K10 one person in every link: the receipts' principal (Thaha 3) is the pepper hash of the canonical identifier of the person o1 "
       "names; the ledger's ActorValidated event and the packet's identity category name that identifier"] = (
