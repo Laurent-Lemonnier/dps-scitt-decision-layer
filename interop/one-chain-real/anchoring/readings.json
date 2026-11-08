@@ -1,0 +1,9 @@
+{
+ "dispute-packet.json": {
+  "anchored_sha256": "c0769496cb940657da266618e1568f47cd269bbb9da066fe59abf106cb1c08ec",
+  "anchored_reading": "the first reading of draft-xg-payment-dispute-profile-01 (16 October to 7 November 2026): out/positive/dispute-packet.json at commit 896cc8e, the bytes submitted to OpenTimestamps on 2026-11-06T19:52:59Z; the proof subjects/dispute-packet.json.ots is over these bytes and no others",
+  "current_sha256": "364477d59236fab8f07424d1525d460f5b7e266e65e16a58fd7a17fee4ce37bf",
+  "current_reading": "the 8 November 2026 reading: the constructions Xavier Goshi gave by mail for -02 (ScopeEvaluated event recording intent_scope and executed_action, ApprovalGranted event whose payload carries action_hash, ledger_entry_hash with the action_packet_hash equality, anchor_hash over the anchor object inside {status: anchored, anchor, anchor_hash}); not stamped",
+  "note": "verify.py reports this difference instead of failing on it; the four other subjects (the real signature value among them) are byte-identical to out/positive/"
+ }
+}

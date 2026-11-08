@@ -84,7 +84,9 @@ the person's signature for that case, with the findings quoted above).
 
 `anchoring/subjects/` holds the five subjects of this chain, in the shape used for case 18: the raw DER signature value of
 the passkey assertion (`approval-signature.bin`, 72 bytes, SHA-256 `9cdba62a…`), A1, A2, the verdict record and the dispute
-packet of `out/positive/`, with `SHA256SUMS`. `anchoring/stamp.sh` submitted them to OpenTimestamps on 2026-11-06T19:52:59Z
+packet of `out/positive/` as built on 6 November, with `SHA256SUMS` (since 8 November 2026 the packet the chain builds
+differs, following the constructions its author gave; `anchoring/readings.json` holds both digests; `build.py` writes today's
+subjects to `out/anchoring-subjects/` and never to `anchoring/subjects/`). `anchoring/stamp.sh` submitted them to OpenTimestamps on 2026-11-06T19:52:59Z
 (Laurent Lemonnier's decision; the script is not run by `build.py`, `run.sh` or CI and refuses to stamp twice). The proofs,
 upgraded on 7 November 2026, reach three Bitcoin blocks (974850 through alice or bob, finney 974877, catallaxy 974890) and
 are re-checked offline by `anchoring/verify.py` against a pinned header set (974850 to 974895, two explorers,
@@ -118,4 +120,5 @@ DPS_STANDARD=... python3 negatives.py                                           
 Python 3.12, `cryptography`, `cbor2`, `jsonschema`, `referencing`. Both scripts are deterministic: two runs write the same
 bytes (344 files, the two run logs included). `signed/` is the input and is never written; `out/positive/`, `out/stated-negative/` and
 `out/negatives/<case>/` hold every document (as in case 18, plus `passkey.json` and the trust policy with the passkey
-entry); `out/summary.json` adds `real_approval`, `pinned_inputs` and the anchoring subjects' digests.
+entry); `out/summary.json` adds `real_approval`, `pinned_inputs` and, for each anchoring subject, its digest, the pinned
+digest and whether they are equal (`anchoring_subjects`; the packet's known difference since 8 November is named there).

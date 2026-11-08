@@ -239,9 +239,13 @@ def write(out, a, r=None):
     (out / "passkey.json").write_text(json.dumps(PASSKEY, indent=1) + "\n")
 
 
-def anchoring_subjects(out, a):
+def anchoring_subjects(out, a, pinned=HERE / "anchoring" / "subjects"):
     """The bytes to timestamp for this chain, in the shape of ../../ietf horodatage of case 18 (five subjects): the raw
-    signature value of the passkey assertion, A1, A2, the verdict record, the packet. Prepared, not submitted (stamp.sh)."""
+    signature value of the passkey assertion, A1, A2, the verdict record, the packet. Written under out/ (the build's own
+    subjects of today); anchoring/subjects/ holds the bytes stamped on 6 November 2026 and is never written here: the proofs
+    are over those bytes. Returns each subject's digest and whether it is the pinned one; since 8 November 2026 the packet
+    differs (the pinned packet is the first reading of -01, the built one follows the author's constructions), which
+    anchoring/readings.json records with both digests."""
     out.mkdir(parents=True, exist_ok=True)
     art = a["chain"]
     sigval = base64.b64decode(art["sig"]["person_signatures"][0]["signature"]["value_b64"])
@@ -251,7 +255,19 @@ def anchoring_subjects(out, a):
     for name, data in files.items():
         (out / name).write_bytes(data)
     (out / "SHA256SUMS").write_text("".join(f"{sha256(d)}  {n}\n" for n, d in files.items()))
-    return {n: sha256(d) for n, d in files.items()}
+    sums = dict(line.split()[::-1] for line in (pinned / "SHA256SUMS").read_text().splitlines() if line.strip()) if (pinned / "SHA256SUMS").exists() else {}
+    readings_file = pinned.parent / "readings.json"
+    readings = json.loads(readings_file.read_text()) if readings_file.exists() else {}
+    report = {}
+    for n, d in files.items():
+        h = sha256(d)
+        same = sums.get(n) == h
+        entry = {"sha256": h, "pinned_sha256": sums.get(n), "equals_pinned": same}
+        if not same and n in readings:
+            entry["known_difference"] = readings[n].get("current_reading")
+            entry["current_sha256_as_recorded"] = readings[n].get("current_sha256") == h
+        report[n] = entry
+    return report
 
 
 if __name__ == "__main__":
@@ -259,7 +275,10 @@ if __name__ == "__main__":
     pos = assemble(build())
     res = verify(pos)
     write(out / "positive", pos, res)
-    subjects = anchoring_subjects(HERE / "anchoring" / "subjects", pos)
+    subjects = anchoring_subjects(HERE / "out" / "anchoring-subjects", pos)
+    # the four subjects other than the packet must be the bytes stamped on 6 November 2026; the packet must be the one
+    # anchoring/readings.json records as the current reading (its proof is over the first reading's bytes)
+    subjects_as_expected = all(v["equals_pinned"] or v.get("current_sha256_as_recorded") for v in subjects.values())
     neg = assemble(dict(build(), executed_amount=15000))
     nres = verify(neg)
     write(out / "stated-negative", neg, nres)
@@ -278,7 +297,8 @@ if __name__ == "__main__":
                                    "dps_a2_action_binding": l12["dps_a2"]["dimensions"]["action_binding"], "real_approval": nres["real_approval"]["status"],
                                    "verdict": nres["link3_verdict"]["summary"], "packet": nres["link4_packet"]["result"],
                                    "scope_re_derived": nres["link4_packet"]["re_derived"]["scope_conformance"], "joins": nres["joins"]},
-               "anchoring_subjects_sha256": subjects, "all_verified": res["all_verified"] and neg_as_expected}
+               "anchoring_subjects": subjects, "anchoring_subjects_as_expected": subjects_as_expected,
+               "all_verified": res["all_verified"] and neg_as_expected and subjects_as_expected}
     (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1, default=str) + "\n")
     print(json.dumps(summary, ensure_ascii=False, indent=1, default=str))
     sys.exit(0 if summary["all_verified"] else 1)

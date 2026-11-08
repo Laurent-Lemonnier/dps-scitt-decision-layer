@@ -7,8 +7,8 @@
    "decision": "allow",
    "reason_code": "approved_by_accountable_person",
    "action_hash": "aa88aac47dc1cc16d8af327e1cd128ca09ea3f5190bf0c995e012e324156c91f",
-   "evidence_set_hash": "1f42da7cca8019be9bd3d42b8e015bc1315bcd6a12f3d169c5a3b717a15ca053",
-   "ledger_entry_hash": "8de9a5ed7c1a4645797e18069c53dc47e9801c9da38033ae9bdf49628eb40e91",
+   "evidence_set_hash": "7b18d016991e685aa5616bb054357502ad7c3e696c67268fd3f0bfd372e0abab",
+   "ledger_entry_hash": "c29479ed02b4e1eb4952e0522cbf76bbf503d48699d7839be34f3113f78c3c68",
    "timestamp": "2026-11-06T19:07:08.000Z",
    "mandate_hash": null,
    "rail_anchors_hash": "4a99f22ff87bbd8b8e9360944704942fd20de9ee79c0a95f5551a3b844966d87",
@@ -19,12 +19,14 @@
   "signature": {
    "alg": "EdDSA",
    "kid": "sb:issuer:example-merchant-dispute-1",
-   "sig": "70c9ad309899ce38464cb9aa88c7ece63a9a570555940b9e7cee40ac26c33fdb42d8939b4d64741079dc51bbbccc9321cd7d6026185cc55da5a921e06dc1b007"
+   "sig": "c3573abcf55807b2da40201ebba792928150c427819463f73ec32a10a8a6ec75688922a79c2aa2610374cde25b898c2c04587b05f951719e472d150248727e09"
   }
  },
  "manifest": {
   "profile": "draft-xg-payment-dispute-profile-01",
   "base": "draft-farley-acta-signed-receipts-03",
+  "constructions": "action_hash, scope_hash, approval event hash, ledger_entry_hash and anchor_hash as given by the author on 8 November 2026 (to appear in -02); ApprovalGranted.data.dps_approval is an extension beyond -01",
+  "action_id": "urn:example:action:refund-8812",
   "dispute_reason_code": "duplicate_processing",
   "receipt_public_key_hex": "83949f703748d2281073b5c8b39da9c76434ab9a46c2194d12b9f822e8273936",
   "headline": {
@@ -35,12 +37,8 @@
   "agent_anchors": {
    "mandate_hash": null,
    "agent_id": "wimse://agents.example.com/agent/invoicing-assistant",
-   "approval_event_hash": {
-    "type": "org.decisionprovenancestandard.action_binding_attachment",
-    "alg": "SHA-256",
-    "digest": "e3724c5f5646bac7f5a594bab3bbc03ee7e2d6ef99ac621cad49439b374ad27c"
-   },
-   "receipt_signature": "70c9ad309899ce38464cb9aa88c7ece63a9a570555940b9e7cee40ac26c33fdb42d8939b4d64741079dc51bbbccc9321cd7d6026185cc55da5a921e06dc1b007",
+   "approval_event_hash": "05d3e40092dc454c27861fe1bbdceb6be6cded291a2c91226a11949fe0a6e6f9",
+   "receipt_signature": "c3573abcf55807b2da40201ebba792928150c427819463f73ec32a10a8a6ec75688922a79c2aa2610374cde25b898c2c04587b05f951719e472d150248727e09",
    "network_token_id": null,
    "threeds_acs_result": null
   },
@@ -98,17 +96,20 @@
    "member": "request_digest (key 12)"
   },
   "settlement_anchor": {
-   "rail": "example-rail",
-   "txn_ref": "txn-2026-1104-8812",
-   "finality_status": "final",
-   "amount_minor": "15000",
-   "currency": "EUR",
-   "captured_at": "2026-11-06T19:07:30Z",
-   "network": null,
-   "payer": "urn:example:customer:C-4471",
-   "unanchored_fields": [
-    "network"
-   ],
+   "status": "anchored",
+   "anchor": {
+    "rail": "example-rail",
+    "txn_ref": "txn-2026-1104-8812",
+    "finality_status": "final",
+    "amount_minor": "15000",
+    "currency": "EUR",
+    "captured_at": "2026-11-06T19:07:30Z",
+    "network": null,
+    "payer": "urn:example:customer:C-4471",
+    "unanchored_fields": [
+     "network"
+    ]
+   },
    "anchor_hash": "4a99f22ff87bbd8b8e9360944704942fd20de9ee79c0a95f5551a3b844966d87"
   },
   "ce3_fpt_categories": {
@@ -133,6 +134,7 @@
  "ledger_slice": [
   {
    "seq": "0",
+   "action_id": "urn:example:action:refund-8812",
    "type": "ActorValidated",
    "at": "2026-11-06T19:04:40Z",
    "data": {
@@ -140,24 +142,38 @@
     "method": "finance console login, directory urn:example:directory:people"
    },
    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
-   "event_hash": "e4095e87948348eefed57d6dba9ef5895d2c3651b3b2d2d7c7201d7ff380d14c"
+   "event_hash": "4165e57559c260fc1bf0a1c28562e754fcdea3a2c4f40781f79ca360ef62f171"
   },
   {
    "seq": "1",
-   "type": "ApprovalRecorded",
+   "action_id": "urn:example:action:refund-8812",
+   "type": "ApprovalGranted",
    "at": "2026-11-06T19:07:02Z",
    "data": {
     "decision_id": "DR-2026-1104",
     "approved_spec_digest": "9f71999ebec122f51e77404c84baba498825b11c829160944758db54d997b466",
-    "attachment_sha256": "e3724c5f5646bac7f5a594bab3bbc03ee7e2d6ef99ac621cad49439b374ad27c",
-    "signatures_attachment_sha256": "3bac8d0e978ff57fa651d51c2f409d61d116325e588c853f779576ba05420394",
-    "approved_at": "2026-11-06T19:05:00Z"
+    "action_hash": "aa88aac47dc1cc16d8af327e1cd128ca09ea3f5190bf0c995e012e324156c91f",
+    "approved_at": "2026-11-06T19:05:00Z",
+    "dps_approval": {
+     "note": "extension beyond draft-xg-payment-dispute-profile-01: the approval held outside the ledger",
+     "attachment": {
+      "type": "org.decisionprovenancestandard.action_binding_attachment",
+      "alg": "SHA-256",
+      "digest": "e3724c5f5646bac7f5a594bab3bbc03ee7e2d6ef99ac621cad49439b374ad27c"
+     },
+     "signatures_attachment": {
+      "type": "org.decisionprovenancestandard.signatures_attachment",
+      "alg": "SHA-256",
+      "digest": "3bac8d0e978ff57fa651d51c2f409d61d116325e588c853f779576ba05420394"
+     }
+    }
    },
-   "prev_hash": "e4095e87948348eefed57d6dba9ef5895d2c3651b3b2d2d7c7201d7ff380d14c",
-   "event_hash": "8de9a5ed7c1a4645797e18069c53dc47e9801c9da38033ae9bdf49628eb40e91"
+   "prev_hash": "4165e57559c260fc1bf0a1c28562e754fcdea3a2c4f40781f79ca360ef62f171",
+   "event_hash": "05d3e40092dc454c27861fe1bbdceb6be6cded291a2c91226a11949fe0a6e6f9"
   },
   {
    "seq": "2",
+   "action_id": "urn:example:action:refund-8812",
    "type": "ActionExecuted",
    "at": "2026-11-06T19:07:11Z",
    "data": {
@@ -166,24 +182,52 @@
     "tool_result_record_hash": "a4d600c25cab07c9a5c357546d9c2507709aa84267c1e1b54ecc9479224f843b",
     "response_sha256": "67445e1dd42bcfd670492e12711cb6ed1e17f6f5058260e0e517f5d1333af3a3",
     "amount_minor": "15000",
-    "currency": "EUR"
+    "currency": "EUR",
+    "action_packet_hash": "aa88aac47dc1cc16d8af327e1cd128ca09ea3f5190bf0c995e012e324156c91f"
    },
-   "prev_hash": "8de9a5ed7c1a4645797e18069c53dc47e9801c9da38033ae9bdf49628eb40e91",
-   "event_hash": "b9a3cead733f504abd805ea01e55771927b6d184fe22fb3bfe01c54fc8408133"
+   "prev_hash": "05d3e40092dc454c27861fe1bbdceb6be6cded291a2c91226a11949fe0a6e6f9",
+   "event_hash": "c29479ed02b4e1eb4952e0522cbf76bbf503d48699d7839be34f3113f78c3c68"
   },
   {
    "seq": "3",
+   "action_id": "urn:example:action:refund-8812",
+   "type": "ScopeEvaluated",
+   "at": "2026-11-06T19:07:11Z",
+   "data": {
+    "intent_scope": {
+     "amount_minor": 15000,
+     "currency": "EUR",
+     "order_ref": "urn:example:order:8812",
+     "reason": "duplicate charge of 2026-11-02"
+    },
+    "scope_hash": "aa88aac47dc1cc16d8af327e1cd128ca09ea3f5190bf0c995e012e324156c91f",
+    "executed_action": {
+     "amount_minor": 15000,
+     "currency": "EUR",
+     "order_ref": "urn:example:order:8812",
+     "reason": "duplicate charge of 2026-11-02"
+    },
+    "action_hash": "aa88aac47dc1cc16d8af327e1cd128ca09ea3f5190bf0c995e012e324156c91f",
+    "verdict": "in_scope"
+   },
+   "prev_hash": "c29479ed02b4e1eb4952e0522cbf76bbf503d48699d7839be34f3113f78c3c68",
+   "event_hash": "bee98ccb567b1df406d67bd2051ec8134e2a3e30e916ad139462ad8e8c23a574"
+  },
+  {
+   "seq": "4",
+   "action_id": "urn:example:action:refund-8812",
    "type": "SettlementObserved",
    "at": "2026-11-06T19:07:30Z",
    "data": {
     "anchor_hash": "4a99f22ff87bbd8b8e9360944704942fd20de9ee79c0a95f5551a3b844966d87",
     "txn_ref": "txn-2026-1104-8812"
    },
-   "prev_hash": "b9a3cead733f504abd805ea01e55771927b6d184fe22fb3bfe01c54fc8408133",
-   "event_hash": "ff5067655661db40c7626135760b634bf84e2b10d0ae26fe5ad6bf85b132daef"
+   "prev_hash": "bee98ccb567b1df406d67bd2051ec8134e2a3e30e916ad139462ad8e8c23a574",
+   "event_hash": "bb212bd7a339be7761900201f16bd3c51070f0a96f93b10c94d6772018c41d13"
   },
   {
-   "seq": "4",
+   "seq": "5",
+   "action_id": "urn:example:action:refund-8812",
    "type": "VerdictReceived",
    "at": "2026-11-06T20:05:01Z",
    "data": {
@@ -191,8 +235,8 @@
     "format": "verdict-record/1",
     "result": "executed_as_approved"
    },
-   "prev_hash": "ff5067655661db40c7626135760b634bf84e2b10d0ae26fe5ad6bf85b132daef",
-   "event_hash": "84802d526849e1784b560acbb57d05e2be2ac423f01afc0097a07290f40acf8c"
+   "prev_hash": "bb212bd7a339be7761900201f16bd3c51070f0a96f93b10c94d6772018c41d13",
+   "event_hash": "3e64a9d3ac32a89b9ac3c824701f3ec7a3ffff1bdc77f5cb053954ad96cee8a2"
   }
  ],
  "fre901": {
@@ -210,19 +254,19 @@
     "event": "ledger slice exported",
     "at": "2026-11-06T19:07:11Z",
     "actor": "urn:example:merchant:ledger-export",
-    "ledger_event_hash": "b9a3cead733f504abd805ea01e55771927b6d184fe22fb3bfe01c54fc8408133"
+    "ledger_event_hash": "c29479ed02b4e1eb4952e0522cbf76bbf503d48699d7839be34f3113f78c3c68"
    },
    {
     "event": "settlement anchor captured",
     "at": "2026-11-06T19:07:30Z",
     "actor": "urn:example:merchant:rail-feed",
-    "ledger_event_hash": "ff5067655661db40c7626135760b634bf84e2b10d0ae26fe5ad6bf85b132daef"
+    "ledger_event_hash": "bb212bd7a339be7761900201f16bd3c51070f0a96f93b10c94d6772018c41d13"
    },
    {
     "event": "verdict record received",
     "at": "2026-11-06T20:05:01Z",
     "actor": "urn:example:merchant:dispute-desk",
-    "ledger_event_hash": "84802d526849e1784b560acbb57d05e2be2ac423f01afc0097a07290f40acf8c"
+    "ledger_event_hash": "3e64a9d3ac32a89b9ac3c824701f3ec7a3ffff1bdc77f5cb053954ad96cee8a2"
    }
   ],
   "authentication_statement": {
