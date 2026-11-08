@@ -1,0 +1,22 @@
+{
+ "case": "N18-action-packet-hash-not-the-action-hash",
+ "expected_to_fail_at": [
+  "goshi:ACTION_PACKET_HASH_MISMATCH",
+  "K9"
+ ],
+ "failed_at": [
+  "K12",
+  "K9",
+  "goshi:ACTION_PACKET_HASH_MISMATCH"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "ACTION_PACKET_HASH_MISMATCH"
+ ],
+ "joins_false": [
+  "K9",
+  "K12"
+ ]
+}
