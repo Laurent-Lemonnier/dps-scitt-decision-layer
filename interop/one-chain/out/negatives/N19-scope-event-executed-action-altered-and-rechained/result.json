@@ -1,0 +1,31 @@
+{
+ "case": "N19-scope-event-executed-action-altered-and-rechained",
+ "expected_to_fail_at": [
+  "goshi:ACTION_HASH_MISMATCH",
+  "goshi:SCOPE_HASH_MISMATCH",
+  "goshi:SCOPE_HEADLINE_MISMATCH",
+  "goshi:MANIFEST_SCOPE_INPUT_DIFFERS",
+  "K7"
+ ],
+ "failed_at": [
+  "K12",
+  "K7",
+  "goshi:ACTION_HASH_MISMATCH",
+  "goshi:MANIFEST_SCOPE_INPUT_DIFFERS",
+  "goshi:SCOPE_HASH_MISMATCH",
+  "goshi:SCOPE_HEADLINE_MISMATCH"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "SCOPE_HEADLINE_MISMATCH",
+  "SCOPE_HASH_MISMATCH",
+  "MANIFEST_SCOPE_INPUT_DIFFERS",
+  "ACTION_HASH_MISMATCH"
+ ],
+ "joins_false": [
+  "K7",
+  "K12"
+ ]
+}

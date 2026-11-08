@@ -1,0 +1,1 @@
+the manifest carries no settlement block at all, where the author's shape has an unanchored packet state exactly {status: SETTLEMENT_UNANCHORED} (N9): Goshi 4.3 says a manifest without the block MUST fail

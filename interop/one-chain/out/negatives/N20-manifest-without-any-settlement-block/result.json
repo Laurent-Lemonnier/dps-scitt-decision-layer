@@ -1,0 +1,26 @@
+{
+ "case": "N20-manifest-without-any-settlement-block",
+ "expected_to_fail_at": [
+  "goshi:SETTLEMENT_BLOCK_MISSING",
+  "K8"
+ ],
+ "failed_at": [
+  "K11",
+  "K12",
+  "K3",
+  "K8",
+  "goshi:SETTLEMENT_BLOCK_MISSING"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "SETTLEMENT_BLOCK_MISSING"
+ ],
+ "joins_false": [
+  "K3",
+  "K8",
+  "K11",
+  "K12"
+ ]
+}

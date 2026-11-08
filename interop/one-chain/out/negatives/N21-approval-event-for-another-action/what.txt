@@ -1,0 +1,1 @@
+the ApprovalGranted event the packet cites carries an action_hash that is neither the receipt's action_hash nor the scope_hash: the approval the ledger records is of some other action (the author's construction: the payload's action_hash must equal the receipt's); the event itself recomputes and is in the slice

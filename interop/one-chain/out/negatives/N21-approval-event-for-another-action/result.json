@@ -1,0 +1,22 @@
+{
+ "case": "N21-approval-event-for-another-action",
+ "expected_to_fail_at": [
+  "goshi:APPROVAL_EVENT_ACTION_HASH_MISMATCH",
+  "K6"
+ ],
+ "failed_at": [
+  "K12",
+  "K6",
+  "goshi:APPROVAL_EVENT_ACTION_HASH_MISMATCH"
+ ],
+ "as_expected": true,
+ "verdict_state": "released",
+ "packet": "FAILED",
+ "packet_failures": [
+  "APPROVAL_EVENT_ACTION_HASH_MISMATCH"
+ ],
+ "joins_false": [
+  "K6",
+  "K12"
+ ]
+}
