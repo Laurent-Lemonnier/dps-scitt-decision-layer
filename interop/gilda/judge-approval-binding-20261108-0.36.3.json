@@ -1,0 +1,495 @@
+{
+ "corpus": "approval-binding/v1",
+ "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1",
+ "corpusDigest": "f6f0fb39e913bdaacdb411903d946243d1b3d6c4703daa563c0277a43be64ccb",
+ "counts": {
+  "allow": 8,
+  "deny": 29
+ },
+ "checks": 16,
+ "cases": 37,
+ "agree": 37,
+ "rows": [
+  {
+   "id": "allow-bound",
+   "expected": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "got": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "agree": true,
+   "edit": "control: every binding holds"
+  },
+  {
+   "id": "allow-other-approval-distinct-id",
+   "expected": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "got": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "agree": true,
+   "edit": "control: another approval is presented under a different identifier"
+  },
+  {
+   "id": "allow-same-approval-presented-twice",
+   "expected": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "got": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "agree": true,
+   "edit": "control: the same approval appears twice with identical content"
+  },
+  {
+   "id": "allow-last-second-of-validity",
+   "expected": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "got": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "agree": true,
+   "edit": "control: used one second before the approval expires"
+  },
+  {
+   "id": "allow-release-first-served-at-decision",
+   "expected": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "got": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "agree": true,
+   "edit": "control: the release was first served exactly at the decision time"
+  },
+  {
+   "id": "allow-release-within-grace",
+   "expected": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "got": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "agree": true,
+   "edit": "control: the release was last served exactly the grace period before the decision"
+  },
+  {
+   "id": "approval-id-reused-different-content",
+   "expected": {
+    "decision": "deny",
+    "reason": "approval_id_ambiguous"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "approval_id_ambiguous"
+   },
+   "agree": true,
+   "edit": "a second approval with the same identifier and different content is presented"
+  },
+  {
+   "id": "approval-id-reused-unread-member",
+   "expected": {
+    "decision": "deny",
+    "reason": "approval_id_ambiguous"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "approval_id_ambiguous"
+   },
+   "agree": true,
+   "edit": "a second approval with the same identifier differs only in a member no check reads, so ambiguity is judged over the whole object"
+  },
+  {
+   "id": "approval-already-consumed",
+   "expected": {
+    "decision": "deny",
+    "reason": "approval_replayed"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "approval_replayed"
+   },
+   "agree": true,
+   "edit": "the approval identifier was already consumed"
+  },
+  {
+   "id": "approval-key-not-approvers",
+   "expected": {
+    "decision": "deny",
+    "reason": "key_not_bound"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "key_not_bound"
+   },
+   "agree": true,
+   "edit": "the approval names a key id other than the approver's trusted key"
+  },
+  {
+   "id": "approval-asserted-in-tool-arguments",
+   "expected": {
+    "decision": "deny",
+    "reason": "key_not_bound"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "key_not_bound"
+   },
+   "agree": true,
+   "edit": "the only approval is a flag the model set in the tool arguments; its approver is the agent, which holds no key in trustedKeys"
+  },
+  {
+   "id": "same-client-other-user",
+   "expected": {
+    "decision": "deny",
+    "reason": "principal_mismatch"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "principal_mismatch"
+   },
+   "agree": true,
+   "edit": "another user reaches the approval through the same OAuth client"
+  },
+  {
+   "id": "event-differs",
+   "expected": {
+    "decision": "deny",
+    "reason": "event_phase_mismatch"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "event_phase_mismatch"
+   },
+   "agree": true,
+   "edit": "the approval is used for a different event"
+  },
+  {
+   "id": "phase-differs",
+   "expected": {
+    "decision": "deny",
+    "reason": "event_phase_mismatch"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "event_phase_mismatch"
+   },
+   "agree": true,
+   "edit": "the approval is used in a different phase"
+  },
+  {
+   "id": "payload-mutated-after-approval",
+   "expected": {
+    "decision": "deny",
+    "reason": "payload_mismatch"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "payload_mismatch"
+   },
+   "agree": true,
+   "edit": "the payload was changed after the approval was given"
+  },
+  {
+   "id": "target-differs",
+   "expected": {
+    "decision": "deny",
+    "reason": "payload_mismatch"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "payload_mismatch"
+   },
+   "agree": true,
+   "edit": "the approved bytes go to a different target"
+  },
+  {
+   "id": "tool-differs",
+   "expected": {
+    "decision": "deny",
+    "reason": "payload_mismatch"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "payload_mismatch"
+   },
+   "agree": true,
+   "edit": "a different tool is used under the approval"
+  },
+  {
+   "id": "used-at-expiry",
+   "expected": {
+    "decision": "deny",
+    "reason": "approval_outside_validity"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "approval_outside_validity"
+   },
+   "agree": true,
+   "edit": "used at the instant the approval expires"
+  },
+  {
+   "id": "used-before-issued",
+   "expected": {
+    "decision": "deny",
+    "reason": "approval_outside_validity"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "approval_outside_validity"
+   },
+   "agree": true,
+   "edit": "used one second before the approval was issued"
+  },
+  {
+   "id": "release-lookup-unavailable",
+   "expected": {
+    "decision": "deny",
+    "reason": "comparison_unavailable"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "comparison_unavailable"
+   },
+   "agree": true,
+   "edit": "the policy release lookup failed; a failed lookup is not a match"
+  },
+  {
+   "id": "release-first-served-after-decision",
+   "expected": {
+    "decision": "deny",
+    "reason": "release_not_served_at_decision"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "release_not_served_at_decision"
+   },
+   "agree": true,
+   "edit": "the release that judged the record was first served after the decision time"
+  },
+  {
+   "id": "release-retired-beyond-grace",
+   "expected": {
+    "decision": "deny",
+    "reason": "release_not_served_at_decision"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "release_not_served_at_decision"
+   },
+   "agree": true,
+   "edit": "the release stopped being served more than the grace period before the decision"
+  },
+  {
+   "id": "approval-renewed-same-bounds",
+   "expected": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "got": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "agree": true,
+   "edit": "control: B replaces A over equal bounds under an accepted transition that cites A's decision; the decisions are distinct and the effect reservation moves to B"
+  },
+  {
+   "id": "allow-predecessor-before-replacement",
+   "expected": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "got": {
+    "decision": "allow",
+    "reason": "bound"
+   },
+   "agree": true,
+   "edit": "control: A is presented before the replacement is accepted, so it is still applicable and unexpired"
+  },
+  {
+   "id": "approval-reused-after-renewal",
+   "expected": {
+    "decision": "deny",
+    "reason": "approval_superseded"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "approval_superseded"
+   },
+   "agree": true,
+   "edit": "A is presented after the A to B replacement was accepted and before any execution under B; A is unexpired and unconsumed, so only supersession can refuse it"
+  },
+  {
+   "id": "approval-renewal-transition-not-accepted",
+   "expected": {
+    "decision": "deny",
+    "reason": "renewal_transition_missing"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "renewal_transition_missing"
+   },
+   "agree": true,
+   "edit": "the use claims a renewal, and the only transition into B was proposed and never accepted"
+  },
+  {
+   "id": "approval-renewal-decision-not-distinct",
+   "expected": {
+    "decision": "deny",
+    "reason": "renewal_binding_invalid"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "renewal_binding_invalid"
+   },
+   "agree": true,
+   "edit": "B carries the same recorded decision as A, so the renewal is not a second decision"
+  },
+  {
+   "id": "approval-renewal-predecessor-decision-not-cited",
+   "expected": {
+    "decision": "deny",
+    "reason": "renewal_binding_invalid"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "renewal_binding_invalid"
+   },
+   "agree": true,
+   "edit": "the accepted transition cites a decision that is not the one that authorised A"
+  },
+  {
+   "id": "approval-renewal-bounds-differ",
+   "expected": {
+    "decision": "deny",
+    "reason": "renewal_binding_invalid"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "renewal_binding_invalid"
+   },
+   "agree": true,
+   "edit": "B names another target than A, so a same-bounds renewal is claimed over changed bounds"
+  },
+  {
+   "id": "approval-renewal-reopens-consumed-effect",
+   "expected": {
+    "decision": "deny",
+    "reason": "effect_already_closed"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "effect_already_closed"
+   },
+   "agree": true,
+   "edit": "the replacement is valid and B is unexpired, but the effect was already consumed"
+  },
+  {
+   "id": "approval-renewal-reopens-uncertain-effect",
+   "expected": {
+    "decision": "deny",
+    "reason": "effect_already_closed"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "effect_already_closed"
+   },
+   "agree": true,
+   "edit": "the replacement is valid, but the effect closed with an uncertain outcome that a new grant must not turn into nothing happened"
+  },
+  {
+   "id": "approval-renewal-accepted-after-use",
+   "expected": {
+    "decision": "deny",
+    "reason": "renewal_transition_missing"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "renewal_transition_missing"
+   },
+   "agree": true,
+   "edit": "the only transition into B was accepted one second after the use, so no renewal was in effect when B was used"
+  },
+  {
+   "id": "approval-renewal-predecessor-ambiguous",
+   "expected": {
+    "decision": "deny",
+    "reason": "renewal_binding_invalid"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "renewal_binding_invalid"
+   },
+   "agree": true,
+   "edit": "two presented records carry A's identifier with different decisions, so the transition's predecessor does not resolve to one approval"
+  },
+  {
+   "id": "approval-use-cites-predecessor",
+   "expected": {
+    "decision": "deny",
+    "reason": "approval_not_cited"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "approval_not_cited"
+   },
+   "agree": true,
+   "edit": "B is checked, but the use names A as the approval it relies on"
+  },
+  {
+   "id": "approval-use-cites-no-approval",
+   "expected": {
+    "decision": "deny",
+    "reason": "approval_not_cited"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "approval_not_cited"
+   },
+   "agree": true,
+   "edit": "the use names no approval, so it does not rely on the one being checked"
+  },
+  {
+   "id": "contract-id-missing",
+   "expected": {
+    "decision": "deny",
+    "reason": "contract_id_missing"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "contract_id_missing"
+   },
+   "agree": true,
+   "edit": "the record names no contract"
+  },
+  {
+   "id": "contract-id-unknown",
+   "expected": {
+    "decision": "deny",
+    "reason": "contract_id_unknown"
+   },
+   "got": {
+    "decision": "deny",
+    "reason": "contract_id_unknown"
+   },
+   "agree": true,
+   "edit": "the record names a contract version that does not exist"
+  }
+ ]
+}

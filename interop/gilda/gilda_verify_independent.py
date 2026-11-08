@@ -76,6 +76,72 @@ Readings taken where the README leaves a choice (none is settled by a vector):
     else consumption-set-settled-uncounted (CS48 valid at 37, CS49 malformed
     at 35); more is allowed.
 
+Extended on 08/11/2026 for two optional members of a -04 not published (corpus
+0.36.3, members PR1 to PR11 and DS1 to DS10). Neither is in the -03 text: the
+corpus README of 0.36.3 names them "rows written for revision 04" and links two
+proposed texts in the corpus repository, docs/proposals/audit-record-04-principal.md
+and docs/proposals/audit-record-04-data-subject.md (the latter from issue #423,
+Joshua Moffat's three checks); both say a record without the member "is judged
+exactly as under revision 03" and the predicate URI does not change. This
+verifier reads the two members from those texts alone (the reference readers
+named in them, auditrecord.py and auditrecord_datasubject.go, were not opened),
+in the order each text gives ("add after the delegation check, in this order").
+  principal (the authenticated principal, the token itself never carried):
+  - exactly issuer, subject, clientId, audience, authMethod, source, tokenDigest,
+    issuedAt, expiresAt, kid, key, keyThumbprint, jwksDigest, and MAY tenant;
+    one missing is principal-member-missing (PR7), any other member
+    principal-member-unknown (PR11), missing read before unknown (no vector
+    carries both).
+  - the text's forms, else principal-malformed (no vector): issuer an https URL,
+    subject, clientId and kid non-empty strings, audience a non-empty array of
+    distinct strings, authMethod one of the seven IANA token endpoint
+    authentication methods the text lists, source one of jwt-access-token,
+    id-token, jwt-assertion, tokenDigest and jwksDigest 64-hex digests,
+    issuedAt and expiresAt RFC 3339 with expiresAt later than issuedAt, key a
+    JWK of kty RSA, EC or OKP with its public members and no private member
+    (d, p, q, dp, dq, qi, oth, k), keyThumbprint base64url without padding,
+    tenant a string when present.
+  - then, in the text's order: under delegation.subjectKind user, subject equal
+    to delegation.subject, else principal-subject-mismatch (PR8; under system
+    the text says the subject "names the client itself", PR2, without a MUST:
+    not enforced); tokenDigest equal to agent.credentialDigest, else
+    principal-credential-unbound (PR6); at decision.reportedAt the token issued
+    and not expired, each within the skew tolerance (MANIFEST skewTolerance,
+    300 s, applied on both sides): issuedAt more than the tolerance after
+    reportedAt is principal-not-yet-valid (PR10), expiresAt more than the
+    tolerance before reportedAt is principal-expired (PR5); key.kid equal to
+    kid, else principal-kid-mismatch (PR9, an absent key.kid counting as
+    different); keyThumbprint equal to the RFC 7638 thumbprint recomputed from
+    key (the required public members of its kty in lexicographic order, no
+    whitespace, SHA-256, base64url without padding), else
+    principal-thumbprint-mismatch (PR4).
+  - not checked, as the text says the record does not establish them: that the
+    issuer's JWKS held key (jwksDigest is the digest of a snapshot the record
+    does not carry), the token's signature, who the subject is.
+  dataSubject (whose data the call read, and why, without the identifier):
+  - exactly scheme, saltId, reference, relation, purpose, purposes,
+    purposesDigest, and MAY delegateReference; one missing is
+    data-subject-member-missing (DS4), any other member, a raw identifier
+    included, data-subject-member-unknown (DS5).
+  - forms, else data-subject-malformed (DS6): scheme the string
+    salted-sha256-jcs, saltId and purpose non-empty strings, reference and
+    delegateReference lowercase 64-hex digests, relation delegate or other,
+    purposes a non-empty array of distinct strings, purposesDigest a 64-hex
+    digest. The reference cannot be recomputed here (the salt is the server's).
+  - relation against the delegation (DS8), else data-subject-relation-mismatch:
+    delegateReference is present exactly when delegation.subjectKind is user
+    and relation is other; relation delegate needs a user to be the data
+    subject, so under system (DS8) or none it is a mismatch.
+  - delegateReference equal to reference is data-subject-merged (DS7); then
+    purposesDigest must be the SHA-256 of the RFC 8785 bytes of purposes, else
+    data-subject-purposes-digest-mismatch (DS10); then purpose must be one of
+    purposes, else data-subject-purpose-undeclared (DS9).
+  Also at 0.36.3: PS1, PS2 and PS1b (principal standing under the v2 URI, Wes
+  Jackson's rows and Girish Konda's boundary case) needed no change: the v2
+  reading of -03 Section 8 was in place since 31/10; on PS1b this verifier keeps
+  -03's boundary (an age equal to maxAge is fresh, FR2) and reads malformed
+  (evaluation-inconsistent), one of the two readings the README allows.
+
 Usage: gilda_verify_independent.py --corpus DIR [--report out.json]
 """
 import struct
@@ -300,6 +366,105 @@ def valid_asset(a):
     return isinstance(a, dict) and set(a) == {"id", "decimals"} and isinstance(a["id"], str) \
         and re.fullmatch(r"[-a-z0-9]{3,8}:[-_a-zA-Z0-9]{1,32}/[-a-z0-9]{3,8}:[-.%a-zA-Z0-9]{1,128}", a["id"]) is not None \
         and nonneg_int(a["decimals"]) and a["decimals"] <= 255
+
+
+# -------- the two optional members of the proposed -04 texts (corpus 0.36.3), read from those texts alone (docstring)
+
+PRINCIPAL_MEMBERS = {"issuer", "subject", "clientId", "audience", "authMethod", "source", "tokenDigest", "issuedAt",
+                     "expiresAt", "kid", "key", "keyThumbprint", "jwksDigest"}
+PRINCIPAL_AUTH_METHODS = {"none", "client_secret_post", "client_secret_basic", "client_secret_jwt", "private_key_jwt",
+                          "tls_client_auth", "self_signed_tls_client_auth"}   # IANA OAuth Token Endpoint Authentication Methods
+PRINCIPAL_SOURCES = {"jwt-access-token", "id-token", "jwt-assertion"}        # RFC 9068, OpenID Connect Core 1.0, RFC 7523
+JWK_PUBLIC_MEMBERS = {"RSA": ("e", "kty", "n"), "EC": ("crv", "kty", "x", "y"), "OKP": ("crv", "kty", "x")}  # RFC 7638 3.2, RFC 8037 2
+JWK_PRIVATE_MEMBERS = {"d", "p", "q", "dp", "dq", "qi", "oth", "k"}
+DATA_SUBJECT_MEMBERS = {"scheme", "saltId", "reference", "relation", "purpose", "purposes", "purposesDigest"}
+
+
+def nonempty_str(v):
+    return isinstance(v, str) and v != ""
+
+
+def distinct_strings(v):
+    return isinstance(v, list) and v != [] and all(isinstance(x, str) for x in v) and len(set(v)) == len(v)
+
+
+def jwk_thumbprint(key):
+    """RFC 7638: the required public members of the key type, lexicographic order, no whitespace, SHA-256, base64url
+    without padding. None when the key is not a JWK of kty RSA, EC or OKP with those members as strings."""
+    if not isinstance(key, dict) or key.get("kty") not in JWK_PUBLIC_MEMBERS:
+        return None
+    members = JWK_PUBLIC_MEMBERS[key["kty"]]
+    if any(not isinstance(key.get(m), str) for m in members):
+        return None
+    raw = json.dumps({m: key[m] for m in members}, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return base64.urlsafe_b64encode(hashlib.sha256(raw).digest()).rstrip(b"=").decode("ascii")
+
+
+def verify_principal(p, reported_at):
+    """The authenticated principal (proposed -04 text, PR1 to PR11): membership, forms, then the text's five checks in its
+    order. Returns nothing; raises Malformed with the codes the text names."""
+    pr = p["principal"]
+    if not isinstance(pr, dict):
+        raise Malformed("principal-malformed")
+    if PRINCIPAL_MEMBERS - set(pr):
+        raise Malformed("principal-member-missing")          # vector PR7
+    if set(pr) - PRINCIPAL_MEMBERS - {"tenant"}:
+        raise Malformed("principal-member-unknown")          # vector PR11 (the raw token in a member the text does not define)
+    try:
+        issued, expires = t(pr["issuedAt"]), t(pr["expiresAt"])
+    except Malformed:
+        raise Malformed("principal-malformed")
+    key = pr["key"]
+    if not (isinstance(pr["issuer"], str) and re.fullmatch(r"https://[^/\s?#]+(/\S*)?", pr["issuer"])
+            and nonempty_str(pr["subject"]) and nonempty_str(pr["clientId"]) and nonempty_str(pr["kid"])
+            and distinct_strings(pr["audience"]) and pr["authMethod"] in PRINCIPAL_AUTH_METHODS
+            and pr["source"] in PRINCIPAL_SOURCES and is_hex64(pr["tokenDigest"]) and is_hex64(pr["jwksDigest"])
+            and expires > issued
+            and isinstance(key, dict) and key.get("kty") in JWK_PUBLIC_MEMBERS
+            and all(isinstance(key.get(m), str) for m in JWK_PUBLIC_MEMBERS[key["kty"]])
+            and not (set(key) & JWK_PRIVATE_MEMBERS)
+            and isinstance(pr["keyThumbprint"], str) and re.fullmatch(r"[A-Za-z0-9_-]{43}", pr["keyThumbprint"])
+            and ("tenant" not in pr or isinstance(pr["tenant"], str))):
+        raise Malformed("principal-malformed")
+    if p["delegation"]["subjectKind"] == "user" and pr["subject"] != p["delegation"]["subject"]:
+        raise Malformed("principal-subject-mismatch")        # vector PR8
+    if pr["tokenDigest"] != p["agent"]["credentialDigest"]:
+        raise Malformed("principal-credential-unbound")      # vector PR6
+    if (issued - reported_at).total_seconds() > SKEW:
+        raise Malformed("principal-not-yet-valid")           # vector PR10
+    if (reported_at - expires).total_seconds() > SKEW:
+        raise Malformed("principal-expired")                 # vector PR5
+    if key.get("kid") != pr["kid"]:
+        raise Malformed("principal-kid-mismatch")            # vector PR9
+    if jwk_thumbprint(key) != pr["keyThumbprint"]:
+        raise Malformed("principal-thumbprint-mismatch")     # vector PR4
+
+
+def verify_data_subject(p):
+    """Whose data the call read, and why (proposed -04 text, DS1 to DS10): membership, forms, then the text's four checks
+    in its order."""
+    ds = p["dataSubject"]
+    if not isinstance(ds, dict):
+        raise Malformed("data-subject-malformed")
+    if DATA_SUBJECT_MEMBERS - set(ds):
+        raise Malformed("data-subject-member-missing")       # vector DS4
+    if set(ds) - DATA_SUBJECT_MEMBERS - {"delegateReference"}:
+        raise Malformed("data-subject-member-unknown")       # vector DS5 (the raw customer identifier)
+    if not (ds["scheme"] == "salted-sha256-jcs" and nonempty_str(ds["saltId"]) and is_hex64(ds["reference"])
+            and ds["relation"] in ("delegate", "other") and nonempty_str(ds["purpose"])
+            and distinct_strings(ds["purposes"]) and is_hex64(ds["purposesDigest"])
+            and ("delegateReference" not in ds or is_hex64(ds["delegateReference"]))):
+        raise Malformed("data-subject-malformed")            # vector DS6 (a raw identifier where a keyed digest belongs)
+    kind = p["delegation"]["subjectKind"]
+    if ("delegateReference" in ds) != (kind == "user" and ds["relation"] == "other") \
+            or (ds["relation"] == "delegate" and kind != "user"):
+        raise Malformed("data-subject-relation-mismatch")    # vector DS8 (relation delegate under a system caller)
+    if ds.get("delegateReference") == ds["reference"]:
+        raise Malformed("data-subject-merged")               # vector DS7
+    if sha256_hex(jcs(ds["purposes"]).encode("utf-8")) != ds["purposesDigest"]:
+        raise Malformed("data-subject-purposes-digest-mismatch")   # vector DS10
+    if ds["purpose"] not in ds["purposes"]:
+        raise Malformed("data-subject-purpose-undeclared")   # vector DS9
 
 
 # ---------------------------------------------------------------- the verifier
@@ -580,6 +745,12 @@ def _verify(env, keys, rep):
         raise Malformed("arguments-digest-missing")
     if r["binding"] == "not-bindable" and "argumentsDigest" in r:
         raise Malformed("arguments-digest-forbidden")
+    # the two optional members of the proposed -04 texts (corpus 0.36.3), "after the delegation check, in this order":
+    # the authenticated principal (PR1 to PR11), then whose data the call touched and why (DS1 to DS10)
+    if "principal" in p:
+        verify_principal(p, reported_at)
+    if "dataSubject" in p:
+        verify_data_subject(p)
 
     # 5.3 request digest and subject binding
     req = {"action": p["decision"]["action"], "resourceId": r["id"], "resourceKind": r["kind"]}

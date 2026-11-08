@@ -1,0 +1,72 @@
+# 8 November 2026 — release 0.36.3 of agent-evidence-vectors (PyPI, published after 7 November 07:00Z; 0.36.0 to 0.36.2 never seen on
+# PyPI by this watch). Python 3.12.15 (venv312, /tmp/venvbin-w/python3); each release installed in its own venv with pip install
+# "agent-evidence-vectors==<version>"; corpus directory =
+# $(python3 -c "import agent_evidence_vectors,os;print(os.path.dirname(agent_evidence_vectors.__file__))")/corpora/vectors-agent-audit-record
+## what changed in the corpus between 0.35.0 and 0.36.3 (wheels unpacked and compared; vectors-agent-audit-record and vectors-approval-binding only)
+# audit-record: 193 -> 217 members (92 accept, 2 indeterminate, 123 reject; corpusDigest eee834bdb4c3f1f846f1026524472f89b7ee2b8922440eeca5520e1446a1bb52):
+#   PS1, PS2, PS1b (principal standing under the v2 predicate type URI: Wes Jackson's rows from #412, Girish Konda's boundary case),
+#   PR1 to PR11 (the authenticated principal; proposed -04 text docs/proposals/audit-record-04-principal.md),
+#   DS1 to DS10 (whose data the call touched and for what purpose; proposed -04 text docs/proposals/audit-record-04-data-subject.md,
+#   from Joshua Moffat's issue #423). The README says both members are optional and that a record without them "is judged exactly
+#   as under revision 03"; the predicate URI does not change. No -04 is posted on 8 November.
+# approval-binding: 36 -> 37 cases (approval-id-reused-unread-member, PR #472 merged) and check 4 worded as PR #472 has it
+#   ("compared as parsed JSON values over the whole object, including members the contract does not otherwise read").
+## first pass, unchanged verifier (as pushed at 758d791)
+# command: python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report /tmp/gilda-judge-0363.json
+# agent-audit-record-conformance: 202/217 members agree with MANIFEST (verdict, codes, derivedTier, withinLimit, set, dating: codes, datedAt, entry, receipt, delegation root); first refusal code agrees on 108/123 reject members; 0 retained members with an anchor not attempted (rfc3161 only); aggregation correspondence 1/1
+# the fifteen in disagreement, all read valid where the MANIFEST expects malformed:
+#   PR4 principal-thumbprint-mismatch, PR5 principal-expired, PR6 principal-credential-unbound, PR7 principal-member-missing,
+#   PR8 principal-subject-mismatch, PR9 principal-kid-mismatch, PR10 principal-not-yet-valid, PR11 principal-member-unknown,
+#   DS4 data-subject-member-missing, DS5 data-subject-member-unknown, DS6 data-subject-malformed, DS7 data-subject-merged,
+#   DS8 data-subject-relation-mismatch, DS9 data-subject-purpose-undeclared, DS10 data-subject-purposes-digest-mismatch
+# PS1, PS2, PS1b, PR1 to PR3 and DS1 to DS3 agreed already: the v2 reading of -03 Section 8 was in place since 31 October, and the
+# two new members are optional, so a verifier that does not read them accepts the records that carry them well formed.
+# approval-binding/v1 (unchanged verifier): 37/37 cases agree with MANIFEST on decision and reason (the whole-object reading of check 4
+# was already the verifier's; the new case needed no change)
+## what the texts say (read before changing anything; the reference readers named in them were not opened)
+# audit-record-04-principal.md: principal is OPTIONAL; when present "an object carrying exactly these members, and MAY carry tenant;
+# a record missing one of them or carrying any other member in it is malformed (PR7, PR11)": issuer (an https URL), subject (under
+# delegation.subjectKind user it MUST equal delegation.subject, PR8; under system it names the client itself, PR2), clientId, audience
+# (a non-empty array of distinct strings), authMethod (a value of the IANA registry "OAuth Token Endpoint Authentication Methods"),
+# source (jwt-access-token, id-token, jwt-assertion), tokenDigest (MUST equal agent.credentialDigest, PR6), issuedAt and expiresAt
+# ("at decision.reportedAt the token MUST have been issued and MUST NOT have expired, each within the skew tolerance of the draft",
+# PR10, PR5), kid, key (a public JWK of kty RSA, EC or OKP, no private member; its kid MUST equal kid, PR9), keyThumbprint (the
+# RFC 7638 SHA-256 thumbprint of key, recomputed, PR4), jwksDigest, tenant. Verification "after the delegation check, in this order":
+# members, subject, tokenDigest, validity, key.kid, thumbprint. Not established: that the JWKS held key, the token's signature, who
+# the subject is.
+# audit-record-04-data-subject.md: dataSubject is OPTIONAL; exactly scheme (salted-sha256-jcs), saltId, reference (SHA-256 hex of the
+# RFC 8785 bytes of {"salt","subject"}; a raw identifier is refused, DS6), relation (delegate | other), purpose, purposes (non-empty
+# array of distinct strings), purposesDigest (SHA-256 of the RFC 8785 bytes of purposes, MUST recompute, DS10; purpose MUST be one of
+# purposes, DS9), and MAY carry delegateReference ("present exactly when delegation.subjectKind is user and relation is other"; MUST
+# differ from reference, DS7; absent under relation delegate or a system caller, DS8); missing or other member malformed (DS4, DS5).
+# Verification "after the principal check, in this order": members, forms, relation against the delegation kind and the delegate
+# reference, merged, purposesDigest, purpose.
+## what changed in the verifier (from those texts alone; docstring paragraph "Extended on 08/11/2026")
+# - two functions, verify_principal and verify_data_subject, called after the 5.2 delegation check when the member is present
+# - principal: membership (missing before unknown), forms (principal-malformed, no vector), then the five checks in the text's order;
+#   the skew tolerance (MANIFEST skewTolerance, 300 s) is applied on both sides of the validity window; key.kid absent counts as
+#   different; the thumbprint is recomputed per RFC 7638 (required public members by kty, lexicographic, no whitespace)
+# - dataSubject: membership, forms (data-subject-malformed), relation vs delegation kind and delegateReference presence, merged,
+#   purposesDigest recomputed over JCS(purposes), purpose on the list; the reference itself is not recomputable (the salt is the server's)
+# - readings the texts leave open and no vector decides: under subjectKind system the subject "names the client itself" is not a MUST
+#   and is not enforced; relation delegate under subjectKind none is read as a mismatch (no user to be the data subject)
+## second pass, corpus 0.36.3
+# command: python3 gilda/gilda_verify_independent.py --corpus "$CORPUS" --report gilda/judge-20261108-0.36.3.json
+# agent-audit-record-conformance: 217/217 members agree with MANIFEST (verdict, codes, derivedTier, withinLimit, set, dating: codes, datedAt, entry, receipt, delegation root); first refusal code agrees on 123/123 reject members; 0 retained members with an anchor not attempted (rfc3161 only); aggregation correspondence 1/1
+# PS1b (indeterminate, readings valid | malformed): this verifier reads malformed (evaluation-inconsistent), -03's boundary (FR2: an age
+# equal to maxAge is fresh), the reading the reference reader takes too; the README's open point between -03 and -05 stays the authors'.
+# command: python3 gilda/approval_binding_verify_independent.py --corpus "$AB_CORPUS" --report gilda/judge-approval-binding-20261108-0.36.3.json
+# approval-binding/v1: 37/37 cases agree with MANIFEST on decision and reason
+# GILDA_CORPUS=... python3 -m unittest discover -s gilda -p 'test_gilda_aggregation.py': Ran 12 tests, OK
+## package harness, 0.36.3 (not an independent check): agent-evidence-vectors --corpus vectors-agent-audit-record
+# members: 217 (accept 92, indeterminate 2, reject 123); verdict: every member behaves as MANIFEST.json declares
+# agent-evidence-vectors --corpus vectors-approval-binding: approval-binding/v1: reference reader answered 37 of 37 cases, 0 disagreements
+## regressions, extended verifier
+# 0.35.0 (193 members): 193/193, first refusal code 106/106, aggregation 1/1
+# 0.31.0 (184 members): 184/184, first refusal code 101/101, aggregation 1/1
+# 0.28.0 (141 members): 141/141, first refusal code 81/81, aggregation 1/1
+# approval-binding 0.31.0 (unchanged verifier): 23/23
+## interop/run.sh, whole script, clean clone at 896cc8e with requirements-gilda.txt at 0.36.3 and the Standard at its pin: EXIT 0
+## honest disagreements left: none at the member level. Text-level remark for the author: PR1 to PR11 and DS1 to DS10 are outside -03 (as
+## CS18 to CS49 are); the verifier reads them from the two proposed texts, and will read -04 against them when it is posted.
+## the CI pin moves to 0.36.3 (requirements-gilda.txt, run.sh's comment): both verifiers agree with the release in full.

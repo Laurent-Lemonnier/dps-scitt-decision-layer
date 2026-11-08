@@ -147,3 +147,57 @@ Résultats (`run-20261107b.txt`, `judge-20261107-0.35.0.json`) :
   (1) de la liste pour l'auteur ci-dessus : CS41–CS49 aussi, écrits pour un -04 non publié.
 - L'épingle de CI passe à 0.35.0 dans le même commit (`interop/requirements-gilda.txt`, commentaire de `run.sh`) :
   les deux vérificateurs concordent en entier avec cette release ; 0.31.0 et 0.28.0 restent des rejeux de régression.
+
+## Rejeu du 08/11/2026 : corpus 0.36.3, membres `principal` et `dataSubject` des textes -04 proposés
+
+PyPI est passé de 0.35.0 à 0.36.3 (aucune 0.36.0 à 0.36.2 vue). Le corpus audit-record passe de 193 à 217 membres
+(92 accept, 2 indeterminate, 123 reject ; corpusDigest eee834bd…) ; approval-binding de 36 à 37 cas (le 37e de la PR #472,
+fusionnée, et sa formulation du contrôle 4). Premier passage, vérificateur inchangé (`run-20261108.txt`) : audit-record
+**202/217**, approval-binding **37/37**. Les quinze écarts sont tous des membres reject lus `valid` : PR4–PR11 et DS4–DS10.
+
+Lecture des textes avant toute modification :
+
+- **Le -03 ne porte ni `principal` ni `dataSubject`.** Le README du corpus les écrit « rows written for revision 04 » et
+  renvoie à deux textes proposés du dépôt du corpus, `docs/proposals/audit-record-04-principal.md` (le principal authentifié :
+  émetteur, sujet, client, audiences, méthode d'authentification, source du jeton, digest du jeton lié à
+  `agent.credentialDigest`, fenêtre de validité, `kid`, clé publique JWK et empreinte RFC 7638, digest du JWKS, tenant) et
+  `docs/proposals/audit-record-04-data-subject.md` (de qui sont les données lues et pourquoi, sans l'identifiant : référence
+  salée, relation au délégué, finalité sur la liste déclarée et digest de cette liste ; issue #423 de Joshua Moffat). Les deux
+  disent le membre OPTIONAL et « a record without it is judged exactly as under revision 03 » ; l'URI de prédicat ne change pas.
+  Aucun -04 n'est publié au 08/11.
+- **PS1, PS2, PS1b** (standing du principal sous l'URI v2 ; lignes de Wes Jackson, cas limite de Girish Konda) concordaient
+  déjà : la lecture v2 du §8 du -03 est en place depuis le 31/10. Sur PS1b (indéterminé, lectures `valid` | `malformed`), le
+  vérificateur garde la borne du -03 (FR2 : un âge égal à `maxAge` est frais) et lit `malformed` (`evaluation-inconsistent`).
+
+Ce qui a changé dans `gilda_verify_independent.py` (paragraphe « Extended on 08/11/2026 » de sa docstring ; les lecteurs de
+référence nommés par les textes n'ont pas été ouverts) : deux fonctions `verify_principal` et `verify_data_subject`,
+appelées après le contrôle de délégation du §5.2 quand le membre est présent, « in this order » comme chaque texte l'écrit :
+
+- `principal` : membres exacts (manquant → `principal-member-missing`, PR7 ; autre → `principal-member-unknown`, PR11), formes
+  (`principal-malformed`, aucun vecteur), puis sujet = `delegation.subject` sous `subjectKind` `user`
+  (`principal-subject-mismatch`, PR8), `tokenDigest` = `agent.credentialDigest` (`principal-credential-unbound`, PR6),
+  jeton émis et non expiré à `decision.reportedAt` à la tolérance près (300 s, des deux côtés ; `principal-not-yet-valid`
+  PR10, `principal-expired` PR5), `key.kid` = `kid` (`principal-kid-mismatch`, PR9), empreinte RFC 7638 recalculée depuis
+  `key` (`principal-thumbprint-mismatch`, PR4). Non contrôlés, comme le texte le dit : le JWKS, la signature du jeton, qui est
+  le sujet.
+- `dataSubject` : membres exacts (`data-subject-member-missing` DS4, `data-subject-member-unknown` DS5), formes
+  (`data-subject-malformed`, DS6 : un identifiant brut à la place d'un digest), `delegateReference` présent exactement sous
+  `user` + `other` et relation `delegate` seulement sous `user` (`data-subject-relation-mismatch`, DS8),
+  `delegateReference` ≠ `reference` (`data-subject-merged`, DS7), `purposesDigest` = SHA-256 de JCS(`purposes`)
+  (`data-subject-purposes-digest-mismatch`, DS10), `purpose` dans `purposes` (`data-subject-purpose-undeclared`, DS9). La
+  référence elle-même n'est pas recalculable (le sel est au serveur).
+
+Lectures prises là où les textes laissent un choix, aucune tranchée par un vecteur : sous `subjectKind` `system` le sujet
+« names the client itself » (PR2) n'est pas un MUST et n'est pas imposé ; relation `delegate` sous `subjectKind` `none` est
+lue comme un écart (pas d'utilisateur qui puisse être la personne concernée).
+
+Résultats (`run-20261108.txt`, `judge-20261108-0.36.3.json`, `judge-approval-binding-20261108-0.36.3.json`) :
+
+- **0.36.3 : 217/217**, premier code de refus 123/123, agrégation 1/1 ; harnais du paquet : « every member behaves as
+  MANIFEST.json declares » ; approval-binding **37/37** (vérificateur inchangé), harnais : 37 sur 37, 0 désaccord.
+- **Régressions : 0.35.0 193/193** (106/106), **0.31.0 184/184** (101/101), **0.28.0 141/141** (81/81) ; approval-binding
+  23/23 à 0.31.0 ; les 12 tests d'agrégation inchangés ; `run.sh` entier en clone propre : EXIT 0.
+- **Désaccord honnête : aucun au niveau des membres.** Au niveau du texte : PR1–PR11 et DS1–DS10 sont hors du -03, comme
+  CS18–CS49 ; le vérificateur les lit depuis les deux textes proposés et relira le -04 quand il sera publié.
+- L'épingle de CI passe à 0.36.3 (`interop/requirements-gilda.txt`, commentaire de `run.sh`) : les deux vérificateurs
+  concordent en entier avec cette release.
