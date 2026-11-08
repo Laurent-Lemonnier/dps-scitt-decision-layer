@@ -213,6 +213,11 @@ steps his `expected_under_02` gives. His procedure applied to p08's own citation
 and no suite digest in the record; the suite index did not exist at the commit p08 cites). `wright-vectors/P08-IRONTRELLIS-20261107.md`
 has the results, the readings and five points for the author.
 
+Reciprocity (8 November 2026): his own checker, `vrcheck.py` at 97b63b2, run unchanged on four verdict records of this
+repository (case 18's two verdicts, case 16's versions 1 and 2) wrapped in his vector format: all four held, step 1 PASS,
+steps 2 and 3 NOT RUN, nothing refused; his checker holds neither these formats nor this rule, the mirror of what this
+checker does on his p08. `wright-vectors/reciprocity-20261108/` has the vectors, his output and the report.
+
 The vectors themselves are not copied here; the run names the commit. p08 cites two IronTrellis files his repository
 links rather than carries: `wright-vectors/p08-evidence/` holds `budget-v2.json` as fetched and the digests of both
 (`SHA256SUMS`); `vectors.json` (1.4 MB) is fetched before a run (below), its digest checked by the adapter before the
