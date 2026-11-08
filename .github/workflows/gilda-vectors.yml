@@ -1,0 +1,119 @@
+name: gilda-vectors
+
+# The two verifiers of interop/gilda/ run through Sankalp Gilda's GitHub Action (probityai/agent-evidence-vectors),
+# at his request of 8 November 2026, so that they follow each release of the corpora.
+#
+# Pins. The release of the corpora is the one interop/requirements-gilda.txt names (Dependabot opens a weekly PR when a
+# new one is published; the pin moves only when both verifiers agree with the release in full, interop/run.sh). The
+# `tag:` input below hands that pin to the Action, so the corpus replayed is always the pinned one. The Action's own
+# code is pinned by the `uses:` ref, which cannot read a file: Dependabot's github-actions entry bumps it, and the
+# `pins` job prints a warning when the two differ until both are bumped.
+#
+# Corpora. vectors-approval-binding has an external-verifier contract (`<verifier> record.json --json`, one JSON object
+# carrying decision and reason, exit 0 allow / 1 deny), so the Action drives approval_binding_verify_independent.py
+# directly. vectors-agent-audit-record has none at 0.36.3: the harness refuses a named verifier on it with exit 2
+# ("judged only by this package's own reader and has no external-verifier contract"), so for that corpus the job runs
+# gilda_verify_independent.py over the pinned release's corpus the way interop/run.sh does, then runs the very command
+# the Action would run; the day the release names a contract for the corpus the command returns 0 and the job keeps
+# going through it, and until then the refusal is reported as a notice, never as a pass.
+
+on:
+  push:
+    paths:
+      - "interop/gilda/**"
+      - "interop/requirements-gilda.txt"
+      - ".github/workflows/gilda-vectors.yml"
+  pull_request:
+    paths:
+      - "interop/gilda/**"
+      - "interop/requirements-gilda.txt"
+      - ".github/workflows/gilda-vectors.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "41 5 * * 2"   # weekly, so a release of the corpora is replayed within the week
+
+permissions:
+  contents: read
+
+env:
+  # The ref of `uses: probityai/agent-evidence-vectors@...` below; kept here so the pins job can compare it.
+  ACTION_REF: v0.36.3
+
+jobs:
+  pins:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.pin.outputs.version }}
+      tag: ${{ steps.pin.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the pinned release from interop/requirements-gilda.txt
+        id: pin
+        run: |
+          version=$(sed -n 's/^agent-evidence-vectors==//p' interop/requirements-gilda.txt)
+          [ -n "$version" ] || { echo "::error::no agent-evidence-vectors pin in interop/requirements-gilda.txt"; exit 1; }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+          echo "corpora pinned at v$version; Action code at $ACTION_REF"
+          if [ "v$version" != "$ACTION_REF" ]; then
+            echo "::warning::interop/requirements-gilda.txt pins v$version but the Action is used at $ACTION_REF; the corpora follow the requirements pin through the tag input, bump the uses: ref (and ACTION_REF) to match"
+          fi
+
+  approval-binding:
+    needs: pins
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: vectors-approval-binding through the Action, verifier approval_binding_verify_independent.py
+        uses: probityai/agent-evidence-vectors@v0.36.3
+        with:
+          corpus: vectors-approval-binding
+          tag: ${{ needs.pins.outputs.tag }}
+          verifier: python3 interop/gilda/approval_binding_verify_independent.py --json
+          artifact-name: gilda-approval-binding-report
+          report-path: interop/gilda/action-approval-binding-report.json
+
+  audit-record:
+    needs: pins
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the pinned release
+        run: python3 -m pip install --quiet "cryptography>=42" -r interop/requirements-gilda.txt
+      - name: vectors-agent-audit-record, every member against its MANIFEST (the run.sh route)
+        run: |
+          CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.path.dirname(agent_evidence_vectors.__file__),'corpora','vectors-agent-audit-record'))")
+          echo "CORPUS=$CORPUS" >> "$GITHUB_ENV"
+          python3 interop/gilda/gilda_verify_independent.py --corpus "$CORPUS" --report interop/gilda/action-audit-record-judge.json | tail -1
+      - name: vectors-agent-audit-record through the harness the Action runs, verifier gilda_verify_independent.py --json
+        run: |
+          # The exact command the Action's "Replay the corpus" step runs. At 0.36.3 the harness names no external-verifier
+          # contract for this corpus and refuses the named verifier (exit 2): reported, not counted as a pass. Any other
+          # outcome than a clean run or that refusal fails the job.
+          set +e
+          agent-evidence-vectors --corpus vectors-agent-audit-record \
+            --verifier "python3 interop/gilda/gilda_verify_independent.py --json" \
+            --report interop/gilda/action-audit-record-report.json 2> harness-stderr.txt
+          status=$?
+          set -e
+          cat harness-stderr.txt
+          if [ "$status" = "0" ]; then
+            echo "the harness drove the verifier over the corpus: this release names an external-verifier contract for it"
+          elif [ "$status" = "2" ] && grep -q "no external-verifier contract" harness-stderr.txt; then
+            echo "::notice::vectors-agent-audit-record has no external-verifier contract at ${{ needs.pins.outputs.tag }}: the harness refused the named verifier (exit 2); the corpus was judged by the step above (every member against its MANIFEST). The --json mode is ready for the day the contract is published."
+          else
+            echo "::error::agent-evidence-vectors exited $status on vectors-agent-audit-record with the named verifier"
+            exit "$status"
+          fi
+      - name: Keep the reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gilda-audit-record-report
+          path: |
+            interop/gilda/action-audit-record-judge.json
+            interop/gilda/action-audit-record-report.json
+          if-no-files-found: ignore

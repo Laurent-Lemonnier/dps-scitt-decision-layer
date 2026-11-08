@@ -10,3 +10,5 @@ __pycache__/
 p10/s2b/
 p10/out/report-ci.json
 p10/out/report-ci-pass2.json
+# reports the gilda-vectors workflow writes in CI (uploaded as artifacts, never committed)
+gilda/action-*.json

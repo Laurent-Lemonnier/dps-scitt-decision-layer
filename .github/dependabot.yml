@@ -7,3 +7,9 @@ updates:
     directory: "/interop"
     schedule:
       interval: "weekly"
+  # The Action ref in .github/workflows/gilda-vectors.yml (probityai/agent-evidence-vectors@vX.Y.Z) moves with the same
+  # releases; the workflow's pins job warns while the two pins differ.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

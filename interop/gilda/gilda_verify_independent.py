@@ -143,6 +143,9 @@ in the order each text gives ("add after the delegation check, in this order").
   (evaluation-inconsistent), one of the two readings the README allows.
 
 Usage: gilda_verify_independent.py --corpus DIR [--report out.json]
+       gilda_verify_independent.py MEMBER.json --json [--manifest MANIFEST.json]   (exit 0 valid, 1 malformed;
+       one member per call, one JSON object on stdout, the external-verifier shape of the agent-evidence-vectors
+       harness; added 8 November 2026 for its GitHub Action)
 """
 import struct
 import argparse
@@ -1299,6 +1302,29 @@ def check_aggregation(rep, aggregation):
         return {"status": "invalid-input", "reason": "invalid-aggregation-data"}
 
 
+def evaluate(doc, keys, trust):
+    """One member, judged alone: a set (records), a retained record (envelope + retention) or a
+    single envelope. Returns what the member yields and nothing about what the MANIFEST expects, so
+    judge() and the --json mode (one member per call, the shape the harness's external-verifier
+    contract reads: a verdict and the refusal codes) read the same evaluation."""
+    if "records" in doc:
+        reps, setres = verify_set(doc["records"], keys)
+        verdict = "malformed" if any(r.verdict == "malformed" for r in reps) else "valid"
+        return {"verdict": verdict, "codes": [c for r in reps for c in r.codes], "tier": reps[0].derived_tier,
+                "rep": reps[0], "set": setres, "dating": None}
+    if "envelope" in doc:
+        if "retention" in doc:
+            rep, dating = verify_retained(doc["envelope"], doc["retention"], keys, trust)
+            verdict, codes = rep.verdict, rep.codes
+        else:  # a retained member with no retention entry (vector X16): unreadable as a retained member
+            rep = verify_envelope(doc["envelope"], keys)
+            verdict, codes = "malformed", ["retained-unreadable"]
+            dating = {"codes": ["retained-unreadable"], "entry": "malformed", "delegationRoot": {"result": "not-established"}, "notAttempted": []}
+        return {"verdict": verdict, "codes": codes, "tier": rep.derived_tier, "rep": rep, "set": None, "dating": dating}
+    rep = verify_envelope(doc, keys)
+    return {"verdict": rep.verdict, "codes": rep.codes, "tier": rep.derived_tier, "rep": rep, "set": None, "dating": None}
+
+
 def judge(corpus, report_path=None):
     with open(os.path.join(corpus, "MANIFEST.json")) as stream:
         m = json.load(stream)
@@ -1311,11 +1337,10 @@ def judge(corpus, report_path=None):
         with open(os.path.join(corpus, v["file"])) as stream:
             doc = json.load(stream)
         notes = []
+        ev = evaluate(doc, keys, m.get("anchorTrust", {}))
+        rep, verdict, codes, tier = ev["rep"], ev["verdict"], ev["codes"], ev["tier"]
         if "records" in doc:
-            reps, setres = verify_set(doc["records"], keys)
-            rep = reps[0]
-            verdict = "malformed" if any(r.verdict == "malformed" for r in reps) else "valid"
-            codes = [c for r in reps for c in r.codes]
+            setres = ev["set"]
             ok = verdict == exp.get("verdict", "valid")
             es = exp.get("set", {})
             if es:
@@ -1325,15 +1350,8 @@ def judge(corpus, report_path=None):
                 if "withinLimit" in es:
                     ok = ok and es["withinLimit"] == setres["withinLimit"]
                 notes.append(f"set={setres['codes'] or setres['verdict']}")
-            tier = reps[0].derived_tier
         elif "envelope" in doc:
-            if "retention" in doc:
-                rep, dating = verify_retained(doc["envelope"], doc["retention"], keys, m.get("anchorTrust", {}))
-                verdict, codes, tier = rep.verdict, rep.codes, rep.derived_tier
-            else:  # a retained member with no retention entry (vector X16): unreadable as a retained member
-                rep = verify_envelope(doc["envelope"], keys)
-                verdict, codes, tier = "malformed", ["retained-unreadable"], rep.derived_tier
-                dating = {"codes": ["retained-unreadable"], "entry": "malformed", "delegationRoot": {"result": "not-established"}, "notAttempted": []}
+            dating = ev["dating"]
             ok = verdict == exp.get("verdict", "valid")
             ed = exp.get("dating", {})
             ok = ok and set(ed.get("codes", [])) == set(dating["codes"])
@@ -1348,8 +1366,6 @@ def judge(corpus, report_path=None):
                 partial += 1
             notes.append("dating=" + (",".join(dating["codes"]) or "well-formed") + (" datedAt=" + dating["datedAt"] if "datedAt" in dating else " not dated"))
         else:
-            rep = verify_envelope(doc, keys)
-            verdict, codes, tier = rep.verdict, rep.codes, rep.derived_tier
             if v["kind"] == "indeterminate":
                 ok = verdict == "valid" if not exp.get("codes") else True
             else:
@@ -1394,9 +1410,57 @@ def judge(corpus, report_path=None):
     return 0 if agree == n and aggregation_matched == aggregation_members else 1
 
 
+def find_manifest(member_path):
+    """The corpus MANIFEST.json above a member file (statements/, sets/ or retained/ of the corpus directory).
+    The keys and the anchor trust the member is judged under are the ones the manifest pins; nothing is inferred
+    from the member itself."""
+    here = os.path.dirname(os.path.abspath(member_path))
+    while True:
+        candidate = os.path.join(here, "MANIFEST.json")
+        if os.path.isfile(candidate):
+            return candidate
+        parent = os.path.dirname(here)
+        if parent == here:
+            raise SystemExit(f"no MANIFEST.json above {member_path}")
+        here = parent
+
+
+def judge_member(member_path, manifest_path=None):
+    """The --json mode (added 8 November 2026, for the agent-evidence-vectors GitHub Action): one member per call,
+    one JSON object on the last stdout line, exit 0 when the member is valid and 1 when it is malformed, as the
+    harness's external-verifier contract reads a named verifier (docs/reference/verifier-contract.md: verdict and
+    codes, exit-derived validity). At 0.36.3 the harness names no such contract for vectors-agent-audit-record and
+    refuses a named verifier on it (exit 2); this is the shape it will be given the day it does. The object carries
+    the member's verdict, its refusal codes in the order they were raised, the recomputed tier and, when the member
+    is a set or a retained record, the set result or the whole dating result. The verdicts are judge()'s."""
+    with open(manifest_path or find_manifest(member_path)) as stream:
+        m = json.load(stream)
+    keys = {v["keyid"]: bytes.fromhex(v["publicKey"]) for v in m["keys"].values()}
+    with open(member_path) as stream:
+        doc = json.load(stream)
+    ev = evaluate(doc, keys, m.get("anchorTrust", {}))
+    out = {"verdict": ev["verdict"], "codes": list(ev["codes"]), "derivedTier": ev["tier"],
+           "primaryCode": ev["codes"][0] if ev["codes"] else None}
+    if ev["set"] is not None:
+        out["set"] = ev["set"]
+    elif "envelope" not in doc and ev["rep"].within_limit is not None:
+        out["withinLimit"] = ev["rep"].within_limit
+    if ev["dating"] is not None:
+        out["dating"] = {k: v for k, v in ev["dating"].items()}
+    print(json.dumps(out, sort_keys=True, default=str))
+    return 0 if ev["verdict"] == "valid" else 1
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--corpus", required=True)
+    ap.add_argument("member", nargs="?", help="one member file (statements/, sets/ or retained/), judged alone with --json")
+    ap.add_argument("--json", action="store_true", help="print the member's verdict as one JSON object; exit 0 valid, 1 malformed")
+    ap.add_argument("--manifest", help="the corpus MANIFEST.json for --json (default: the one found above the member)")
+    ap.add_argument("--corpus", help="judge every member of this corpus directory against its MANIFEST")
     ap.add_argument("--report")
     a = ap.parse_args()
-    sys.exit(judge(a.corpus, a.report))
+    if a.corpus:
+        sys.exit(judge(a.corpus, a.report))
+    if not a.member:
+        ap.error("--corpus DIR, or a member file with --json")
+    sys.exit(judge_member(a.member, a.manifest))

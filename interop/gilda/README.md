@@ -201,3 +201,35 @@ Résultats (`run-20261108.txt`, `judge-20261108-0.36.3.json`, `judge-approval-bi
   CS18–CS49 ; le vérificateur les lit depuis les deux textes proposés et relira le -04 quand il sera publié.
 - L'épingle de CI passe à 0.36.3 (`interop/requirements-gilda.txt`, commentaire de `run.sh`) : les deux vérificateurs
   concordent en entier avec cette release.
+
+## 08/11/2026 — les deux vérificateurs dans la CI par l'Action GitHub de l'auteur (`.github/workflows/gilda-vectors.yml`)
+
+À la demande de Sankalp Gilda (mail du 08/11 : « Would you put that verifier, and the approval-binding one from #401, in your
+CI so they follow each release? »), un second workflow, `gilda-vectors` (push, `workflow_dispatch`, hebdomadaire), utilise
+`probityai/agent-evidence-vectors@v0.36.3`, l'Action composite du dépôt du corpus (`action.yml`, mode « verifier » :
+installation du paquet à la release, `agent-evidence-vectors --corpus <nom> --verifier "<commande>" --report <json>`, résumé
+par `scripts/action-summary.py` qui exige `rail: external` et `verifier.vectorsExecuted == totals.vectors`, second étage
+`probity-verify` à titre d'information, artefact). `interop.yml` et `run.sh` ne changent pas.
+
+- **approval-binding** : le contrat externe du corpus (README du corpus, `approvalbinding.py`) est `<verifier> <cas>/record.json
+  --json` → un seul objet JSON `{"decision": "allow"|"deny", "reason": "<premier contrôle en défaut>"|"bound"}` sur stdout
+  (lu par `json.loads` de tout stdout : aucune autre ligne), exit 0 pour allow et 1 pour deny, `reason` égale à celle du
+  MANIFEST. `approval_binding_verify_independent.py record.json --json` le faisait déjà depuis le 01/11 ; l'Action le pilote
+  tel quel (`verifier: python3 interop/gilda/approval_binding_verify_independent.py --json` ; le `--json` doublé par le
+  harnais est sans effet). Simulation locale de la commande de l'Action à 0.36.3 : « answered 37 of 37 cases, 0
+  disagreements », `action-summary.py` → `result=pass`, `executed=37`.
+- **agent-audit-record** : à 0.36.3 le harnais **refuse tout vérificateur nommé** sur ce corpus (exit 2 : « judged only by
+  this package's own reader and has no external-verifier contract » ; `docs/reference/corpus-readers.md` le dit aussi), donc
+  l'Action ne peut pas encore le piloter. `gilda_verify_independent.py` reçoit un mode `--json` prêt pour le jour où le
+  contrat sera publié, dans la forme que le contrat générique du harnais lit (`docs/reference/verifier-contract.md`) : un
+  membre par appel (`MEMBER.json --json`, MANIFEST trouvé au-dessus du fichier ou `--manifest`), un objet JSON sur une ligne
+  (`verdict`, `codes` dans l'ordre levé, `primaryCode`, `derivedTier`, et `set` ou `dating` quand le membre en a), exit 0
+  valide / 1 malformed. Même évaluation que `--corpus` (fonction `evaluate()` partagée) : 217/217 membres concordent en mode
+  `--json` (verdict, codes, tier, set, dating ; premier code 123/123), exit cohérent sur 217/217 ; `--corpus` inchangé,
+  `judge` byte-identique à `judge-20261108-0.36.3.json`, approval-binding idem. Dans le workflow, le job `audit-record`
+  juge le corpus de la release épinglée comme `run.sh` (217/217), puis lance la commande exacte de l'Action : exit 0 → piloté
+  par le harnais ; exit 2 avec ce motif → `::notice::`, jamais un succès ; autre → échec.
+- **Politique d'épingle** : la release des corpus est celle de `interop/requirements-gilda.txt` (Dependabot pip hebdomadaire +
+  veille quotidienne), passée à l'Action par son entrée `tag:` ; le ref `uses:` (code de l'Action) est suivi par une entrée
+  Dependabot `github-actions` ; le job `pins` avertit tant que les deux diffèrent. Les rapports écrits en CI
+  (`gilda/action-*.json`) sont des artefacts, ignorés par git.
