@@ -1,0 +1,2744 @@
+
+
+
+
+Network Working Group                                        P. Izmaylov
+Internet-Draft                                           31 October 2026
+Intended status: Standards Track                                        
+Expires: 4 May 2027
+
+
+      Signed Permissions and Action Receipts for Automated Agents
+              draft-izmaylov-agent-permission-receipts-02
+
+Abstract
+
+   This document specifies records with which a third party can
+   establish, later and without network access, what an automated agent,
+   such as an artificial intelligence (AI) agent, was permitted to do
+   and what it recorded doing.  The person for whom the agent acts, the
+   principal, signs a permission with a passkey; the permission carries
+   limits that a verifier can check mechanically.  The agent signs a
+   receipt for each action with Ed25519 and the Module-Lattice-Based
+   Digital Signature Algorithm (ML-DSA-87).  Receipts are chained and
+   entered in a log whose signed tree heads are time-stamped.  A
+   verifier reports, separately, whether the records are sound and
+   whether each recorded action stayed within its permission.  The
+   content of each record is specified independently of its encoding;
+   one encoding, JSON Web Signature (JWS) over canonical JavaScript
+   Object Notation (JSON), is defined.
+
+Note to Readers
+
+   Note to the RFC Editor: please remove this note before publication.
+
+   What this document adds to other work is stated in Section 1.  This
+   revision defines an executor (Section 2) and states when its records
+   show a receipt that was never written (Section 18); no record
+   changes.  Appendix C lists the changes since -01, and Appendix D
+   those since -00.  The spelling "acknowledgement" is kept throughout,
+   in prose as well as in identifiers, because it is the format's own
+   label ("provared.acknowledgement.v0").
+
+   This document was announced on the audit@ietf.org list, where the
+   proposed Agent Use of Delegation and Interaction Traceability (AUDIT)
+   working group is discussed.  While that group is being formed,
+   detailed comments are welcome in writing: by email to the author, or
+   as issues at https://github.com/provared/provared/issues.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+
+
+Izmaylov                   Expires 4 May 2027                   [Page 1]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 4 May 2027.
+
+Copyright Notice
+
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
+   2.  Conventions and Terminology . . . . . . . . . . . . . . . . .   5
+   3.  Overview and Example  . . . . . . . . . . . . . . . . . . . .   6
+   4.  Common Rules  . . . . . . . . . . . . . . . . . . . . . . . .   8
+     4.1.  Records and Signers . . . . . . . . . . . . . . . . . . .   8
+     4.2.  Content . . . . . . . . . . . . . . . . . . . . . . . . .   9
+     4.3.  Values  . . . . . . . . . . . . . . . . . . . . . . . . .   9
+     4.4.  Keys  . . . . . . . . . . . . . . . . . . . . . . . . . .   9
+     4.5.  Hybrid Signatures . . . . . . . . . . . . . . . . . . . .  10
+     4.6.  Ed25519 Verification  . . . . . . . . . . . . . . . . . .  11
+     4.7.  Passkey Signatures  . . . . . . . . . . . . . . . . . . .  12
+     4.8.  Records Relied On . . . . . . . . . . . . . . . . . . . .  13
+   5.  The Permission  . . . . . . . . . . . . . . . . . . . . . . .  13
+     5.1.  Limits, Conditions, and Prohibitions  . . . . . . . . . .  14
+   6.  Action Receipts . . . . . . . . . . . . . . . . . . . . . . .  15
+   7.  Delegation  . . . . . . . . . . . . . . . . . . . . . . . . .  17
+   8.  Cancellation and Acknowledgement  . . . . . . . . . . . . . .  18
+   9.  Logs, Signed Tree Heads, and Time-Stamps  . . . . . . . . . .  19
+     9.1.  The Log . . . . . . . . . . . . . . . . . . . . . . . . .  19
+     9.2.  Signed Tree Heads . . . . . . . . . . . . . . . . . . . .  20
+
+
+
+Izmaylov                   Expires 4 May 2027                   [Page 2]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+     9.3.  Time-Stamps . . . . . . . . . . . . . . . . . . . . . . .  20
+   10. Verification  . . . . . . . . . . . . . . . . . . . . . . . .  22
+     10.1.  The Three Answers  . . . . . . . . . . . . . . . . . . .  22
+     10.2.  Findings . . . . . . . . . . . . . . . . . . . . . . . .  23
+   11. The JSON Encoding . . . . . . . . . . . . . . . . . . . . . .  24
+     11.1.  Envelope and Labels  . . . . . . . . . . . . . . . . . .  24
+     11.2.  Content and Values . . . . . . . . . . . . . . . . . . .  25
+     11.3.  Thumbprints and Key-Set Digests  . . . . . . . . . . . .  26
+     11.4.  Logs . . . . . . . . . . . . . . . . . . . . . . . . . .  26
+   12. Other Encodings . . . . . . . . . . . . . . . . . . . . . . .  27
+   13. Relationship to Other Work  . . . . . . . . . . . . . . . . .  27
+   14. Design Rationale  . . . . . . . . . . . . . . . . . . . . . .  30
+   15. Parts Specified Elsewhere . . . . . . . . . . . . . . . . . .  31
+   16. Open Issues . . . . . . . . . . . . . . . . . . . . . . . . .  31
+   17. Implementation Status . . . . . . . . . . . . . . . . . . . .  32
+   18. Security Considerations . . . . . . . . . . . . . . . . . . .  33
+   19. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  36
+   20. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  36
+   21. References  . . . . . . . . . . . . . . . . . . . . . . . . .  36
+     21.1.  Normative References . . . . . . . . . . . . . . . . . .  36
+     21.2.  Informative References . . . . . . . . . . . . . . . . .  39
+   Appendix A.  Codes  . . . . . . . . . . . . . . . . . . . . . . .  45
+   Appendix B.  Shared List  . . . . . . . . . . . . . . . . . . . .  46
+   Appendix C.  Changes Since -01  . . . . . . . . . . . . . . . . .  47
+   Appendix D.  Changes Since -00  . . . . . . . . . . . . . . . . .  48
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  48
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  49
+
+1.  Introduction
+
+   A principal signs a permission for an agent: which actions, with
+   which services, within which limits, from when until when.  The agent
+   signs a receipt for each action it takes; a service may countersign
+   it.  A recorder appends receipts to a log and periodically signs its
+   tree head, which a Time-Stamping Authority (TSA) time-stamps.  Later,
+   with no network access, a verifier checks the records and answers
+   three separate questions: whether the records are sound, whether
+   every signature could be verified on that device, and whether each
+   recorded action stayed within its permission.
+
+
+
+
+
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                   [Page 3]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   This document specifies the records and the verifier's rules:
+   evidence, not enforcement.  Nothing in this document stops an action
+   when it is attempted, and an action for which no receipt was written
+   leaves no trace in the agent's own log (Section 18).  It names the
+   role of an enforcement point that refuses an action before it takes
+   effect, an executor (Section 2), but does not specify how an executor
+   decides or keeps its records, how records are carried, how keys and
+   trust anchors are distributed, or what to do about a finding
+   (Section 15).
+
+   When an automated agent acts for a person, the questions asked
+   afterward are the same: was the action authorized, by whom, within
+   what limits, did the other party agree, and when?  Authorization
+   protocols answer at the moment of a request, typically with tokens
+   that are not kept as evidence.  This document specifies records that
+   a third party can verify later, without network access.  Each record
+   is signed by the party that made it.  Whoever keeps the log can still
+   leave out or delay entries; Section 18 states how far that reaches.
+
+   The content model (Section 4 through Section 10) says what each
+   record holds, who signs it, and how a verifier judges it, apart from
+   how records are written as bytes.  This document defines one encoding
+   (Section 11): JSON Web Signature (JWS) [RFC7515] over JavaScript
+   Object Notation (JSON) [RFC8259] in one canonical form [RFC8785];
+   Section 12 states what another encoding, such as one with Concise
+   Binary Object Representation (CBOR) Object Signing and Encryption
+   (COSE), has to define.  Logs use the Merkle tree of [RFC9162], and
+   time-stamps come from a TSA [RFC3161].  Agents sign with Ed25519
+   [RFC8032] and the Module-Lattice-Based Digital Signature Algorithm
+   ML-DSA-87 [FIPS204] side by side; a signed tree head adds the
+   Stateless Hash-Based Digital Signature Algorithm SLH-DSA [FIPS205].
+
+   Other drafts (Section 13) already have principal-signed
+   authorizations, signed and hash-chained receipts for each action,
+   passkey approval of one exact action, signed budgets enforced when an
+   action is attempted, a cumulative limit checked afterward against the
+   amounts that a decision point recorded, and delegation that only
+   narrows.  This document adds three things.  First, the permission
+   that the principal signs with a passkey [WebAuthn] carries limits
+   that a verifier can check mechanically (totals, single amounts,
+   counts, and totals or counts within a rolling period) and conditions
+   (the other party's countersignature, or the principal's approval of
+   one action).  Second, a cancellation can be acknowledged by the
+   agent.  Third, it specifies a verifier that adds up the signed
+   receipts themselves and says, from the records alone and after the
+   fact, whether each recorded action, including a helper agent's,
+   stayed within the permission.
+
+
+
+
+Izmaylov                   Expires 4 May 2027                   [Page 4]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   The records are evidence, not a verdict: a sound record can show an
+   agent acting outside its permission.  This document is the core of a
+   published format description [FORMAT]; Section 15 lists the parts
+   specified only there.
+
+2.  Conventions and Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+   The identifiers that [FORMAT] uses in labels and member names are
+   given in parentheses after each term.
+
+   Principal:  The person who signs a permission with a passkey
+      ("issuer").
+   Passkey:  A credential [WebAuthn] in a device, unlocked by user
+      verification such as a biometric or a personal identification
+      number (PIN).
+   Agent:  Software that acts for the principal.  It deals with
+      services, which may countersign its receipts.
+   Helper agent, or helper:  An agent that acts under a delegation
+      (Section 7).
+   Service:  The other party to an action, named in a permission's
+      "with"; it may countersign (Section 6).
+   Executor:  Software, other than the agent, that takes actions for the
+      agent or holds what they need, such as a credential, and refuses
+      an action that its check of the permission does not allow;
+      [FORMAT] specifies one such check (Section 15).  A permission
+      names an executor in "with", as it names a service; to
+      countersign, the executor needs its key set there (Section 6).
+   Permission:  The principal's signed statement of which agent may do
+      what, within which limits, with whom, and when ("slip").
+   Action receipt, or receipt:  The agent's signed statement that it
+      took one action ("stub").  It is not a Receipt in the sense of
+      Supply Chain Integrity, Transparency, and Trust (SCITT) [RFC9943]
+      (Section 13).
+   Delegation:  An agent's signed hand-over of part of its permission
+      ("pass").
+   Record:  A signed statement of one of the eight kinds of Section 4.1.
+   Log:  A sequence of entries, only ever added to ("book").
+   Entry:  One record together with what is carried beside it, as one
+      element of a log (Section 9.1).
+   Recorder:  Whoever keeps a log.
+   Signed tree head, or head:  The recorder's signed statement of a
+      log's size and root ("seal").
+
+
+
+Izmaylov                   Expires 4 May 2027                   [Page 5]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   Chain:  The receipts of one agent under one permission or one
+      delegation, each naming the one before (Section 6).
+   Verifier:  Anyone, or any software, that verifies records
+      ("checker").
+   Core verifier:  A verifier that implements this document and none of
+      the parts specified only in [FORMAT] (Section 15).
+   Digest:  The SHA-256 hash [FIPS180-4] of some bytes.
+   Encoding:  How records, keys, and logs are written as bytes and how
+      signatures are carried (Section 11, Section 12).
+   Problem:  A reason why an entry, or the log, cannot be relied on.
+   Sound:  Of an entry or a log: having no problem.
+   Finding:  A statement that a sound receipt or delegation lies outside
+      its permission.  A finding is not a problem.
+   Compared:  Of a receipt or delegation: judged against its permission
+      (Section 10.1).
+   Counted:  Of a time-stamp: from a trusted TSA, on a record whose
+      signatures were all verified (Section 9.3).
+   Intact:  Of a log: no problem was found and everything was verified
+      (Section 10.1).
+
+   The base64url encoding is that of Section 5 of [RFC4648], without
+   padding.  Where a rule is followed by a code in parentheses, such as
+   "(chain-broken)", an entry that breaks the rule has a problem.  A
+   verifier MUST report that code for it, unless it stopped at an
+   earlier problem of the same entry (Section 10.1).  Every finding of a
+   compared receipt or delegation is reported: each code once, except
+   over-period-limit, which is reported once for each period limit
+   exceeded.  Appendix A lists the codes.
+
+3.  Overview and Example
+
+   Once the principal has signed a permission, the agent signs a receipt
+   for each action, naming the permission and the receipt before it.
+   The recorder writes each receipt, with any countersignature and
+   approval, as one log entry, and periodically appends a time-stamped
+   signed tree head.  This example follows the demonstration published
+   with [FORMAT]; the parties and orders are invented.  An office agent
+   may order supplies up to 200 GBP in total and 100 GBP for one order,
+   and send two messages in any hour.  Every order needs the supplier's
+   countersignature, and an order above 60 GBP the principal's approval.
+   The permission's content is shown in the JSON encoding (Section 11),
+   with spaces and line breaks added, and values abbreviated:
+
+
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                   [Page 6]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   {"actions": ["supplies.order", "message.send"],
+    "agent": {"keys": ["<Ed25519>", "<ML-DSA-87>"], "name": "Agent"},
+    "id": "<base64url>",
+    "issuer": {"key": "<ES256>", "name": "A. Person",
+      "origin": "https://sign.example.org", "rpId": "example.org"},
+    "limits": [
+      {"action": "supplies.order", "max": 200, "unit": "GBP"},
+      {"action": "supplies.order", "each": 100, "unit": "GBP"},
+      {"action": "message.send", "count": 2, "per": 3600}],
+    "never": ["destroys", "impersonate"],
+    "purpose": "Keep the office stocked with paper and toner.",
+    "requires": [
+      {"action": "supplies.order", "need": "countersignature"},
+      {"above": 60, "action": "supplies.order", "need": "approval",
+       "unit": "GBP"}],
+    "type": "provared.slip.v0",
+    "validFrom": "2026-10-05T09:00:00Z",
+    "validUntil": "2026-10-12T09:00:00Z",
+    "with": [{"id": "supplier", "keys": ["<Ed25519>", "<ML-DSA-87>"],
+      "name": "Example Stationery"}]}
+
+   The log then holds these entries ("receipt n" has "seq" n; "cs" is a
+   countersignature):
+
+   Entry Record     Action, amount With it      Total Findings
+   0     permission
+   1     receipt 0  order, 45 GBP  cs              45
+   2     receipt 1  message
+   3     receipt 2  order, 80 GBP  approval, cs   125
+   4     receipt 3  order, 25 GBP                 150 countersignature-
+                                                      missing
+   5     receipt 4  order, 80 GBP  cs             230 over-limit,
+                                                      approval-missing
+   6     signed tree head          time-stamp
+
+   The content of the receipt at entry 5, shown across lines, is:
+
+   {"action":"supplies.order","amount":{"unit":"GBP","value":80},
+    "id":"<base64url>","previous":"<digest of the receipt at 4>",
+    "seq":4,"slip":"<digest of the permission>",
+    "type":"provared.stub.v0","when":"2026-10-05T09:40:00Z",
+    "with":"supplier"}
+
+   The countersignature at entry 5 has the content {"stub": "<digest of
+   the receipt at 5>", "type": "provared.countersignature.v0", "when":
+   "2026-10-05T09:40:12Z"}.
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                   [Page 7]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   Given the thumbprint of the principal's passkey, the digest of the
+   recorder's key set, and the digest of the TSA's certificate
+   (Section 4.4), a verifier finds no problem and verifies every
+   signature: the log is intact.  It reports that the agent did not stay
+   within its permission, at entries 4 and 5.
+
+4.  Common Rules
+
+   Section 4 through Section 10 are the content model; Section 11 is the
+   JSON encoding.  Maps are written here as in JSON: {"unit", "value"}
+   is a map with exactly those two members.
+
+4.1.  Records and Signers
+
+   A record is of one of eight kinds.  Each is signed by one party, with
+   these methods, in this order; X is the identifier of the kind in the
+   labels of [FORMAT]:
+
+      +==================+==================+=======================+
+      | Kind of record   | X                | Signed with           |
+      +==================+==================+=======================+
+      | Permission       | slip             | the principal's       |
+      |                  |                  | passkey (Section 4.7) |
+      +------------------+------------------+-----------------------+
+      | Action receipt   | stub             | Ed25519, ML-DSA-87    |
+      +------------------+------------------+-----------------------+
+      | Countersignature | countersignature | Ed25519, ML-DSA-87    |
+      +------------------+------------------+-----------------------+
+      | Approval         | approval         | the principal's       |
+      |                  |                  | passkey               |
+      +------------------+------------------+-----------------------+
+      | Delegation       | pass             | Ed25519, ML-DSA-87    |
+      +------------------+------------------+-----------------------+
+      | Cancellation     | cancellation     | the principal's       |
+      |                  |                  | passkey               |
+      +------------------+------------------+-----------------------+
+      | Acknowledgement  | acknowledgement  | Ed25519, ML-DSA-87    |
+      +------------------+------------------+-----------------------+
+      | Signed tree head | seal             | Ed25519, ML-DSA-87,   |
+      |                  |                  | SLH-DSA-SHA2-256s     |
+      +------------------+------------------+-----------------------+
+
+                 Table 1: Kinds of record and their signers
+
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                   [Page 8]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   The content of a record holds a member "type" whose value is
+   "provared.X.v0".  Every signature of a record covers its kind as well
+   as its content, so that a signature made for one kind of record is
+   not accepted as a signature on another; the encoding says how
+   (Section 11.1).  The suffix "v0" marks this draft, so that a record
+   of a later, frozen version is distinguished from a draft one.
+
+4.2.  Content
+
+   The content of a record is a map from member names, which are text,
+   to values.  A value is a map of the same kind, a list of values,
+   text, an integer from 0 to 2^53 - 1, or one of the values of
+   Section 4.3.  There are no others: no true, false, or null, no
+   fractions, and no negative numbers.  Text is a sequence of Unicode
+   scalar values; its length is counted in code points.  The encoding
+   writes the content in one form, which a verifier tests.
+
+   "type" MUST match the kind of record that the encoding labels
+   (payload-type-mismatch).  A map MUST hold exactly the members listed
+   for it, each in its stated form (bad-field).
+
+4.3.  Values
+
+   Bytes:  A sequence of bytes, of the length stated for each member.
+      Identifiers, digests, and the parts of keys are bytes.
+   Identifier:  An "id" is 16 random bytes.  No two records in a log
+      hold the same "id" (duplicate-id).
+   Time:  A date and time in Coordinated Universal Time (UTC), to the
+      second, with no fraction and no offset.  It MUST denote a moment
+      that exists: 29 February in a year that is not a leap year, an
+      hour of 24, and a second of 60 are refused (bad-field).
+   Digests:  A digest is 32 bytes.  A record's digest is that of its
+      content, in the bytes that the encoding writes and that its
+      signatures cover; it covers no signature.  Records name one
+      another by it.  A "sha256" member holds a document's digest:
+      records never hold documents.
+   Name:  Text of 1 to 200 code points, chosen by the writer.  Except
+      for the reserved names of documents (Section 6), a name is not
+      checked against anything.
+   Amount:  Exactly {"unit", "value"}, where "value" is an integer and
+      the unit is 1 to 16 ASCII letters, digits, ".", "-", or "_",
+      beginning with a letter or digit.
+
+4.4.  Keys
+
+   A key is a public key of one of these methods, and of no other (bad-
+   key):
+
+
+
+
+Izmaylov                   Expires 4 May 2027                   [Page 9]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   Ed25519:           32 bytes ([RFC8032]).
+   ML-DSA-87:         2,592 bytes ([FIPS204]).
+   SLH-DSA-SHA2-256s:  64 bytes ([FIPS205]).
+   ES256:             A P-256 public key, two coordinates of 32 bytes
+                      (Section 3.4 of [RFC7518]).
+   RS256:             An RSA modulus of 2,048 to 8,192 bits, with the
+                      public exponent 65,537 (Section 3.3 of [RFC7518]).
+
+   The key set of an agent or a service is exactly one Ed25519 key
+   followed by one ML-DSA-87 key.  A recorder's key set adds one SLH-
+   DSA-SHA2-256s key.  A principal's passkey is one ES256, RS256, or
+   Ed25519 key.
+
+   An Ed25519 key, wherever it appears, MUST NOT encode a y-coordinate
+   greater than or equal to p = 2^255 - 19, and MUST NOT encode the
+   y-coordinate of any of the eight points of small order, whatever the
+   sign bit (bad-key).  With a key of small order, anyone can produce a
+   signature that verifies; a y-coordinate of p or more gives one point
+   two encodings.  [RFC8032] requires the first check (Section 5.1.3 of
+   [RFC8032]) but not the second, and libraries differ on both, so a
+   verifier performs both itself.
+
+   A verifier is told which principals it trusts by the thumbprints of
+   their passkeys, and which recorders it trusts by the digests of their
+   key sets.  The encoding defines both (Section 11.3).
+
+4.5.  Hybrid Signatures
+
+   A receipt, a countersignature, a delegation, and an acknowledgement
+   carry two signatures over the same content, in this order: first
+   Ed25519 (Section 5.1 of [RFC8032]), verified as Section 4.6 requires;
+   then ML-DSA-87, the pure (not pre-hashed) ML-DSA.Verify of [FIPS204]
+   with an empty context, as Section 5 of [RFC9964] requires.  A signed
+   tree head carries a third: SLH-DSA-SHA2-256s, the pure slh_verify of
+   [FIPS205] with an empty context.  An empty context is the zero-length
+   string, not a single zero byte.  Each signature is over its own
+   signing input, which the encoding defines and which covers the kind
+   of record (Section 11.1).  Each is verified with the key at the same
+   position in the applicable key set: the agent's or a service's keys
+   in the permission, a helper's keys in its delegation, or the
+   recorder's keys in the head.  Every signature MUST verify; a
+   signature that fails is a problem (signature-invalid).
+
+
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 10]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   A signature is exactly 64 bytes (Ed25519), 4,627 bytes (ML-DSA-87),
+   or 29,792 bytes (SLH-DSA-SHA2-256s).  An Ed25519, ML-DSA-87, or SLH-
+   DSA-SHA2-256s signature of any other length is a problem (signature-
+   invalid) on every verifier, whether or not the verifier implements
+   the method.  This rule covers every signature of a record, a
+   passkey's Ed25519 signature included; it does not reach a TSA's
+   signature inside a time-stamp (Section 9.3).
+
+   A signature of the right length whose algorithm the verifier lacks is
+   not verified (Section 10.1).  An entry none of whose signatures was
+   verified is not evidence: what it says MUST NOT be shown as fact.
+
+4.6.  Ed25519 Verification
+
+   [RFC8032] leaves some verification choices to implementations, and
+   implementations that choose differently accept different sets of
+   signatures.  With public key A, signature halves R and S, message M,
+   base point B, group order L, and n*P for the point P multiplied by
+   the integer n, a verifier MUST:
+
+   1.  refuse S unless, read as a little-endian integer, it is less than
+       L;
+   2.  refuse A or R unless it decodes to a point on the curve, which
+       includes refusing an encoded y of p or more (Section 5.1.3 of
+       [RFC8032]);
+   3.  refuse A or R of small order, that is, one of the eight points
+       whose order divides 8, including the identity element; and
+   4.  accept only if S*B = R + k*A, where k is the SHA-512 hash of the
+       32-byte encoding of R, then the 32-byte encoding of A, then M,
+       read as a little-endian integer and reduced modulo L before the
+       multiplication.  Comparing the encoding of S*B - k*A with the 32
+       bytes of R is the same test, since rule 2 makes R's encoding
+       unique.  A signature that satisfies only the equation multiplied
+       by the cofactor 8, 8*S*B = 8*R + 8*k*A, is refused.
+
+   Rules 1 and 2 restate Section 5.1.7 of [RFC8032]; rules 3 and 4
+   choose where it leaves choices.  These rules apply to every Ed25519
+   signature, a passkey's included; a key whose point is the sum of a
+   point of large order and a point of small order (a mixed-order key)
+   is not refused by these rules.
+
+
+
+
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 11]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+4.7.  Passkey Signatures
+
+   A permission, an approval, and a cancellation carry one signature by
+   the principal's passkey.  To sign, the signer requests an assertion
+   from the passkey with user verification "required".  The challenge is
+   the SHA-256 hash of the record's signing input, which the encoding
+   defines and which covers the record's kind and content.  The record
+   carries the authenticator data, the client data, and the signature
+   exactly as the passkey returned them (Section 11.1).
+
+   A verifier checks the signature against the "key", "rpId", and
+   "origin" of the "issuer" of the permission concerned.  It follows
+   Section 7.2 of [WebAuthn] as far as it applies to a later check with
+   no state, and MUST confirm that:
+
+   1.  the client data is UTF-8 with no byte order mark and is a JSON
+       object, read by a JSON parser: white space and member order are
+       not constrained, and a repeated member is read as its last
+       occurrence (passkey-bad-data);
+   2.  its "type" is "webauthn.get" (passkey-wrong-type);
+   3.  its "challenge" is the base64url of the SHA-256 hash of the
+       record's signing input (passkey-challenge-mismatch);
+   4.  its "origin" is the same string as the issuer's, and
+       "crossOrigin" is not the JSON value true (passkey-origin-
+       mismatch); other members are not used;
+   5.  the authenticator data is at least 37 bytes (passkey-bad-data)
+       and begins with the SHA-256 hash of "rpId" (passkey-rpid-
+       mismatch);
+   6.  its flags have "user present" (bit 0) and "user verified" (bit 2)
+       set (passkey-user-not-present, passkey-user-not-verified) and
+       "attested credential data" (bit 6) clear.  Without "extension
+       data" (bit 7), the authenticator data is exactly 37 bytes
+       (passkey-bad-data).  Other flags and any further bytes are not
+       examined; in particular, the [WebAuthn] rule that "backup state"
+       (bit 4) is clear whenever "backup eligible" (bit 3) is clear is
+       not checked; and
+   7.  the signature verifies over the authenticator data followed by
+       the SHA-256 hash of the client data (signature-invalid).  An
+       ES256 signature is an Elliptic Curve Digital Signature Algorithm
+       (ECDSA) signature (Section 3.4 of [RFC7518]) stored as an ECDSA-
+       Sig-Value in strict Distinguished Encoding Rules (DER) [X690]:
+       one SEQUENCE with a one-byte length, holding two positive
+       INTEGERs of 1 to 33 bytes in their shortest form, with nothing
+       after them (passkey-bad-data).  Either value of s that verifies
+       is accepted.  An RS256 signature is as Section 3.3 of [RFC7518].
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 12]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   The signature counter, the credential identifier, and the user handle
+   are not used.  For an approval or a cancellation, a failure is
+   reported as approval-invalid or cancellation-invalid.  If the
+   verifier was given thumbprints of trusted passkeys, the issuer's key
+   MUST be one (issuer-not-expected); if it was given none, it MUST say
+   that the key was not compared with a trusted key.  The "rpId" and
+   "origin" of the issuer are part of what a verifier trusts, not only
+   the thumbprint (Section 18).
+
+4.8.  Records Relied On
+
+   An entry that relies on another record names it by its digest.  The
+   named record MUST be earlier in the log and sound; otherwise the
+   entry has a problem:
+
+   *  slip-missing or slip-unusable, for a permission that is missing or
+      not sound;
+   *  pass-missing, for a delegation that is missing or not sound, or
+      pass-mismatch for a delegation under another permission; and
+   *  cancellation-not-found, for a cancellation.
+
+   A permission or a delegation is judged as it stood when it was itself
+   read.  A problem that a later entry adds to it (dated-after-stamp,
+   Section 9.3) changes nothing for the entries that rely on it, though
+   it remains a problem of the log.  A cancellation named by an
+   acknowledgement is judged again once the whole log has been read; if
+   it has a problem then, the acknowledgement is reported cancellation-
+   not-found.
+
+5.  The Permission
+
+   A permission's content holds exactly these members, all of them
+   required except "passes":
+
+   "type":  "provared.slip.v0"
+   "id":  An identifier.
+   "issuer":  The principal: exactly "key", "name", "origin", and
+      "rpId", as specified below.
+   "agent":  Exactly "keys" (a key set) and "name", and optionally
+      "software": 1 to 16 maps {"name", "sha256"}, digests of the
+      program and settings the principal approved.  It is a statement,
+      not proof of what ran.
+   "actions":  1 to 64 action names, none repeated.
+   "limits":  0 to 64 limits (Section 5.1).
+   "requires":  0 to 64 conditions (Section 5.1).
+   "never":  0 to 16 names, none repeated (Section 5.1).
+   "with":  0 to 64 services, {"id", "name"} or {"id", "keys", "name"};
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 13]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+      "id" has the form of an action name, may begin "provared.", and is
+      unique.  A service with no "keys" cannot countersign.
+   "passes":  An integer from 1 to 10 (Section 7).
+   "validFrom", "validUntil":  Times; "validUntil" is later than
+      "validFrom".  The permission covers "validFrom" up to, but not
+      including, "validUntil".
+   "purpose":  Text of 1 to 1,000 code points.
+
+   "rpId" is the WebAuthn Relying Party Identifier (RP ID): 1 to 253
+   lower-case ASCII letters, digits, ".", and "-", beginning and ending
+   with a letter or a digit.
+
+   The member "origin" is at most 300 characters and MUST have the
+   following form (bad-field).  It is the form in which a browser
+   serializes the origin of a site named by a domain name (Section 6.2
+   of [RFC6454]), and a verifier can check it without a parser of web
+   addresses and without Unicode tables:
+
+   *  the scheme, which MUST be "https", or "http" only with the host
+      "localhost";
+   *  "://";
+   *  the host: 1 to 253 characters, made of labels separated by ".",
+      each label 1 to 63 lower-case ASCII letters, digits, and "-",
+      neither beginning nor ending with "-", and the last label not all
+      digits; a name in another script appears in its "xn--" form and is
+      taken as it is; and
+   *  optionally ":" followed by a port, only where the port is not the
+      scheme's default (443 for "https", 80 for "http"), in digits with
+      no leading zero, from 1 to 65,535.
+
+   Nothing else may follow.  The host MUST be "rpId" or end with "."
+   followed by "rpId".
+
+   An action name is 1 to 64 lower-case ASCII letters, digits, ".", "-",
+   and "_", beginning with a letter or a digit.  Names are compared
+   exactly.  Names beginning "provared." are reserved for the shared
+   list of Appendix B, and an action name that begins so MUST be on it
+   (bad-field).  Any other member is a problem for a core verifier (bad-
+   field); this includes the members by which [FORMAT] covers fields
+   (Section 15).
+
+5.1.  Limits, Conditions, and Prohibitions
+
+   A limit names an "action" from "actions" (bad-field) and holds
+   exactly one of "max", "each", and "count":
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 14]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+  {"action","max","unit"}        the sum of the amounts is at most "max"
+  {"action","each","unit"}       no single amount exceeds "each"
+  {"action","count"}             at most "count" receipts ("count" >= 1)
+  {"action","max","per","unit"}  as "max", within any period of "per"
+                                 seconds
+  {"action","count","per"}       as "count", within any period of "per"
+                                 seconds
+
+   "per" is from 1 to 31,622,400 seconds (366 days).  Two limits MUST
+   NOT agree in all three of: "action"; which of "max", "each", or
+   "count" they hold; and "per", or its absence (bad-field).  Every
+   "unit" named for one action, in limits and conditions, MUST be the
+   same: a receipt gives one amount.
+
+   A condition is {"need": "countersignature"} or {"need": "approval"}.
+   It may hold "action", which MUST be one of "actions" (bad-field);
+   without it, the condition applies to every action.  The members
+   "above" and "unit" are either both present or both absent, and are
+   present only together with "action"; they restrict the condition to
+   amounts greater than "above" in that unit.  Two conditions MUST NOT
+   have the same "need" together with the same "action", or the same
+   "need" and both without "action" (bad-field).  The need
+   "countersignature" asks for the service's countersignature
+   (Section 6); "approval" asks for the principal's approval.
+
+   "never" names kinds of action and rules of conduct from Appendix B.
+   A permission MUST NOT allow, in "actions", a shared action of a kind
+   that its "never" names (bad-field).  A rule of conduct is the
+   principal's signed instruction; no check of a record shows that it
+   was kept.
+
+6.  Action Receipts
+
+   A receipt's content holds exactly:
+
+   "type":  "provared.stub.v0"
+   "id":  An identifier.
+   "slip":  The digest of the permission.
+   "seq":  Its place in its chain, from 0.
+   "previous":  The digest of the receipt before it; present if and only
+      if "seq" is not 0.
+   "action":  An action name.
+   "amount":  Optional: an amount.
+   "with":  Optional: the "id" of a service.
+   "details":  Optional: 1 to 32 maps {"name", "sha256"}, the documents
+      involved.
+   "approval":  Optional: the digest of an approval.
+   "pass":  Optional: the digest of the delegation a helper acts under.
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 15]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   "terms":  Optional, with "with": the digest of a service's terms
+      [FORMAT].
+   "when":  The time of the action, as the agent states it.
+
+   Document names that begin "provared." are reserved.  In a receipt's
+   or an approval's "details", a name that begins so MUST be one of the
+   seven names of Section 27 of [FORMAT]: "provared.arguments",
+   "provared.http-request", "provared.http-response", "provared.trace-
+   id", "provared.request-id", "provared.event-id", or "provared.error"
+   (bad-field).  Of these, only "provared.trace-id", "provared.request-
+   id", and "provared.event-id" may be named more than once in one
+   record (bad-field).  [FORMAT] states the exact text whose digest each
+   reserved name carries; a core verifier checks the names, not the
+   digests.
+
+   The permission and any delegation named are records relied on
+   (Section 4.8).  Both signatures MUST verify with the agent's keys or,
+   for a helper, with the "to" keys of its delegation (signature-
+   invalid).  A core verifier accepts no terms entry, so it reports a
+   receipt that holds "terms" as terms-not-found.
+
+   The receipts of the permission's own agent form one chain, and those
+   under each delegation another.  In each chain, in log order, the
+   first has "seq" 0.  Each later one has the next "seq" and names the
+   one before in "previous" (chain-broken), and is not dated before it
+   (time-went-backwards).  A receipt with a problem keeps its place in
+   its chain, provided its content could be read and the records it
+   relies on were found: the next receipt is checked against it.  So one
+   break is reported once.
+
+   A countersignature has exactly the content {"stub": the receipt's
+   digest, "type": "provared.countersignature.v0", "when": a time}, and
+   states that the action took place with the service.  It is carried in
+   the receipt's log entry and signed with the key set the permission
+   gives for the service the receipt names in "with".  A verifier MUST
+   confirm "stub" (countersignature-wrong-stub), that such keys exist
+   (countersignature-not-possible), and both signatures
+   (countersignature-invalid).  A receipt without a countersignature is
+   one-sided.  This is a reported state, not a problem: such a receipt
+   shows only what the agent stated.
+
+
+
+
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 16]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   Where an executor (Section 2) is to countersign, a receipt names the
+   executor in "with", since a countersignature is verified with the
+   keys that the permission gives for the service the receipt names.
+   The party beyond the executor, if there is one, is then not named in
+   "with", and the permission's "with" does not limit which such parties
+   the agent deals with; a reserved document name such as
+   "provared.http-request" can bind the receipt to the call the executor
+   made.  Where that party countersigns instead, the receipt names it,
+   and the executor is not named.
+
+   An approval is the principal's approval of exactly one action.  Its
+   content holds exactly "type" ("provared.approval.v0"), "id", "slip",
+   "action", and "when", and optionally "amount", "with", and "details".
+   It is signed with the permission's passkey and carried in the
+   receipt's entry, and the receipt names it by its digest.  The receipt
+   MUST name the approval in its entry (approval-mismatch), and an
+   approval it names MUST be there (approval-not-found).  The approval's
+   "slip", "action", "amount", "with", and "details" MUST match the
+   receipt's, each present in both or neither (approval-mismatch).  Its
+   "id" MUST NOT be that of an approval in an earlier entry (approval-
+   reused) or of another record (duplicate-id).  Its passkey signature
+   MUST verify against the permission's "issuer" (approval-invalid).  It
+   MUST NOT be dated more than 300 seconds after the receipt, which was
+   signed after it (approval-dated-after-stub).  An approval shows that
+   the passkey approved the action, not that the principal read it.
+
+7.  Delegation
+
+   "passes" says how many times in a row a permission may be delegated:
+   1 lets its agent delegate to a helper, 2 lets that helper delegate
+   once more, up to 10.  Without it, a permission may not be delegated.
+   A delegation's content holds exactly:
+
+   "type":  "provared.pass.v0"
+   "id":  An identifier.
+   "slip":  The permission's digest.
+   "from":  The digest of the delegation its writer acts under; absent
+      when the writer is the permission's own agent.
+   "to":  The helper: exactly {"keys": key set, "name": name}.
+   "actions":  As in a permission.
+   "limits":  As in a permission, naming only these "actions".
+   "validFrom", "validUntil":  Its validity, as in a permission.
+   "when":  When it was written.
+
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 17]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   It is signed by its writer: with the agent's keys or, with "from",
+   the "to" keys of that delegation (signature-invalid).  The permission
+   and the delegation in "from" are records relied on (Section 4.8).
+   Its depth is 1 without "from", otherwise one more than that of
+   "from"; a depth above 10 is a problem (pass-too-deep).
+
+   A verifier reports these findings for a delegation:
+
+   *  pass-not-allowed, if its depth exceeds "passes" (taken as 0 when
+      "passes" is absent);
+   *  pass-wider, if any of its "actions" is not among its writer's, or
+      its validity begins earlier or ends later than its writer's;
+   *  outside-valid-time, if "when" is outside its writer's validity;
+      and
+   *  after-cancellation, as Section 8 sets out.
+
+   "Its writer's" means the permission's, or, with "from", the
+   delegation's named there.
+
+   A receipt under a delegation is compared with the permission exactly
+   as the agent's own receipts are, and shares their totals, conditions,
+   and "never".  It is also compared with its own delegation and with
+   every delegation above it, each treated as a permission for its
+   "actions", "limits", and validity; the totals of a delegation include
+   everything done under delegations from it.  A finding code already
+   reported for a receipt is not repeated.  Every receipt under a
+   delegation reported pass-not-allowed, or under a delegation below it,
+   is reported pass-not-allowed.  Because the limits of the permission
+   and of every delegation above always apply, a delegation never widens
+   what the verifier accepts as within the permission.
+
+8.  Cancellation and Acknowledgement
+
+   A cancellation has exactly the content {"id", "slip", "type":
+   "provared.cancellation.v0", "when"}, and is signed with the
+   permission's passkey and verified against its "issuer" (cancellation-
+   invalid); the permission is a record relied on (Section 4.8).  Its
+   entry may hold "stamps" over its digest (Section 9.3), which the
+   principal can obtain at once.
+
+   The effective cancellation of a permission is the first cancellation
+   of it in the log that is sound when read and whose passkey signature,
+   and that of its permission, were verified.  Every receipt and
+   delegation under the permission that follows the effective
+   cancellation in the log is reported after-cancellation.
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 18]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   Section 22 of [FORMAT] adds a stricter rule for a time-stamped
+   cancellation.  A receipt before it in the log is also reported,
+   unless a time-stamp on an earlier head shows that the receipt existed
+   by the cancellation's time, within 300 seconds.  This document does
+   not specify that rule (Section 16).  Without that rule, a core
+   verifier can miss receipts made after a cancellation.
+
+   A cancellation does not show that the agent was told; an
+   acknowledgement is the agent's signed statement that it was.  Its
+   content holds exactly "cancellation" (a digest), "id", "slip", "type"
+   ("provared.acknowledgement.v0"), and "when", and optionally "pass".
+   It is signed with the agent's keys or a helper's (signature-invalid).
+   The permission, any delegation named, and the cancellation, which
+   MUST cancel the same permission (cancellation-not-found), are records
+   relied on (Section 4.8).  An acknowledgement changes no finding, and
+   its "when" is not compared with the cancellation's; its signer SHOULD
+   NOT date it before the last receipt or delegation its agent wrote.
+   Section 26 of [FORMAT] sets out how a verifier uses it with the
+   principal's own copy.
+
+9.  Logs, Signed Tree Heads, and Time-Stamps
+
+9.1.  The Log
+
+   A log is a sequence of entries, numbered from 0.  Each entry holds
+   one record, with what is carried beside it: a permission; an action
+   receipt, optionally with a countersignature and an approval; a
+   delegation; a cancellation, optionally with time-stamps; an
+   acknowledgement; or a signed tree head, optionally with time-stamps.
+   Any other entry is a problem (unknown-entry).  A core verifier
+   reports the four further kinds of [FORMAT] ("refusal", "terms",
+   "vouching", "withdrawal") in the same way, and so never calls such a
+   log intact.  The same permission MUST NOT appear twice (duplicate-
+   slip), nor the same delegation (duplicate-id).  A log MUST NOT exceed
+   100,000 entries (too-large).  Section 11.4 gives the form of a log in
+   the JSON encoding.
+
+   The leaves of the tree are the entries as the encoding writes them,
+   in log order; the root is the Merkle Tree Hash of Section 2.1.1 of
+   [RFC9162] with SHA-256.  Inclusion and consistency proofs are checked
+   against a size as well as a root, so the two are kept together.  A
+   verifier given a root or a size to expect MUST compare it (root-
+   mismatch).
+
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 19]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+9.2.  Signed Tree Heads
+
+   A signed tree head's content holds exactly "type"
+   ("provared.seal.v0"), "id", "by" (exactly {"keys": the recorder's key
+   set, "name"}), "size" (at least 1), "root", "previous" (the previous
+   head's digest, absent for the first), and "when".  A head is signed
+   with the three keys in "by" and appended as the next entry, so each
+   head covers those before it.  A verifier holding the whole log MUST
+   confirm that:
+
+   1.  the three signatures verify (signature-invalid);
+   2.  "size" is its own place in the log, and "root" the root of the
+       entries before it (seal-mismatch);
+   3.  "previous" names the nearest earlier head, or is absent if there
+       is none (seal-chain-broken);
+   4.  "when" is not before that head's (time-went-backwards); and
+   5.  if given digests of trusted recorders' key sets, that of
+       "by.keys" is one (sealer-not-expected); if given none, it MUST
+       say that the keys were not compared with trusted keys.
+
+   Section 21 of [FORMAT] adds rules that compare a head's "when" with
+   the times its entries state and with earlier heads' time-stamps
+   (time-went-backwards).  This document does not specify them
+   (Section 16).
+
+9.3.  Time-Stamps
+
+   "stamps" holds 1 to 4 time-stamps, none repeated.  A time-stamp is
+   either an [RFC3161] TimeStampToken or a block time-stamp of [FORMAT].
+   A TimeStampToken is at most 12,288 bytes; its "messageImprint" has
+   the hashAlgorithm SHA-256 and a hashedMessage equal to the 32 bytes
+   of the record's digest, not hashed again.  A block time-stamp holds
+   exactly "block" and "proof", both bytes (Section 11.4); a core
+   verifier does not count it, and so answers no to the second question
+   of Section 10.1.  Time-stamps are read only if none of the record's
+   own signatures failed.  A verifier MUST confirm that:
+
+   1.  the token is one element with nothing after it, laid out as
+       [RFC3161] and [RFC5652] require: signed data of version 3 with
+       exactly one signer, of version 1 or 3, enclosing a TSTInfo of
+       version 1 (stamp-bad-data);
+   2.  it meets these rules of DER [X690] (stamp-bad-data):
+       *  definite lengths in their shortest form, with a length field
+          of at most four bytes, and single-byte tags;
+
+       *  every constructed element exactly filled by its parts;
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 20]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+       *  every INTEGER and OBJECT IDENTIFIER in its shortest form;
+          every BOOLEAN 0x00 or 0xFF; every NULL empty; every BIT STRING
+          with at most 7 unused bits;
+
+       *  genTime and each certificate's validity times in the one form
+          DER gives them, denoting a moment that exists;
+
+       *  the public key of the signing certificate written exactly as
+          its own specification sets out, with no unused bits: RSA as
+          Section 2.3.1 of [RFC3279], with the parameters present and
+          NULL and two positive INTEGERs with nothing after them; ECDSA
+          as Section 2.2 of [RFC5480], as an uncompressed point; Ed25519
+          as Section 4 of [RFC8410], with no parameters and 32 bytes;
+          and
+
+       *  at most 4,000 elements, none more than 24 levels deep, in each
+          of the signed data, the enclosed TSTInfo (read from its OCTET
+          STRING), and an RSA public key; at most 8 digest algorithms, 8
+          certificates, 16 signed attributes, 4 values in one attribute,
+          8 identifiers in a signing-certificate attribute, and 16
+          TSTInfo extensions.
+       The order of SET OF elements and the omission of DEFAULT values
+       are not checked;
+   3.  the "messageImprint" is as above (stamp-wrong-data);
+   4.  the signed attributes hold a content type of id-ct-TSTInfo, and
+       the TSTInfo's message digest made with the signer's digest
+       algorithm (SHA-256, SHA-384, or SHA-512).  They also hold
+       ESSCertIDv2 ([RFC5035], [RFC5816]), with SHA-256 (the default),
+       SHA-384, or SHA-512, or ESSCertID ([RFC2634]), with SHA-1,
+       ESSCertIDv2 being used if both are present; the first identifier
+       in the attribute names the certificate, which the token carries;
+       the issuerSerial is not compared.  Each of these attributes
+       appears at most once and holds exactly one value, as [RFC5652]
+       and [RFC5035] require (stamp-invalid);
+   5.  the signature over the signed attributes verifies with that
+       certificate's key (stamp-invalid).  The signature algorithm names
+       the signer's digest algorithm (for RSA, rsaEncryption is also
+       accepted).  The accepted methods are RSASSA-PKCS1-v1_5 with a
+       modulus of 2,048 to 8,192 bits and an odd public exponent from 3
+       to 2^32 - 1 (with an exponent of 1, anyone can produce a
+       signature that verifies); ECDSA on P-256 or P-384; and Ed25519
+       [RFC8419].  An Ed25519 key that Section 4.4 refuses, or a key of
+       any other kind or on any other curve, is refused (stamp-invalid);
+       and
+   6.  "genTime" lies within the certificate's validity, the seconds
+       field of any "accuracy" is at most 300, and no TSTInfo extension
+       is critical (stamp-invalid).  The certificate's extensions are
+       not examined, since the certificate is trusted by its digest.
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 21]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   A verifier is told which TSAs it trusts by the digest of each TSA's
+   certificate in DER; it builds no chain, checks no revocation, and
+   asks no outside party.  A time-stamp counts only if its TSA is
+   trusted and every signature of its record was verified (for a
+   cancellation, also its permission's).  A sound time-stamp from a TSA
+   not trusted MUST be shown as such, with its certificate's digest; a
+   time-stamp that does not count MUST NOT be used as a time.  Times are
+   taken to the second, rounded down.
+
+   A counted time-stamp at time T shows that the record existed by T.
+   On a sound signed tree head, it also shows that every entry before
+   the head existed by T.  An entry existed by the earliest such T of
+   any later sound head.  A verifier MUST report "existed by", never
+   "existed at", and MUST say which entries the last counted time-stamp
+   reaches.  It MUST report dated-after-stamp for a head or a
+   cancellation whose "when" is more than 300 seconds after the earliest
+   time its counted time-stamps state, and for an entry whose "when", or
+   the "when" of a countersignature or approval carried in it, is more
+   than 300 seconds after the time by which the entry existed.
+
+10.  Verification
+
+10.1.  The Three Answers
+
+   A verifier is given the log and, optionally, the size and root it
+   expects, the thumbprints of the passkeys it trusts, and the digests
+   of the key sets of the recorders and of the certificates of the TSAs
+   it trusts.  It makes no network request.  It gives three answers,
+   kept apart:
+
+   1.  Was a problem found?  Yes if any entry, or the log, has one.
+   2.  Was everything verified?  Yes only if every entry was read as far
+       as its signatures, and no signature or time-stamp in the log was
+       left unverified because the verifier does not implement its
+       method.
+   3.  Did each action stay within its permission?  Yes only if no
+       problem was found, every receipt and delegation was compared, and
+       none gave a finding.
+
+   A verifier MUST call a log intact only if no problem was found and
+   everything was verified.  A receipt or delegation is compared only if
+   it is sound, at least one of its signatures was verified and none
+   failed, and its permission's passkey signature was verified.  So the
+   third answer can be yes while the second is no: for example, a
+   verifier without ML-DSA-87 compares receipts on their Ed25519
+   signatures alone.  When the second answer is no, a verifier MUST say
+   that the third rests only on the signatures it verified, and MUST
+   name the signing methods it lacked.
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 22]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   A verifier checks each record's encoding (in the JSON encoding, its
+   envelope, labels, and content, Section 11), then its members, and
+   then finds the records it relies on, in that order.  At the first
+   problem in those steps, it reports that problem's code and checks
+   nothing further in that entry.  Once an entry's members have been
+   read, and before the records it relies on are looked up, its "id" is
+   compared with the identifiers seen so far and then recorded; an
+   approval's "id" is compared and recorded once the approval has been
+   matched to its receipt.  Every other problem of an entry (a
+   signature, its place in its chain, a countersignature, an approval, a
+   repeated "id") is reported.  Anything the verifier did not expect is
+   a problem (check-failed), never a pass.  Each problem and finding is
+   reported with its entry's number.  Two verifiers agree if they give
+   the same three answers, find problems at the same entries, and report
+   the same findings for each entry.
+
+10.2.  Findings
+
+   A verifier reports these findings at the receipt concerned:
+
+   action-not-allowed:  "action" is not in "actions".
+   prohibited:         "action" is a shared action of a kind that
+                       "never" names.
+   party-not-allowed:  "with" names no service of the permission.
+   outside-valid-time:  "when" is outside the permission's validity.
+   amount-missing:     A limit with a "unit", or a condition with
+                       "above", applies to the action, and the receipt
+                       has no amount in that unit (once a receipt).
+   over-limit, over-each-limit, over-count-limit:  The running total
+                       exceeds "max"; the amount exceeds "each"; with
+                       this receipt, the number exceeds "count".
+   over-period-limit:  Within the period ending at this receipt, the
+                       total exceeds "max" or the number "count".
+   countersignature-missing, approval-missing:  A condition applies, and
+                       the entry holds no countersignature, or no
+                       approval.
+   after-cancellation, pass-not-allowed:  As Section 8 and Section 7 set
+                       out.
+
+   A condition with "above" applies only if the amount is in its unit
+   and greater than "above"; an amount missing or in another unit is
+   amount-missing.  Only compared receipts count toward totals.
+
+   Totals and counts without "per" accumulate in log order over every
+   compared receipt for the action under the permission, across all
+   chains including the current one.  Once a total is exceeded, every
+   later receipt for that action is reported too.  A limit with "per" P
+   is evaluated for each compared receipt X, dated t, over the period
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 23]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   that ends at X.  That period holds: every receipt for the action, in
+   any chain and anywhere in the log, dated later than t - P and earlier
+   than t; those dated exactly t that precede X in the log; and X
+   itself.  Because a later entry may state an earlier time, period
+   limits are settled only once every receipt has been read.  Periods
+   are counted in seconds; there are no calendar days and no time zones.
+
+11.  The JSON Encoding
+
+   This section specifies the JSON encoding: how records, keys, and logs
+   are written as JSON [RFC8259], and how signatures are carried, with
+   JWS [RFC7515].
+
+11.1.  Envelope and Labels
+
+   Every record is a JWS in the General JWS JSON Serialization
+   (Section 7.2.1 of [RFC7515]).  It MUST hold exactly the members
+   "payload" and "signatures".  Each element of "signatures" MUST hold
+   exactly "protected" and "signature" and, for a passkey signature,
+   also "header", which holds exactly "authenticatorData" and
+   "clientDataJSON" (bad-envelope).  A passkey's authenticator data and
+   client data are stored there, and its signature in "signature", each
+   exactly as returned.  The signing input of every signature is the JWS
+   Signing Input (Section 5.1 of [RFC7515]) formed from "protected" and
+   "payload" as carried.
+
+   Every value written in base64url, in a record's envelope or content
+   or in a log entry, is that of Section 5 of [RFC4648], without
+   padding, and is read strictly: a verifier MUST refuse padding, a
+   character outside the alphabet, a length that leaves 1 when divided
+   by 4, and unused bits that are not zero (bad-base64url; in a key,
+   bad-key; in "authenticatorData" and "clientDataJSON", passkey-bad-
+   data).  The decoded "signature" of an Ed25519, ML-DSA-87, or SLH-DSA-
+   SHA2-256s signature MUST have its method's length (Section 4.5;
+   signature-invalid).
+
+   The protected header of each signature, once decoded, MUST be exactly
+   the UTF-8 bytes of {"typ":"<typ>","alg":"<alg>"}, with no white space
+   and the two members in that order, where <typ> and <alg> are as
+   follows.  This header is a fixed text, compared as bytes; it is
+   deliberately not in the canonical member order of Section 11.2.  A
+   verifier compares bytes and interprets nothing else.  A header that
+   is not a known text is a problem (unknown-type).  One that belongs to
+   another kind of record than the one expected is a problem too
+   (payload-type-mismatch).  The number and order of the signatures are
+   those of Section 4.1 (bad-signatures-layout).
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 24]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   <typ> is "vnd.provared.X.v0+json", with X as in Section 4.1: the
+   subtype of the record's media type, written without its
+   "application/" prefix as Section 4.1.9 of [RFC7515] allows.  The
+   placeholder <alg> names the method of the signature: "Ed25519", "ML-
+   DSA-87", "SLH-DSA-SHA2-256s", or "prova.red/webauthn/v0" for a
+   passkey.  A passkey's signature is its assertion signature over the
+   authenticator data and the client data (Section 4.7); the JWS Signing
+   Input enters it only through the challenge.  The "typ" value is used
+   for explicit typing (Section 3.11 of [RFC8725]); since it is signed,
+   every signature covers the kind of record.  The name "Ed25519" is
+   registered by [RFC9864] and "ML-DSA-87" by [RFC9964].  The name
+   "prova.red/webauthn/v0" is collision-resistant (Section 4.1.1 of
+   [RFC7515]) and is not registered.  The name "SLH-DSA-SHA2-256s",
+   which [FIPS205] gives the parameter set, is neither registered nor
+   collision-resistant, one of which Section 4.1.1 of [RFC7515] says an
+   "alg" value should be; this document fixes it as a private-use value,
+   compared byte for byte.  It follows the naming of
+   [I-D.ietf-cose-sphincs-plus], which registers the 128s parameter sets
+   with the same key form (AKP), pure mode, and the empty context, so
+   that a registration of this name with that meaning would be
+   compatible.
+
+11.2.  Content and Values
+
+   The content of a record is the decoded "payload", and its digest is
+   the SHA-256 hash of those bytes.  It MUST be a JSON object in UTF-8,
+   in the canonical form of [RFC8785]: a verifier serializes it again
+   and refuses it if a single byte differs (payload-not-canonical).
+   This refuses repeated member names, white space, and members out of
+   order.  The content MUST hold only objects, arrays, strings, and
+   integers from 0 to 2^53 - 1.  It holds no "true", "false", "null",
+   fractions, exponents, or negative numbers, and no unpaired surrogate,
+   even escaped.  Objects and arrays MUST NOT nest more than 8 levels
+   deep, the content itself being the first (payload-not-canonical).
+   The signed bytes are verified as signed; the canonical form is a
+   test, never a rewrite.
+
+   A map is written as an object, a list as an array, text as a string,
+   and an integer as a number.  The values of Section 4.3 are written
+   so:
+
+   Bytes:  In base64url, read strictly as Section 11.1 sets out.
+   Time:  "YYYY-MM-DDTHH:MM:SSZ", an [RFC3339] date-time (bad-field).
+   Key:  A JSON Web Key (JWK) [RFC7517] of exactly one of the shapes
+      below, with no other member (bad-key).
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 25]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   {"alg":"Ed25519","crv":"Ed25519","kty":"OKP","x":X}     X: 32 bytes
+   {"alg":"ML-DSA-87","kty":"AKP","pub":P}               P: 2592 bytes
+   {"alg":"SLH-DSA-SHA2-256s","kty":"AKP","pub":P}         P: 64 bytes
+   {"alg":"ES256","crv":"P-256","kty":"EC","x":X,"y":Y}  X, Y: 32 bytes
+   {"alg":"RS256","e":"AQAB","kty":"RSA","n":N}     N: 2048-8192 bits
+
+   These follow [RFC8037] (the Octet Key Pair, "OKP", key type),
+   Section 3 of [RFC9964] (the Algorithm Key Pair, "AKP", key type), and
+   Section 6 of [RFC7518]; "n" has no leading zero byte.  A key set is
+   an array of keys.
+
+   A record MUST NOT exceed 65,536 characters, counted as the length of
+   "payload" plus the lengths of every string in its signature entries,
+   "header" included (too-large).
+
+11.3.  Thumbprints and Key-Set Digests
+
+   A passkey is named by its key thumbprint: [RFC7638] with SHA-256,
+   over the members required by Section 3.2 of [RFC7638], Section 2 of
+   [RFC8037] for "OKP", and Section 6 of [RFC9964] for "AKP".  A
+   recorder is named by the digest of its key set: the SHA-256 hash of
+   the key set written in the canonical form of Section 11.2.
+
+11.4.  Logs
+
+   A log is UTF-8 text, one entry to a line, each line ended by a line
+   feed except perhaps the last.  A log with no entry, an empty line, or
+   a byte order mark is a problem (not-json); so is a line ending in a
+   carriage return (line-not-canonical).  Each line is a JSON object in
+   the canonical form of Section 11.2, with records as values (line-not-
+   canonical).  It holds exactly the members of one kind of entry
+   (Section 9.1): "slip" (a permission); "stub", optionally with
+   "countersignature" and "approval" (an action receipt); "pass" (a
+   delegation); "cancellation", optionally with "stamps";
+   "acknowledgement"; or "seal" (a signed tree head), optionally with
+   "stamps" (unknown-entry).  A line MUST NOT exceed 131,072 bytes (too-
+   large).  The leaves of the tree are the lines' bytes, without line
+   feeds.
+
+   In "stamps", a TimeStampToken is a string, in base64url.  A block
+   time-stamp is an object of exactly "block" and "proof", each a string
+   (bad-field) in base64url (Section 11.1).
+
+
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 26]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+12.  Other Encodings
+
+   Another encoding could carry the same content model: for example, one
+   using COSE_Sign (Section 4.1 of [RFC9052]) over deterministically
+   encoded CBOR (Section 4.2 of [RFC8949]).  This document does not
+   define one.  Such an encoding has to define:
+
+   1.  the bytes of a record's content, in one form that a verifier
+       tests, so that a record's digest is fixed; it may write member
+       names in another fixed form, such as short integer labels;
+   2.  how the signatures are carried, in the number and order of
+       Section 4.1, and the signing input of each, which covers the kind
+       of record (with COSE, perhaps by the "typ" header parameter
+       [RFC9596]) and its content;
+   3.  how each signature names its method, in fixed bytes that a
+       verifier compares: with COSE, the "alg" of each signer, which has
+       values for Ed25519 [RFC9864] and ML-DSA-87 [RFC9964], but none
+       yet for SLH-DSA-SHA2-256s or the passkey signature;
+   4.  the passkey's challenge, the SHA-256 hash of that signing input,
+       and where the authenticator data and client data are stored;
+   5.  how bytes, times, and keys are written (with COSE, keys as
+       COSE_Key), and the thumbprints ([RFC9679]) and key-set digests by
+       which a verifier is told whom it trusts;
+   6.  the form of a log and of its entries, which are the leaves of the
+       tree; and
+   7.  its size limits, and the codes for problems of its own form.
+
+   The rest of the content model, the three answers, and the findings
+   apply unchanged.  A record's digest depends on its encoding, so
+   records that name one another, and the entries of one log, are in one
+   encoding.  The thumbprints and key-set digests by which a verifier is
+   told whom it trusts also depend on the encoding: a key's JWK
+   thumbprint and its COSE_Key thumbprint differ.
+
+13.  Relationship to Other Work
+
+   Agent receipts:  [I-D.nelson-agent-delegation-receipts] has the user
+      sign an authorization (WebAuthn being one way) with allowed and
+      denied actions, prohibitions, and a time window, logged before the
+      agent acts; its delegations may only narrow, within a depth limit,
+      and can be revoked.  [I-D.sahu-agent-action-receipts] and
+      [I-D.dembowski-agentledger-proof-of-behavior] (which expired on 22
+      October 2026) specify signed, hash-chained action receipts, with a
+      recorded policy decision or a gate run before execution.  Here the
+      permission carries limits on amounts, counts, and periods, and
+      anyone can compare each recorded action with it afterward.
+   Audit records:  [I-D.gilda-audit-agent-audit-record] records an
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 27]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+      authorization decision and the effect that followed, as one in-
+      toto predicate in a DSSE envelope, with a canonicalization
+      contract and what a retaining party keeps beside a record so that
+      it can later be dated from anchors it does not control; it defines
+      no policy.  Where a decision applied a cumulative limit set by a
+      document named by digest, the record states the limit and the
+      amounts that the decision point counted as committed, held, and
+      requested; a verifier derives from them whether the decision was
+      within the limit, and a party that holds every record under one
+      limit checks them against one another (Section 5.9 of
+      [I-D.gilda-audit-agent-audit-record]).
+      [I-D.sharif-agent-audit-trail] specifies a JSON logging record
+      with mandatory fields for the agent, the authorizing principal,
+      the action's class, and its outcome, hash-chained with SHA-256
+      over [RFC8785] and optionally signed with ECDSA P-256, ML-DSA-65,
+      or Ed25519, or with ECDSA P-256 and ML-DSA-65 side by side; it
+      requires a denial or an escalation to be recorded before
+      execution, recommends a recorder independent of the agent at its
+      higher trust levels, and maps the record to regulatory logging
+      requirements.  [I-D.sergeev-audit-task-requirements] states which
+      evidence answers which audit question and separates missing
+      evidence from a negative observation; the three answers of
+      Section 10.1 and the omission limits of Section 18 are of that
+      kind.  None has the principal sign the limits against which a
+      verifier compares each recorded action: the first checks a
+      cumulative amount against the amounts that the decision point
+      recorded, not against the actions' own signed records, and has no
+      limits on counts, single amounts, or periods.  The permission here
+      could be the document that sets such a limit, or the authorization
+      under which a decision recorded by the first two was made.
+   EMILIA Protocol receipts:  In
+      [I-D.schrock-ep-authorization-receipts], an enrolled approver,
+      never the initiator, signs a context bound to one exact action
+      before it is executed, preferably with a WebAuthn credential whose
+      challenge is the hash of that context, with user verification
+      required.  The executor records one-time use in shared atomic
+      state; the receipt, which carries a log inclusion proof, can be
+      verified offline.  In
+      [I-D.schrock-ep-bounded-capability-receipts], an issuer signs with
+      Ed25519 a capability holding a closed scope, a budget in explicit
+      units, an expiry, and any parent; its issuance can itself be
+      approved by such a receipt.  Delegation only narrows, and is
+      funded from the parent's budget.  An overspend or a replayed
+      operation is refused when an operation is reserved, and revocation
+      is checked then and again just before the action takes effect,
+      within one atomic store.  That document states that it provides no
+      offline or cross-domain double-spend prevention, and that a
+      committed operation is not verifiable evidence unless a signed
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 28]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+      record covers it; Section 13 of that document lists what such
+      evidence should hold.  Together, the two EMILIA documents provide
+      enforcement before an action takes effect, in the executor's
+      atomic state, and evidence of what was authorized, in the
+      authorization receipt.  An approval here (Section 6) corresponds
+      to the first document, and a signed total with narrowing
+      delegation to the second.  The difference is where the limits live
+      and who checks them: there, the executor's store refuses an
+      operation; here, the principal's passkey signs the limits, which
+      may also bound single amounts, counts, and periods and set
+      conditions, each action is a signed receipt that the service may
+      countersign, and any verifier decides afterward, from the records
+      alone, whether each action stayed within the permission.  This
+      document does not stop an action when it is attempted, and an
+      action for which no receipt was written is found only in another
+      party's records (Section 18).  The two designs could be combined:
+      an executor (Section 2) that refuses an operation before it takes
+      effect, and receipts from which any verifier can later check each
+      action against the limits the principal signed.
+   SCITT profiles:  A SCITT Transparency Service [RFC9943] registers
+      Signed Statements and returns Receipts [RFC9942] proving inclusion
+      in its log; a SCITT Receipt proves registration, not an action.
+      [I-D.noa-scitt-ai-agent-receipt] records a principal class and an
+      ALLOW or DENY verdict, keeps pre-execution authorization apart,
+      and does not claim that a named approver authorized the action.
+      [I-D.emirdag-scitt-ai-agent-execution] has the operator sign each
+      record, with an independent custodian as Transparency Service; a
+      principal's constraints appear only as an optional text field and
+      references to credentials.  [I-D.mih-scitt-agent-action-capsule]
+      records one action per capsule, with its disposition and the
+      constraints evaluated, and leaves permission to authorization
+      records it references by digest.  None defines a permission signed
+      by the principal, with limits that a verifier compares receipts
+      against.  That content model could be carried by a SCITT profile,
+      with heads or receipts registered as Signed Statements, also
+      guarding against truncation and split views (Section 18).
+   OAuth and GNAP:  Token Exchange expresses delegation through the
+      "act" claim (Section 4.1 of [RFC8693]); Rich Authorization
+      Requests [RFC9396] and the Grant Negotiation and Authorization
+      Protocol (GNAP) [RFC9635] grant detailed rights.  All yield tokens
+      issued by a server for access, not records signed by the
+      principal.  Transaction Tokens [I-D.ietf-oauth-transaction-tokens]
+      carry one call's context through a trust domain; a receipt can
+      hold a token's digest in "details".
+   Attenuating tokens:  [I-D.niyikiza-oauth-attenuating-agent-tokens]
+      lets a holder derive offline tokens with equal or narrower
+      capabilities, within depth and lifetime limits, checked before
+      each call; macaroons [MACAROONS], Biscuit [BISCUIT], and User
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 29]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+      Controlled Authorization Network (UCAN) [UCAN] narrow capabilities
+      likewise.  Delegation here also only narrows, but is checked over
+      recorded actions, with totals and periods across many of them.
+   WIMSE:  Workload Identity in a Multi System Environment (WIMSE)
+      [I-D.ietf-wimse-arch] gives workloads identities;
+      [I-D.ietf-wimse-aims] applies WIMSE and OAuth to AI agents.  A
+      WIMSE credential for an agent's keys would say which workload held
+      them.
+   Credentials and mandates:  A permission resembles a credential
+      ([VC-DATA-MODEL], [I-D.ietf-oauth-sd-jwt-vc]) and a mandate of the
+      Agent Payments Protocol [AP2], by which a user authorizes
+      purchases within limits; but it is checked against receipts, and
+      handles no payment.
+   Agent auditing:  The approved request for a working-group-forming
+      session on Agent Use of Delegation and Interaction Traceability
+      (AUDIT) at IETF 127 [AUDIT-BOFREQ], dated 8 October 2026, lists
+      [I-D.kuehlewind-audit-architecture] and
+      [I-D.birkholz-verifiable-agent-conversations] as its architecture
+      and solution drafts, and a data model for records among the new
+      work required; at the time of writing (October 2026) the proposed
+      group's charter is still being revised.  The architecture's first
+      work item leaves the encoding open, CBOR and COSE or JSON and JWS,
+      with detached payloads.  In its terms, a permission records an
+      initial grant, an approval a step-up approval, and a cancellation
+      a revocation, which are kinds of Authorization Transition Record;
+      a delegation is a Delegation Record.  It places Action Records
+      where an action took effect and binds each to its authorizing
+      token; here the agent's receipt names its permission by digest,
+      and the countersignature comes from the side where the action took
+      effect.  Its records share a correlation identifier, which this
+      document does not define (Section 16).  This document offers the
+      permission with limits and the comparison rule as content that any
+      record format in that work could carry.
+
+14.  Design Rationale
+
+   Passkeys are on the devices people use, resist phishing, and record
+   user verification; no device offers a post-quantum passkey.  The JSON
+   encoding is defined first because an implementation uses it, and JSON
+   text suits a log of one entry to a line.  Two signatures side by side
+   can each be verified by any library, and a verifier lacking one says
+   so.  Composite signatures [I-D.ietf-jose-pq-composite-sigs] would
+   make one of the two, but that draft pairs ML-DSA-87 only with ES384
+   or Ed448, never with Ed25519.  Verification needs no network, because
+   a record may be checked years later, when its writers have gone.
+   Post-quantum signatures are used from the start: if Ed25519 is forged
+   in future, a record carrying only Ed25519 could be made afterward and
+   not told apart from a genuine one; SLH-DSA rests on hash functions
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 30]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   alone.  The tree is that of Certificate Transparency, the covering of
+   fields in [FORMAT] that of [RFC9901], and the time-stamp that of the
+   Time-Stamp Protocol.
+
+15.  Parts Specified Elsewhere
+
+   [FORMAT] specifies these parts, out of scope here: one-page proofs of
+   single entries, with a permission's names and purpose covered by the
+   disclosures of [RFC9901]; vouching records, by which an organization
+   states that a key belongs to a name, and their withdrawal; a
+   service's signed refusals and terms; time-stamps from a public
+   blockchain; further date rules; the principal's own copy of a
+   cancellation, handed to a verifier; the exact texts whose digests the
+   reserved document names of Section 6 carry (Section 27 of [FORMAT]),
+   which bind a receipt to a web request, an answer, a call's arguments,
+   an identifier for the call from either side, or an error text; and
+   the check before acting (Section 20 of [FORMAT]), by which the
+   software around an agent asks, before an action, whether it would
+   stay within the permission.  How records are carried, how keys are
+   distributed, and what to do about a finding are out of scope too.
+
+16.  Open Issues
+
+   This section is to be removed before publishing as an RFC.
+
+   1.  Labels: standards-tree media types [RFC6838], a registered
+       passkey method, and the brand in the identifiers.  The brand
+       stands in the media types, in the passkey method name, in the
+       "type" values "provared.X.v0" of the content model (Section 4.1),
+       and in the reserved action prefix "provared." of Section 5 and
+       Appendix B.  On adoption, all of these would be renamed, with a
+       "type" such as "agent-permission.v0" and a prefix chosen by the
+       group; the "v0" label is what keeps the two from being confused,
+       and the vendor-tree media types would then need no registration.
+       [I-D.ietf-cose-sphincs-plus] registers SLH-DSA-SHA2-128s and SLH-
+       DSA-SHAKE-128s, not SLH-DSA-SHA2-256s.
+   2.  Canonical form: [RFC8785] is Informational (Independent stream),
+       not in the downref registry; this document could define the
+       narrowed form, which is short.
+   3.  Client data: refusing repeated members, or the limited
+       verification algorithm of [WebAuthn]; public suffixes; extension
+       bytes; backup flags.
+   4.  [RFC8419] requires SHA-512 with Ed25519 when signed attributes
+       are present; Section 9.3 also accepts SHA-256 and SHA-384, which
+       version 0.6.0 of the implementation refuses (Section 17).
+   5.  Timing: whether to bring in the date rules of Section 21 of
+       [FORMAT] and Section 22 of [FORMAT], and whether 300 seconds is
+       the right allowance.
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 31]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   6.  A COSE encoding (Section 12), and detached payloads; a member for
+       a correlation identifier shared with other audit records
+       (Section 13); SCITT registration; consistency proofs
+       (Section 2.1.4 of [RFC9162]); composite signatures; a registry
+       for shared action names; whether to answer "within its
+       permission" when not everything was verified.
+   7.  Retries: no rule links the attempts of one operation.  Each
+       attempt for which a receipt is written counts toward totals and
+       counts, even where the receipt names an error ("provared.error"),
+       and receipts that name the same "provared.request-id" are not
+       taken as one operation.  [I-D.gilda-audit-agent-audit-record]
+       counts a retried operation once, by a key that the agent assigns
+       to the operation and carries in each attempt, and not by the
+       request's digest.
+   8.  What a countersignature attests: "the action took place with" the
+       service (Section 6) does not say whether the service accepted the
+       action, completed it, or only let it through, and states no
+       outcome; an executor (Section 2) may countersign before the
+       outcome is known.  [I-D.gilda-audit-agent-audit-record] and
+       [I-D.sharif-agent-audit-trail] record a decision and what
+       followed it apart.
+
+17.  Implementation Status
+
+   This section is to be removed before publishing as an RFC.
+
+   This section records the status of known implementations of the
+   protocol defined by this specification at the time of posting of this
+   Internet-Draft, and is based on a proposal described in [RFC7942].
+   The description of implementations in this section is intended to
+   assist the IETF in its decision processes in progressing drafts to
+   RFCs.  Please note that the listing of any individual implementation
+   here does not imply endorsement by the IETF.  Furthermore, no effort
+   has been spent to verify the information presented here that was
+   supplied by IETF contributors.  This is not intended as, and must not
+   be construed to be, a catalog of available implementations or their
+   features.  Readers are advised to note that other implementations may
+   exist.
+
+   Provared 0.6.0, by the author, covers this document and [FORMAT] in
+   two languages: a JavaScript library for Node.js 24.7 or later, with
+   no dependencies, with a command-line verifier and a verification page
+   that runs from one file; and a Python library for Python 3.11 or
+   later, which depends on the package "cryptography".  The Python
+   library has no SLH-DSA yet, so it reports the third signature of a
+   signed tree head as not verified.  Version 0.6.0 also implements
+   parts added to the format description after the version cited as
+   [FORMAT] (a record of an action the agent's side did not take, signed
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 32]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   tree heads held by another party, and witness statements beside a
+   head); a core verifier reports these as problems.  It refuses some
+   time-stamps that Section 9.3 accepts: a string written in parts;
+   elements of a SET OF out of DER order in the signed attributes, in
+   the TSTInfo, or in a certificate; a BIT STRING whose unused bits are
+   not zero; a second signing-time attribute; and an Ed25519 time-stamp
+   whose digest algorithm is not SHA-512 or carries parameters, as
+   [RFC8419] requires.  A TSA that follows its standards produces none
+   of these.  Both libraries are tested against one set of test vectors,
+   each an input with the expected answer, published in the repository
+   for any implementation to use.  Four further Python packages put an
+   agent framework's tool calls behind the check before an action and
+   write a receipt for each call: "provared-langchain", listed among the
+   middleware in LangChain's documentation, and "pydantic-ai-provared"
+   are published; "provared-agno" and "provared-hermes" are in the
+   repository only.  The repository also holds, unpublished, a gateway
+   that acts as an executor (Section 2) for web services: it holds their
+   credentials, refuses calls that the permission does not allow, writes
+   the receipt for each call it makes, naming the service in "with", and
+   asks that service to countersign.  The author records the tool calls
+   of their own coding agent with the library, under a permission signed
+   with a passkey; the record is published at https://prova.red/
+   records/. Maturity: marked as a draft.  Licensing: Apache License 2.0
+   ([FORMAT]: Creative Commons Attribution 4.0).  Location:
+   https://github.com/provared/provared (tag v0.6.0), the npm package
+   "provared", and the Python package "provared".  Contact: the author.
+   Dates: version 0.1.0 was published to the npm registry on 5 October
+   2026, version 0.5.0 on 16 October 2026, and version 0.6.0 on 25
+   October 2026, all in UTC; the repository's change log heads the same
+   versions 6, 17, and 25 October 2026.  The rules of Section 4.6 were
+   confirmed against both libraries, on Node.js 24.19.0 with OpenSSL
+   3.5.7 and on Python 3.14.7 with "cryptography" 50.0.2 and the OpenSSL
+   4.0.3 bundled with it.  No independent implementation is known.
+
+   Provared is used by the author as a trademark; it is not registered.
+   Anyone may use the identifiers in this document to implement this
+   document.
+
+18.  Security Considerations
+
+   Making or widening a permission requires a signature by the
+   principal's passkey; making or changing any other record requires its
+   signer's keys.  Without the keys that signed a chain, a receipt
+   cannot be removed from the middle of the chain, moved within it, or
+   changed without a verifier reporting it (chain-broken, signature-
+   invalid).  Whoever holds those keys can re-sign the chain from any
+   receipt onward.  Anyone can remove the last receipts of a chain,
+   unless a head held by someone other than the recorder covers them, or
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 33]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   the service has kept a countersignature of one of them.  A verifier
+   that holds a copy of a signed tree head, or of its size and root,
+   obtained from someone other than the recorder, detects any change,
+   addition, or removal before that head (root-mismatch).  Trusting the
+   recorder's keys protects against everyone except the recorder, who
+   can sign a shortened or reordered history.  A counted time-stamp
+   shows that the entries before a sound head existed by its time.  Once
+   a permission is covered by a head whose keys the verifier trusts, two
+   of the head's three signatures, which are post-quantum, cover the
+   permission's entry.  The passkey signature on the permission itself
+   is classical.  What the head adds is that the permission, as it
+   stands in the log, cannot be replaced afterward by anyone without the
+   recorder's keys, even if its passkey signature later becomes
+   forgeable; it does not make the principal's signature post-quantum.
+
+   What this document does not protect against:
+
+   No trusted keys:  With no trusted keys named, "intact" means only
+      that the log is consistent with itself.  Anyone can make such a
+      log.
+   Omission, one side's word:  An agent that writes no receipt leaves no
+      trace in its own log, and no check of that log shows the gap.
+      Only another party's records can show it: a countersignature kept
+      by the service, or the records of an executor (Section 2) that
+      refuses any action the permission does not allow, or any action
+      without a verified approval, and records each action it allows
+      (the strongest class of [I-D.schrock-ep-authorization-receipts]
+      has such an executor, which checks that document's own
+      authorizations).  An executor's records show the gap only if the
+      action cannot take place without the executor, and if the executor
+      keeps them where the agent's side cannot change them.  A
+      permission whose "with" names no service but the executor, and
+      that requires a countersignature for every action, makes each
+      receipt in the log that lacks the executor's countersignature a
+      finding (countersignature-missing, or party-not-allowed for a
+      receipt that names another party).  A receipt that was never
+      written is found only by comparing the executor's own records with
+      the log, which this document does not specify.  A cancellation the
+      principal signed can be left out of the log by whoever keeps it,
+      after which every later receipt reads as within the permission;
+      only the principal's own copy of the cancellation, handed to the
+      verifier (Section 22 of [FORMAT], out of scope here), answers
+      this.  A one-sided receipt, an acknowledgement, and the times
+      stated in records, on which period limits depend, rest on the
+      signer's own statement.
+   Truncation and split views:  The last head, with everything after it,
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 34]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+      can be removed unnoticed unless someone else holds that head.  A
+      recorder can keep two logs that differ after some entry, with
+      heads for each; no consistency proof is defined.  Handing heads to
+      others lets them be compared.
+   One log only:  approval-reused and duplicate-id hold within one log,
+      and so do totals, counts, and periods.  Receipts for one
+      permission written into two logs, or into a log that was started
+      afresh, are not added together: each log can be within its limits
+      while the two together are not.  A recorder that keeps one log for
+      each permission avoids this; the format does not close it.
+   Service keys:  The keys of a service in "with" are stated by the
+      principal.  A countersignature shows that a holder of those keys
+      signed; it does not show who that holder is.  A principal who
+      lists keys they control can countersign their own agent's
+      receipts.  A compromise of a service's keys lets anyone
+      countersign in its name: a countersignature is only as strong as
+      the service's keys.
+   Agent keys held by the recorder:  Such a recorder can write and sign
+      another history.  A time-stamp then shows only when;
+      countersignatures still stand against it.
+   Passkeys:  A passkey shows that a device signed after verifying a
+      user, not who held it, nor that the principal read what was
+      signed; a compromised device or page can show one thing and have
+      another signed.  The challenge is opaque to the principal.  Any
+      party that can choose the challenge at an origin under the
+      issuer's "rpId" (the site's operator, any script at that origin,
+      or any subdomain of the "rpId") can obtain a signature on a record
+      of its choosing by presenting it as a sign-in: the client data of
+      a sign-in and of a record are the same shape.  So a passkey
+      trusted for records SHOULD be created for an "rpId" used for
+      nothing but signing records, the signing page SHOULD show the
+      record before asking, and a verifier MAY be told the "origin" it
+      expects as well as the thumbprint.  The counter is not used, so a
+      cloned passkey goes unseen.  An "http://localhost" origin is for
+      tests only.
+   Time-stamp keys:  A TSA is trusted by certificate digest, without
+      revocation, and its time is checked against the certificate's
+      validity, not the verifier's clock.  A compromised TSA key can
+      stamp any time; a verifier that learns of it MUST stop trusting
+      it.  Up to four TSAs lessen the dependence on one.
+   Renewal:  TSA signatures are classical, and certificates age; so the
+      times by which entries existed rest on classical signatures and
+      have no post-quantum protection.  A later head covers earlier
+      heads' entries, time-stamps included, so stamping it by a newer
+      TSA extends the evidence, as evidence records [RFC4998] do.
+   Stripping:  Signatures are fixed in number, order, and label, and
+      their keys are given elsewhere (Section 4.5), so removing or
+      replacing one is caught.
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 35]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   Ed25519 alone:  Without ML-DSA-87, what is compared rests on Ed25519
+      alone.  Such a verifier cannot tell a record made with the agent's
+      Ed25519 key alone from a genuine one.  A verifier whose library
+      applies other rules than Section 4.6 MUST add the missing checks.
+   Malleable signatures:  An ECDSA signature can be altered into another
+      valid one.  A record digest covers only content, so no digest
+      changes; the entry does, and a later head shows it.
+
+   A verifier MUST treat every byte of a record as untrusted, and answer
+   a failed check with a code, not a crash.  It SHOULD replace control,
+   invisible, and direction-changing characters before showing text from
+   a record.  Member names are plain strings: "__proto__" is like any
+   other.
+
+19.  Privacy Considerations
+
+   Following [RFC6973]: keys repeat in every record a party signs, so
+   records in different logs can be linked.  Document digests are not
+   salted, so whoever can guess a document can confirm that a receipt
+   names it; a writer can add a random value to a document first.  A TSA
+   learns the digests it stamps, when, and who asked.  An entry cannot
+   be erased without breaking later heads, so records should hold no
+   more personal data than needed; names may be pseudonyms, and [FORMAT]
+   defines covered names and purpose.  The members "origin" and "rpId"
+   name the site where the principal signed.  A verifier makes no
+   network request.
+
+20.  IANA Considerations
+
+   This document has no IANA actions.  On adoption, a later version is
+   expected to request standards-tree media types [RFC6838] for each
+   kind of record.  It would also request a JWS algorithm name for the
+   passkey signature, and one for the third signature of a signed tree
+   head (Section 16).
+
+21.  References
+
+21.1.  Normative References
+
+   [FIPS180-4]
+              National Institute of Standards and Technology, "Secure
+              Hash Standard (SHS)", FIPS 180-4,
+              DOI 10.6028/NIST.FIPS.180-4, August 2015,
+              <https://doi.org/10.6028/NIST.FIPS.180-4>.
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 36]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   [FIPS204]  National Institute of Standards and Technology, "Module-
+              Lattice-Based Digital Signature Standard", FIPS 204,
+              DOI 10.6028/NIST.FIPS.204, August 2024,
+              <https://doi.org/10.6028/NIST.FIPS.204>.
+
+   [FIPS205]  National Institute of Standards and Technology, "Stateless
+              Hash-Based Digital Signature Standard", FIPS 205,
+              DOI 10.6028/NIST.FIPS.205, August 2024,
+              <https://doi.org/10.6028/NIST.FIPS.205>.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC2634]  Hoffman, P., Ed., "Enhanced Security Services for S/MIME",
+              RFC 2634, DOI 10.17487/RFC2634, June 1999,
+              <https://www.rfc-editor.org/rfc/rfc2634>.
+
+   [RFC3161]  Adams, C., Cain, P., Pinkas, D., and R. Zuccherato,
+              "Internet X.509 Public Key Infrastructure Time-Stamp
+              Protocol (TSP)", RFC 3161, DOI 10.17487/RFC3161, August
+              2001, <https://www.rfc-editor.org/rfc/rfc3161>.
+
+   [RFC3279]  Bassham, L., Polk, W., and R. Housley, "Algorithms and
+              Identifiers for the Internet X.509 Public Key
+              Infrastructure Certificate and Certificate Revocation List
+              (CRL) Profile", RFC 3279, DOI 10.17487/RFC3279, May 2002,
+              <https://www.rfc-editor.org/rfc/rfc3279>.
+
+   [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
+              Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
+              <https://www.rfc-editor.org/rfc/rfc3339>.
+
+   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
+              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
+              <https://www.rfc-editor.org/rfc/rfc4648>.
+
+   [RFC5035]  Schaad, J., "Enhanced Security Services (ESS) Update:
+              Adding CertID Algorithm Agility", RFC 5035,
+              DOI 10.17487/RFC5035, August 2007,
+              <https://www.rfc-editor.org/rfc/rfc5035>.
+
+   [RFC5480]  Turner, S., Brown, D., Yiu, K., Housley, R., and T. Polk,
+              "Elliptic Curve Cryptography Subject Public Key
+              Information", RFC 5480, DOI 10.17487/RFC5480, March 2009,
+              <https://www.rfc-editor.org/rfc/rfc5480>.
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 37]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   [RFC5652]  Housley, R., "Cryptographic Message Syntax (CMS)", STD 70,
+              RFC 5652, DOI 10.17487/RFC5652, September 2009,
+              <https://www.rfc-editor.org/rfc/rfc5652>.
+
+   [RFC5816]  Santesson, S. and N. Pope, "ESSCertIDv2 Update for RFC
+              3161", RFC 5816, DOI 10.17487/RFC5816, April 2010,
+              <https://www.rfc-editor.org/rfc/rfc5816>.
+
+   [RFC6454]  Barth, A., "The Web Origin Concept", RFC 6454,
+              DOI 10.17487/RFC6454, December 2011,
+              <https://www.rfc-editor.org/rfc/rfc6454>.
+
+   [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
+              Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
+              2015, <https://www.rfc-editor.org/rfc/rfc7515>.
+
+   [RFC7517]  Jones, M., "JSON Web Key (JWK)", RFC 7517,
+              DOI 10.17487/RFC7517, May 2015,
+              <https://www.rfc-editor.org/rfc/rfc7517>.
+
+   [RFC7518]  Jones, M., "JSON Web Algorithms (JWA)", RFC 7518,
+              DOI 10.17487/RFC7518, May 2015,
+              <https://www.rfc-editor.org/rfc/rfc7518>.
+
+   [RFC7638]  Jones, M. and N. Sakimura, "JSON Web Key (JWK)
+              Thumbprint", RFC 7638, DOI 10.17487/RFC7638, September
+              2015, <https://www.rfc-editor.org/rfc/rfc7638>.
+
+   [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
+              Signature Algorithm (EdDSA)", RFC 8032,
+              DOI 10.17487/RFC8032, January 2017,
+              <https://www.rfc-editor.org/rfc/rfc8032>.
+
+   [RFC8037]  Liusvaara, I., "CFRG Elliptic Curve Diffie-Hellman (ECDH)
+              and Signatures in JSON Object Signing and Encryption
+              (JOSE)", RFC 8037, DOI 10.17487/RFC8037, January 2017,
+              <https://www.rfc-editor.org/rfc/rfc8037>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC8259]  Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
+              Interchange Format", STD 90, RFC 8259,
+              DOI 10.17487/RFC8259, December 2017,
+              <https://www.rfc-editor.org/rfc/rfc8259>.
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 38]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   [RFC8410]  Josefsson, S. and J. Schaad, "Algorithm Identifiers for
+              Ed25519, Ed448, X25519, and X448 for Use in the Internet
+              X.509 Public Key Infrastructure", RFC 8410,
+              DOI 10.17487/RFC8410, August 2018,
+              <https://www.rfc-editor.org/rfc/rfc8410>.
+
+   [RFC8419]  Housley, R., "Use of Edwards-Curve Digital Signature
+              Algorithm (EdDSA) Signatures in the Cryptographic Message
+              Syntax (CMS)", RFC 8419, DOI 10.17487/RFC8419, August
+              2018, <https://www.rfc-editor.org/rfc/rfc8419>.
+
+   [RFC8785]  Rundgren, A., Jordan, B., and S. Erdtman, "JSON
+              Canonicalization Scheme (JCS)", RFC 8785,
+              DOI 10.17487/RFC8785, June 2020,
+              <https://www.rfc-editor.org/rfc/rfc8785>.
+
+   [RFC9162]  Laurie, B., Messeri, E., and R. Stradling, "Certificate
+              Transparency Version 2.0", RFC 9162, DOI 10.17487/RFC9162,
+              December 2021, <https://www.rfc-editor.org/rfc/rfc9162>.
+
+   [RFC9864]  Jones, M.B. and O. Steele, "Fully-Specified Algorithms for
+              JSON Object Signing and Encryption (JOSE) and CBOR Object
+              Signing and Encryption (COSE)", RFC 9864,
+              DOI 10.17487/RFC9864, October 2025,
+              <https://www.rfc-editor.org/rfc/rfc9864>.
+
+   [RFC9964]  Prorock, M. and O. Steele, "ML-DSA for JSON Object Signing
+              and Encryption (JOSE) and CBOR Object Signing and
+              Encryption (COSE)", RFC 9964, DOI 10.17487/RFC9964, May
+              2026, <https://www.rfc-editor.org/rfc/rfc9964>.
+
+   [WebAuthn] World Wide Web Consortium, "Web Authentication: An API for
+              accessing Public Key Credentials - Level 3", W3C REC-
+              webauthn-3-20260825, 25 August 2026,
+              <https://www.w3.org/TR/2026/REC-webauthn-3-20260825/>.
+
+   [X690]     International Telecommunication Union, "Information
+              technology - ASN.1 encoding rules: Specification of Basic
+              Encoding Rules (BER), Canonical Encoding Rules (CER) and
+              Distinguished Encoding Rules (DER)", ITU-T Recommendation
+              X.690, February 2021.
+
+21.2.  Informative References
+
+   [AP2]      AP2 project, "Agent Payments Protocol (AP2)", 2026,
+              <https://github.com/google-agentic-commerce/AP2>.
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 39]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   [AUDIT-BOFREQ]
+              Kuehlewind, M., Ed., "AUDIT - Agent Use of Delegation and
+              Interaction Traceability", IETF BOF request bofreq-
+              kuhlewind-audit-agent-use-of-delegation-and-interaction-
+              traceability-00, 8 October 2026,
+              <https://datatracker.ietf.org/doc/bofreq-kuhlewind-audit-
+              agent-use-of-delegation-and-interaction-traceability/>.
+
+   [BISCUIT]  Eclipse Biscuit project, "Biscuit specification", 2026,
+              <https://doc.biscuitsec.org/reference/specifications>.
+
+   [FORMAT]   Izmaylov, P., "The Provared format - draft version 0", 16
+              October 2026,
+              <https://github.com/provared/provared/blob/v0.5.0/spec/
+              provared-format.md>.
+
+   [I-D.birkholz-verifiable-agent-conversations]
+              Birkholz, H., Heldt, T., and O. Steele, "Verifiable Agent
+              Conversation Records", Work in Progress, Internet-Draft,
+              draft-birkholz-verifiable-agent-conversations-01, 31
+              August 2026, <https://datatracker.ietf.org/doc/html/draft-
+              birkholz-verifiable-agent-conversations-01>.
+
+   [I-D.dembowski-agentledger-proof-of-behavior]
+              Dembowski, J., "Proof-of-Behavior Protocol for Autonomous
+              AI Agents", Work in Progress, Internet-Draft, draft-
+              dembowski-agentledger-proof-of-behavior-00, 20 April 2026,
+              <https://datatracker.ietf.org/doc/html/draft-dembowski-
+              agentledger-proof-of-behavior-00>.
+
+   [I-D.emirdag-scitt-ai-agent-execution]
+              Emirdag, P. and D. Feichtinger, "AI Agent Execution
+              Profile of SCITT", Work in Progress, Internet-Draft,
+              draft-emirdag-scitt-ai-agent-execution-01, 12 October
+              2026, <https://datatracker.ietf.org/doc/html/draft-
+              emirdag-scitt-ai-agent-execution-01>.
+
+   [I-D.gilda-audit-agent-audit-record]
+              Gilda, S., "An Audit Record Format for AI Agent
+              Authorization Decisions", Work in Progress, Internet-
+              Draft, draft-gilda-audit-agent-audit-record-03, 29 October
+              2026, <https://datatracker.ietf.org/doc/html/draft-gilda-
+              audit-agent-audit-record-03>.
+
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 40]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   [I-D.ietf-cose-sphincs-plus]
+              Prorock, M., Steele, O., and H. Tschofenig, "SLH-DSA for
+              JOSE and COSE", Work in Progress, Internet-Draft, draft-
+              ietf-cose-sphincs-plus-10, 28 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-cose-
+              sphincs-plus-10>.
+
+   [I-D.ietf-jose-pq-composite-sigs]
+              Prabel, L., Shuzhou, S., Gray, J., and T. Reddy.K, "PQ/T
+              Hybrid Composite Signatures for JOSE and COSE", Work in
+              Progress, Internet-Draft, draft-ietf-jose-pq-composite-
+              sigs-06, 20 October 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-jose-pq-
+              composite-sigs-06>.
+
+   [I-D.ietf-oauth-sd-jwt-vc]
+              Terbu, O., Fett, D., and B. Campbell, "SD-JWT-based
+              Verifiable Digital Credentials (SD-JWT VC)", Work in
+              Progress, Internet-Draft, draft-ietf-oauth-sd-jwt-vc-22,
+              27 October 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-oauth-sd-jwt-vc-22>.
+
+   [I-D.ietf-oauth-transaction-tokens]
+              Tulshibagwale, A., Fletcher, G., and P. Kasselman,
+              "Transaction Tokens", Work in Progress, Internet-Draft,
+              draft-ietf-oauth-transaction-tokens-11, 30 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-oauth-
+              transaction-tokens-11>.
+
+   [I-D.ietf-wimse-aims]
+              Kasselman, P., Lombardo, J., Rosomakho, Y., Campbell, B.,
+              Steele, N., and A. Parecki, "AI Identity Management
+              System", Work in Progress, Internet-Draft, draft-ietf-
+              wimse-aims-00, 15 September 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
+              aims-00>.
+
+   [I-D.ietf-wimse-arch]
+              Salowey, J. A., Rosomakho, Y., and H. Tschofenig,
+              "Workload Identity in a Multi System Environment (WIMSE)
+              Architecture", Work in Progress, Internet-Draft, draft-
+              ietf-wimse-arch-08, 6 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
+              arch-08>.
+
+   [I-D.kuehlewind-audit-architecture]
+              Kuehlewind, M. and H. Birkholz, "An Architecture for
+              Auditing Agent Delegation and Interactions", Work in
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 41]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+              Progress, Internet-Draft, draft-kuehlewind-audit-
+              architecture-01, 7 September 2026,
+              <https://datatracker.ietf.org/doc/html/draft-kuehlewind-
+              audit-architecture-01>.
+
+   [I-D.mih-scitt-agent-action-capsule]
+              Mih, S., "An Agent Action Capsule Profile for SCITT", Work
+              in Progress, Internet-Draft, draft-mih-scitt-agent-action-
+              capsule-05, 26 September 2026,
+              <https://datatracker.ietf.org/doc/html/draft-mih-scitt-
+              agent-action-capsule-05>.
+
+   [I-D.nelson-agent-delegation-receipts]
+              Nelson, R., "Agent Delegation Receipts", Work in Progress,
+              Internet-Draft, draft-nelson-agent-delegation-receipts-15,
+              21 October 2026, <https://datatracker.ietf.org/doc/html/
+              draft-nelson-agent-delegation-receipts-15>.
+
+   [I-D.niyikiza-oauth-attenuating-agent-tokens]
+              Aimable, N., "Attenuating Authorization Tokens for Agentic
+              Delegation Chains", Work in Progress, Internet-Draft,
+              draft-niyikiza-oauth-attenuating-agent-tokens-02, 26
+              October 2026, <https://datatracker.ietf.org/doc/html/
+              draft-niyikiza-oauth-attenuating-agent-tokens-02>.
+
+   [I-D.noa-scitt-ai-agent-receipt]
+              Toraman, T., "A SCITT Profile for AI-Agent Action
+              Receipts", Work in Progress, Internet-Draft, draft-noa-
+              scitt-ai-agent-receipt-01, 14 August 2026,
+              <https://datatracker.ietf.org/doc/html/draft-noa-scitt-ai-
+              agent-receipt-01>.
+
+   [I-D.sahu-agent-action-receipts]
+              sahu, N., "Signed, Hash-Chained Action Receipts for AI
+              Agents", Work in Progress, Internet-Draft, draft-sahu-
+              agent-action-receipts-00, 16 August 2026,
+              <https://datatracker.ietf.org/doc/html/draft-sahu-agent-
+              action-receipts-00>.
+
+   [I-D.schrock-ep-authorization-receipts]
+              Schrock, I., "Authorization Receipts for High-Risk Agent
+              Actions", Work in Progress, Internet-Draft, draft-schrock-
+              ep-authorization-receipts-13, 12 September 2026,
+              <https://datatracker.ietf.org/doc/html/draft-schrock-ep-
+              authorization-receipts-13>.
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 42]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   [I-D.schrock-ep-bounded-capability-receipts]
+              Schrock, I., "Bounded Capability Receipts and Durable
+              Spend Control for Agent Actions", Work in Progress,
+              Internet-Draft, draft-schrock-ep-bounded-capability-
+              receipts-06, 9 September 2026,
+              <https://datatracker.ietf.org/doc/html/draft-schrock-ep-
+              bounded-capability-receipts-06>.
+
+   [I-D.sergeev-audit-task-requirements]
+              Sergeev, M., "Task-Relative Evidence Requirements for
+              Agent Auditing", Work in Progress, Internet-Draft, draft-
+              sergeev-audit-task-requirements-00, 15 October 2026,
+              <https://datatracker.ietf.org/doc/html/draft-sergeev-
+              audit-task-requirements-00>.
+
+   [I-D.sharif-agent-audit-trail]
+              Sharif, R., "Agent Audit Trail: A Standard Logging Format
+              for Autonomous AI Systems", Work in Progress, Internet-
+              Draft, draft-sharif-agent-audit-trail-09, 26 October 2026,
+              <https://datatracker.ietf.org/doc/html/draft-sharif-agent-
+              audit-trail-09>.
+
+   [MACAROONS]
+              Birgisson, A., Politz, J. G., Erlingsson, U., Taly, A.,
+              Vrable, M., and M. Lentczner, "Macaroons: Cookies with
+              Contextual Caveats for Decentralized Authorization in the
+              Cloud", Network and Distributed System Security Symposium
+              (NDSS) 2014, DOI 10.14722/ndss.2014.23212, February 2014,
+              <https://doi.org/10.14722/ndss.2014.23212>.
+
+   [RFC4998]  Gondrom, T., Brandner, R., and U. Pordesch, "Evidence
+              Record Syntax (ERS)", RFC 4998, DOI 10.17487/RFC4998,
+              August 2007, <https://www.rfc-editor.org/rfc/rfc4998>.
+
+   [RFC6838]  Freed, N., Klensin, J., and T. Hansen, "Media Type
+              Specifications and Registration Procedures", BCP 13,
+              RFC 6838, DOI 10.17487/RFC6838, January 2013,
+              <https://www.rfc-editor.org/rfc/rfc6838>.
+
+   [RFC6973]  Cooper, A., Tschofenig, H., Aboba, B., Peterson, J.,
+              Morris, J., Hansen, M., and R. Smith, "Privacy
+              Considerations for Internet Protocols", RFC 6973,
+              DOI 10.17487/RFC6973, July 2013,
+              <https://www.rfc-editor.org/rfc/rfc6973>.
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 43]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   [RFC7942]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
+              Code: The Implementation Status Section", BCP 205,
+              RFC 7942, DOI 10.17487/RFC7942, July 2016,
+              <https://www.rfc-editor.org/rfc/rfc7942>.
+
+   [RFC8693]  Jones, M., Nadalin, A., Campbell, B., Ed., Bradley, J.,
+              and C. Mortimore, "OAuth 2.0 Token Exchange", RFC 8693,
+              DOI 10.17487/RFC8693, January 2020,
+              <https://www.rfc-editor.org/rfc/rfc8693>.
+
+   [RFC8725]  Sheffer, Y., Hardt, D., and M. Jones, "JSON Web Token Best
+              Current Practices", BCP 225, RFC 8725,
+              DOI 10.17487/RFC8725, February 2020,
+              <https://www.rfc-editor.org/rfc/rfc8725>.
+
+   [RFC8949]  Bormann, C. and P. Hoffman, "Concise Binary Object
+              Representation (CBOR)", STD 94, RFC 8949,
+              DOI 10.17487/RFC8949, December 2020,
+              <https://www.rfc-editor.org/rfc/rfc8949>.
+
+   [RFC9052]  Schaad, J., "CBOR Object Signing and Encryption (COSE):
+              Structures and Process", STD 96, RFC 9052,
+              DOI 10.17487/RFC9052, August 2022,
+              <https://www.rfc-editor.org/rfc/rfc9052>.
+
+   [RFC9396]  Lodderstedt, T., Richer, J., and B. Campbell, "OAuth 2.0
+              Rich Authorization Requests", RFC 9396,
+              DOI 10.17487/RFC9396, May 2023,
+              <https://www.rfc-editor.org/rfc/rfc9396>.
+
+   [RFC9596]  Jones, M.B. and O. Steele, "CBOR Object Signing and
+              Encryption (COSE) "typ" (type) Header Parameter",
+              RFC 9596, DOI 10.17487/RFC9596, June 2024,
+              <https://www.rfc-editor.org/rfc/rfc9596>.
+
+   [RFC9635]  Richer, J., Ed. and F. Imbault, "Grant Negotiation and
+              Authorization Protocol (GNAP)", RFC 9635,
+              DOI 10.17487/RFC9635, October 2024,
+              <https://www.rfc-editor.org/rfc/rfc9635>.
+
+   [RFC9679]  Isobe, K., Tschofenig, H., and O. Steele, "CBOR Object
+              Signing and Encryption (COSE) Key Thumbprint", RFC 9679,
+              DOI 10.17487/RFC9679, December 2024,
+              <https://www.rfc-editor.org/rfc/rfc9679>.
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 44]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   [RFC9901]  Fett, D., Yasuda, K., and B. Campbell, "Selective
+              Disclosure for JSON Web Tokens", RFC 9901,
+              DOI 10.17487/RFC9901, November 2025,
+              <https://www.rfc-editor.org/rfc/rfc9901>.
+
+   [RFC9942]  Steele, O., Birkholz, H., Delignat-Lavaud, A., and C.
+              Fournet, "CBOR Object Signing and Encryption (COSE)
+              Receipts", RFC 9942, DOI 10.17487/RFC9942, June 2026,
+              <https://www.rfc-editor.org/rfc/rfc9942>.
+
+   [RFC9943]  Birkholz, H., Delignat-Lavaud, A., Fournet, C., Deshpande,
+              Y., and S. Lasker, "An Architecture for Trustworthy and
+              Transparent Digital Supply Chains", RFC 9943,
+              DOI 10.17487/RFC9943, June 2026,
+              <https://www.rfc-editor.org/rfc/rfc9943>.
+
+   [UCAN]     UCAN Working Group, "User Controlled Authorization Network
+              (UCAN) Specification, Version 1.0.0", 2026,
+              <https://github.com/ucan-wg/spec>.
+
+   [VC-DATA-MODEL]
+              World Wide Web Consortium, "Verifiable Credentials Data
+              Model v2.0", 15 May 2025,
+              <https://www.w3.org/TR/vc-data-model-2.0/>.
+
+Appendix A.  Codes
+
+   The JSON encoding (Section 11): not-json (not JSON; empty; byte order
+   mark); bad-envelope (envelope members); bad-base64url (not strict
+   base64url); unknown-type (unknown label); bad-signatures-layout
+   (signatures in wrong number or order); payload-not-canonical (content
+   not canonical); line-not-canonical (line not canonical).
+
+   Any record (Section 4): too-large (over a size limit, Section 9.1 and
+   Section 11); payload-type-mismatch (other kind of record); bad-field
+   (member missing, unknown, or malformed); bad-key (key not allowed, or
+   a weak Ed25519 key); signature-invalid (signature fails, or has the
+   wrong length); check-failed (anything unexpected).
+
+   Passkeys (Section 4.7): passkey-bad-data (malformed values); passkey-
+   wrong-type (wrong "type"); passkey-challenge-mismatch (wrong
+   challenge); passkey-origin-mismatch (other origin); passkey-rpid-
+   mismatch (other "rpId"); passkey-user-not-present (flag clear);
+   passkey-user-not-verified (flag clear); issuer-not-expected (key not
+   trusted).
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 45]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+   Logs and receipts (Section 4.8, Section 9.1, Section 6): unknown-
+   entry (unknown kind of entry); duplicate-id ("id" or delegation
+   twice); duplicate-slip (permission twice); slip-missing (permission
+   not earlier); slip-unusable (permission not sound); root-mismatch
+   (unexpected root or size); chain-broken (receipt missing, moved, or
+   changed); time-went-backwards (dated before its predecessor); terms-
+   not-found (terms not in the log); countersignature-wrong-stub (for
+   another receipt); countersignature-not-possible (service has no
+   keys); countersignature-invalid (fails); approval-mismatch (for
+   something else); approval-not-found (not in the entry); approval-
+   reused (used twice); approval-invalid (fails); approval-dated-after-
+   stub (dated after its receipt).
+
+   Delegations, cancellations, and heads (Section 7, Section 8,
+   Section 9): pass-missing (delegation not earlier or not sound); pass-
+   mismatch (other permission); pass-too-deep (deeper than 10);
+   cancellation-invalid (fails); cancellation-not-found (unusable);
+   seal-mismatch (size or root wrong); seal-chain-broken (wrong
+   "previous"); sealer-not-expected (recorder not trusted); dated-after-
+   stamp (dated after a time-stamp); stamp-bad-data (malformed); stamp-
+   wrong-data (for something else); stamp-invalid (signature or field
+   fails).
+
+   Findings (Section 10.2, Section 7): action-not-allowed, prohibited,
+   party-not-allowed, outside-valid-time, amount-missing, over-limit,
+   over-each-limit, over-count-limit, over-period-limit,
+   countersignature-missing, approval-missing, after-cancellation, pass-
+   not-allowed, and pass-wider.  The codes terms-unusable, terms-
+   mismatch, outside-terms, cover-invalid, vouching-missing,
+   acknowledgement-mismatch, proof-invalid, headers-invalid, and record-
+   not-sound belong only to parts specified in [FORMAT].
+
+Appendix B.  Shared List
+
+   Names that begin "provared." are reserved for this list; [FORMAT]
+   also gives each action's meaning.  Shared action names are written
+   below without their "provared." prefix: "data.read" stands for
+   "provared.data.read".  Kinds and rules of conduct are written as
+   shown, with no prefix; a "never" list may name any of them.
+
+   "reads":  Looks at data without changing it.  Actions: "data.read",
+      "data.search", "message.read", "calendar.read", "code.read",
+      "web.read".
+   "changes":  Creates or changes data in a way that can be put back.
+      Actions: "data.create", "data.change", "message.draft",
+      "calendar.change", "access.remove", "code.change",
+      "system.configure".
+   "destroys":  Removes data or a resource in a way that may not be put
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 46]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+      back.  Actions: "data.delete".
+   "sends":  Sends a message or data to a person, to the public, or to
+      another system.  Actions: "data.export", "message.send",
+      "post.publish", "agent.instruct".
+   "commits":  Binds the principal to something: an order, a booking, an
+      agreement, an account.  Actions: "booking.make", "booking.cancel",
+      "order.place", "order.cancel", "terms.accept", "form.submit",
+      "account.create".
+   "grants":  Gives someone or something access or permission.  Actions:
+      "access.grant", "key.create".
+   "runs":  Runs a program or a command.  Actions: "code.run",
+      "code.release".
+   "enters":  Signs in to a system or an account.  Actions:
+      "account.sign-in".
+   "impersonate":  Never claim to be a human being, or to be anyone
+      other than the agent of the principal who signed the permission.
+   "bypass":  Never go around an access control, a block, or a refusal.
+   "escalate":  Never obtain or use access that the agent was not given.
+   "conceal":  Never hide, alter, or leave out the agent's own records.
+   "deceive":  Never state what the agent has reason to believe is
+      false, and never make up a record or a result.
+   "harass":  Never threaten, pressure, or attack a person.
+   "disclose":  Never pass information that is not public to anyone the
+      permission does not name.
+   "continue-after-stop":  Never carry on after being told to stop.
+
+Appendix C.  Changes Since -01
+
+   This section is to be removed before publishing as an RFC.
+
+   *  Section 2 defines an executor: software other than the agent that
+      refuses an action its check of the permission does not allow,
+      named in a permission as a service is.  Section 6 says how a
+      receipt names an executor that countersigns, and Section 18 states
+      when an executor's records show a receipt that was never written,
+      and that comparing them with the log is not specified.
+
+   *  Section 1 and Section 13 describe newer versions of two drafts:
+      the cumulative limit of [I-D.gilda-audit-agent-audit-record], and
+      the signature methods, pre-execution records, and independent
+      recording of [I-D.sharif-agent-audit-trail].
+
+   *  Section 16 adds retries and what a countersignature attests.
+
+   *  Section 17 describes version 0.6.0, which refuses some time-stamps
+      that Section 9.3 accepts.
+
+   *  No record, and no rule that a verifier applies, changes.
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 47]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+Appendix D.  Changes Since -00
+
+   This section is to be removed before publishing as an RFC.
+
+   *  The content model (Section 4 through Section 10) is specified
+      apart from its encoding.  The JWS form is now Section 11, with its
+      rules unchanged; Section 12 states what another encoding, such as
+      one with COSE, has to define.  Log "lines" are now "entries"
+      outside Section 11, and the codes in Appendix A are grouped by
+      where they arise.
+
+   *  No record's bytes change, but a verifier of -01 refuses some
+      records that -00 accepted, to match versions 0.2.0 to 0.5.0 of the
+      implementation.  From version 0.2.0: an Ed25519 key that encodes a
+      y of p or more, or the y of a point of small order, is refused as
+      a key wherever it stands, used or not (bad-key; in a TSA's
+      certificate, stamp-invalid), where -00 refused only a signature
+      verified under such a key; an "origin" outside the exact rule of
+      Section 5, which needs no parser of web addresses; a TSA's RSA
+      public exponent that is not odd, from 3 to 2^32 - 1 (stamp-
+      invalid); and a TSA certificate's public key not written strictly
+      (stamp-bad-data).  From version 0.4.0: an Ed25519, ML-DSA-87, or
+      SLH-DSA-SHA2-256s signature whose length is not its method's is a
+      problem on every verifier, whether or not it implements the method
+      (signature-invalid; Section 4.5), where -00 left it unverified on
+      a verifier without the method.  From version 0.5.0: a document
+      name that begins "provared." in a receipt's or an approval's
+      "details" MUST be one of the seven reserved names, and only the
+      three identifiers among them may be named more than once in one
+      record (bad-field; Section 6), where -00 read every name as a
+      label.
+
+   *  Section 1 names more of what other drafts already have.
+      Section 13 compares the two EMILIA Protocol drafts and maps the
+      records onto the AUDIT architecture's record types.  Section 18
+      says which records can show that a receipt was never written.
+
+   *  Section 17 describes version 0.5.0 and a second implementation, in
+      Python, by the same author.
+
+Acknowledgements
+
+   The author thanks Iman Schrock, whose comments on the audit@ietf.org
+   list on 8 October 2026 led to the separation of the content model
+   from its encoding and to the comparison in Section 13, and Nicholas
+   Templeman and Lars Kersten Kroehl, for the discussion on that list,
+   from 11 to 23 October 2026, of failure cases and of the number rule.
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 48]
+
+Internet-Draft          Agent Permission Receipts           October 2026
+
+
+Author's Address
+
+   Pavel Izmaylov
+   Email: hello@prova.red
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Izmaylov                   Expires 4 May 2027                  [Page 49]
