@@ -411,5 +411,106 @@
    "K10",
    "K12"
   ]
+ },
+ {
+  "case": "N18-action-packet-hash-not-the-action-hash",
+  "expected_to_fail_at": [
+   "goshi:ACTION_PACKET_HASH_MISMATCH",
+   "K9"
+  ],
+  "failed_at": [
+   "K12",
+   "K9",
+   "goshi:ACTION_PACKET_HASH_MISMATCH"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "ACTION_PACKET_HASH_MISMATCH"
+  ],
+  "joins_false": [
+   "K9",
+   "K12"
+  ]
+ },
+ {
+  "case": "N19-scope-event-executed-action-altered-and-rechained",
+  "expected_to_fail_at": [
+   "goshi:ACTION_HASH_MISMATCH",
+   "goshi:SCOPE_HASH_MISMATCH",
+   "goshi:SCOPE_HEADLINE_MISMATCH",
+   "goshi:MANIFEST_SCOPE_INPUT_DIFFERS",
+   "K7"
+  ],
+  "failed_at": [
+   "K12",
+   "K7",
+   "goshi:ACTION_HASH_MISMATCH",
+   "goshi:MANIFEST_SCOPE_INPUT_DIFFERS",
+   "goshi:SCOPE_HASH_MISMATCH",
+   "goshi:SCOPE_HEADLINE_MISMATCH"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "SCOPE_HEADLINE_MISMATCH",
+   "SCOPE_HASH_MISMATCH",
+   "MANIFEST_SCOPE_INPUT_DIFFERS",
+   "ACTION_HASH_MISMATCH"
+  ],
+  "joins_false": [
+   "K7",
+   "K12"
+  ]
+ },
+ {
+  "case": "N20-manifest-without-any-settlement-block",
+  "expected_to_fail_at": [
+   "goshi:SETTLEMENT_BLOCK_MISSING",
+   "K8"
+  ],
+  "failed_at": [
+   "K11",
+   "K12",
+   "K3",
+   "K8",
+   "goshi:SETTLEMENT_BLOCK_MISSING"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "SETTLEMENT_BLOCK_MISSING"
+  ],
+  "joins_false": [
+   "K3",
+   "K8",
+   "K11",
+   "K12"
+  ]
+ },
+ {
+  "case": "N21-approval-event-for-another-action",
+  "expected_to_fail_at": [
+   "goshi:APPROVAL_EVENT_ACTION_HASH_MISMATCH",
+   "K6"
+  ],
+  "failed_at": [
+   "K12",
+   "K6",
+   "goshi:APPROVAL_EVENT_ACTION_HASH_MISMATCH"
+  ],
+  "as_expected": true,
+  "verdict_state": "released",
+  "packet": "FAILED",
+  "packet_failures": [
+   "APPROVAL_EVENT_ACTION_HASH_MISMATCH"
+  ],
+  "joins_false": [
+   "K6",
+   "K12"
+  ]
  }
 ]
