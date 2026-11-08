@@ -1,0 +1,12 @@
+ok   unchanged log: intact, within
+ok   approval record left out of its entry -> approval-not-found
+ok   countersignature signature changed -> countersignature-invalid
+ok   same change, ML-DSA-87 missing -> no problem, answer 2 is no, method named
+ok   ES256 missing -> slip not verified, nothing compared, answer 3 no
+ok   a delegation left out -> pass-missing on what relies on it
+ok   cancellation left out -> cancellation-not-found on its acknowledgement, no after-cancellation
+ok   cancellation signature changed -> cancellation-invalid; the receipts after it are no longer after-cancellation
+ok   recorder key set not among the trusted ones -> sealer-not-expected
+ok   an entry added before the head -> seal-mismatch
+ok   head signed with Ed25519, ML-DSA-87 and SLH-DSA-SHA2-256s: all three verify
+11/11 mutation tests as expected

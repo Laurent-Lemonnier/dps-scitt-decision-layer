@@ -1,0 +1,1874 @@
+{
+ "acknowledgement-contents": {
+  "function": "validateAcknowledgementContent",
+  "agree": 69,
+  "disagree": [
+   {
+    "name": "id: padding",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "id: a plus sign",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "id: stray bits",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "id: an impossible length",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "slip: padding",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "slip: a slash",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "slip: stray bits",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "cancellation: padding",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"cancellation: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "cancellation: a slash",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"cancellation: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "cancellation: stray bits",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"cancellation: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "pass: padding",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"pass: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "pass: a slash",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"pass: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "pass: stray bits",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"pass: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "a faulty slip, cancellation, pass and time: the slip is reported",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "a faulty cancellation, pass and time: the cancellation is reported",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"cancellation: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   }
+  ],
+  "skip": {},
+  "n": 84
+ },
+ "acknowledgements-written": {
+  "function": "writeAcknowledgement",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "writing and signing records (the signing side): the draft specifies the verifier and the records, not a writer": 8
+  },
+  "n": 8
+ },
+ "approval-contents": {
+  "function": "validateApprovalContent",
+  "agree": 128,
+  "disagree": [
+   {
+    "name": "id: padding",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "id: a plus sign",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "id: stray bits",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "id: an impossible length",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "slip: padding",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "slip: a slash",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "slip: stray bits",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "details: a second document that is faulty",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"details[1].sha256: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "every field faulty: the id is reported",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   }
+  ],
+  "skip": {},
+  "n": 137
+ },
+ "approval-requests": {
+  "function": "requestOf",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "writing and signing records (the signing side): the draft specifies the verifier and the records, not a writer": 31
+  },
+  "n": 31
+ },
+ "approvals-assembled": {
+  "function": "assembleApproval",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "writing and signing records (the signing side): the draft specifies the verifier and the records, not a writer": 4
+  },
+  "n": 4
+ },
+ "approvals-prepared": {
+  "function": "prepareApproval",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "writing and signing records (the signing side): the draft specifies the verifier and the records, not a writer": 43
+  },
+  "n": 43
+ },
+ "base64url": {
+  "function": "fromBase64url",
+  "agree": 11,
+  "disagree": [],
+  "skip": {},
+  "n": 11
+ },
+ "block-fingerprints": {
+  "function": "blockFingerprint",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "time-stamps from a public blockchain: parts specified only in [FORMAT] (draft Section 15); a core verifier does not count a block time-stamp (9.3)": 36
+  },
+  "n": 36
+ },
+ "block-stamp-items": {
+  "function": "blockStampItem",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "time-stamps from a public blockchain: parts specified only in [FORMAT] (draft Section 15); a core verifier does not count a block time-stamp (9.3)": 18
+  },
+  "n": 18
+ },
+ "block-stamps": {
+  "function": "checkBlockStamp",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "time-stamps from a public blockchain: parts specified only in [FORMAT] (draft Section 15); a core verifier does not count a block time-stamp (9.3)": 215
+  },
+  "n": 215
+ },
+ "block-stamps-flips": {
+  "function": "checkBlockStamp",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "time-stamps from a public blockchain: parts specified only in [FORMAT] (draft Section 15); a core verifier does not count a block time-stamp (9.3)": 410
+  },
+  "n": 410
+ },
+ "books": {
+  "function": "checkBook",
+  "agree": 31,
+  "disagree": [
+   {
+    "name": "every kind of finding, another top fingerprint expected",
+    "ours": "fullyChecked: ours True, expected False",
+    "expected": "{\"ok\": {\"format\": \"provared-book-draft-v0\", \"size\": 13, \"root\": \"dLQ1hl26ubYZjfvNME9c8g1A-pNTw9y-WWf4DyYSQQ0\", \"problems\": [{\"code\": \"root-mismatch\", \"message\": \"The top fingerprint is not the one expected.\"}], \"notes\": [], \"entries\": [{\"index\": 0, \"kind\": \"slip\", \"fingerprint\": \"tLI25lFKA8cMLUkpTQH",
+    "cause": "A16"
+   },
+   {
+    "name": "every kind of finding, another number of entries expected",
+    "ours": "fullyChecked: ours True, expected False",
+    "expected": "{\"ok\": {\"format\": \"provared-book-draft-v0\", \"size\": 13, \"root\": \"dLQ1hl26ubYZjfvNME9c8g1A-pNTw9y-WWf4DyYSQQ0\", \"problems\": [{\"code\": \"root-mismatch\", \"message\": \"The number of entries is not the one expected.\"}], \"notes\": [], \"entries\": [{\"index\": 0, \"kind\": \"slip\", \"fingerprint\": \"tLI25lFKA8cMLUkpT",
+    "cause": "A16"
+   },
+   {
+    "name": "every kind of finding, a number of entries given as true",
+    "ours": "fullyChecked: ours True, expected False",
+    "expected": "{\"ok\": {\"format\": \"provared-book-draft-v0\", \"size\": 13, \"root\": \"dLQ1hl26ubYZjfvNME9c8g1A-pNTw9y-WWf4DyYSQQ0\", \"problems\": [{\"code\": \"root-mismatch\", \"message\": \"The number of entries is not the one expected.\"}], \"notes\": [], \"entries\": [{\"index\": 0, \"kind\": \"slip\", \"fingerprint\": \"tLI25lFKA8cMLUkpT",
+    "cause": "A16"
+   },
+   {
+    "name": "a stub changed after signing",
+    "ours": "fullyChecked: ours True, expected False",
+    "expected": "{\"ok\": {\"format\": \"provared-book-draft-v0\", \"size\": 2, \"root\": \"eJRdhaFlx6Lby8pF4DWwOXaA8yC7N65MAPTyGSvlC18\", \"problems\": [], \"notes\": [], \"entries\": [{\"index\": 0, \"kind\": \"slip\", \"fingerprint\": \"tLI25lFKA8cMLUkpTQHor-1dp07cGls_9o7KCNiGcOQ\", \"verified\": \"all\", \"problems\": [], \"breaches\": [], \"notes\"",
+    "cause": "A16"
+   },
+   {
+    "name": "the countersignature of another stub",
+    "ours": "fullyChecked: ours True, expected False",
+    "expected": "{\"ok\": {\"format\": \"provared-book-draft-v0\", \"size\": 2, \"root\": \"qdZTDauxYkjKfjfnAoDhRXqUtDQQ5aYmytYmhuHqg5o\", \"problems\": [], \"notes\": [], \"entries\": [{\"index\": 0, \"kind\": \"slip\", \"fingerprint\": \"tLI25lFKA8cMLUkpTQHor-1dp07cGls_9o7KCNiGcOQ\", \"verified\": \"all\", \"problems\": [], \"breaches\": [], \"notes\"",
+    "cause": "A16"
+   },
+   {
+    "name": "a cancellation, time-stamped, and stubs after it",
+    "ours": "entry 1 (stub) findings: ours [], expected ['after-cancellation']",
+    "expected": "{\"ok\": {\"format\": \"provared-book-draft-v0\", \"size\": 5, \"root\": \"8xBWn2H5TXOrcVZ6QbFyEOT-z-Q9OgJe88gIu-ZFptc\", \"problems\": [], \"notes\": [], \"entries\": [{\"index\": 0, \"kind\": \"slip\", \"fingerprint\": \"sLD3jA77PZR4qfHmAvyVvn84js7t1EvS1ucml66vLoI\", \"verified\": \"all\", \"problems\": [], \"breaches\": [], \"notes\"",
+    "cause": "format: the stricter rule of FORMAT 22 (draft 8)"
+   }
+  ],
+  "skip": {
+   "the log holds records of kinds specified only in [FORMAT] (refusal, terms); the draft says a core verifier reports unknown-entry and never calls the log intact (9.1): checked separately": 4,
+   "the principal's own copy of a cancellation handed to the verifier (Section 8: specified only in [FORMAT], Section 22)": 4,
+   "the log holds records of kinds specified only in [FORMAT] (vouching); the draft says a core verifier reports unknown-entry and never calls the log intact (9.1): checked separately": 1,
+   "vouching records: [FORMAT]": 2,
+   "the log holds records of kinds specified only in [FORMAT] (vouching, withdrawal); the draft says a core verifier reports unknown-entry and never calls the log intact (9.1): checked separately": 1,
+   "covered fields and disclosures: [FORMAT]": 2,
+   "block time-stamps and header chains: [FORMAT]": 2
+  },
+  "n": 53
+ },
+ "cancellation-contents": {
+  "function": "validateCancellationContent",
+  "agree": 51,
+  "disagree": [
+   {
+    "name": "id: padding",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "id: a plus sign",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "id: stray bits",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "id: an impossible length",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "slip: padding",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "slip: a slash",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "slip: stray bits",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "a faulty id, slip and time: the id is reported",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "a faulty slip and time: the slip is reported",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   }
+  ],
+  "skip": {},
+  "n": 60
+ },
+ "cancellations-assembled": {
+  "function": "assembleCancellation",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "writing and signing records (the signing side): the draft specifies the verifier and the records, not a writer": 2
+  },
+  "n": 2
+ },
+ "cancellations-prepared": {
+  "function": "prepareCancellation",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "writing and signing records (the signing side): the draft specifies the verifier and the records, not a writer": 8
+  },
+  "n": 8
+ },
+ "canonical-json": {
+  "function": "parseCanonical",
+  "agree": 37,
+  "disagree": [],
+  "skip": {},
+  "n": 37
+ },
+ "chained-books": {
+  "function": "checkBook",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "witness statements: [FORMAT]": 14,
+   "seals held by another party, handed over beside the log: [FORMAT]": 6
+  },
+  "n": 20
+ },
+ "chained-shows": {
+  "function": "checkShow",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "a Show, the one-page proof of single entries: parts specified only in [FORMAT] (draft Section 15)": 4
+  },
+  "n": 4
+ },
+ "characters": {
+  "function": "countCharacters",
+  "agree": 5,
+  "disagree": [],
+  "skip": {
+   "unpaired surrogate: not a Unicode scalar value, so not text under 4.3; the draft gives no count": 2
+  },
+  "n": 7
+ },
+ "check-before": {
+  "function": "checkBefore",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "the check before acting (FORMAT Section 20): parts specified only in [FORMAT] (draft Section 15)": 24
+  },
+  "n": 24
+ },
+ "countersignature-contents": {
+  "function": "validateCountersignatureContent",
+  "agree": 4,
+  "disagree": [],
+  "skip": {},
+  "n": 4
+ },
+ "denial-before": {
+  "function": "checkBefore",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "the check before acting (FORMAT Section 20): parts specified only in [FORMAT] (draft Section 15)": 4
+  },
+  "n": 4
+ },
+ "denial-books": {
+  "function": "checkBook",
+  "agree": 1,
+  "disagree": [],
+  "skip": {
+   "the log holds records of kinds specified only in [FORMAT] (denial); the draft says a core verifier reports unknown-entry and never calls the log intact (9.1): checked separately": 11
+  },
+  "n": 12
+ },
+ "denial-codes": {
+  "function": "denialCodes",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 8
+  },
+  "n": 8
+ },
+ "denial-constants": {
+  "function": "denialConstants",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 1
+  },
+  "n": 1
+ },
+ "denial-contents": {
+  "function": "validateDenialContent",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 186
+  },
+  "n": 186
+ },
+ "denial-scenarios": {
+  "function": "recorderScenario",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "not named by the draft": 5
+  },
+  "n": 5
+ },
+ "denial-shows": {
+  "function": "checkShow",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "a Show, the one-page proof of single entries: parts specified only in [FORMAT] (draft Section 15)": 4
+  },
+  "n": 4
+ },
+ "denials-written": {
+  "function": "writeDenial",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 14
+  },
+  "n": 14
+ },
+ "der-children": {
+  "function": "children",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "an internal function of the author's DER reader, not a rule of the draft (the DER rules are exercised through the time-stamp and der-strict vectors)": 162
+  },
+  "n": 162
+ },
+ "der-ecdsa": {
+  "function": "ecdsaToRaw",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "an internal function of the author's DER reader, not a rule of the draft (the DER rules are exercised through the time-stamp and der-strict vectors)": 128
+  },
+  "n": 128
+ },
+ "der-elements": {
+  "function": "readElement",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "an internal function of the author's DER reader, not a rule of the draft (the DER rules are exercised through the time-stamp and der-strict vectors)": 331
+  },
+  "n": 331
+ },
+ "der-strict": {
+  "function": "validateDer",
+  "agree": 340,
+  "disagree": [
+   {
+    "name": "a bit string with 7 bits unused",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   },
+   {
+    "name": "a bit string with 1 bit unused, that bit set",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   },
+   {
+    "name": "a bit string with 3 bits unused, one of them set",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   },
+   {
+    "name": "a constructed octet string",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits, bytes or characters, or a time, is written in parts, which DER does not allow.\"}}",
+    "cause": "draft 17: a string written in parts"
+   },
+   {
+    "name": "a constructed octet string of two parts",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits, bytes or characters, or a time, is written in parts, which DER does not allow.\"}}",
+    "cause": "draft 17: a string written in parts"
+   },
+   {
+    "name": "a constructed bit string",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits, bytes or characters, or a time, is written in parts, which DER does not allow.\"}}",
+    "cause": "draft 17: a string written in parts"
+   },
+   {
+    "name": "a constructed character string",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits, bytes or characters, or a time, is written in parts, which DER does not allow.\"}}",
+    "cause": "draft 17: a string written in parts"
+   },
+   {
+    "name": "a constructed time",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits, bytes or characters, or a time, is written in parts, which DER does not allow.\"}}",
+    "cause": "draft 17: a string written in parts"
+   },
+   {
+    "name": "a set out of DER order",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "a set out of DER order, items of different lengths",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "a set of sets out of DER order",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "a set out of DER order inside a sequence",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "an unknown constructed tag",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits, bytes or characters, or a time, is written in parts, which DER does not allow.\"}}",
+    "cause": "draft 17: a string written in parts"
+   },
+   {
+    "name": "random 5",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   },
+   {
+    "name": "random 9",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   },
+   {
+    "name": "random 29",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   },
+   {
+    "name": "random 55",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "random 65",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits, bytes or characters, or a time, is written in parts, which DER does not allow.\"}}",
+    "cause": "draft 17: a string written in parts"
+   },
+   {
+    "name": "random 106",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   },
+   {
+    "name": "random 114",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "random 127",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   },
+   {
+    "name": "random 137",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits, bytes or characters, or a time, is written in parts, which DER does not allow.\"}}",
+    "cause": "draft 17: a string written in parts"
+   },
+   {
+    "name": "random 157",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   },
+   {
+    "name": "random 168",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   },
+   {
+    "name": "random 205",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "random 256",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "random 282",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "random 287",
+    "ours": {
+     "ok": true
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   }
+  ],
+  "skip": {},
+  "n": 368
+ },
+ "der-times": {
+  "function": "timeOf",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "an internal function of the author's DER reader, not a rule of the draft (the DER rules are exercised through the time-stamp and der-strict vectors)": 61
+  },
+  "n": 61
+ },
+ "ecdsa-der": {
+  "function": "ecdsaDerToRaw",
+  "agree": 10,
+  "disagree": [
+   {
+    "name": "a number of 33 bytes",
+    "ours": {
+     "ok": "accepted by the DER rules of 4.7 (33 bytes, shortest form, positive); the value exceeds 2^256 and cannot verify"
+    },
+    "expected": "{\"refused\": {\"code\": \"passkey-bad-data\", \"message\": \"The passkey signature holds a number that is too large.\"}}",
+    "cause": "A25"
+   }
+  ],
+  "skip": {},
+  "n": 11
+ },
+ "ed25519-signatures": {
+  "function": "checkEd25519Signature",
+  "agree": 22,
+  "disagree": [],
+  "skip": {},
+  "n": 22
+ },
+ "header-answers": {
+  "function": "answerFor",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "time-stamps from a public blockchain: parts specified only in [FORMAT] (draft Section 15); a core verifier does not count a block time-stamp (9.3)": 2
+  },
+  "n": 2
+ },
+ "header-bits": {
+  "function": "nextBits",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "time-stamps from a public blockchain: parts specified only in [FORMAT] (draft Section 15); a core verifier does not count a block time-stamp (9.3)": 124
+  },
+  "n": 124
+ },
+ "header-blocks": {
+  "function": "blocksInChain",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "time-stamps from a public blockchain: parts specified only in [FORMAT] (draft Section 15); a core verifier does not count a block time-stamp (9.3)": 12
+  },
+  "n": 12
+ },
+ "header-chains": {
+  "function": "readHeaderChain",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "time-stamps from a public blockchain: parts specified only in [FORMAT] (draft Section 15); a core verifier does not count a block time-stamp (9.3)": 131
+  },
+  "n": 131
+ },
+ "header-checks": {
+  "function": "checkHeaderChain",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "time-stamps from a public blockchain: parts specified only in [FORMAT] (draft Section 15); a core verifier does not count a block time-stamp (9.3)": 13
+  },
+  "n": 13
+ },
+ "header-steps": {
+  "function": "headerChainSteps",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "time-stamps from a public blockchain: parts specified only in [FORMAT] (draft Section 15); a core verifier does not count a block time-stamp (9.3)": 10
+  },
+  "n": 10
+ },
+ "held-seal-shows": {
+  "function": "checkShow",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "a Show, the one-page proof of single entries: parts specified only in [FORMAT] (draft Section 15)": 2
+  },
+  "n": 2
+ },
+ "held-seals": {
+  "function": "checkBook",
+  "agree": 1,
+  "disagree": [],
+  "skip": {
+   "seals held by another party, handed over beside the log: [FORMAT]": 24,
+   "the principal's own copy of a cancellation handed to the verifier (Section 8: specified only in [FORMAT], Section 22)": 1
+  },
+  "n": 26
+ },
+ "held-seals-before": {
+  "function": "checkBefore",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "the check before acting (FORMAT Section 20): parts specified only in [FORMAT] (draft Section 15)": 5
+  },
+  "n": 5
+ },
+ "http-fingerprints": {
+  "function": "documentFingerprint",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "the exact texts behind the reserved document names (FORMAT Section 27): parts specified only in [FORMAT] (draft Section 15)": 49
+  },
+  "n": 49
+ },
+ "keys": {
+  "function": "checkKey",
+  "agree": 62,
+  "disagree": [],
+  "skip": {},
+  "n": 62
+ },
+ "make-show": {
+  "function": "makeShow",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "a Show, the one-page proof of single entries: parts specified only in [FORMAT] (draft Section 15)": 4
+  },
+  "n": 4
+ },
+ "origins": {
+  "function": "checkOrigin",
+  "agree": 3710,
+  "disagree": [],
+  "skip": {},
+  "n": 3710
+ },
+ "pass-contents": {
+  "function": "validatePassContent",
+  "agree": 246,
+  "disagree": [
+   {
+    "name": "id: padding",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "id: a plus sign",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "id: stray bits",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "id: an impossible length",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "slip: padding",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "slip: a slash",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "slip: stray bits",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"slip: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "from: padding",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"from: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "from: a slash",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"from: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "from: stray bits",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"from: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "a faulty helper name and keys: the name is reported",
+    "ours": {
+     "refused": "bad-key"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"to.name: must be text of 1 to 200 characters.\"}}",
+    "cause": "A23"
+   },
+   {
+    "name": "a faulty from and faulty helper: the from is reported",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"from: must be a SHA-256 fingerprint in base64url.\"}}",
+    "cause": "A5"
+   }
+  ],
+  "skip": {
+   "unpaired surrogate: not a Unicode scalar value (4.3); the draft refuses it at the content parse (11.2), the vector tests the member check alone": 2
+  },
+  "n": 260
+ },
+ "passes-written": {
+  "function": "writePass",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "writing and signing records (the signing side): the draft specifies the verifier and the records, not a writer": 8
+  },
+  "n": 8
+ },
+ "record-constants": {
+  "function": "recordConstants",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 1
+  },
+  "n": 1
+ },
+ "recorder-details-after": {
+  "function": "recorderScenario",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "the author's recorder and stub writer (how a recorder keeps its log): the draft does not specify it (Section 1)": 4
+  },
+  "n": 4
+ },
+ "recorder-scenarios": {
+  "function": "recorderScenario",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "the author's recorder and stub writer (how a recorder keeps its log): the draft does not specify it (Section 1)": 32
+  },
+  "n": 32
+ },
+ "records": {
+  "function": "parseRecord",
+  "agree": 3,
+  "disagree": [],
+  "skip": {},
+  "n": 3
+ },
+ "refusal-contents": {
+  "function": "validateRefusalContent",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 175
+  },
+  "n": 175
+ },
+ "refusals-written": {
+  "function": "writeRefusal",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 18
+  },
+  "n": 18
+ },
+ "renewal-books": {
+  "function": "checkBook",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "witness statements: [FORMAT]": 2
+  },
+  "n": 2
+ },
+ "renewal-shows": {
+  "function": "checkShow",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "a Show, the one-page proof of single entries: parts specified only in [FORMAT] (draft Section 15)": 3
+  },
+  "n": 3
+ },
+ "seal-books": {
+  "function": "validateSealContent",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "the book number of a seal (FORMAT Section 21.6): parts specified only in [FORMAT] (draft Section 15)": 18
+  },
+  "n": 18
+ },
+ "seal-contents": {
+  "function": "validateSealContent",
+  "agree": 60,
+  "disagree": [
+   {
+    "name": "an id too short",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "an id not base64url",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   },
+   {
+    "name": "an id padded",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"id: must be a unique number of 16 bytes in base64url.\"}}",
+    "cause": "A5"
+   }
+  ],
+  "skip": {},
+  "n": 63
+ },
+ "seal-key-sets": {
+  "function": "keySetFingerprint",
+  "agree": 16,
+  "disagree": [],
+  "skip": {},
+  "n": 16
+ },
+ "seal-stamps": {
+  "function": "decodeStamps",
+  "agree": 34,
+  "disagree": [
+   {
+    "name": "a time-stamp that is empty",
+    "ours": {
+     "ok": [
+      {
+       "kind": "service",
+       "token": ""
+      }
+     ]
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"stamps[0]: must be a time-stamp in base64url, of at most 12,288 bytes.\"}}",
+    "cause": "A27"
+   },
+   {
+    "name": "a time-stamp of 16,385 characters",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"stamps[0]: must be a time-stamp in base64url, of at most 12,288 bytes.\"}}",
+    "cause": "A27"
+   },
+   {
+    "name": "a time-stamp of 8,193 characters beyond the first plane",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"stamps[0]: must be a time-stamp in base64url, of at most 12,288 bytes.\"}}",
+    "cause": "A27"
+   },
+   {
+    "name": "a block time-stamp with a proof of 16,385 characters",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"stamps[0]: must hold a proof in base64url, of at most 12,288 bytes.\"}}",
+    "cause": "A27"
+   }
+  ],
+  "skip": {
+   "sizes of a block time-stamp (block header, proof): block time-stamps are specified only in [FORMAT] (Section 15); the draft gives no size": 4
+  },
+  "n": 42
+ },
+ "sealer-trees": {
+  "function": "sealerTree",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "the author's recorder and stub writer (how a recorder keeps its log): the draft does not specify it (Section 1)": 85
+  },
+  "n": 85
+ },
+ "shows": {
+  "function": "checkShow",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "a Show, the one-page proof of single entries: parts specified only in [FORMAT] (draft Section 15)": 11
+  },
+  "n": 11
+ },
+ "slips": {
+  "function": "checkSlip",
+  "agree": 154,
+  "disagree": [
+   {
+    "name": "a payload that is a list",
+    "ours": {
+     "problems": [
+      "payload-not-canonical"
+     ],
+     "fingerprint": null,
+     "state": "unchecked",
+     "issuerKey": null
+    },
+    "expected": "{\"ok\": {\"kind\": \"slip\", \"fingerprint\": null, \"problems\": [{\"code\": \"bad-field\", \"message\": \"The content must be an object.\"}], \"notes\": [], \"signature\": {\"method\": \"passkey\", \"alg\": null, \"state\": \"unchecked\"}, \"issuerKey\": null, \"content\": null, \"covered\": [], \"disclosureProblems\": []}}",
+    "cause": "A3"
+   },
+   {
+    "name": "covered fields, none revealed",
+    "ours": {
+     "problems": [
+      "bad-field"
+     ],
+     "fingerprint": "WIB3qvTRdALiEXabb-X6rnWgSAouF-KE0bm6CRkRI8s",
+     "state": "unchecked",
+     "issuerKey": null
+    },
+    "expected": "{\"ok\": {\"kind\": \"slip\", \"fingerprint\": \"WIB3qvTRdALiEXabb-X6rnWgSAouF-KE0bm6CRkRI8s\", \"problems\": [], \"notes\": [\"The issuer's key was not compared with a key you already trust. The name on the slip is only a label.\"], \"signature\": {\"method\": \"passkey (ES256)\", \"alg\": \"ES256\", \"state\": \"valid\"}, \"iss",
+    "cause": "format: covered fields (draft 5, 15)"
+   },
+   {
+    "name": "covered fields, all revealed beside it",
+    "ours": {
+     "problems": [
+      "bad-field"
+     ],
+     "fingerprint": "WIB3qvTRdALiEXabb-X6rnWgSAouF-KE0bm6CRkRI8s",
+     "state": "unchecked",
+     "issuerKey": null
+    },
+    "expected": "{\"ok\": {\"kind\": \"slip\", \"fingerprint\": \"WIB3qvTRdALiEXabb-X6rnWgSAouF-KE0bm6CRkRI8s\", \"problems\": [], \"notes\": [\"The issuer's key was not compared with a key you already trust. The name on the slip is only a label.\"], \"signature\": {\"method\": \"passkey (ES256)\", \"alg\": \"ES256\", \"state\": \"valid\"}, \"iss",
+    "cause": "format: covered fields (draft 5, 15)"
+   },
+   {
+    "name": "covered fields, disclosures for another slip beside it",
+    "ours": {
+     "problems": [
+      "bad-field"
+     ],
+     "fingerprint": "WIB3qvTRdALiEXabb-X6rnWgSAouF-KE0bm6CRkRI8s",
+     "state": "unchecked",
+     "issuerKey": null
+    },
+    "expected": "{\"ok\": {\"kind\": \"slip\", \"fingerprint\": \"WIB3qvTRdALiEXabb-X6rnWgSAouF-KE0bm6CRkRI8s\", \"problems\": [], \"notes\": [\"The issuer's key was not compared with a key you already trust. The name on the slip is only a label.\"], \"signature\": {\"method\": \"passkey (ES256)\", \"alg\": \"ES256\", \"state\": \"valid\"}, \"iss",
+    "cause": "format: covered fields (draft 5, 15)"
+   },
+   {
+    "name": "covered fields, another fingerprint method",
+    "ours": {
+     "problems": [
+      "bad-field"
+     ],
+     "fingerprint": "L_YP82vIbF7FINdhwnVv8YqBkha_triq2_I08b_QyLE",
+     "state": "unchecked",
+     "issuerKey": null
+    },
+    "expected": "{\"ok\": {\"kind\": \"slip\", \"fingerprint\": \"L_YP82vIbF7FINdhwnVv8YqBkha_triq2_I08b_QyLE\", \"problems\": [{\"code\": \"cover-invalid\", \"message\": \"A covered field is not as its standard sets out: \\\"_sd_alg\\\" may stand only at the top, and must be \\\"sha-256\\\".\"}], \"notes\": [], \"signature\": {\"method\": \"passkey\"",
+    "cause": "format: covered fields (draft 5, 15)"
+   },
+   {
+    "name": "covered fields, an action covered",
+    "ours": {
+     "problems": [
+      "bad-field"
+     ],
+     "fingerprint": "R5THnuj44SKM3zS6uIDYgbSxK02asLvSqfn1sfoEkYw",
+     "state": "unchecked",
+     "issuerKey": null
+    },
+    "expected": "{\"ok\": {\"kind\": \"slip\", \"fingerprint\": \"R5THnuj44SKM3zS6uIDYgbSxK02asLvSqfn1sfoEkYw\", \"problems\": [{\"code\": \"cover-invalid\", \"message\": \"A covered field is not as its standard sets out: an item of a list may not be covered in this kind of record.\"}], \"notes\": [], \"signature\": {\"method\": \"passkey\", \"",
+    "cause": "format: covered fields (draft 5, 15)"
+   },
+   {
+    "name": "covered fields, a fingerprint that is not one",
+    "ours": {
+     "problems": [
+      "bad-field"
+     ],
+     "fingerprint": "ReA0jJYrEotPGWRcNWkHGUge7NIctTrO9l2tllImnjw",
+     "state": "unchecked",
+     "issuerKey": null
+    },
+    "expected": "{\"ok\": {\"kind\": \"slip\", \"fingerprint\": \"ReA0jJYrEotPGWRcNWkHGUge7NIctTrO9l2tllImnjw\", \"problems\": [{\"code\": \"cover-invalid\", \"message\": \"A covered field is not as its standard sets out: a fingerprint in the content is not a SHA-256 fingerprint in base64url.\"}], \"notes\": [], \"signature\": {\"method\": \"",
+    "cause": "format: covered fields (draft 5, 15)"
+   },
+   {
+    "name": "covered fields, the same fingerprint twice",
+    "ours": {
+     "problems": [
+      "bad-field"
+     ],
+     "fingerprint": "Sgz0yzrVlYjfF6gTXqftJMiGMpu95kEBKSFGLWZDSf4",
+     "state": "unchecked",
+     "issuerKey": null
+    },
+    "expected": "{\"ok\": {\"kind\": \"slip\", \"fingerprint\": \"Sgz0yzrVlYjfF6gTXqftJMiGMpu95kEBKSFGLWZDSf4\", \"problems\": [{\"code\": \"cover-invalid\", \"message\": \"A covered field is not as its standard sets out: the same fingerprint appears twice in the content.\"}], \"notes\": [], \"signature\": {\"method\": \"passkey\", \"alg\": null",
+    "cause": "format: covered fields (draft 5, 15)"
+   }
+  ],
+  "skip": {
+   "covered fields and disclosures: specified only in [FORMAT] (Section 15)": 8
+  },
+  "n": 170
+ },
+ "stamps": {
+  "function": "checkStamp",
+  "agree": 324,
+  "disagree": [
+   {
+    "name": "Ed25519 with SHA-512, the fingerprint method with parameters",
+    "ours": {
+     "ok": {
+      "state": "valid",
+      "when": "2026-10-05T12:00:00Z",
+      "time": 1791201600000,
+      "authority": "fdeowB1n0rrPpJCK5PmHFkZCfhuEkwEn9WqA3A9R5qY"
+     }
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-invalid\", \"message\": \"A time-stamp signed with Ed25519 names a fingerprint method other than SHA-512, or gives the method parameters, which RFC 8419 does not allow.\"}}",
+    "cause": "draft 17: Ed25519 digest algorithm and parameters"
+   },
+   {
+    "name": "Ed25519 with SHA-256 named by the signer",
+    "ours": {
+     "ok": {
+      "state": "valid",
+      "when": "2026-10-05T12:00:00Z",
+      "time": 1791201600000,
+      "authority": "fdeowB1n0rrPpJCK5PmHFkZCfhuEkwEn9WqA3A9R5qY"
+     }
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-invalid\", \"message\": \"A time-stamp signed with Ed25519 names a fingerprint method other than SHA-512, or gives the method parameters, which RFC 8419 does not allow.\"}}",
+    "cause": "draft 17: Ed25519 digest algorithm and parameters"
+   },
+   {
+    "name": "Ed25519 with SHA-384 named by the signer",
+    "ours": {
+     "ok": {
+      "state": "valid",
+      "when": "2026-10-05T12:00:00Z",
+      "time": 1791201600000,
+      "authority": "fdeowB1n0rrPpJCK5PmHFkZCfhuEkwEn9WqA3A9R5qY"
+     }
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-invalid\", \"message\": \"A time-stamp signed with Ed25519 names a fingerprint method other than SHA-512, or gives the method parameters, which RFC 8419 does not allow.\"}}",
+    "cause": "draft 17: Ed25519 digest algorithm and parameters"
+   },
+   {
+    "name": "a broken ECDSA signature, ECDSA said to be missing",
+    "ours": {
+     "ok": {
+      "state": "unavailable",
+      "when": null,
+      "time": null,
+      "authority": null
+     }
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-invalid\", \"message\": \"A time-stamp's signature does not fit the certificate it names.\"}}",
+    "cause": "A11"
+   },
+   {
+    "name": "statement: a time in the year 50",
+    "ours": {
+     "refused": "stamp-invalid"
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a time names a moment that does not exist.\"}}",
+    "cause": "A26"
+   },
+   {
+    "name": "statement: accuracy given twice in seconds",
+    "ours": {
+     "refused": "stamp-bad-data"
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-invalid\", \"message\": \"A time-stamp states its time too loosely: to no better than more than 300 seconds.\"}}",
+    "cause": "A13"
+   },
+   {
+    "name": "statement: accuracy given twice in seconds, the second within",
+    "ours": {
+     "refused": "stamp-bad-data"
+    },
+    "expected": "{\"ok\": {\"state\": \"valid\", \"when\": \"2026-10-05T12:00:00Z\", \"time\": 1791201600000, \"authority\": \"EXwKlyJcQsSel6Tb0_2qWzxXRN4vMyh1pX0lrvCFGHY\"}}",
+    "cause": "A13"
+   },
+   {
+    "name": "statement: accuracy of five bytes",
+    "ours": {
+     "refused": "stamp-invalid"
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the statement says how exact its time is in a way that cannot be read.\"}}",
+    "cause": "A13"
+   },
+   {
+    "name": "statement: accuracy that is negative",
+    "ours": {
+     "ok": {
+      "state": "valid",
+      "when": "2026-10-05T12:00:00Z",
+      "time": 1791201600000,
+      "authority": "EXwKlyJcQsSel6Tb0_2qWzxXRN4vMyh1pX0lrvCFGHY"
+     }
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the statement says how exact its time is in a way that cannot be read.\"}}",
+    "cause": "A13"
+   },
+   {
+    "name": "statement: the service named with its attributes out of DER order",
+    "ours": {
+     "ok": {
+      "state": "valid",
+      "when": "2026-10-05T12:00:00Z",
+      "time": 1791201600000,
+      "authority": "EXwKlyJcQsSel6Tb0_2qWzxXRN4vMyh1pX0lrvCFGHY"
+     }
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "statement: an extension with a truth value in an odd place",
+    "ours": {
+     "refused": "stamp-bad-data"
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-invalid\", \"message\": \"A time-stamp carries an extension that it says must be understood, and this checker does not understand it.\"}}",
+    "cause": "A13"
+   },
+   {
+    "name": "certificate: a name whose attributes are out of DER order",
+    "ours": {
+     "ok": {
+      "state": "valid",
+      "when": "2026-10-05T12:00:00Z",
+      "time": 1791201600000,
+      "authority": "l_NtnFAIg45JjFAFOBsx1PJxY-HT7qteNgdy1LagRJE"
+     }
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "signing method: Ed25519 named with parameters",
+    "ours": {
+     "ok": {
+      "state": "valid",
+      "when": "2026-10-05T12:00:00Z",
+      "time": 1791201600000,
+      "authority": "fdeowB1n0rrPpJCK5PmHFkZCfhuEkwEn9WqA3A9R5qY"
+     }
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-invalid\", \"message\": \"A time-stamp signed with Ed25519 gives its signing method parameters, which RFC 8419 does not allow.\"}}",
+    "cause": "draft 17: Ed25519 digest algorithm and parameters"
+   },
+   {
+    "name": "attributes: in another order",
+    "ours": {
+     "ok": {
+      "state": "valid",
+      "when": "2026-10-05T12:00:00Z",
+      "time": 1791201600000,
+      "authority": "EXwKlyJcQsSel6Tb0_2qWzxXRN4vMyh1pX0lrvCFGHY"
+     }
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the signed attributes are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "attributes: a signing time beside them, out of DER order",
+    "ours": {
+     "ok": {
+      "state": "valid",
+      "when": "2026-10-05T12:00:00Z",
+      "time": 1791201600000,
+      "authority": "EXwKlyJcQsSel6Tb0_2qWzxXRN4vMyh1pX0lrvCFGHY"
+     }
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the signed attributes are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "attributes: the fingerprint with a second, larger value before it",
+    "ours": {
+     "refused": "stamp-invalid"
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   }
+  ],
+  "skip": {
+   "a JavaScript value that is not text where the stamped digest or the token is expected (null, number, object): no counterpart in a bytes verifier": 7
+  },
+  "n": 347
+ },
+ "stamps-flips-ecdsa": {
+  "function": "checkStamp",
+  "agree": 864,
+  "disagree": [
+   {
+    "name": "byte 159 changed by 1",
+    "ours": {
+     "refused": "stamp-bad-data"
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-invalid\", \"message\": \"A time-stamp's signature does not cover its statement.\"}}",
+    "cause": "A13"
+   },
+   {
+    "name": "byte 442 changed by 1",
+    "ours": {
+     "refused": "stamp-invalid"
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   }
+  ],
+  "skip": {},
+  "n": 866
+ },
+ "stamps-flips-ed25519": {
+  "function": "checkStamp",
+  "agree": 1274,
+  "disagree": [
+   {
+    "name": "byte 352 changed by 1",
+    "ours": {
+     "refused": "stamp-invalid"
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: a string of bits is not written as DER allows.\"}}",
+    "cause": "draft 17: BIT STRING unused bits"
+   }
+  ],
+  "skip": {},
+  "n": 1275
+ },
+ "stamps-flips-rsa": {
+  "function": "checkStamp",
+  "agree": 581,
+  "disagree": [
+   {
+    "name": "byte 611 changed by 1",
+    "ours": {
+     "refused": "stamp-invalid"
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   }
+  ],
+  "skip": {},
+  "n": 582
+ },
+ "stamps-openssl": {
+  "function": "checkStamp",
+  "agree": 571,
+  "disagree": [
+   {
+    "name": "P-384: byte 506 changed by 1",
+    "ours": {
+     "refused": "stamp-invalid"
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "P-384: byte 556 changed by 1",
+    "ours": {
+     "refused": "stamp-invalid"
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   },
+   {
+    "name": "P-384: byte 580 changed by 1",
+    "ours": {
+     "refused": "stamp-invalid"
+    },
+    "expected": "{\"refused\": {\"code\": \"stamp-bad-data\", \"message\": \"A time-stamp is not laid out as its standard sets out: the items of a set are not in the order DER requires.\"}}",
+    "cause": "draft 17: SET OF order"
+   }
+  ],
+  "skip": {},
+  "n": 574
+ },
+ "stamps-strict-keys": {
+  "function": "checkStamp",
+  "agree": 37,
+  "disagree": [],
+  "skip": {},
+  "n": 37
+ },
+ "stub-contents": {
+  "function": "validateStubContent",
+  "agree": 41,
+  "disagree": [
+   {
+    "name": "an unknown reserved document name with a bad fingerprint",
+    "ours": {
+     "refused": "bad-base64url"
+    },
+    "expected": "{\"refused\": {\"code\": \"bad-field\", \"message\": \"details[0].name: names that begin \\\"provared.\\\" are reserved, and this one is not on the list of document names.\"}}",
+    "cause": "A5"
+   }
+  ],
+  "skip": {},
+  "n": 42
+ },
+ "terms-contents": {
+  "function": "validateTermsContent",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 164
+  },
+  "n": 164
+ },
+ "terms-written": {
+  "function": "writeTerms",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 7
+  },
+  "n": 7
+ },
+ "times": {
+  "function": "parseTime",
+  "agree": 18,
+  "disagree": [],
+  "skip": {},
+  "n": 18
+ },
+ "tool-scenarios": {
+  "function": "recorderScenario",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "the author's recorder and stub writer (how a recorder keeps its log): the draft does not specify it (Section 1)": 8
+  },
+  "n": 8
+ },
+ "tree-builder": {
+  "function": "treeBuilder",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "the author's recorder and stub writer (how a recorder keeps its log): the draft does not specify it (Section 1)": 73
+  },
+  "n": 73
+ },
+ "tree-consistency": {
+  "function": "consistencyProof",
+  "agree": 69,
+  "disagree": [],
+  "skip": {
+   "a JavaScript value that is not an integer where a size or index is expected (boolean, fraction, text, null): no counterpart in a bytes-and-integers verifier": 4,
+   "a JavaScript value that is not a list where leaves are expected": 1
+  },
+  "n": 74
+ },
+ "tree-consistency-checks": {
+  "function": "verifyConsistency",
+  "agree": 976,
+  "disagree": [],
+  "skip": {
+   "a JavaScript value that is not an integer where a size or index is expected (boolean, fraction, text, null): no counterpart in a bytes-and-integers verifier": 6,
+   "a JavaScript value that is not hexadecimal text where bytes are expected": 3,
+   "a JavaScript value that is not a list where a proof is expected": 1
+  },
+  "n": 986
+ },
+ "tree-inclusion": {
+  "function": "verifyInclusion",
+  "agree": 1224,
+  "disagree": [],
+  "skip": {
+   "a JavaScript value that is not an integer where a size or index is expected (boolean, fraction, text, null): no counterpart in a bytes-and-integers verifier": 9
+  },
+  "n": 1233
+ },
+ "tree-leaves": {
+  "function": "leafHash",
+  "agree": 28,
+  "disagree": [],
+  "skip": {},
+  "n": 28
+ },
+ "tree-paths": {
+  "function": "inclusionPath",
+  "agree": 219,
+  "disagree": [],
+  "skip": {
+   "a JavaScript value that is not an integer where a size or index is expected (boolean, fraction, text, null): no counterpart in a bytes-and-integers verifier": 5
+  },
+  "n": 224
+ },
+ "tree-roots": {
+  "function": "treeRoot",
+  "agree": 93,
+  "disagree": [],
+  "skip": {},
+  "n": 93
+ },
+ "two-agent-books": {
+  "function": "checkBook",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "witness statements: [FORMAT]": 5
+  },
+  "n": 5
+ },
+ "two-agent-shows": {
+  "function": "checkShow",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "a Show, the one-page proof of single entries: parts specified only in [FORMAT] (draft Section 15)": 5
+  },
+  "n": 5
+ },
+ "vouching-contents": {
+  "function": "validateVouchingContent",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 248
+  },
+  "n": 248
+ },
+ "vouchings-written": {
+  "function": "writeVouching",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 7
+  },
+  "n": 7
+ },
+ "withdrawal-contents": {
+  "function": "validateWithdrawalContent",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 60
+  },
+  "n": 60
+ },
+ "withdrawals-written": {
+  "function": "writeWithdrawal",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 3
+  },
+  "n": 3
+ },
+ "witness-before": {
+  "function": "checkBefore",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "the check before acting (FORMAT Section 20): parts specified only in [FORMAT] (draft Section 15)": 4
+  },
+  "n": 4
+ },
+ "witness-books": {
+  "function": "checkBook",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "witness statements: [FORMAT]": 36,
+   "witness statements beside a seal, or seals held elsewhere: [FORMAT]": 1
+  },
+  "n": 37
+ },
+ "witness-contents": {
+  "function": "validateWitnessContent",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 131
+  },
+  "n": 131
+ },
+ "witness-shows": {
+  "function": "checkShow",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "a Show, the one-page proof of single entries: parts specified only in [FORMAT] (draft Section 15)": 6
+  },
+  "n": 6
+ },
+ "witnesses-written": {
+  "function": "writeWitness",
+  "agree": 0,
+  "disagree": [],
+  "skip": {
+   "records of the kinds refusal, terms, vouching, withdrawal, denial, witness: parts specified only in [FORMAT] (draft Section 15)": 11
+  },
+  "n": 11
+ }
+}
