@@ -202,3 +202,24 @@ AB_CORPUS=$(python3 -c "import agent_evidence_vectors,os;print(os.path.join(os.p
 python3 gilda/approval_binding_verify_independent.py --corpus "$AB_CORPUS" --report gilda/judge-approval-binding-ci.json | tail -1
 # Local candidate addition (2026-10-30): source-to-record aggregation controls.
 GILDA_CORPUS="$CORPUS" python3 -m unittest discover -s gilda -p 'test_gilda_aggregation.py' -v
+
+echo "== draft-izmaylov-agent-permission-receipts-02 (Provared, 31 October 2026): verifier written from the text alone (izmaylov/verify_from_text.py), vectors of provared/provared at tag v0.6.0 and at main 24cac84; none of his code is read or run"
+python3 -m pip install --quiet "cryptography>=42" "pqcrypto>=1.0"
+izmaylov_vectors() {   # $1 = v0.6.0 | main: fetch the pinned commit as a tarball, keep test-vectors/ only, check the digests
+  local label=$1 here=$PWD commit dir
+  commit=$(cut -d' ' -f1 izmaylov/vectors/PINNED_COMMIT.$label)
+  dir=izmaylov/vectors/cache/$label
+  if [ ! -f "$dir/.verified" ]; then
+    rm -rf "$dir"; mkdir -p "$dir"
+    curl -fsSL "https://codeload.github.com/provared/provared/tar.gz/$commit" | tar -xz -C "$dir" --strip-components=2 --wildcards '*/test-vectors/*'
+    (cd "$dir" && sha256sum -c --quiet "$here/izmaylov/vectors/SHA256SUMS.$label") || { echo "izmaylov: the vectors differ from the pinned digests ($label)"; exit 1; }
+    touch "$dir/.verified"
+  fi
+}
+(cd izmaylov/draft && sha256sum -c --quiet SHA256SUMS) || { echo "izmaylov: the pinned draft text changed"; exit 1; }
+for L in v0.6.0 main; do
+  izmaylov_vectors "$L"
+  echo "# vectors at $L ($(cut -c1-12 izmaylov/vectors/PINNED_COMMIT.$L))"
+  python3 izmaylov/run_vectors.py --vectors "izmaylov/vectors/cache/$L" --report "izmaylov/judge-ci-$L.json" --check "izmaylov/judge-$L.json" | tail -4
+done
+python3 izmaylov/mutation_tests.py --vectors izmaylov/vectors/cache/v0.6.0 | tail -1
