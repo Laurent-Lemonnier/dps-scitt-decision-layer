@@ -1,80 +1,111 @@
 {
-  "draft": "draft-liu-oauth-authorization-evidence-01",
-  "synthetic_authorization_server": "example-as-test-key-1",
+  "draft": "draft-liu-oauth-authorization-evidence-02",
+  "synthetic_authorization_server": "example-as-es256-test-key-1",
   "cases": [
     {
-      "case": "P3 evidence as the AS would issue it after the real approval",
-      "what": "displayed_content = the view the person signed; timestamp = signed_at",
+      "case": "P5 evidence as the AS would issue it after the real approval",
+      "what": "disclosure = the view the person signed; authority_hash over the run element; the person's pointers inside the signed record",
       "draft_checks": "accepts",
       "draft_problems": [],
       "person_binding": "holds",
       "binding_problems": [],
+      "projection_check": "holds",
       "as_expected": true
     },
     {
-      "case": "P4 same, confirmation recorded at the server's receipt time (14 min after signed_at, as in case 13b), token issued after it",
-      "what": "the AS time differs from the person's signed_at; still after it; a token issued before the receipt would fail the draft's own check (see N15)",
+      "case": "P6 decision recorded at the server's receipt time (14 min after signed_at), token issued after it",
+      "what": "the AS time differs from the person's signed_at; still after it",
       "draft_checks": "accepts",
       "draft_problems": [],
       "person_binding": "holds",
       "binding_problems": [],
+      "projection_check": "holds",
       "as_expected": true
     },
     {
-      "case": "N12 AS fabricates a confirmation the person never gave",
-      "what": "valid AS signature over a different text and a time with no signature of the person",
+      "case": "N17 AS fabricates an approval the person never gave",
+      "what": "valid AS signature over another text, no pointers to a person's signature",
       "draft_checks": "accepts",
       "draft_problems": [],
       "person_binding": "fails",
       "binding_problems": [
-        "the displayed content is not the view the person signed"
+        "the disclosure is not the view the person signed",
+        "the record does not carry the person's signature pointers"
       ],
+      "projection_check": "holds",
       "as_expected": true
     },
     {
-      "case": "N13 displayed_content altered after signing",
-      "what": "the AS signature no longer matches",
+      "case": "N18 AS signs another text than the one the person was shown",
+      "what": "pointers to the person's signature present; the disclosure has one more line",
+      "draft_checks": "accepts",
+      "draft_problems": [],
+      "person_binding": "fails",
+      "binding_problems": [
+        "the disclosure is not the view the person signed"
+      ],
+      "projection_check": "holds",
+      "as_expected": true
+    },
+    {
+      "case": "N19 run element widened after the approval",
+      "what": "the bounds object that authority_hash digests is not the one presented",
       "draft_checks": "rejects",
       "draft_problems": [
-        "as_signature does not verify"
-      ],
-      "person_binding": "fails",
-      "binding_problems": [
-        "the displayed content is not the view the person signed"
-      ],
-      "as_expected": true
-    },
-    {
-      "case": "N14 AS signs another text than the one the person was shown",
-      "what": "valid AS signature; the view digest the person signed names the real view",
-      "draft_checks": "accepts",
-      "draft_problems": [],
-      "person_binding": "fails",
-      "binding_problems": [
-        "the displayed content is not the view the person signed"
-      ],
-      "as_expected": true
-    },
-    {
-      "case": "N15 confirmation after the token was issued",
-      "what": "timestamp one hour after iat",
-      "draft_checks": "rejects",
-      "draft_problems": [
-        "the confirmation is after the token was issued"
+        "the bounds presented are not the bounds the AS witnessed"
       ],
       "person_binding": "holds",
       "binding_problems": [],
+      "projection_check": "fails",
       "as_expected": true
     },
     {
-      "case": "N16 confirmation before the person signed",
-      "what": "the AS records it five minutes before the signature",
+      "case": "N20 a step element widened after the approval",
+      "what": "authority_hash digests one object (Section 4.4: no digest over a set); the step elements are not committed",
+      "draft_checks": "accepts",
+      "draft_problems": [],
+      "person_binding": "holds",
+      "binding_problems": [],
+      "projection_check": "fails",
+      "as_expected": true
+    },
+    {
+      "case": "N21 disclosure shortened after signing",
+      "what": "the signature and content_hash no longer match",
+      "draft_checks": "rejects",
+      "draft_problems": [
+        "as_signature does not verify",
+        "content_hash does not match the signing input"
+      ],
+      "person_binding": "fails",
+      "binding_problems": [
+        "the disclosure is not the view the person signed"
+      ],
+      "projection_check": "holds",
+      "as_expected": true
+    },
+    {
+      "case": "N22 decision recorded before the person signed",
+      "what": "five minutes before the signature",
       "draft_checks": "accepts",
       "draft_problems": [],
       "person_binding": "fails",
       "binding_problems": [
-        "the AS records the confirmation before the person signed"
+        "the AS records the decision before the person signed"
       ],
+      "projection_check": "holds",
+      "as_expected": true
+    },
+    {
+      "case": "N23 decision after the token was issued",
+      "what": "one hour after iat",
+      "draft_checks": "rejects",
+      "draft_problems": [
+        "the decision is after the token was issued"
+      ],
+      "person_binding": "holds",
+      "binding_problems": [],
+      "projection_check": "holds",
       "as_expected": true
     }
   ],

@@ -35,7 +35,7 @@ before the RFC was read; the second pass changed the projection (below) and seve
    `is_filtered_view` accepts a view whose every element is one of the full set's.
 
 Run: `python3 build.py` (exit 0 when all five pass), `python3 negatives.py` (exit 0 when 12/12 are as expected), both standard
-library only; `python3 token_cases.py` (9/9) and `python3 evidence_cases.py` (7/7), both needing `cryptography`. Deterministic.
+library only; `python3 token_cases.py` (9/9) and `python3 evidence_cases.py` (9/9), both needing `cryptography`. Deterministic.
 
 ## Results
 
@@ -91,36 +91,48 @@ construction. It does not say an AS cannot be built to retain and export such a 
 
 ## Authorization evidence: the OAuth work that already exists (`rar_evidence.py`, `evidence_cases.py`)
 
-After the first version of this case, a search found `draft-liu-oauth-authorization-evidence-01` (D. Liu and H. Zhu, Alibaba; S. Krishnan,
-Cisco; A. Parecki, Okta; 23 June 2026). It defines a RAR type, `authorization_evidence`, which the AS fills in during consent: an `id`, a
-`user_confirmation` (`displayed_content`, `user_action`, `timestamp`) and an `as_signature` (detached JWS over the JCS of `id` and
-`user_confirmation`, Section 3.6). A resource server MAY check the signature and that the confirmation is not after the token's `iat` (7.1).
-I read Sections 1, 1.2, 3.4 to 3.6, 7.1 and 8.1 to 8.6 of its text. I did not check whether the working group adopted it.
+After the first version of this case, a search found `draft-liu-oauth-authorization-evidence` (D. Liu and J. Zhu, Alibaba; S. Krishnan,
+Cisco; A. Parecki, Okta). **This section was first written on revision -01 (23 June 2026) and published on 9 November 2026; the same day
+the datatracker showed revision -02 (2 November 2026), a different design, and the section was rewritten on -02.** The earlier text and its
+findings (the signature covering only `id` and `user_confirmation`) no longer apply. Status on 9 November 2026, from the datatracker: an
+active individual Internet-Draft, no stream, no working group adoption, expires 6 May 2027. I read Sections 1, 4.1 to 4.5, 5.3, 7 and
+9.2 to 9.7 of -02; not the withdrawal part (Sections 6, 8, 9.9), the privacy section or the appendices.
 
-Its own Section 8.2 says the AS signature "provides cryptographic proof that the AS *recorded* a user confirmation. It does not
-independently prove that the user *actually* consented", and that deployments needing stronger non-repudiation "SHOULD supplement this
-mechanism with user-side signatures or independent consent auditing". Case 13b's approval is a user-side signature, and this
-directory is an independent check. `rar_evidence.py` fills the draft's object from the real approval (`displayed_content` = the view the
-person signed, `user_action` = `biometric_confirmation`, a value of its list) under the synthetic AS key, and adds one check the draft
-does not have: the displayed content is the text whose digest the person's signature covers, and the confirmation is not before the
-signature. The passkey signature itself is not re-verified here; case 13b's check did.
+What -02 defines: a RAR type `authorization_evidence` whose `evidence` object the AS fills in at approval: an `id`; an `approval` (`decision`
+approved, narrowed or declined; an `approver`, possibly pseudonymous; a structured `disclosure` with `summary`, `authority_ref`, `notices`,
+`risks`; the confirming `action`; a `timestamp`); an `authority_hash` (the digest of the authorization details object that carries the approved
+bounds); a `content_hash`; and an `as_signature`, a detached JWS (`typ` `evidence+jws`, ES256 mandatory to support) over every member except
+those two (4.5). A resource server checks the signature, the `content_hash`, the `authority_hash` against the bounds object in the token, and that
+the decision is not after `iat` (Section 7).
 
-| case | evidence | the draft's checks (7.1) | the person binding |
-|---|---|---|---|
-| P3 | as issued after the real approval | accepts | holds |
-| P4 | recorded at the server's receipt time, 14 minutes after `signed_at`, token issued after | accepts | holds |
-| N12 | the AS fabricates a confirmation the person never gave | accepts | fails |
-| N13 | `displayed_content` altered afterwards | rejects | fails |
-| N14 | the AS signs another text than the one the person was shown | accepts | fails |
-| N15 | confirmation one hour after the token's `iat` | rejects | holds |
-| N16 | confirmation five minutes before the person signed | accepts | fails |
+The draft says its own limit: the signature "provides cryptographic proof that the AS *recorded* an approval decision. It does not independently
+prove that the approver *actually* approved", and deployments needing more "SHOULD supplement this mechanism with approver-side signatures or
+independent approval auditing" (9.4). Section 9.5 adds that it provides no attestation of the rendering step, and that one, if used, must be
+carried inside the evidence object so that the AS signature covers it. `rar_evidence.py` fills the draft's object from the real approval under a
+synthetic AS key (P-256, ES256), with our mapping of the review view onto `disclosure` (first line the summary, the other lines the notices; the
+draft leaves the content to the deployment) and one extension member, `person_approval`, carrying pointers to the person's own signature (case
+13b's decision, stage and the digests of the view and the specification). The member is ours, not the draft's. Three readers: the draft's own
+checks (Section 7), a person binding (the disclosure rebuilds the view whose digest the person's signature covers, the pointers match, the decision is
+not before the signature), and the projection check of this case (the details are what the signed specification implies).
 
-N12, N14 and N16 are Section 8.2 in action: a valid AS signature over evidence that the person did not give. They are caught only
-by the person's signature. Two readings of the text, not defects: the signature covers `id` and `user_confirmation` and no other
-member (3.6), so the link between a record taken out of its token and the exact authorization details is the text of
-`displayed_content` and not a digest of the details; and the person's `signed_at` is the moment the request was prepared, the server
-received the assertion later (case 13b: 14 minutes), so a token and an evidence timestamp earlier than the receipt would fail the
-draft's own check (P4 against N15). Synthetic: the AS and its key, everything but the person's signature.
+| case | what | the draft's checks | person binding | projection check |
+|---|---|---|---|---|
+| P5 | as issued after the real approval | accepts | holds | holds |
+| P6 | decision recorded at the server's receipt time, 14 min after `signed_at`, token issued after | accepts | holds | holds |
+| N17 | the AS fabricates an approval the person never gave | accepts | fails | holds |
+| N18 | the AS signs another text than the one the person was shown | accepts | fails | holds |
+| N19 | the run element widened after the approval | rejects (`authority_hash`) | holds | fails |
+| N20 | a step element widened after the approval | accepts | holds | fails |
+| N21 | the disclosure shortened after signing | rejects | fails | holds |
+| N22 | decision recorded before the person signed | accepts | fails | holds |
+| N23 | decision after the token's `iat` | rejects | holds | holds |
+
+What this shows. N17, N18 and N22 are Section 9.4 in action: a valid AS signature over a record the person did not give, caught only by
+the person's signature. N19 is a gap of -01 that -02 closes: bounds substituted after the approval are caught by the draft's own `authority_hash`
+check. N20 shows its limit for a plan of several elements: `authority_hash` digests one object and "defines no digest over a set of objects"
+(Section 4.4), so here only the run element is committed and the step elements are not; a plan carried as one type-specific object would be
+committed whole. The projection check catches N20 because it has the signed specification. Not tested: the withdrawal mechanism, the reference
+projection (4.6), a real AS. The passkey signature itself is not re-verified here; case 13b's check did.
 
 ## What this shows, and does not
 
