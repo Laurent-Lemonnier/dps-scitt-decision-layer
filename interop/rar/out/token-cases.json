@@ -1,0 +1,96 @@
+{
+  "synthetic_authorization_server": "example-as-test-key-1",
+  "cases": [
+    {
+      "case": "P2 token as issued after the approval, enriched with the approved digest",
+      "what": "the details of case 19 plus the AS's link member",
+      "resource_server": "accepts",
+      "rs_problems": [],
+      "auditor_fails": [],
+      "as_expected": true
+    },
+    {
+      "case": "TN1 token with the right details and no link",
+      "what": "an AS that issued it without any person approval looks the same to a resource server",
+      "resource_server": "accepts",
+      "rs_problems": [],
+      "auditor_fails": [
+        "T3_link_to_approval"
+      ],
+      "as_expected": true
+    },
+    {
+      "case": "TN2 link to another specification",
+      "what": "the link names a digest the person did not sign",
+      "resource_server": "accepts",
+      "rs_problems": [],
+      "auditor_fails": [
+        "T3_link_to_approval"
+      ],
+      "as_expected": true
+    },
+    {
+      "case": "TN3 issued before the approval",
+      "what": "iat five minutes before the signature",
+      "resource_server": "accepts",
+      "rs_problems": [],
+      "auditor_fails": [
+        "T4_time"
+      ],
+      "as_expected": true
+    },
+    {
+      "case": "TN4 outlives valid_until",
+      "what": "exp a day after the specification's valid_until",
+      "resource_server": "accepts",
+      "rs_problems": [],
+      "auditor_fails": [
+        "T4_time"
+      ],
+      "as_expected": true
+    },
+    {
+      "case": "TN5 widened details, valid AS signature",
+      "what": "an AS (or its key) that grants more than was approved; the resource server is asked to delete",
+      "resource_server": "accepts",
+      "rs_problems": [],
+      "auditor_fails": [
+        "T2_details_within_spec"
+      ],
+      "as_expected": true
+    },
+    {
+      "case": "TN6 another audience",
+      "what": "the token was issued for another resource server",
+      "resource_server": "rejects",
+      "rs_problems": [
+        "audience is not this resource server"
+      ],
+      "auditor_fails": [],
+      "as_expected": true
+    },
+    {
+      "case": "TN7 tampered signature",
+      "what": "the signature value replaced",
+      "resource_server": "rejects",
+      "rs_problems": [
+        "signature does not verify under the authorization server key"
+      ],
+      "auditor_fails": [
+        "T1_as_signature"
+      ],
+      "as_expected": true
+    },
+    {
+      "case": "TN8 run outside the token's life",
+      "what": "the token lived 45 seconds; the second step ended after it",
+      "resource_server": "accepts",
+      "rs_problems": [],
+      "auditor_fails": [
+        "T4_time"
+      ],
+      "as_expected": true
+    }
+  ],
+  "all_as_expected": true
+}

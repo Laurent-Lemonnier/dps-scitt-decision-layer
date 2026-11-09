@@ -1,0 +1,40 @@
+[
+  {
+    "type": "urn:example:rar:workflow-run",
+    "actions": [
+      "workflow.run"
+    ],
+    "identifier": "urn:example:tenant:brokerage-1",
+    "plan_hash": "9122b69190eff2d3859674cac439d49d64c71dd4e9556ddd2656999ae8aa3856",
+    "usecase_ref": "urn:example:usecase:onboarding_client@1.0.0",
+    "policy_version": "sha256:df5e6005f7c5bf9ad269eef06b5da6989b21ef69571ed12b1f8321ce0f0d37d1",
+    "valid_until": "2026-11-09T12:00:00Z"
+  },
+  {
+    "type": "urn:example:rar:plan-step",
+    "actions": [
+      "drive.document.create"
+    ],
+    "identifier": "urn:example:drive:folder:clients/C-4471",
+    "step_index": 0,
+    "parameters_digest": "sha256:1c21a0a9f0c6c9921a4450e922e26d66096d54cd3dd49b1fcc28a8133917ca2c"
+  },
+  {
+    "type": "urn:example:rar:plan-step",
+    "actions": [
+      "crm.client.create"
+    ],
+    "identifier": "urn:example:crm:brokerage-1",
+    "step_index": 1,
+    "parameters_digest": "sha256:039dad42c9d30816e8766b4da61a798d39bf1131984a2545c64032310c4fd92d"
+  },
+  {
+    "type": "urn:example:rar:plan-step",
+    "actions": [
+      "chat.message.send"
+    ],
+    "identifier": "urn:example:chat:channel:onboarding",
+    "step_index": 2,
+    "parameters_digest": "sha256:66cf346928b0913a6571e4bd8db96b40f6e39d530a6235ee60e06015dfcf5096"
+  }
+]

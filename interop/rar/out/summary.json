@@ -1,0 +1,20 @@
+{
+  "case": "19",
+  "built_on": "case 13b (the real passkey approval of 7 November 2026)",
+  "authorization_details_elements": 4,
+  "reference": {
+    "decision_id": "DR-2026-1106",
+    "stage_id": "o0",
+    "authorization_details_digest": "sha256:ee8dfbfdb56ebb2ce6a17d76b95293aaf5be0d139a26bc3a861cea60a858a27c",
+    "derived_from_spec_digest": "f6027c81fdcb80ba4a812a5c537a386fd53a0cfdc206d65be513c5fee6662233",
+    "projection": "rar-projection-0.1"
+  },
+  "layers": {
+    "V1_signed_spec": "pass",
+    "V2_derived_from_spec": "pass",
+    "V3_reference": "pass",
+    "V4_execution_covered": "pass",
+    "V5_rfc9396_shape": "pass"
+  },
+  "all_verified": true
+}

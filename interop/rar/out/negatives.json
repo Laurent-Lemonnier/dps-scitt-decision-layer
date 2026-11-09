@@ -1,0 +1,125 @@
+{
+  "cases": [
+    {
+      "case": "N1 widened actions",
+      "what": "step 2 may also delete messages (RFC 9396 2.2: the permission is the product of the fields); reference recomputed",
+      "failed_layers": [
+        "V2_derived_from_spec"
+      ],
+      "details_alone_fails": [],
+      "as_expected": true
+    },
+    {
+      "case": "N2 extra step described",
+      "what": "a delete is added to the details; reference recomputed",
+      "failed_layers": [
+        "V2_derived_from_spec",
+        "V4_execution_covered"
+      ],
+      "details_alone_fails": [
+        "V4_execution_covered"
+      ],
+      "as_expected": true
+    },
+    {
+      "case": "N3 narrowed details",
+      "what": "the chat step is dropped from the details; the run still sent the message",
+      "failed_layers": [
+        "V2_derived_from_spec",
+        "V4_execution_covered"
+      ],
+      "details_alone_fails": [
+        "V4_execution_covered"
+      ],
+      "as_expected": true
+    },
+    {
+      "case": "N4 step ran elsewhere",
+      "what": "the CRM step ran on another target than the one described",
+      "failed_layers": [
+        "V4_execution_covered"
+      ],
+      "details_alone_fails": [
+        "V4_execution_covered"
+      ],
+      "as_expected": true
+    },
+    {
+      "case": "N5 step beyond the plan",
+      "what": "a fourth step ran that no detail describes",
+      "failed_layers": [
+        "V4_execution_covered"
+      ],
+      "details_alone_fails": [
+        "V4_execution_covered"
+      ],
+      "as_expected": true
+    },
+    {
+      "case": "N6 reference digest altered",
+      "what": "the record carries the digest of other details",
+      "failed_layers": [
+        "V3_reference"
+      ],
+      "details_alone_fails": [],
+      "as_expected": true
+    },
+    {
+      "case": "N7 specification edited after approval",
+      "what": "a parameter is changed; the details are projected from the edited plan and the reference follows",
+      "failed_layers": [
+        "V1_signed_spec"
+      ],
+      "details_alone_fails": [],
+      "as_expected": true
+    },
+    {
+      "case": "N8 elements reordered",
+      "what": "steps 0 and 1 swapped in the array; reference recomputed",
+      "failed_layers": [
+        "V2_derived_from_spec"
+      ],
+      "details_alone_fails": [],
+      "as_expected": true
+    },
+    {
+      "case": "N9 element without type",
+      "what": "RFC 9396 Section 2: every element has a type",
+      "failed_layers": [
+        "V2_derived_from_spec",
+        "V4_execution_covered",
+        "V5_rfc9396_shape"
+      ],
+      "details_alone_fails": [
+        "V4_execution_covered",
+        "V5_rfc9396_shape"
+      ],
+      "as_expected": true
+    }
+  ],
+  "filtered_views": [
+    {
+      "case": "P1 view for the CRM server (one element, its part of the run)",
+      "subset_problems": [],
+      "covers_problems": [],
+      "as_expected": true
+    },
+    {
+      "case": "N10 view that says more than the full details",
+      "subset_problems": [
+        0
+      ],
+      "covers_problems": [],
+      "as_expected": true
+    },
+    {
+      "case": "N11 view whose parameters digest is not the approved one",
+      "subset_problems": [
+        0
+      ],
+      "covers_problems": [],
+      "as_expected": true
+    }
+  ],
+  "all_as_expected": true
+}
