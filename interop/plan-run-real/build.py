@@ -18,7 +18,7 @@ specification's valid_until (2026-11-09T12:00:00Z, fixed before signing so the p
 day it was compiled on). The Standard's reference check (extensions/signatures) verifies the passkey signature over
 authenticatorData || SHA-256(client data): the challenge is the SHA-256 of the signed bytes it rebuilt from A1, the origin
 is the policy's, the relying party hash is sign.pria.fr's, UP and UV are set, the key is in its validity, the holder is the
-actor o0 names. The capsule library (agent-action-capsule 0.15.0) verifies the three capsules as in case 13.
+actor o0 names. The capsule library (agent-action-capsule 0.16.0) verifies the three capsules as in case 13.
 
 Still synthetic, and said so in every file: the brokerage, the client, the assistant, the executor and its effects, the
 issuer's seal (Ed25519 test key), every moment other than the signature's. Deterministic output once signed/ is fixed.

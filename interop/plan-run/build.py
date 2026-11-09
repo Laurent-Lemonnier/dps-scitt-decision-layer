@@ -6,7 +6,7 @@ texts and existing code, nothing changed in any of them:
   WHO   the Decision Provenance Standard, action binding 0.3.0 + signatures 0.2.0: one specification, the plan (its
         steps and their hash), shown, approved and signed once, with one request, one recheck, one attempt and one
         observed result for the plan as a whole;
-  WHAT  Agent Action Capsule format 4 (draft-mih-scitt-agent-action-capsule, library 0.15.0 since 7 November 2026, 0.12.0 before): one capsule per step,
+  WHAT  Agent Action Capsule format 4 (draft-mih-scitt-agent-action-capsule, library 0.16.0 since 9 November 2026, 0.15.0 from 7 November, 0.12.0 before): one capsule per step,
         citing the decision record, each chained to the step before it (chain.relation follows);
   the mother: a run manifest beside them (a provisional shape of this repository, net.isoluce.plan_run, not of either
         text), which names the approved specification and lists, for each step of the plan, the capsule that executed

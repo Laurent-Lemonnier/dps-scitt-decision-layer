@@ -1,7 +1,7 @@
 # Case 13b: the plan, approved by a real person
 
 Case 13 (`../plan-run/`) runs one three-step onboarding plan, approved as a whole by an office manager whose approval is an
-Ed25519 test signature from a fixed seed, and carried by three Agent Action Capsules (library 0.15.0) under a run manifest.
+Ed25519 test signature from a fixed seed, and carried by three Agent Action Capsules (library 0.16.0) under a run manifest.
 This subcase is the same run with one thing real: the person. Steven Mih asked for it: that the three capsules his library
 verifies sit under an approval by a real person. On 7 November 2026 Laurent Lemonnier signed, with his own passkey (WebAuthn,
 ES256, iPhone, Face ID) on https://sign.pria.fr, the DPS `person_approval` of this plan: decision DR-2026-1106, stage o0,
@@ -51,7 +51,7 @@ ceremony; the server received the assertion at 2026-11-07T10:03:33Z), the person
 
 `out/`: the eight DPS action-binding dimensions verified, the one specification verified, the plan `shown_to_reviewer` and
 requested once, the issuer's seal verified; the person's approval verified (above); the trust policy verified; the three
-capsules parse and verify with the library 0.15.0 and every reference resolves against the record held or a context state
+capsules parse and verify with the library 0.16.0 and every reference resolves against the record held or a context state
 recomputed from the manifest held; the ten joins of case 13 true (plan hash, manifest, result, membership, completeness,
 order, resolved arguments, disposition, context chain, policy).
 
@@ -89,7 +89,7 @@ DPS_STANDARD=/path/to/decision-provenance-standard/standard python3 build.py    
 DPS_STANDARD=... python3 negatives.py                                            # exit 0 when 24/24 where expected
 ```
 
-Python 3.12, `cryptography`, `jsonschema`, `referencing`, `agent-action-capsule==0.15.0`. Both scripts are deterministic:
+Python 3.12, `cryptography`, `jsonschema`, `referencing`, `agent-action-capsule==0.16.0`. Both scripts are deterministic:
 two runs write the same bytes. `signed/` is the input and is never written by the build (`prepare` writes its two unsigned
 members); `out/` holds every document of the run (as in case 13, plus `passkey.json`, `keys.json` and the trust policy with
 the passkey entry), `out/negatives/<case>/` the failing cases, `out/summary.json` adds `real_approval` and `pinned_inputs`.

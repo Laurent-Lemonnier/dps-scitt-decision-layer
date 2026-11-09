@@ -8,7 +8,7 @@ three ways, all from existing texts and checked by existing code, nothing change
        one is rejected; each approval is signed;
   CAN  Seal ACTION-v1 (draft-chueayen-attestation-receipts-05): the enforcement point's ALLOWED record for each
        action it let through, and a BLOCKED record for each one the routine's own rules stopped;
-  WHAT Agent Action Capsule format 4 (draft-mih-scitt-agent-action-capsule, library 0.15.0 since 7 November 2026, 0.12.0 before): one capsule per action,
+  WHAT Agent Action Capsule format 4 (draft-mih-scitt-agent-action-capsule, library 0.16.0 since 9 November 2026, 0.15.0 from 7 November, 0.12.0 before): one capsule per action,
        citing the decision record and the attachment by CPB typed digest references.
 
 Synthetic data, modelled on the shape of a real pass (35 effects, 5 refusals, one approval of the batch), with no

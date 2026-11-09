@@ -1,7 +1,7 @@
 # Interop cases: an Agent Action Capsule citing a decision of the Decision Provenance Standard
 
 Eleven cases for an interop between two independent implementations: the library of the Agent Action Capsule
-(draft-mih-scitt-agent-action-capsule, 0.15.0 since 7 November 2026, 0.12.0 before) with its CPB typed digest references on one side, and the reference
+(draft-mih-scitt-agent-action-capsule, 0.16.0 since 9 November 2026, 0.15.0 from 7 November, 0.12.0 before) with its CPB typed digest references on one side, and the reference
 checks of the Decision Provenance Standard (record schema 5.2.0, action binding 0.3.0, signatures 0.2.0, at the
 repository's main `007f8c9`, 28 October 2026, re-run on 29 October) on the other. Each case is a folder holding a capsule, the decision record and the
 action-binding attachment it cites, the signatures attachment and trust policy that travel beside when there are any,
@@ -64,9 +64,9 @@ attachment's `luce:idem:invoice-0901`), and nothing compares them. That join is 
 ## Run
 
 ```
-# the capsule library 0.15.0, jsonschema and referencing in the Python used; the Standard's checkout at 007f8c9
+# the capsule library 0.16.0, jsonschema and referencing in the Python used; the Standard's checkout at 007f8c9
 # (interop/run.sh clones it at interop/aqta/approval-record/dps-standard, the default; DPS_STANDARD names another)
-python3 -m pip install "agent-action-capsule==0.15.0" jsonschema referencing cryptography
+python3 -m pip install "agent-action-capsule==0.16.0" jsonschema referencing cryptography
 export DPS_STANDARD=/path/to/decision-provenance-standard   # optional when run.sh's checkout exists
 python3 build_cases.py       # rebuilds cases 01 to 05 from the source examples (it clears cases/ first: rebuild 06 to 08 and 14 after it)
 python3 build_mutations.py   # cases 15 and 16 from case 01
@@ -85,7 +85,7 @@ it, never the network: the record schema's `../mode-drift/layer-4-attestation.sc
 ## Replayed by CI
 
 `interop/run.sh` (the GitHub Actions workflow) runs `check_case.py` over cases 01 to 05 and 14 to 16 on every push and
-weekly, from a clean machine with `agent-action-capsule==0.15.0` installed and the Standard cloned at its pin, and
+weekly, from a clean machine with `agent-action-capsule==0.16.0` installed and the Standard cloned at its pin, and
 fails if any case differs from its `expected.json` or any `result.json` differs from the committed one (`check-ci.log`
 is its output). Before 6 November 2026 the AAC cases were not in `run.sh`, although the repository's README said
 everything under `interop/` was replayed; Ivan Nestorov's review of that day found both, and the two portability
