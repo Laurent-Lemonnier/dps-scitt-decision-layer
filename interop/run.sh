@@ -223,3 +223,6 @@ for L in v0.6.0 main; do
   python3 izmaylov/run_vectors.py --vectors "izmaylov/vectors/cache/$L" --report "izmaylov/judge-ci-$L.json" --check "izmaylov/judge-$L.json" | tail -4
 done
 python3 izmaylov/mutation_tests.py --vectors izmaylov/vectors/cache/v0.6.0 | tail -1
+
+echo "== case 19: the approved plan of case 13b as RFC 9396 authorization_details, referenced by digest (rar/)"
+(cd rar && python3 build.py && python3 negatives.py | tail -1 && python3 token_cases.py | tail -1)
