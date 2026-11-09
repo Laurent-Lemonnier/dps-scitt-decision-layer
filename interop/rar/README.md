@@ -35,7 +35,7 @@ before the RFC was read; the second pass changed the projection (below) and seve
    `is_filtered_view` accepts a view whose every element is one of the full set's.
 
 Run: `python3 build.py` (exit 0 when all five pass), `python3 negatives.py` (exit 0 when 12/12 are as expected), both standard
-library only; `python3 token_cases.py` (9/9, needs `cryptography`; Section "The same details in an access token"). Deterministic.
+library only; `python3 token_cases.py` (9/9) and `python3 evidence_cases.py` (7/7), both needing `cryptography`. Deterministic.
 
 ## Results
 
@@ -88,6 +88,39 @@ approved (TN1), whether the AS granted what was approved (TN5), or when the appr
 an independent record of the approval, here the person's signature of case 13b, and the AS's link to it (TN2) is only as good as the
 AS: the link is a claim of the AS until it is checked against the person's signed record. That is a statement about this
 construction. It does not say an AS cannot be built to retain and export such a record.
+
+## Authorization evidence: the OAuth work that already exists (`rar_evidence.py`, `evidence_cases.py`)
+
+After the first version of this case, a search found `draft-liu-oauth-authorization-evidence-01` (D. Liu and H. Zhu, Alibaba; S. Krishnan,
+Cisco; A. Parecki, Okta; 23 June 2026). It defines a RAR type, `authorization_evidence`, which the AS fills in during consent: an `id`, a
+`user_confirmation` (`displayed_content`, `user_action`, `timestamp`) and an `as_signature` (detached JWS over the JCS of `id` and
+`user_confirmation`, Section 3.6). A resource server MAY check the signature and that the confirmation is not after the token's `iat` (7.1).
+I read Sections 1, 1.2, 3.4 to 3.6, 7.1 and 8.1 to 8.6 of its text. I did not check whether the working group adopted it.
+
+Its own Section 8.2 says the AS signature "provides cryptographic proof that the AS *recorded* a user confirmation. It does not
+independently prove that the user *actually* consented", and that deployments needing stronger non-repudiation "SHOULD supplement this
+mechanism with user-side signatures or independent consent auditing". Case 13b's approval is a user-side signature, and this
+directory is an independent check. `rar_evidence.py` fills the draft's object from the real approval (`displayed_content` = the view the
+person signed, `user_action` = `biometric_confirmation`, a value of its list) under the synthetic AS key, and adds one check the draft
+does not have: the displayed content is the text whose digest the person's signature covers, and the confirmation is not before the
+signature. The passkey signature itself is not re-verified here; case 13b's check did.
+
+| case | evidence | the draft's checks (7.1) | the person binding |
+|---|---|---|---|
+| P3 | as issued after the real approval | accepts | holds |
+| P4 | recorded at the server's receipt time, 14 minutes after `signed_at`, token issued after | accepts | holds |
+| N12 | the AS fabricates a confirmation the person never gave | accepts | fails |
+| N13 | `displayed_content` altered afterwards | rejects | fails |
+| N14 | the AS signs another text than the one the person was shown | accepts | fails |
+| N15 | confirmation one hour after the token's `iat` | rejects | holds |
+| N16 | confirmation five minutes before the person signed | accepts | fails |
+
+N12, N14 and N16 are Section 8.2 in action: a valid AS signature over evidence that the person did not give. They are caught only
+by the person's signature. Two readings of the text, not defects: the signature covers `id` and `user_confirmation` and no other
+member (3.6), so the link between a record taken out of its token and the exact authorization details is the text of
+`displayed_content` and not a digest of the details; and the person's `signed_at` is the moment the request was prepared, the server
+received the assertion later (case 13b: 14 minutes), so a token and an evidence timestamp earlier than the receipt would fail the
+draft's own check (P4 against N15). Synthetic: the AS and its key, everything but the person's signature.
 
 ## What this shows, and does not
 
