@@ -1,0 +1,80 @@
+name: wexp-reproduce
+
+# Outside reproduction of Mikhail Sergeev's IETF 127 Hackathon project (WEXP Core-02 appraisal with two appraisers,
+# and the SCITT Receipt boundary experiment), at his request of 9 November 2026. It follows his REPRODUCE.md files
+# literally, on a fresh GitHub runner, at the commits he pinned. No code of ours is involved; the run log is the
+# reproduction record (revisions, commands, Python version, observed output). See interop/wexp/README.md.
+
+on:
+  push:
+    paths:
+      - ".github/workflows/wexp-reproduce.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  appraisers:
+    name: wexp-check against wexp-ref, two corpora
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Checkouts at the pinned commits
+        run: |
+          set -eux
+          git clone https://github.com/WEXP-dev/wexp-check.git wexp-check
+          git -C wexp-check checkout a2fd1ffd68b234592979a8aa8965bd580ede4d76
+          git clone https://github.com/WEXP-dev/wexp-ref.git /tmp/wexp-ref
+          git -C /tmp/wexp-ref checkout 56289024c9ee748111f1f1d4f42728ffe04d8d69
+          git clone https://github.com/WEXP-dev/wexp-vectors.git /tmp/wexp-vectors
+          git -C /tmp/wexp-vectors checkout edd67056873502a2c3cecf5dd2b8db71271c2f57
+          python3 --version
+          for d in wexp-check /tmp/wexp-ref /tmp/wexp-vectors; do git -C "$d" rev-parse HEAD; done
+          sha256sum /tmp/wexp-vectors/vectors/WEXP-CORE-02-VECTORS-001/corpus.json /tmp/wexp-vectors/vectors/WEXP-CORE-02-VECTORS-002/corpus.json
+      - name: Unit tests (REPRODUCE.md)
+        working-directory: wexp-check
+        run: PYTHONPATH=. python3 -B -m unittest discover -s tests
+      - name: Comparison (REPRODUCE.md, last command)
+        working-directory: wexp-check
+        run: |
+          python3 -B scripts/compare_corpora.py --baseline comparison.json . /tmp/wexp-ref /tmp/comparison.json \
+            /tmp/wexp-vectors/vectors/WEXP-CORE-02-VECTORS-001/corpus.json \
+            /tmp/wexp-vectors/vectors/WEXP-CORE-02-VECTORS-002/corpus.json
+          sha256sum /tmp/comparison.json
+          cat /tmp/comparison.json
+
+  scitt-receipt-boundary:
+    name: scitt-receipt-boundary-001 pkg-001, read-only checks and a repeated appraisal
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Checkouts at the pinned commits
+        run: |
+          set -eux
+          git clone https://github.com/WEXP-dev/wexp-interop.git wexp-interop
+          git -C wexp-interop checkout a45c88e9e345978fa4392bfa0fd76a5e645b1751
+          git clone https://github.com/WEXP-dev/wexp-ref.git /tmp/wexp-ref
+          git -C /tmp/wexp-ref checkout 56289024c9ee748111f1f1d4f42728ffe04d8d69
+          git clone https://github.com/WEXP-dev/wexp-check.git /tmp/wexp-check
+          git -C /tmp/wexp-check checkout 25ec856e053d8ab40ed60bb88b70c84768d45e34
+          python3 --version
+          for d in wexp-interop /tmp/wexp-ref /tmp/wexp-check; do git -C "$d" rev-parse HEAD; done
+      - name: Read-only collection checks (REPRODUCE.md)
+        working-directory: wexp-interop
+        run: |
+          set -x
+          python -B scripts/catalog.py --check
+          python -B scripts/verify_collection.py
+          python -B scripts/verify_scitt_receipt_boundary.py
+          python -B -m unittest discover -s scripts -p 'test_scitt_receipt_boundary_catalog.py'
+      - name: Repeat the appraisal (REPRODUCE.md)
+        working-directory: wexp-interop/experiments/scitt-receipt-boundary-001/packages/pkg-001/payload
+        run: |
+          python3.12 -B run_case.py --wexp-ref /tmp/wexp-ref --wexp-check /tmp/wexp-check --output /tmp/pkg-001-comparison.json
+          sha256sum /tmp/pkg-001-comparison.json
+          cat /tmp/pkg-001-comparison.json
