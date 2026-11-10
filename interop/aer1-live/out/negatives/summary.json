@@ -1,0 +1,266 @@
+{
+ "L1-receipt-output-altered": {
+  "base": "after-the-fact",
+  "what": "the real receipt's committed output says $84,135.08 instead of $74,135.08; output_hash not recomputed",
+  "as_expected": true,
+  "verdict": "caught at receipt.independent_verifier_probe, receipt.output_hash",
+  "changed": {
+   "receipt.output_hash": [
+    "pass",
+    "fail"
+   ],
+   "receipt.independent_verifier_probe": [
+    "pass",
+    "verification failed"
+   ]
+  },
+  "order": {
+   "relation": "approval_after_effect",
+   "approval_at": "2026-11-10T11:00:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "receipt_verifier_as_is": "rejected: verification_status is not verified"
+ },
+ "L2-receipt-created-at-moved": {
+  "base": "after-the-fact",
+  "what": "the real receipt's created_at moved to 10:40:00.000Z; metadata_hash not recomputed",
+  "as_expected": true,
+  "verdict": "caught at join.attempt_before_receipt, receipt.independent_verifier_probe, receipt.metadata_hash",
+  "changed": {
+   "receipt.metadata_hash": [
+    "pass",
+    "fail"
+   ],
+   "receipt.independent_verifier_probe": [
+    "pass",
+    "verification failed"
+   ],
+   "join.attempt_before_receipt": [
+    "holds, bound",
+    "does not hold"
+   ]
+  },
+  "order": {
+   "relation": "approval_after_effect",
+   "approval_at": "2026-11-10T11:00:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:40:00.000Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "receipt_verifier_as_is": "rejected: verification_status is not verified"
+ },
+ "L3-record-cites-another-id": {
+  "base": "after-the-fact",
+  "what": "the attempt cites another receipt id (the issuer edits it and seals again)",
+  "as_expected": true,
+  "verdict": "caught at join.id_cited",
+  "changed": {
+   "join.id_cited": [
+    "holds, bound",
+    "does not hold"
+   ]
+  },
+  "order": {
+   "relation": "approval_after_effect",
+   "approval_at": "2026-11-10T11:00:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "receipt_verifier_as_is": "rejected: verification_status is not verified"
+ },
+ "L4-record-names-another-output-hash": {
+  "base": "after-the-fact",
+  "what": "the result names another output_hash for this receipt id (the issuer edits it and seals again)",
+  "as_expected": true,
+  "verdict": "caught at join.output_hash_named",
+  "changed": {
+   "join.output_hash_named": [
+    "holds, bound",
+    "does not hold"
+   ]
+  },
+  "order": {
+   "relation": "approval_after_effect",
+   "approval_at": "2026-11-10T11:00:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "receipt_verifier_as_is": "rejected: verification_status is not verified"
+ },
+ "L5-attempt-and-result-before-the-receipt": {
+  "base": "after-the-fact",
+  "what": "the attempt is dated 10:40:00Z and its result 10:45:00Z, both before the receipt's created_at (10:51:44.721Z): the result names an output_hash that did not exist yet (sealed again)",
+  "as_expected": true,
+  "verdict": "caught at join.result_after_receipt",
+  "changed": {
+   "join.result_after_receipt": [
+    "holds, bound",
+    "does not hold"
+   ]
+  },
+  "order": {
+   "relation": "approval_after_effect",
+   "approval_at": "2026-11-10T11:00:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "receipt_verifier_as_is": "rejected: verification_status is not verified"
+ },
+ "L5b-attempt-after-the-receipt": {
+  "base": "after-the-fact",
+  "what": "the attempt is dated 10:55:00Z, after the receipt of the call it made (sealed again)",
+  "as_expected": true,
+  "verdict": "caught at join.attempt_before_receipt",
+  "changed": {
+   "join.attempt_before_receipt": [
+    "holds, bound",
+    "does not hold"
+   ]
+  },
+  "order": {
+   "relation": "approval_after_effect",
+   "approval_at": "2026-11-10T11:00:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "receipt_verifier_as_is": "rejected: verification_status is not verified"
+ },
+ "L6-approval-backdated-view-names-the-receipt": {
+  "base": "after-the-fact",
+  "what": "the after-the-fact record backdated as a whole: proposal, review and approval moved before the call, the request and an authorising recheck before the attempt, record, seal and the person's signature made again; the view the reviewer signed still names the receipt",
+  "as_expected": true,
+  "verdict": "the DPS checks pass (stage_order verified); caught at join.review_after_receipt; order: contradicted: the approval is dated before the effect, but its review was shown the receipt of that effect",
+  "changed": {
+   "dps.stage_order": [
+    "failed",
+    "verified"
+   ],
+   "dps.authorisation_recheck": [
+    "failed",
+    "verified"
+   ],
+   "join.review_after_receipt": [
+    "holds, bound",
+    "does not hold"
+   ],
+   "order": [
+    "approval_after_effect",
+    "contradicted: the approval is dated before the effect, but its review was shown the receipt of that effect"
+   ]
+  },
+  "order": {
+   "relation": "contradicted: the approval is dated before the effect, but its review was shown the receipt of that effect",
+   "approval_at": "2026-11-10T10:45:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "receipt_verifier_as_is": "rejected: verification_status is not verified"
+ },
+ "L7-after-the-fact-relabelled": {
+  "base": "after-the-fact",
+  "what": "the request and an authorising recheck re-dated before the attempt, the approval left after the call (sealed again): the order stays reported as approval after the effect",
+  "as_expected": true,
+  "verdict": "order approval_after_effect; stage_order failed (authorisation_recheck failed -> verified)",
+  "changed": {
+   "dps.authorisation_recheck": [
+    "failed",
+    "verified"
+   ]
+  },
+  "order": {
+   "relation": "approval_after_effect",
+   "approval_at": "2026-11-10T11:00:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "receipt_verifier_as_is": "rejected: verification_status is not verified"
+ },
+ "L8-fully-backdated-view-silent": {
+  "base": "after-the-fact",
+  "what": "documented limit: the record backdated as in L6, and the view rewritten so that it no longer names the receipt; everything verifies, and the order is reported as the issuer's statement, never as verified",
+  "as_expected": true,
+  "verdict": "order issuer_dated_before_effect (time basis: the issuer's clock; no independent timestamp)",
+  "changed": {
+   "dps.stage_order": [
+    "failed",
+    "verified"
+   ],
+   "dps.authorisation_recheck": [
+    "failed",
+    "verified"
+   ],
+   "join.review_after_receipt": [
+    "holds, bound",
+    "not applicable"
+   ],
+   "order": [
+    "approval_after_effect",
+    "issuer_dated_before_effect"
+   ]
+  },
+  "order": {
+   "relation": "issuer_dated_before_effect",
+   "approval_at": "2026-11-10T10:45:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "receipt_verifier_as_is": "rejected: verification_status is not verified"
+ },
+ "L9-pointer-added-by-a-holder": {
+  "base": "after-the-fact",
+  "what": "documented: someone holding the real receipt adds execution_context.decision_record naming this record; no receipt check changes (Section 3.2), and the request_id is still absent from the committed bytes",
+  "as_expected": true,
+  "verdict": "only the pointer changes: join.pointer_to_record absent -> holds, unbound",
+  "changed": {
+   "join.pointer_to_record": [
+    "absent",
+    "holds, unbound"
+   ]
+  },
+  "order": {
+   "relation": "approval_after_effect",
+   "approval_at": "2026-11-10T11:00:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "receipt_verifier_as_is": "rejected: verification_status is not verified"
+ },
+ "L10-input-hash-replaced": {
+  "base": "after-the-fact",
+  "what": "documented: the real receipt's input_hash replaced by the digest of {\"symbol\":\"ETH\"}; output_hash and metadata_hash still verify (input_hash is outside both), only the consistency with the approved parameters turns",
+  "as_expected": true,
+  "verdict": "only join.input_is_approved holds, unbound -> does not hold",
+  "changed": {
+   "join.input_is_approved": [
+    "holds, unbound",
+    "does not hold"
+   ]
+  },
+  "order": {
+   "relation": "approval_after_effect",
+   "approval_at": "2026-11-10T11:00:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "receipt_verifier_as_is": "rejected: verification_status is not verified"
+ },
+ "L11-synthetic-receipt-of-another-request": {
+  "base": "under-the-decision",
+  "what": "(b) a synthetic receipt of the same read under another request_id, cited by the attempt and the result (sealed again): it verifies on its own; the committed request_id is not this request's",
+  "as_expected": true,
+  "verdict": "caught at join.request_id_committed",
+  "changed": {
+   "join.request_id_committed": [
+    "holds, bound",
+    "does not hold"
+   ]
+  },
+  "order": {
+   "relation": "issuer_dated_before_effect",
+   "approval_at": "2026-11-10T10:45:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "receipt_verifier_as_is": "pass"
+ }
+}

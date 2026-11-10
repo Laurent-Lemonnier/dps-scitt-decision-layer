@@ -1,0 +1,4 @@
+Read the BTC spot price through https://zambo.dev hosted MCP, tool live_price 4.0.0, scope public, symbol BTC, for the valuation of portfolio 2026-11
+policy urn:example:policy:market-data-reads#2026-11-01 (sha256:3060a7f3ace991835ebe410b15909eec33676138e470ffd5833ea2e4b69554c1)
+valid until 2026-11-10T11:30:00Z
+This call was already made: AER-1 receipt e9106453-b8b2-4784-992b-1211bfc1a353, created_at 2026-11-10T10:51:44.721Z, output_hash sha256:56114d61485e34b40caa31dd9a38ecd914eebdfd641a52fdbf4e7e3da9ed6ac2 (BTC $74,135.08 USD). This review comes after the call.

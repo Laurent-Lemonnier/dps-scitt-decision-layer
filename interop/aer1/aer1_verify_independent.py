@@ -229,9 +229,13 @@ def verify_receipt(rec, strict_id=False):
         if not isinstance(ih, str) or not DIGEST.fullmatch(ih):
             raise Reject("input_hash is not sha256: + lowercase hex digest")
         if not isinstance(payload, dict) or "inputs" not in payload:
-            raise Reject("input_hash present but the recorded inputs cannot be reproduced")
-        if ih[7:] != sha256_hex(canonical_json(payload["inputs"]).encode("utf-8")):
+            # Section 3.3: a verifier that cannot reproduce the layout MUST NOT report the input commitment as
+            # confirmed; nothing in the text makes it a reason to reject the receipt (corrected 2026-11-10).
+            out["input_commitment"] = "not confirmed: the recorded inputs cannot be reproduced from the canonical bytes"
+        elif ih[7:] != sha256_hex(canonical_json(payload["inputs"]).encode("utf-8")):
             raise Failed("input_hash does not match sha256(canonical JSON of the recorded inputs)")
+        else:
+            out["input_commitment"] = "confirmed"
     out["payload"] = payload
     out["raw"] = raw
     return out

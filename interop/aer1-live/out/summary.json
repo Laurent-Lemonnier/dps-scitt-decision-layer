@@ -1,0 +1,306 @@
+{
+ "receipt_file_sha256": "9e6aff78d4d0f64685d069988f2bccdbcc6f771b76cf33aeb86292b88c0aa8d6",
+ "receipt_ok": true,
+ "after-the-fact": {
+  "variant": "after-the-fact",
+  "receipt": "see receipt-verification.json",
+  "dps": {
+   "schema_errors": {
+    "record": [],
+    "attachment": [],
+    "signatures": [],
+    "trust_policy": []
+   },
+   "trust_policy": "verified",
+   "action_binding": {
+    "specification_digests": "verified",
+    "specification_statements": "verified",
+    "record_statements": "verified",
+    "action_binding": "verified",
+    "stage_order": "failed",
+    "authorisation_recheck": "failed",
+    "observed_results": "verified",
+    "rationale_provenance": "verified"
+   },
+   "action_binding_findings": {
+    "stage_order": [
+     "x1 is dated before q1, which it names",
+     "x1 is dated before c1, which it names"
+    ],
+    "authorisation_recheck": [
+     "x1: the recheck comes after the attempt",
+     "x1: attempted after a recheck that found unavailable"
+    ]
+   },
+   "issuer_seal": {
+    "status": "verified",
+    "key_state": "verified",
+    "holder": "Example Valuation Desk",
+    "attests": "issuer_recorded_claims_only"
+   },
+   "person_approval": {
+    "status": "verified",
+    "signature": "verified",
+    "subject": "verified",
+    "key_state": "verified",
+    "identity": "verified"
+   }
+  },
+  "joins": {
+   "id_cited": {
+    "status": "holds, bound",
+    "what": "the DPS attempt cites the receipt by id (urn:aer1:receipt:<id>)",
+    "binding": "DPS side under the issuer's seal; the id is in the receipt's metadata block (metadata_hash)"
+   },
+   "output_hash_named": {
+    "status": "holds, bound",
+    "what": "the DPS result names the receipt's output_hash",
+    "binding": "DPS side under the issuer's seal; output_hash commits to the canonical bytes"
+   },
+   "executor_names_caller": {
+    "status": "holds, bound",
+    "what": "the DPS attempt's executor_ref names the caller committed in the receipt",
+    "binding": "the caller is in the canonical bytes; here an anonymous caller (basis ip_ua_30d, rotates 2026-12-03T00:00:00.000Z): pseudonymous, not an identity"
+   },
+   "request_id_committed": {
+    "status": "absent",
+    "what": "the receipt records the DPS request_id among its inputs (idempotency key)",
+    "binding": "the canonical bytes record no input at all; nothing in the receipt names the request"
+   },
+   "input_is_approved": {
+    "status": "holds, unbound",
+    "what": "the receipt's recorded input is the approved parameters",
+    "binding": "only through input_hash, which is outside metadata_hash and outside the canonical bytes (Section 3.3): sha256 of the approved parameters under the layout as its name reads; not confirmed by the verifier, and anyone holding the receipt can change it"
+   },
+   "pointer_to_record": {
+    "status": "absent",
+    "what": "the receipt's execution_context names the decision record",
+    "binding": "execution_context names environment, quota_identity, source; no decision record"
+   },
+   "attempt_before_receipt": {
+    "status": "holds, bound",
+    "what": "the DPS attempt (2026-11-10T10:51:44.650Z) is dated no later than the receipt's created_at (2026-11-10T10:51:44.721Z)",
+    "binding": "issuer's clock against the receipt store's clock; created_at is in metadata_hash"
+   },
+   "result_after_receipt": {
+    "status": "holds, bound",
+    "what": "the DPS result naming output_hash (2026-11-10T10:57:15Z) is dated no earlier than created_at",
+    "binding": "a stage cannot name an output_hash before the receipt holding it was created"
+   },
+   "review_after_receipt": {
+    "status": "holds, bound",
+    "what": "the review (2026-11-10T10:59:00Z) was shown a view naming the receipt, so it is dated no earlier than created_at",
+    "binding": "the view's digest is in the person's signed bytes; the receipt's id and created_at are in metadata_hash"
+   }
+  },
+  "order": {
+   "relation": "approval_after_effect",
+   "approval_at": "2026-11-10T11:00:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "as_expected": true,
+  "expectation_check": {
+   "differs": {},
+   "dps_not_verified": [],
+   "receipt_ok": true
+  }
+ },
+ "under-the-decision": {
+  "variant": "under-the-decision",
+  "receipt": {
+   "independent_verifier_as_is": {
+    "verdict": "pass",
+    "reason": null,
+    "tier": "strict"
+   },
+   "steps": {
+    "id": {
+     "status": "pass",
+     "rule": "Section 3: lowercase UUID, not nil; strict tier: version 4 with RFC 4122 variant bits"
+    },
+    "created_at": {
+     "status": "pass",
+     "rule": "Section 3, Section 6 step 4: RFC 3339, a real calendar date, no leap second",
+     "detail": "form and calendar validity only, not that the time is true (Section 13)"
+    },
+    "tool": {
+     "status": "pass",
+     "rule": "Table 1: an object with name, version and scope"
+    },
+    "provenance_class": {
+     "status": "pass",
+     "rule": "Section 5: one of the three classes",
+     "detail": "EXECUTED BY ZAMBO"
+    },
+    "canonical_bytes": {
+     "status": "pass",
+     "rule": "Section 4: canonical base64, strict UTF-8",
+     "detail": "724 bytes"
+    },
+    "output_hash": {
+     "status": "pass",
+     "rule": "Section 4, Section 6 step 3: sha256 of the decoded canonical bytes equals output_hash"
+    },
+    "canonical_byte_length": {
+     "status": "pass",
+     "rule": "profile member, not in the draft: the decoded length"
+    },
+    "metadata_hash": {
+     "status": "pass",
+     "rule": "Section 3.1, Section 6 step 4: the metadata block recomputed from the stored members (id, created_at, tool, provenance_class, schema version, output_hash)"
+    },
+    "committed_version_and_class": {
+     "status": "pass",
+     "rule": "kit rule 11 (read with the draft): the version and provenance class inside the canonical bytes equal the outer members"
+    },
+    "outer_copies_of_committed_members": {
+     "status": "fail",
+     "rule": "profile: the outer caller, side_effects and tool equal the committed ones",
+     "detail": "tool"
+    },
+    "verification_status": {
+     "status": "pass",
+     "rule": "Table 1: \"verified\" when the stored record passes Section 6"
+    },
+    "input_hash": {
+     "status": "confirmed",
+     "rule": "Section 3.3: the recorded input, in the canonical bytes, under the published layout"
+    },
+    "anchor_report": {
+     "status": "absent",
+     "rule": "Section 6 per-anchor report: present / evaluated / outcome",
+     "detail": "{\"present\": false, \"evaluated\": false, \"outcome\": \"absent\"}"
+    },
+    "issuer": {
+     "status": "not authenticated",
+     "rule": "draft -26 core: no signature member; the receipt's own checks say so"
+    }
+   },
+   "independent_verifier_probe": {
+    "changes": [],
+    "verdict": "pass",
+    "reason": null,
+    "note": "a probe on a copy, not the receipt: what the rest of the procedure says"
+   },
+   "id_verdict": {
+    "value": "mismatched",
+    "expected_id": "e9106453-b8b2-4784-992b-1211bfc1a353",
+    "source": "the author's mail of 10 November 2026 (the issuer's own channel: it binds the record to the issuer's assertion and no further, Section 6)"
+   },
+   "times_stated": {
+    "created_at (in metadata_hash)": "2026-11-10T10:51:44.721Z",
+    "steps[0].started_at (unbound)": null,
+    "steps[0].completed_at (unbound)": null,
+    "provenance.queried_at (unbound)": null,
+    "anchor.published_at (unbound, relay confirmation)": null,
+    "reading": "the upstream price was fetched 2.4 s before the step started; the committed output text says 'cache age 2s'. Only created_at is bound (metadata_hash); none is independently timed here"
+   },
+   "members_outside_the_draft": [
+    "canonical_byte_length",
+    "input_hash_layout",
+    "synthetic"
+   ],
+   "execution_context_members": [
+    "decision_record",
+    "environment",
+    "source"
+   ],
+   "issuer_self_report": {},
+   "receipt_profile": null
+  },
+  "dps": {
+   "schema_errors": {
+    "record": [],
+    "attachment": [],
+    "signatures": [],
+    "trust_policy": []
+   },
+   "trust_policy": "verified",
+   "action_binding": {
+    "specification_digests": "verified",
+    "specification_statements": "verified",
+    "record_statements": "verified",
+    "action_binding": "verified",
+    "stage_order": "verified",
+    "authorisation_recheck": "verified",
+    "observed_results": "verified",
+    "rationale_provenance": "verified"
+   },
+   "action_binding_findings": {},
+   "issuer_seal": {
+    "status": "verified",
+    "key_state": "verified",
+    "holder": "Example Valuation Desk",
+    "attests": "issuer_recorded_claims_only"
+   },
+   "person_approval": {
+    "status": "verified",
+    "signature": "verified",
+    "subject": "verified",
+    "key_state": "verified",
+    "identity": "verified"
+   }
+  },
+  "joins": {
+   "id_cited": {
+    "status": "holds, bound",
+    "what": "the DPS attempt cites the receipt by id (urn:aer1:receipt:<id>)",
+    "binding": "DPS side under the issuer's seal; the id is in the receipt's metadata block (metadata_hash)"
+   },
+   "output_hash_named": {
+    "status": "holds, bound",
+    "what": "the DPS result names the receipt's output_hash",
+    "binding": "DPS side under the issuer's seal; output_hash commits to the canonical bytes"
+   },
+   "executor_names_caller": {
+    "status": "holds, bound",
+    "what": "the DPS attempt's executor_ref names the caller committed in the receipt",
+    "binding": "the caller is in the canonical bytes; a declared service id"
+   },
+   "request_id_committed": {
+    "status": "holds, bound",
+    "what": "the receipt records the DPS request_id among its inputs (idempotency key)",
+    "binding": "inside the canonical bytes, under output_hash"
+   },
+   "input_is_approved": {
+    "status": "holds, bound",
+    "what": "the receipt's recorded input is the approved parameters, exactly",
+    "binding": "inside the canonical bytes, under output_hash; input_hash confirmed by the verifier"
+   },
+   "pointer_to_record": {
+    "status": "holds, unbound",
+    "what": "the receipt's execution_context names the decision record",
+    "binding": "consistent: producer-asserted, outside metadata_hash (Section 3.2), not a binding"
+   },
+   "attempt_before_receipt": {
+    "status": "holds, bound",
+    "what": "the DPS attempt (2026-11-10T10:51:44.650Z) is dated no later than the receipt's created_at (2026-11-10T10:51:44.721Z)",
+    "binding": "issuer's clock against the receipt store's clock; created_at is in metadata_hash"
+   },
+   "result_after_receipt": {
+    "status": "holds, bound",
+    "what": "the DPS result naming output_hash (2026-11-10T10:51:50Z) is dated no earlier than created_at",
+    "binding": "a stage cannot name an output_hash before the receipt holding it was created"
+   },
+   "review_after_receipt": {
+    "status": "not applicable",
+    "what": "the review was shown a view naming the receipt",
+    "binding": "the view names no receipt"
+   }
+  },
+  "order": {
+   "relation": "issuer_dated_before_effect",
+   "approval_at": "2026-11-10T10:45:00Z",
+   "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+   "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+  },
+  "as_expected": true,
+  "expectation_check": {
+   "differs": {},
+   "dps_not_verified": [],
+   "receipt_ok": true
+  }
+ },
+ "as_expected": true
+}

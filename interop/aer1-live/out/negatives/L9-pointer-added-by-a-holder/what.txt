@@ -1,0 +1,1 @@
+documented: someone holding the real receipt adds execution_context.decision_record naming this record; no receipt check changes (Section 3.2), and the request_id is still absent from the committed bytes

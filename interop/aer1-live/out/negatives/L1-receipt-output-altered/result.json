@@ -1,0 +1,23 @@
+{
+ "base": "after-the-fact",
+ "what": "the real receipt's committed output says $84,135.08 instead of $74,135.08; output_hash not recomputed",
+ "as_expected": true,
+ "verdict": "caught at receipt.independent_verifier_probe, receipt.output_hash",
+ "changed": {
+  "receipt.output_hash": [
+   "pass",
+   "fail"
+  ],
+  "receipt.independent_verifier_probe": [
+   "pass",
+   "verification failed"
+  ]
+ },
+ "order": {
+  "relation": "approval_after_effect",
+  "approval_at": "2026-11-10T11:00:00Z",
+  "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+  "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+ },
+ "receipt_verifier_as_is": "rejected: verification_status is not verified"
+}

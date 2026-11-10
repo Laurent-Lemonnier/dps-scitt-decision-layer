@@ -1,0 +1,31 @@
+{
+ "base": "after-the-fact",
+ "what": "documented limit: the record backdated as in L6, and the view rewritten so that it no longer names the receipt; everything verifies, and the order is reported as the issuer's statement, never as verified",
+ "as_expected": true,
+ "verdict": "order issuer_dated_before_effect (time basis: the issuer's clock; no independent timestamp)",
+ "changed": {
+  "dps.stage_order": [
+   "failed",
+   "verified"
+  ],
+  "dps.authorisation_recheck": [
+   "failed",
+   "verified"
+  ],
+  "join.review_after_receipt": [
+   "holds, bound",
+   "not applicable"
+  ],
+  "order": [
+   "approval_after_effect",
+   "issuer_dated_before_effect"
+  ]
+ },
+ "order": {
+  "relation": "issuer_dated_before_effect",
+  "approval_at": "2026-11-10T10:45:00Z",
+  "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+  "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+ },
+ "receipt_verifier_as_is": "rejected: verification_status is not verified"
+}

@@ -1,0 +1,1 @@
+the result names another output_hash for this receipt id (the issuer edits it and seals again)

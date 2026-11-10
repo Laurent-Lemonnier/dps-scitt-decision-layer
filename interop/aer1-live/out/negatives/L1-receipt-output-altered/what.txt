@@ -1,0 +1,1 @@
+the real receipt's committed output says $84,135.08 instead of $74,135.08; output_hash not recomputed

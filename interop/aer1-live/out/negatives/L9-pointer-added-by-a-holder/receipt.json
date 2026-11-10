@@ -1,0 +1,188 @@
+{
+ "id": "e9106453-b8b2-4784-992b-1211bfc1a353",
+ "created_at": "2026-11-10T10:51:44.721Z",
+ "receipt_schema_version": "0.4",
+ "job_summary": "symbol: BTC",
+ "tools": [
+  "live_price"
+ ],
+ "steps": [
+  {
+   "tool": "live_price",
+   "status": "success",
+   "started_at": "2026-11-10T10:51:44.650Z",
+   "completed_at": "2026-11-10T10:51:44.721Z"
+  }
+ ],
+ "output_hash": "sha256:56114d61485e34b40caa31dd9a38ecd914eebdfd641a52fdbf4e7e3da9ed6ac2",
+ "hash_algorithm": "sha256",
+ "canonical_bytes": "eyJjYWxsZXIiOnsiYmFzaXMiOiJpcF91YV8zMGQiLCJpZCI6InNoYTI1NjozZDIxNjE1MTY2MWE2ZjU4YmYyNmFjOGFkM2Y1N2U5YWFkMGYwZDQwOWJhNGQ2MWQwMDE3YWU0YmJmYjU2MjU0Iiwicm90YXRlc19hdCI6IjIwMjYtMTItMDNUMDA6MDA6MDAuMDAwWiIsInR5cGUiOiJhbm9ueW1vdXMifSwiaXNzdWVyX2NsYWltcyI6eyJwcm92ZW5hbmNlX2NsYXNzIjoiRVhFQ1VURUQgQlkgWkFNQk8ifSwib3V0cHV0Ijp7InRleHQiOiJCVEMgwrcgJDc0LDEzNS4wOCBVU0RcbuKWsiAwLjA5JSAoMjRoKSDCtyBNYXJrZXQgY2FwOiAkMTQ5MC4yMkJcblxuTGl2ZSBwcmljZSBzbmFwc2hvdCB2aWEgQ29pbmJhc2UgwrcgZmV0Y2hlZCBUdWUsIDEwIE5vdiAyMDI2IDEwOjUxOjQyIEdNVCDCtyBjYWNoZSBhZ2UgMnMifSwicmVjZWlwdF9zY2hlbWFfdmVyc2lvbiI6IjAuNCIsInNpZGVfZWZmZWN0cyI6eyJkZWNsYXJhdGlvbl9oYXNoIjoic2hhMjU2OjQ1YWFkMzhmM2FhOTgyYjlhYWZlOTJlY2I0MTZlYmU5ODc5MWVkZGJhZjhhYjZkZjBiZDA4NjA1YjdjMWJmZWUiLCJkZWNsYXJlZCI6WyJub25lIl0sInNjaGVtYV92ZXJzaW9uIjoiemFtYm8tc2lkZS1lZmZlY3RzLzEifSwidG9vbCI6eyJuYW1lIjoibGl2ZV9wcmljZSIsInNjb3BlIjoicHVibGljIiwidmVyc2lvbiI6IjQuMC4wIn19",
+ "canonical_bytes_withheld_for_privacy": false,
+ "canonical_byte_length": 669,
+ "verification_status": "commitment_matches",
+ "session_trail": [],
+ "result_preview": "BTC · $74,135.08 USD\n▲ 0.09% (24h) · Market cap: $1490.22B\n\nLive price snapshot via Coinbase · fetched Tue, 10 Nov 2026 10:51:42 GMT · cache age 2s",
+ "result_preview_integrity": "display_only_not_committed",
+ "result_preview_truncated": false,
+ "input_hash": "sha256:f4a0911390334f5fb4042fc3ebdec2a0cebc5bb3862bdbb6b2ec0ecb9231be26",
+ "input_hash_layout": "zambo-json-sorted-keys-utf8-v1",
+ "free_used": 20,
+ "free_remaining": 0,
+ "free_limit": 20,
+ "signal_handle": null,
+ "tool": {
+  "name": "live_price",
+  "version": "4.0.0",
+  "scope": "public"
+ },
+ "caller": {
+  "type": "anonymous",
+  "id": "sha256:3d216151661a6f58bf26ac8ad3f57e9aad0f0d409ba4d61d0017ae4bbfb56254",
+  "basis": "ip_ua_30d",
+  "rotates_at": "2026-12-03T00:00:00.000Z"
+ },
+ "side_effects": {
+  "declared": [
+   "none"
+  ],
+  "schema_version": "zambo-side-effects/1",
+  "declaration_hash": "sha256:45aad38f3aa982b9aafe92ecb416ebe98791eddbaf8ab6df0bd08605b7c1bfee"
+ },
+ "evidence_sha256": "sha256:4056f1856dd385fe98c9ce4cd7a1d182b266e2540ee791c01fcb75048fc252df",
+ "evidence_url": "/api/evidence/4056f1856dd385fe98c9ce4cd7a1d182b266e2540ee791c01fcb75048fc252df",
+ "evidence_byte_length": 61,
+ "evidence_content_type": "application/json",
+ "evidence_source_url": "https://api.coinbase.com/v2/prices/BTC-USD/spot",
+ "evidence_status": "ok",
+ "result_source": null,
+ "evidence_source": "Coinbase",
+ "external_evidence": [],
+ "provenance": {
+  "source": "Coinbase",
+  "request": {
+   "symbol": "BTC",
+   "upstream_url": "https://api.coinbase.com/v2/prices/BTC-USD/spot"
+  },
+  "queried_at": "2026-11-10T10:51:42.275Z",
+  "result_source": null,
+  "evidence_source": "Coinbase",
+  "evidence_status": "ok",
+  "response_sha256": "sha256:4056f1856dd385fe98c9ce4cd7a1d182b266e2540ee791c01fcb75048fc252df",
+  "evidence_captures": [
+   {
+    "sha256": "sha256:4056f1856dd385fe98c9ce4cd7a1d182b266e2540ee791c01fcb75048fc252df",
+    "source": "Coinbase",
+    "capture_role": "primary",
+    "evidence_status": "ok"
+   }
+  ]
+ },
+ "provenance_class": "EXECUTED BY ZAMBO",
+ "metadata_hash": "sha256:d750472d6889f687af0f4b168be081ea5956aed56e5a51285a3202dc66cd4bbd",
+ "anchor": {
+  "event_id": "3377252b2ff66ee7b7d889f5d263e72e56538720e52748d44ef9d1fa577c2a75",
+  "pubkey": "e13475107d30c918ec664adf2ab1141024a22fb35190f82c9e933704fa49af41",
+  "relays": [
+   "wss://relay.primal.net"
+  ],
+  "status": "published",
+  "published_at": "2026-11-10T10:51:45.259Z",
+  "published_at_semantics": "Relay confirmation time (accepted acknowledgement or exact-event read-back); not the signed event's created_at.",
+  "schema_version": "zambo-receipt-anchor/1",
+  "envelope": {
+   "anchored_at": "2026-11-10T10:51:44.721Z",
+   "evidence_url": "https://zambo.dev/api/evidence/4056f1856dd385fe98c9ce4cd7a1d182b266e2540ee791c01fcb75048fc252df",
+   "receipt_uuid": "e9106453-b8b2-4784-992b-1211bfc1a353",
+   "output_sha256": "sha256:56114d61485e34b40caa31dd9a38ecd914eebdfd641a52fdbf4e7e3da9ed6ac2",
+   "schema_version": "zambo-receipt-anchor/1",
+   "evidence_sha256": "sha256:4056f1856dd385fe98c9ce4cd7a1d182b266e2540ee791c01fcb75048fc252df",
+   "evidence_byte_length": 61
+  },
+  "envelope_bytes": "{\"anchored_at\":\"2026-11-10T10:51:44.721Z\",\"evidence_byte_length\":61,\"evidence_sha256\":\"sha256:4056f1856dd385fe98c9ce4cd7a1d182b266e2540ee791c01fcb75048fc252df\",\"evidence_url\":\"https://zambo.dev/api/evidence/4056f1856dd385fe98c9ce4cd7a1d182b266e2540ee791c01fcb75048fc252df\",\"output_sha256\":\"sha256:56114d61485e34b40caa31dd9a38ecd914eebdfd641a52fdbf4e7e3da9ed6ac2\",\"receipt_uuid\":\"e9106453-b8b2-4784-992b-1211bfc1a353\",\"schema_version\":\"zambo-receipt-anchor/1\"}"
+ },
+ "receipt_profile": "zambo-hosted-receipt/1",
+ "schema_url": "https://zambo.dev/aer-1/hosted-profile.schema.json",
+ "api_version": 1,
+ "verification_scope": "separate_sha256_commitment_and_provenance_binding_checks",
+ "checks": {
+  "commitment_matches": {
+   "label": "SHA-256 commitment",
+   "passed": true,
+   "status": "pass",
+   "detail": "The exact decoded canonical bytes match the stored SHA-256 output hash."
+  },
+  "canonical_payload_matches": {
+   "label": "Canonical payload reconstruction",
+   "passed": true,
+   "status": "pass",
+   "detail": "The stored output and known call context reconstruct the exact canonical bytes."
+  },
+  "provenance_binding": {
+   "label": "Provenance claim binding",
+   "status": "pass",
+   "passed": true,
+   "detail": "The metadata claim is consistent with the verified receipt bytes; issuer is not authenticated."
+  },
+  "metadata_binding": {
+   "label": "AER-1 metadata hash",
+   "status": "pass",
+   "passed": true,
+   "detail": "metadata_hash matches the canonical metadata block."
+  },
+  "signature": {
+   "label": "Ed25519 signature (not checked)",
+   "passed": false,
+   "status": "not_checked",
+   "detail": "No Ed25519 signature or pinned signing key was checked."
+  },
+  "chain": {
+   "label": "Receipt chain (not checked)",
+   "passed": false,
+   "status": "not_checked",
+   "detail": "No append-only receipt-chain proof was checked."
+  },
+  "issued_by_zambo_dev": {
+   "label": "Issuer authentication",
+   "passed": false,
+   "status": "not_checked",
+   "detail": "A zambo.dev receipt URL does not authenticate the issuer; no pinned signature or trusted issuer key was checked."
+  },
+  "immutable_log_timestamp": {
+   "label": "Stored timestamp",
+   "passed": true,
+   "timestamp": "2026-11-10T10:51:44.721Z",
+   "detail": "The receipt store reports 2026-11-10T10:51:44.721Z; immutability is not checked here."
+  },
+  "receipt_schema_version": "0.4",
+  "signature_valid": {
+   "label": "Ed25519 signature (not checked)",
+   "passed": false,
+   "status": "not_checked",
+   "detail": "Compatibility field only. No Ed25519 signature was checked; use API v2 checks.commitment_matches for the SHA-256 commitment."
+  },
+  "chain_valid": {
+   "label": "Receipt chain (not checked)",
+   "passed": false,
+   "status": "not_checked",
+   "detail": "This endpoint does not verify an append-only chain."
+  }
+ },
+ "execution_context": {
+  "source": "api.coinbase.com",
+  "environment": "zambo.dev hosted MCP",
+  "quota_identity": {
+   "meter_key": "sha256:59ebad633a59e3c9760bb9e0538a9c112cb75beb72cea008116e521b591ff301"
+  },
+  "decision_record": {
+   "decision_id": "DR-2026-11101",
+   "record_digest": "sha256:13b3a4071fb3a50d468c15d38e3edfc18caace550b2fde7ff2c11091db142d30",
+   "request_id": "urn:example:valuation-request:ae107ae2-e596-53e5-8800-a2289b4f99b8"
+  }
+ },
+ "workflow": {
+  "id": "8ffefd4b-6145-43e0-a6af-818da9377a95",
+  "url": "https://zambo.dev/workflow/8ffefd4b-6145-43e0-a6af-818da9377a95",
+  "step_index": 0
+ },
+ "receipt_type": "execution"
+}

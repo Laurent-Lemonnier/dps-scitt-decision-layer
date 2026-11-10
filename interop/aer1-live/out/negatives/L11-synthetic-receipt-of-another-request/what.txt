@@ -1,0 +1,1 @@
+(b) a synthetic receipt of the same read under another request_id, cited by the attempt and the result (sealed again): it verifies on its own; the committed request_id is not this request's

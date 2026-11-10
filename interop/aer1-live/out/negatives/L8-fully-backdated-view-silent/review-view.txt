@@ -1,0 +1,3 @@
+Read the BTC spot price through https://zambo.dev hosted MCP, tool live_price 4.0.0, scope public, symbol BTC, for the valuation of portfolio 2026-11
+policy urn:example:policy:market-data-reads#2026-11-01 (sha256:3060a7f3ace991835ebe410b15909eec33676138e470ffd5833ea2e4b69554c1)
+valid until 2026-11-10T11:30:00Z

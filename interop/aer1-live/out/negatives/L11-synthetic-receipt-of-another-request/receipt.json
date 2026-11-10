@@ -1,0 +1,28 @@
+{
+ "id": "c973bf65-9e0e-42d7-ae62-85d0e15dfbe9",
+ "created_at": "2026-11-10T10:51:44.721Z",
+ "receipt_schema_version": "0.4",
+ "tool": {
+  "name": "live_price",
+  "version": "4.0.0",
+  "scope": "public"
+ },
+ "provenance_class": "EXECUTED BY ZAMBO",
+ "canonical_bytes": "eyJjYWxsZXIiOnsiaWQiOiJ1cm46ZXhhbXBsZTp2YWx1YXRpb24tYWdlbnQtcnVudGltZToxLjAiLCJ0eXBlIjoic2VydmljZSJ9LCJpbnB1dHMiOnsiaWRlbXBvdGVuY3lfa2V5IjoidXJuOmV4YW1wbGU6dmFsdWF0aW9uLXJlcXVlc3Q6b3RoZXIiLCJzeW1ib2wiOiJCVEMifSwiaXNzdWVyX2NsYWltcyI6eyJwcm92ZW5hbmNlX2NsYXNzIjoiRVhFQ1VURUQgQlkgWkFNQk8ifSwib3V0cHV0Ijp7InRleHQiOiJTWU5USEVUSUMsIG5vdCBpc3N1ZWQgYnkgemFtYm8uZGV2LiBCVEMgwrcgJDc0LDEzNS4wOCBVU0RcbuKWsiAwLjA5JSAoMjRoKSDCtyBNYXJrZXQgY2FwOiAkMTQ5MC4yMkJcblxuTGl2ZSBwcmljZSBzbmFwc2hvdCB2aWEgQ29pbmJhc2UgwrcgZmV0Y2hlZCBUdWUsIDEwIE5vdiAyMDI2IDEwOjUxOjQyIEdNVCDCtyBjYWNoZSBhZ2UgMnMifSwicmVjZWlwdF9zY2hlbWFfdmVyc2lvbiI6IjAuNCIsInNpZGVfZWZmZWN0cyI6eyJkZWNsYXJhdGlvbl9oYXNoIjoic2hhMjU2OjQ1YWFkMzhmM2FhOTgyYjlhYWZlOTJlY2I0MTZlYmU5ODc5MWVkZGJhZjhhYjZkZjBiZDA4NjA1YjdjMWJmZWUiLCJkZWNsYXJlZCI6WyJub25lIl0sInNjaGVtYV92ZXJzaW9uIjoiemFtYm8tc2lkZS1lZmZlY3RzLzEifSwidG9vbCI6eyJuYW1lIjoibGl2ZV9wcmljZSIsInNjb3BlIjoicHVibGljIiwidmVyc2lvbiI6IjQuMC4wIn19",
+ "canonical_byte_length": 693,
+ "output_hash": "sha256:2113cad950f39e1f96c8512bee073ec8fe3d5fdf498bc4366ef4c7b48de2d031",
+ "verification_status": "verified",
+ "input_hash": "sha256:c78e96bcb1c4b7368c0faa3b09bbdea825686ab76b1e32dc7e89d16fcf9ae12c",
+ "input_hash_layout": "zambo-json-sorted-keys-utf8-v1",
+ "metadata_hash": "sha256:1fede7d64f799f1c272b274daf695804bfe746eb567e790013359a00ae2113bc",
+ "execution_context": {
+  "source": "api.coinbase.com",
+  "environment": "zambo.dev hosted MCP",
+  "decision_record": {
+   "decision_id": "DR-2026-11102",
+   "record_digest": "sha256:c28fe8db3dd71ad4545d602a19a22ef2d811a66bc9534f2f143dee847b800f19",
+   "request_id": "urn:example:valuation-request:3943bf43-96b4-5385-bfe9-a144befdffeb"
+  }
+ },
+ "synthetic": "built by interop/aer1-live/build.py with test values; not a receipt of zambo.dev"
+}

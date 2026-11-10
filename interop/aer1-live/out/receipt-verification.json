@@ -1,0 +1,180 @@
+{
+ "independent_verifier_as_is": {
+  "verdict": "rejected: verification_status is not verified",
+  "reason": "verification_status is not verified",
+  "tier": "strict"
+ },
+ "steps": {
+  "id": {
+   "status": "pass",
+   "rule": "Section 3: lowercase UUID, not nil; strict tier: version 4 with RFC 4122 variant bits"
+  },
+  "created_at": {
+   "status": "pass",
+   "rule": "Section 3, Section 6 step 4: RFC 3339, a real calendar date, no leap second",
+   "detail": "form and calendar validity only, not that the time is true (Section 13)"
+  },
+  "tool": {
+   "status": "pass",
+   "rule": "Table 1: an object with name, version and scope"
+  },
+  "provenance_class": {
+   "status": "pass",
+   "rule": "Section 5: one of the three classes",
+   "detail": "EXECUTED BY ZAMBO"
+  },
+  "canonical_bytes": {
+   "status": "pass",
+   "rule": "Section 4: canonical base64, strict UTF-8",
+   "detail": "669 bytes"
+  },
+  "output_hash": {
+   "status": "pass",
+   "rule": "Section 4, Section 6 step 3: sha256 of the decoded canonical bytes equals output_hash"
+  },
+  "canonical_byte_length": {
+   "status": "pass",
+   "rule": "profile member, not in the draft: the decoded length"
+  },
+  "metadata_hash": {
+   "status": "pass",
+   "rule": "Section 3.1, Section 6 step 4: the metadata block recomputed from the stored members (id, created_at, tool, provenance_class, schema version, output_hash)"
+  },
+  "committed_version_and_class": {
+   "status": "pass",
+   "rule": "kit rule 11 (read with the draft): the version and provenance class inside the canonical bytes equal the outer members"
+  },
+  "outer_copies_of_committed_members": {
+   "status": "pass",
+   "rule": "profile: the outer caller, side_effects and tool equal the committed ones",
+   "detail": "caller, side_effects, tool"
+  },
+  "verification_status": {
+   "status": "not the draft's value",
+   "rule": "Table 1: \"verified\" when the stored record passes Section 6",
+   "detail": "'commitment_matches': Section 6 names \"commitment_matches\" as the passing value of the deprecated version 1 API, which served this record (api_version 1)"
+  },
+  "input_hash": {
+   "status": "not confirmed",
+   "rule": "Section 3.3: a verifier that cannot reproduce the recorded input under a published layout MUST NOT report the commitment as confirmed",
+   "detail": "the canonical bytes record no input, and the layout is named ('zambo-json-sorted-keys-utf8-v1'), not published in the receipt. Reconstruction: {\"symbol\": \"BTC\"} from provenance.request.symbol and job_summary (both outside every commitment), serialized as the layout's name reads (sorted members, no whitespace, UTF-8): its sha256 equals input_hash. input_hash is outside metadata_hash (Section 3.3) and outside the canonical bytes: anyone holding the receipt can change it without affecting any other check",
+   "reconstruction_matches": true
+  },
+  "anchor_report": {
+   "status": "absent",
+   "rule": "Section 6 per-anchor report: present / evaluated / outcome",
+   "detail": "{\"present\": false, \"evaluated\": false, \"outcome\": \"absent\"}"
+  },
+  "profile_anchor_offline": {
+   "status": "consistent offline; the Nostr event not checked",
+   "rule": "not Section 10: the anchor is in the profile's shape 'zambo-receipt-anchor/1', not Table 4's (type, version, receipt_id, anchored_digest, anchor_type, anchored_at, proof)",
+   "envelope_bytes_are_the_canonical_json_of_envelope": true,
+   "envelope_receipt_uuid_is_the_id": true,
+   "envelope_output_sha256_is_output_hash": true,
+   "envelope_evidence_sha256_is_evidence_sha256": true,
+   "envelope_anchored_at_is_created_at": true,
+   "envelope_bytes_sha256": "6d7f6e3bd72aa6d33a097ad47fe6553d3189a99d129f1d4b21ef7d01fb683a61",
+   "nostr": {
+    "event_id": "3377252b2ff66ee7b7d889f5d263e72e56538720e52748d44ef9d1fa577c2a75",
+    "pubkey": "e13475107d30c918ec664adf2ab1141024a22fb35190f82c9e933704fa49af41",
+    "relays": [
+     "wss://relay.primal.net"
+    ],
+    "status_stated": "published",
+    "published_at_stated": "2026-11-10T10:51:45.259Z",
+    "checked": "no: no relay was contacted; the event's signature, its content and its created_at are not verified here (Section 10.1 step 3 needs the relay)"
+   }
+  },
+  "evidence": {
+   "status": "not checked",
+   "rule": "profile: the upstream response's digest",
+   "detail": "61 bytes from https://api.coinbase.com/v2/prices/BTC-USD/spot, digest sha256:4056f1856dd385fe98c9ce4cd7a1d182b266e2540ee791c01fcb75048fc252df (equal to provenance.response_sha256); the bytes were not fetched"
+  },
+  "issuer": {
+   "status": "not authenticated",
+   "rule": "draft -26 core: no signature member; the receipt's own checks say so",
+   "detail": "A zambo.dev receipt URL does not authenticate the issuer; no pinned signature or trusted issuer key was checked."
+  }
+ },
+ "independent_verifier_probe": {
+  "changes": [
+   "verification_status \"commitment_matches\" read as \"verified\" (the v1 API's passing value)"
+  ],
+  "verdict": "pass",
+  "reason": null,
+  "note": "a probe on a copy, not the receipt: what the rest of the procedure says"
+ },
+ "id_verdict": {
+  "value": "matched",
+  "expected_id": "e9106453-b8b2-4784-992b-1211bfc1a353",
+  "source": "the author's mail of 10 November 2026 (the issuer's own channel: it binds the record to the issuer's assertion and no further, Section 6)"
+ },
+ "times_stated": {
+  "created_at (in metadata_hash)": "2026-11-10T10:51:44.721Z",
+  "steps[0].started_at (unbound)": "2026-11-10T10:51:44.650Z",
+  "steps[0].completed_at (unbound)": "2026-11-10T10:51:44.721Z",
+  "provenance.queried_at (unbound)": "2026-11-10T10:51:42.275Z",
+  "anchor.published_at (unbound, relay confirmation)": "2026-11-10T10:51:45.259Z",
+  "reading": "the upstream price was fetched 2.4 s before the step started; the committed output text says 'cache age 2s'. Only created_at is bound (metadata_hash); none is independently timed here"
+ },
+ "members_outside_the_draft": [
+  "api_version",
+  "caller",
+  "canonical_byte_length",
+  "canonical_bytes_withheld_for_privacy",
+  "checks",
+  "evidence_byte_length",
+  "evidence_content_type",
+  "evidence_sha256",
+  "evidence_source",
+  "evidence_source_url",
+  "evidence_status",
+  "evidence_url",
+  "external_evidence",
+  "free_limit",
+  "free_remaining",
+  "free_used",
+  "hash_algorithm",
+  "input_hash_layout",
+  "job_summary",
+  "provenance",
+  "receipt_profile",
+  "receipt_type",
+  "result_preview",
+  "result_preview_integrity",
+  "result_preview_truncated",
+  "result_source",
+  "schema_url",
+  "session_trail",
+  "side_effects",
+  "signal_handle",
+  "steps",
+  "tools",
+  "verification_scope"
+ ],
+ "execution_context_members": [
+  "environment",
+  "quota_identity",
+  "source"
+ ],
+ "issuer_self_report": {
+  "commitment_matches": "pass",
+  "canonical_payload_matches": "pass",
+  "provenance_binding": "pass",
+  "metadata_binding": "pass",
+  "signature": "not_checked",
+  "chain": "not_checked",
+  "issued_by_zambo_dev": "not_checked",
+  "immutable_log_timestamp": null,
+  "signature_valid": "not_checked",
+  "chain_valid": "not_checked"
+ },
+ "receipt_profile": "zambo-hosted-receipt/1",
+ "source": {
+  "file": "receipt.json",
+  "sha256": "9e6aff78d4d0f64685d069988f2bccdbcc6f771b76cf33aeb86292b88c0aa8d6",
+  "bytes": 7250,
+  "url": "https://zambo.dev/api/receipt/e9106453-b8b2-4784-992b-1211bfc1a353",
+  "retrieved": "2026-11-10T10:57:15Z"
+ }
+}

@@ -1,0 +1,1 @@
+documented limit: the record backdated as in L6, and the view rewritten so that it no longer names the receipt; everything verifies, and the order is reported as the issuer's statement, never as verified

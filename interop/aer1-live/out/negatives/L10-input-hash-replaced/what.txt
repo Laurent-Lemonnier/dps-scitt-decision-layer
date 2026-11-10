@@ -1,0 +1,1 @@
+documented: the real receipt's input_hash replaced by the digest of {"symbol":"ETH"}; output_hash and metadata_hash still verify (input_hash is outside both), only the consistency with the approved parameters turns

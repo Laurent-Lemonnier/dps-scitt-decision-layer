@@ -1,0 +1,1 @@
+the real receipt's created_at moved to 10:40:00.000Z; metadata_hash not recomputed

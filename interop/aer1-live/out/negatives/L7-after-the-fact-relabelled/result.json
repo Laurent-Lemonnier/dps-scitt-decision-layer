@@ -1,0 +1,19 @@
+{
+ "base": "after-the-fact",
+ "what": "the request and an authorising recheck re-dated before the attempt, the approval left after the call (sealed again): the order stays reported as approval after the effect",
+ "as_expected": true,
+ "verdict": "order approval_after_effect; stage_order failed (authorisation_recheck failed -> verified)",
+ "changed": {
+  "dps.authorisation_recheck": [
+   "failed",
+   "verified"
+  ]
+ },
+ "order": {
+  "relation": "approval_after_effect",
+  "approval_at": "2026-11-10T11:00:00Z",
+  "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+  "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+ },
+ "receipt_verifier_as_is": "rejected: verification_status is not verified"
+}

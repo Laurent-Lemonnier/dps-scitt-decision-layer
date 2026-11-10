@@ -1,0 +1,31 @@
+{
+ "base": "after-the-fact",
+ "what": "the after-the-fact record backdated as a whole: proposal, review and approval moved before the call, the request and an authorising recheck before the attempt, record, seal and the person's signature made again; the view the reviewer signed still names the receipt",
+ "as_expected": true,
+ "verdict": "the DPS checks pass (stage_order verified); caught at join.review_after_receipt; order: contradicted: the approval is dated before the effect, but its review was shown the receipt of that effect",
+ "changed": {
+  "dps.stage_order": [
+   "failed",
+   "verified"
+  ],
+  "dps.authorisation_recheck": [
+   "failed",
+   "verified"
+  ],
+  "join.review_after_receipt": [
+   "holds, bound",
+   "does not hold"
+  ],
+  "order": [
+   "approval_after_effect",
+   "contradicted: the approval is dated before the effect, but its review was shown the receipt of that effect"
+  ]
+ },
+ "order": {
+  "relation": "contradicted: the approval is dated before the effect, but its review was shown the receipt of that effect",
+  "approval_at": "2026-11-10T10:45:00Z",
+  "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+  "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+ },
+ "receipt_verifier_as_is": "rejected: verification_status is not verified"
+}

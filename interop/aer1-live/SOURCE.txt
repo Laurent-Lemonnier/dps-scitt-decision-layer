@@ -1,0 +1,5 @@
+receipt.json: the bytes as served, unchanged (7250 bytes, no trailing newline)
+sha256 9e6aff78d4d0f64685d069988f2bccdbcc6f771b76cf33aeb86292b88c0aa8d6
+source https://zambo.dev/api/receipt/e9106453-b8b2-4784-992b-1211bfc1a353 (the public API, version 1 per its api_version member)
+retrieved 2026-11-10T10:57:15Z, without an account; the same bytes were served at /api/receipts/<id>
+issued 2026-11-10T10:51:44.721Z by zambo.dev (live_price, BTC), sent by Brennan Zambo, the author of draft-zambo-aer1, on 10 November 2026

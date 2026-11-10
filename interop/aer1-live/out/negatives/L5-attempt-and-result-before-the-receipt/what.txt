@@ -1,0 +1,1 @@
+the attempt is dated 10:40:00Z and its result 10:45:00Z, both before the receipt's created_at (10:51:44.721Z): the result names an output_hash that did not exist yet (sealed again)

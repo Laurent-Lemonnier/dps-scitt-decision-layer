@@ -1,0 +1,28 @@
+{
+ "id": "24d8ed99-e691-4697-94c8-c4795ed7df32",
+ "created_at": "2026-11-10T10:51:44.721Z",
+ "receipt_schema_version": "0.4",
+ "tool": {
+  "name": "live_price",
+  "version": "4.0.0",
+  "scope": "public"
+ },
+ "provenance_class": "EXECUTED BY ZAMBO",
+ "canonical_bytes": "eyJjYWxsZXIiOnsiaWQiOiJ1cm46ZXhhbXBsZTp2YWx1YXRpb24tYWdlbnQtcnVudGltZToxLjAiLCJ0eXBlIjoic2VydmljZSJ9LCJpbnB1dHMiOnsiaWRlbXBvdGVuY3lfa2V5IjoidXJuOmV4YW1wbGU6dmFsdWF0aW9uLXJlcXVlc3Q6Mzk0M2JmNDMtOTZiNC01Mzg1LWJmZTktYTE0NGJlZmRmZmViIiwic3ltYm9sIjoiQlRDIn0sImlzc3Vlcl9jbGFpbXMiOnsicHJvdmVuYW5jZV9jbGFzcyI6IkVYRUNVVEVEIEJZIFpBTUJPIn0sIm91dHB1dCI6eyJ0ZXh0IjoiU1lOVEhFVElDLCBub3QgaXNzdWVkIGJ5IHphbWJvLmRldi4gQlRDIMK3ICQ3NCwxMzUuMDggVVNEXG7ilrIgMC4wOSUgKDI0aCkgwrcgTWFya2V0IGNhcDogJDE0OTAuMjJCXG5cbkxpdmUgcHJpY2Ugc25hcHNob3QgdmlhIENvaW5iYXNlIMK3IGZldGNoZWQgVHVlLCAxMCBOb3YgMjAyNiAxMDo1MTo0MiBHTVQgwrcgY2FjaGUgYWdlIDJzIn0sInJlY2VpcHRfc2NoZW1hX3ZlcnNpb24iOiIwLjQiLCJzaWRlX2VmZmVjdHMiOnsiZGVjbGFyYXRpb25faGFzaCI6InNoYTI1Njo0NWFhZDM4ZjNhYTk4MmI5YWFmZTkyZWNiNDE2ZWJlOTg3OTFlZGRiYWY4YWI2ZGYwYmQwODYwNWI3YzFiZmVlIiwiZGVjbGFyZWQiOlsibm9uZSJdLCJzY2hlbWFfdmVyc2lvbiI6InphbWJvLXNpZGUtZWZmZWN0cy8xIn0sInRvb2wiOnsibmFtZSI6ImxpdmVfcHJpY2UiLCJzY29wZSI6InB1YmxpYyIsInZlcnNpb24iOiI0LjAuMCJ9fQ==",
+ "canonical_byte_length": 724,
+ "output_hash": "sha256:3abe789b361cb3dd9949220399cbaad9fc3519fbf8527a9d844600a1a131971e",
+ "verification_status": "verified",
+ "input_hash": "sha256:baef9bc306855979f4ee8bab43b101ca700c52d69c5f60fec712eec300ceb21b",
+ "input_hash_layout": "zambo-json-sorted-keys-utf8-v1",
+ "metadata_hash": "sha256:f2ac69f3a31129b976a82169d1a68c0408c6617389c492e233d00af95c5212e0",
+ "execution_context": {
+  "source": "api.coinbase.com",
+  "environment": "zambo.dev hosted MCP",
+  "decision_record": {
+   "decision_id": "DR-2026-11102",
+   "record_digest": "sha256:c28fe8db3dd71ad4545d602a19a22ef2d811a66bc9534f2f143dee847b800f19",
+   "request_id": "urn:example:valuation-request:3943bf43-96b4-5385-bfe9-a144befdffeb"
+  }
+ },
+ "synthetic": "built by interop/aer1-live/build.py with test values; not a receipt of zambo.dev"
+}

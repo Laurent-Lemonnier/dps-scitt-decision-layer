@@ -149,6 +149,14 @@ DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" AER1_KIT="$PWD/aer1/zambo/
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" AER1_KIT="$PWD/aer1/zambo/base" python3 aer1-decision/negatives.py > aer1-decision/out/negatives-ci.log || { echo "aer1-decision: a failing case was not caught where expected"; cat aer1-decision/out/negatives-ci.log; exit 1; }
 echo "# receipt verified (independent and kit), DPS attachment, seal and approval verified, 5 joins true; 10 failing cases as expected; 4 metadata probes failed by the independent verifier and by the kit runner at this pin"
 
+echo "== A real AER-1 receipt (zambo.dev, 10 November 2026) and a decision record, composed (aer1-live), at the author's request; no kit code, nothing fetched"
+mkdir -p aer1-live/out
+(cd aer1-live && sha256sum -c --quiet <(echo "9e6aff78d4d0f64685d069988f2bccdbcc6f771b76cf33aeb86292b88c0aa8d6  receipt.json")) || { echo "aer1-live: receipt.json is not the bytes as served"; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 aer1-live/build.py > aer1-live/out/build-ci.log || { echo "aer1-live: not as expected"; tail -30 aer1-live/out/build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 aer1-live/negatives.py > aer1-live/out/negatives-ci.log || { echo "aer1-live: a failing case was not caught where expected"; cat aer1-live/out/negatives-ci.log; exit 1; }
+git diff --exit-code --quiet -- aer1-live/out/summary.json aer1-live/out/receipt-verification.json || { echo "aer1-live: the results differ from the committed ones"; git --no-pager diff -- aer1-live/out/summary.json aer1-live/out/receipt-verification.json; exit 1; }
+echo "# real receipt: output_hash and metadata_hash verify, input_hash not confirmed, verifier as is: rejected (verification_status commitment_matches, the v1 API value); (a) after the fact: cited and named, no link back, approval after the effect; (b) synthetic: all joins; 12 cases as expected"
+
 echo "== Case 15: an AgentInteractionRecord citing a decision record by typed digest (air): draft-emirdag-scitt-ai-agent-execution-01 Sections 5.6-5.8, 6.1, 10.1"
 (cd air/vectors && sha256sum -c --quiet SHA256SUMS) || { echo "air: the pinned copy of the EES v0.2 air.schema.json changed"; exit 1; }
 mkdir -p air/out

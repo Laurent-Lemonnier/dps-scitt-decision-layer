@@ -1,0 +1,19 @@
+{
+ "base": "under-the-decision",
+ "what": "(b) a synthetic receipt of the same read under another request_id, cited by the attempt and the result (sealed again): it verifies on its own; the committed request_id is not this request's",
+ "as_expected": true,
+ "verdict": "caught at join.request_id_committed",
+ "changed": {
+  "join.request_id_committed": [
+   "holds, bound",
+   "does not hold"
+  ]
+ },
+ "order": {
+  "relation": "issuer_dated_before_effect",
+  "approval_at": "2026-11-10T10:45:00Z",
+  "effect_at (receipt created_at)": "2026-11-10T10:51:44.721Z",
+  "time_basis": "the issuer's stage times and the receipt store's created_at; no independent timestamp over either, so an approval dated before the effect is the issuer's statement, never verified"
+ },
+ "receipt_verifier_as_is": "pass"
+}
