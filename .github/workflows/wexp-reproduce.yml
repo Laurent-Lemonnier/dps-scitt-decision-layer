@@ -64,6 +64,11 @@ jobs:
           git -C /tmp/wexp-check checkout 25ec856e053d8ab40ed60bb88b70c84768d45e34
           python3 --version
           for d in wexp-interop /tmp/wexp-ref /tmp/wexp-check; do git -C "$d" rev-parse HEAD; done
+      - name: Pinned verification dependencies (wexp-interop README)
+        working-directory: wexp-interop
+        run: |
+          python -m pip install -r requirements-verification.txt
+          python -m pip freeze
       - name: Read-only collection checks (REPRODUCE.md)
         working-directory: wexp-interop
         run: |
