@@ -22,6 +22,7 @@ negative (150.00 EUR executed for 120.00 approved: the verdict stating not_as_ap
 BREACH:amount_minor with 150.00 EUR moved). Twelve joins across the four links say what no single verifier says.
 Synthetic data, test keys from fixed seeds, fixed times; deterministic output. Never use any of it for anything real.
 """
+import base64
 import copy
 import hashlib
 import importlib.util
@@ -194,6 +195,7 @@ def build():
             "approval": "signed",                                    # signed | absent | after_outcome
             "verdict_result": None,                                  # None: what the chain gives; a string: what the auditor states
             "mutate_a2_after_verdict": None,                         # function over A2's bytes, after the verdict cited them
+            "a2_seal": "intact",                                     # intact | broken (N22: one byte of the issuer's seal value changed before anything cites A2)
             "packet_scope": None,                                    # None: what the verdict says; a string: what the packet asserts
             "packet_headline_amount": None,                          # None: what moved
             "settlement_amount": None,                               # None: the executed amount
@@ -231,6 +233,11 @@ def chain(p):
     entries = [spec_entry(spec_bytes)] + ([spec_entry(xspec_bytes)] if xd != sd else [])
     tail = C17.tail_stages(xd, receipts) + (second_tail_stages(xd, receipts) if p["second_use_of_approval"] else [])
     a2 = C17.seal(attachment(entries, copy.deepcopy(head) + tail), T["a2_sealed"])
+    if p["a2_seal"] == "broken":
+        # N22: the seal value with its first byte changed; every later link cites these bytes, so only the seal fails
+        value = bytearray(base64.b64decode(a2["issuer_signature"]["value_b64"]))
+        value[0] ^= 0x01
+        a2["issuer_signature"]["value_b64"] = b64(bytes(value))
     a1_bytes, a2_bytes = compact(a1), compact(a2)
     art = {"record": record, "record_bytes": compact(record), "spec_bytes": spec_bytes, "xspec_bytes": xspec_bytes, "sig": sig,
            "sig_bytes": sig_bytes, "a1": a1, "a1_bytes": a1_bytes, "a2": a2, "a2_bytes": a2_bytes, "receipts": receipts,
@@ -612,6 +619,11 @@ def write(out, a, r=None):
     out.mkdir(parents=True, exist_ok=True)
     art = a["chain"]
     C17.write(out, art)
+    if art.get("a2_held", art["a2_bytes"]) != art["a2_bytes"]:
+        # A2 changed after the verdict cited it (N13): the directory holds what the checker held, under A2's name, and
+        # the bytes the verdict cited beside it, so the case can be re-run from the files alone
+        (out / "action-binding-attachment-a2.json").write_bytes(art["a2_held"])
+        (out / "action-binding-attachment-a2.as-cited-by-the-verdict.json").write_bytes(art["a2_bytes"])
     (out / "action-specification-executed.json").write_bytes(art["xspec_bytes"])
     (out / "verdict-record.json").write_bytes(a["verdict_raw"])
     (out / "verdict-record.container.json").write_text(json.dumps(a["verdict_container"], indent=1) + "\n")

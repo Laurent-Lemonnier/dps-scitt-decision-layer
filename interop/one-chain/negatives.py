@@ -48,8 +48,12 @@ def n3(p):
 
 
 @case("N4-confirm-without-approval", ["dps", "J2", "K2"],
-      "the signatures attachment carries no person signature while o1 is still claimed: the confirm receipt has no member for who confirmed "
-      "(Thaha 6.7), the Standard's person_approval check is where the absence shows, and no later link notices (the packet verifies)")
+      "a confirmation that the policy required a person for, with no person's approval behind it: the signatures attachment carries no "
+      "person signature while o1 is still claimed. Under Thaha 6.7 a confirm may be met by a Principal or by an operator, so a confirm "
+      "without a person's approval is a failure only where the policy in force required a person, as this scenario's does (the decision "
+      "record designates the finance controller); wording corrected on 11 November 2026 after the author's reading. The confirm receipt has "
+      "no member for who confirmed, the Standard's person_approval check is where the absence shows, and no later link notices (the "
+      "packet verifies)")
 def n4(p):
     p["approval"] = "absent"
 
@@ -109,7 +113,10 @@ def n12(p):
 
 @case("N13-a2-altered-after-the-verdict-cited-it", ["verdict:held", "K12"],
       "one member of A2 changed (observed succeeded -> failed) after the verdict cited its bytes: the checker holds no item with the cited "
-      "digest and holds the verdict; the packet, which anchors on A1, not A2, verifies and says nothing")
+      "digest and holds the verdict; the packet, which anchors on A1, not A2, verifies and says nothing. Since 11 November 2026 the "
+      "directory holds the altered bytes the checker held as action-binding-attachment-a2.json and the bytes the verdict cited as "
+      "action-binding-attachment-a2.as-cited-by-the-verdict.json (until then it published only the original A2, so the row could not "
+      "be reproduced from the files: found by Darren Wright's run of 10 November)")
 def n13(p):
     p["mutate_a2_after_verdict"] = lambda raw: raw.replace(b'"observed":"succeeded"', b'"observed":"failed"')
 
@@ -185,6 +192,17 @@ def n20(p):
       "receipt's); the event itself recomputes and is in the slice")
 def n21(p):
     p["approval_action_hash"] = "a" * 64
+
+
+# N22 (11 November 2026): the case Darren Wright suggested on 10 November, so that a checker's format rules are tested failing
+
+@case("N22-a2-issuer-seal-broken", ["dps", "verdict:held", "K12"],
+      "A2's issuer seal value has one byte changed before anything cites A2: the verdict cites these exact bytes, so the checker holds the "
+      "item (step 2 finds the digest) and its format rules for an action-binding attachment are not met (the issuer's seal does not verify "
+      "under the trust policy held); the verdict is held. The Standard's own check of A2 reports the seal not verified. The packet, "
+      "which anchors on A1, verifies and says nothing")
+def n22(p):
+    p["a2_seal"] = "broken"
 
 
 def failed_places(a, r):

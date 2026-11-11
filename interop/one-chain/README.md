@@ -7,7 +7,7 @@ draft-lemonnier-scitt-decision-provenance-01), the auditor's verdict (draft-wrig
 packet (draft-xg-payment-dispute-profile-01, a vendor profile of draft-farley-acta-signed-receipts-03). Each format
 records a different moment; none is changed; each is verified by the verifier its own text yields; twelve joins across
 the four say what no single verifier says. The same chain is run twice: executed as approved, and 150.00 EUR executed
-for 120.00 approved. Twenty-one failing cases, each the valid chain changed in one place, fail where expected.
+for 120.00 approved. Twenty-two failing cases, each the valid chain changed in one place, fail where expected.
 
 Everything here is synthetic: test keys from fixed seeds, fixed times, no real payment, no real person. Two runs write
 the same bytes. An assistant wrote the code and the first draft of this README; Laurent Lemonnier read both.
@@ -83,18 +83,23 @@ What none of the four verifiers says alone. Every one is a comparison of values 
 - K12 four verifiers, the same bytes: CHECKS_PERFORMED, the seal verified, the verdict released, the packet VERIFIED, and the
   hex digest of the verdict in the checker's report is the one the packet cites.
 
-## The failing cases (`negatives.py`, 21/21 where expected)
+## The failing cases (`negatives.py`, 22/22 where expected)
 
 Each is the valid positive chain changed in one place. "Expected" lists where the case must be caught; a case may also
 fail elsewhere (K12 summarises, so it fails in most). Where a link says nothing, that is recorded as the finding. N1 to
-N17 are the cases of 6 November; N18 to N21 (8 November 2026) are one case per construction the author gave.
+N17 are the cases of 6 November; N18 to N21 (8 November 2026) are one case per construction the author gave; N22
+(11 November 2026) is the case Darren Wright suggested after running his reference checker on this directory at
+9e1c7a0 (10 November): until then no case made a checker's format rules fail. The same run found that N13's directory
+published the original A2, not the altered bytes the checker held, so its row could not be reproduced from the files:
+since 11 November `action-binding-attachment-a2.json` in N13 is the altered A2 and
+`action-binding-attachment-a2.as-cited-by-the-verdict.json` the bytes the verdict cites.
 
 | case | changed | caught by |
 |---|---|---|
 | N1 approval of other arguments, everything downstream claims as approved | executed 150.00, verdict states `executed_as_approved`, packet asserts `in_scope` | Thaha J1 false; DPS `action_binding` failed; verdict refused at step 3 (re-run `not_as_approved`); packet SCOPE_HEADLINE_MISMATCH (re-derived `BREACH:amount_minor`); K5, K7 |
 | N2 verdict altered after the packet cited it | the verdict re-issued one second later | packet ANCHOR_UNRESOLVED; K7 |
 | N3 settlement 150 with headline 120 | the rail witnessed 150.00 | packet SETTLEMENT_HEADLINE_MISMATCH (this verifier's name); K8 |
-| N4 confirm without approval | no person signature, o1 still claimed | DPS person_approval absent; J2, K2. Thaha's receipts cannot see it; the packet verifies |
+| N4 a confirmation the policy required a person for, with no person's approval behind it (directory `N4-confirm-without-approval`) | no person signature, o1 still claimed | DPS person_approval absent; J2, K2. Thaha's receipts cannot see it; the packet verifies. Under Thaha 6.7 a `confirm` may be met by a Principal or by an operator: the case is a failure because this scenario's policy required a person (the author's correction of 11 November 2026), not because every confirm needs one |
 | N5 packet cites another verdict about the same chain | the anchor names a verdict held but refused (it states the other result) | K7 only: the packet verifier resolves the digest and says nothing about the verdict's state |
 | N6 custody event altered | one `ledger_event_hash` changed | packet CUSTODY_EVENT_UNBOUND; K9 |
 | N7 ledger event altered after chaining | the ActionExecuted amount changed | packet LEDGER_EVENT_HASH_MISMATCH (the next event still links to the stale hash); K8, K9 |
@@ -103,7 +108,7 @@ N17 are the cases of 6 November; N18 to N21 (8 November 2026) are one case per c
 | N10 receipt payload edited after signing | `scope_conformance` → `not_evaluated` | packet RECEIPT_SIGNATURE_INVALID, SCOPE_HEADLINE_MISMATCH; K7 |
 | N11 receipt signed by a key not the issuer's | | packet RECEIPT_SIGNATURE_INVALID |
 | N12 issuer_id not the kid | | packet RECEIPT_ISSUER_KID_MISMATCH (Farley 2.2); the signature itself verifies |
-| N13 A2 altered after the verdict cited it | observed succeeded → failed in the bytes held | verdict held (step 2: evidence[1] not held); K5, K7, K12. The packet anchors on A1, not A2, and verifies |
+| N13 A2 altered after the verdict cited it | observed succeeded → failed in the bytes held (the directory's `action-binding-attachment-a2.json`; the cited bytes are beside it as `…a2.as-cited-by-the-verdict.json`) | verdict held (step 2: evidence[1] not held); K5, K7, K12. The packet anchors on A1, not A2, and verifies |
 | N14 dispute reason code missing | | packet DISPUTE_REASON_CODE_MISSING (Goshi 4.1: the mapper MUST raise) |
 | N15 approval after the allow outcome | signed at 10:01:19, outcome at 10:01:18 | J2, K2; DPS `stage_order` and `record_statements` failed; verdict refused (the rule reads the dimensions). Thaha's receipts alone cannot see it |
 | N16 one approval used twice | a second confirm/allow/tool_result triple (txn `…-8812-2`) in the run, a second request, recheck, attempt and result resting on o1 (`request_limit` 1), the packet citing the same approval event for two transfers (`additional_executions`, a second settlement anchor) | DPS `action_binding` failed first (rule 5: `q2: o1 covers 1 request(s), already used by q1`; the specification requested twice); verdict refused at step 3 (re-run `not_as_approved`: no approval covers the second attempt); packet APPROVAL_EVENT_CITED_TWICE (it sees the duplicate, not whether a limit allows it); K5, K7. Thaha CHECKS_PERFORMED and J1-J6 true: each receipt is fine on its own, the run alone cannot see it (J7 false by its wording only: two signed confirms, not one) |
@@ -112,6 +117,7 @@ N17 are the cases of 6 November; N18 to N21 (8 November 2026) are one case per c
 | N19 ScopeEvaluated `executed_action` altered, ledger re-chained | the recorded executed action's amount + 1.00, every hash and link recomputed | packet SCOPE_HASH_MISMATCH (the event's `action_hash` no longer recomputes), ACTION_HASH_MISMATCH (the receipt's is not the canonical hash of what is recorded), MANIFEST_SCOPE_INPUT_DIFFERS, SCOPE_HEADLINE_MISMATCH (re-derived `BREACH:amount_minor`); K7. K1 stays true: it reads the hashes the records carry |
 | N20 manifest without any settlement block | neither an anchored block nor `{status: SETTLEMENT_UNANCHORED}` | packet SETTLEMENT_BLOCK_MISSING (this verifier's name; Goshi 4.3: the manifest MUST fail); K3, K8, K11 |
 | N21 approval event for another action | the ApprovalGranted event's `action_hash` is neither the receipt's `action_hash` nor the `scope_hash` | packet APPROVAL_EVENT_ACTION_HASH_MISMATCH (the author's equality); K6 |
+| N22 A2's issuer seal broken | one byte of the seal value changed before anything cites A2; the verdict cites these exact bytes | verdict held (step 2: evidence[1] held, format rules not met: the issuer's seal does not verify under the trust policy held; step 3 does not run); the Standard's check of A2 reports the seal failed; K5, K7, K12. The packet anchors on A1 and verifies |
 
 **What N17 shows: the absent record.** The AUDIT charter discussion (Mirja, correctover) separates three outcomes a verifier can
 reach: denied (a record says no), could not be determined (a record exists and does not settle it), nothing recorded (no record
@@ -250,7 +256,7 @@ on it; the four other subjects are unchanged. Details and limits: `anchoring/REA
 
 ```
 DPS_STANDARD=/path/to/decision-provenance-standard/standard python3 build.py      # exit 0 when all_verified
-DPS_STANDARD=... python3 negatives.py                                            # exit 0 when 21/21 where expected
+DPS_STANDARD=... python3 negatives.py                                            # exit 0 when 22/22 where expected
 ```
 
 Python 3.12, `cryptography`, `cbor2`, `jsonschema`, `referencing`. Both scripts are deterministic. `out/positive/` and
