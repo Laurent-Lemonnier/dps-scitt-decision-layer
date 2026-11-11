@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "pass",
+  "description": "Nested capsule (floats, negative and 33-bit ints, null, empty array) with a +cbor media type; verifier holds only the JSON value and re-encodes it.",
+  "args": [
+    "--value-json",
+    "capsule-2.json",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

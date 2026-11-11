@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "pass",
+  "description": "Extra positive: 259 is CoAP Content-Format 60 (application/cbor); the verifier stored the value in a non-deterministic CBOR form, decodes it and re-encodes it.",
+  "args": [
+    "--value-cbor",
+    "stored-value.cbor",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

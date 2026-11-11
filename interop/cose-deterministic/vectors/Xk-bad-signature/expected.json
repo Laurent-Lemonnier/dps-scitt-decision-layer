@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "bad-signature",
+  "description": "P1 content, signed with another Ed25519 key.",
+  "args": [
+    "--preimage",
+    "capsule-1.cbor",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

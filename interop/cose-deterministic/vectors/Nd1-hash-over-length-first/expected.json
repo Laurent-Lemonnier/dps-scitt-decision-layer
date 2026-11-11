@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "hash-mismatch",
+  "description": "(d) header says core-deterministic, digest computed over the RFC 8949 Section 4.2.3 length-first serialization; verifier holds the decoded value.",
+  "args": [
+    "--value-cbor",
+    "stored-value.cbor",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

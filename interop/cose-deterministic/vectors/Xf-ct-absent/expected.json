@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "inconsistent-header",
+  "description": "deterministic-encodings present, preimage-content-type (259) absent.",
+  "args": [
+    "--value-json",
+    "capsule-1.json",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

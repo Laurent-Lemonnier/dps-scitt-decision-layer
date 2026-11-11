@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "cannot-recompute",
+  "description": "(a) deterministic-encodings absent; verifier holds only the structured value.",
+  "args": [
+    "--value-json",
+    "capsule-1.json",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

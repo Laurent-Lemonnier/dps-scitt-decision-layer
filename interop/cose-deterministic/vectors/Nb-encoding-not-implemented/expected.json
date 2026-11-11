@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "unsupported-encoding",
+  "description": "(b) deterministic-encodings = 2, a value this checker does not implement (unassigned in the draft's initial registry).",
+  "args": [
+    "--value-json",
+    "capsule-1.json",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

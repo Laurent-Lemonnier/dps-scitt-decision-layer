@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "hash-mismatch",
+  "description": "(d') header says core-deterministic over application/cbor, digest computed over a JSON text serialization of the same capsule; verifier holds the JSON value.",
+  "args": [
+    "--value-json",
+    "capsule-1.json",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

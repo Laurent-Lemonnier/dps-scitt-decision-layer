@@ -1,0 +1,23 @@
+{
+  "capsule": "dps-demo-2",
+  "steps": [
+    {
+      "op": "read",
+      "n": 3
+    },
+    {
+      "op": "write",
+      "n": -25
+    }
+  ],
+  "limits": {
+    "max": 1000,
+    "min": -1,
+    "big": 4294967296
+  },
+  "score": 0.5,
+  "ratio": 1.1,
+  "ok": true,
+  "note": null,
+  "evidence": []
+}

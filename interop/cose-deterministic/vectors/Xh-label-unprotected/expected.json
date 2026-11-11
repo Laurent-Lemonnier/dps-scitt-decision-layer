@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "inconsistent-header",
+  "description": "deterministic-encodings in the unprotected header (draft Section 3).",
+  "args": [
+    "--value-json",
+    "capsule-1.json",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

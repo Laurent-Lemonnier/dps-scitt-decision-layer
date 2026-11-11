@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "not-canonical",
+  "description": "(c) header says core-deterministic, but the hashed preimage has unsorted keys and non-shortest arguments; the digest is over those bytes, so only the form is wrong.",
+  "args": [
+    "--preimage",
+    "preimage.cbor",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

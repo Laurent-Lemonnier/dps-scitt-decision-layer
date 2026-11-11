@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "cannot-recompute",
+  "description": "Header absent, verifier holds the preimage bytes: RFC 9995 Section 5.3 check succeeds (draft outcome verified) but this checker never passes without the header.",
+  "args": [
+    "--preimage",
+    "capsule-1.cbor",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "vectors": [
+    {
+      "vector": "Na-header-absent",
+      "expected": "cannot-recompute",
+      "got": "cannot-recompute",
+      "draft_outcome": "unverified",
+      "signature": "valid",
+      "reason": "structured value held but deterministic-encodings absent (draft Section 4.3)",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Na-header-absent/envelope.cbor --value-json vectors/Na-header-absent/capsule-1.json --pubkey demo-key.json"
+    },
+    {
+      "vector": "Nb-encoding-not-implemented",
+      "expected": "unsupported-encoding",
+      "got": "unsupported-encoding",
+      "draft_outcome": "unverified",
+      "signature": "valid",
+      "reason": "deterministic-encodings=2 not recognized/implemented (draft Section 4.3)",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Nb-encoding-not-implemented/envelope.cbor --value-json vectors/Nb-encoding-not-implemented/capsule-1.json --pubkey demo-key.json"
+    },
+    {
+      "vector": "Nc-preimage-not-canonical",
+      "expected": "not-canonical",
+      "got": "not-canonical",
+      "draft_outcome": "verified",
+      "signature": "valid",
+      "reason": "preimage bytes are not core-deterministic: argument 10 encoded on 1 byte(s), shortest form is 0 (at byte offset 9)",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Nc-preimage-not-canonical/envelope.cbor --preimage vectors/Nc-preimage-not-canonical/preimage.cbor --pubkey demo-key.json"
+    },
+    {
+      "vector": "Nd1-hash-over-length-first",
+      "expected": "hash-mismatch",
+      "got": "hash-mismatch",
+      "draft_outcome": "failed",
+      "signature": "valid",
+      "reason": "SHA-256 of the re-created preimage does not match the payload",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Nd1-hash-over-length-first/envelope.cbor --value-cbor vectors/Nd1-hash-over-length-first/stored-value.cbor --pubkey demo-key.json"
+    },
+    {
+      "vector": "Nd2-hash-over-json-text",
+      "expected": "hash-mismatch",
+      "got": "hash-mismatch",
+      "draft_outcome": "failed",
+      "signature": "valid",
+      "reason": "SHA-256 of the re-created preimage does not match the payload",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Nd2-hash-over-json-text/envelope.cbor --value-json vectors/Nd2-hash-over-json-text/capsule-1.json --pubkey demo-key.json"
+    },
+    {
+      "vector": "P1-capsule-bytes",
+      "expected": "pass",
+      "got": "pass",
+      "draft_outcome": "verified",
+      "signature": "valid",
+      "reason": "preimage bytes match the payload and are in the declared encoding",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/P1-capsule-bytes/envelope.cbor --preimage vectors/P1-capsule-bytes/capsule-1.cbor --pubkey demo-key.json"
+    },
+    {
+      "vector": "P2-capsule-value",
+      "expected": "pass",
+      "got": "pass",
+      "draft_outcome": "verified",
+      "signature": "valid",
+      "reason": "re-created preimage matches the payload",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/P2-capsule-value/envelope.cbor --value-json vectors/P2-capsule-value/capsule-2.json --pubkey demo-key.json"
+    },
+    {
+      "vector": "P3-cf60-stored-noncanonical",
+      "expected": "pass",
+      "got": "pass",
+      "draft_outcome": "verified",
+      "signature": "valid",
+      "reason": "re-created preimage matches the payload",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/P3-cf60-stored-noncanonical/envelope.cbor --value-cbor vectors/P3-cf60-stored-noncanonical/stored-value.cbor --pubkey demo-key.json"
+    },
+    {
+      "vector": "Xa-header-absent-bytes",
+      "expected": "cannot-recompute",
+      "got": "cannot-recompute",
+      "draft_outcome": "verified",
+      "signature": "valid",
+      "reason": "deterministic-encodings absent: the preimage bytes match the payload (RFC 9995 Section 5.3), but no declared encoding to check; this checker never passes without the header",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Xa-header-absent-bytes/envelope.cbor --preimage vectors/Xa-header-absent-bytes/capsule-1.cbor --pubkey demo-key.json"
+    },
+    {
+      "vector": "Xe-ct-json",
+      "expected": "inconsistent-header",
+      "got": "inconsistent-header",
+      "draft_outcome": "failed",
+      "signature": "valid",
+      "reason": "259 does not match encoding 1: application/json is not an Applicable Content Type of core-deterministic (draft Section 4.2)",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Xe-ct-json/envelope.cbor --value-json vectors/Xe-ct-json/capsule-1.json --pubkey demo-key.json"
+    },
+    {
+      "vector": "Xf-ct-absent",
+      "expected": "inconsistent-header",
+      "got": "inconsistent-header",
+      "draft_outcome": "failed",
+      "signature": "valid",
+      "reason": "deterministic-encodings present but preimage-content-type (259) absent (draft Section 4.2)",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Xf-ct-absent/envelope.cbor --value-json vectors/Xf-ct-absent/capsule-1.json --pubkey demo-key.json"
+    },
+    {
+      "vector": "Xg-unknown-enc-ct-absent",
+      "expected": "inconsistent-header",
+      "got": "inconsistent-header",
+      "draft_outcome": "failed",
+      "signature": "valid",
+      "reason": "deterministic-encodings present but preimage-content-type (259) absent (draft Section 4.2)",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Xg-unknown-enc-ct-absent/envelope.cbor --value-json vectors/Xg-unknown-enc-ct-absent/capsule-1.json --pubkey demo-key.json"
+    },
+    {
+      "vector": "Xh-label-unprotected",
+      "expected": "inconsistent-header",
+      "got": "inconsistent-header",
+      "draft_outcome": "failed",
+      "signature": "valid",
+      "reason": "deterministic-encodings (label 271) in the unprotected header (draft Section 3)",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Xh-label-unprotected/envelope.cbor --value-json vectors/Xh-label-unprotected/capsule-1.json --pubkey demo-key.json"
+    },
+    {
+      "vector": "Xi-label-in-crit",
+      "expected": "inconsistent-header",
+      "got": "inconsistent-header",
+      "draft_outcome": "failed",
+      "signature": "valid",
+      "reason": "deterministic-encodings (label 271) listed in crit (draft Section 3)",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Xi-label-in-crit/envelope.cbor --value-json vectors/Xi-label-in-crit/capsule-1.json --pubkey demo-key.json"
+    },
+    {
+      "vector": "Xj-cf50-json",
+      "expected": "inconsistent-header",
+      "got": "inconsistent-header",
+      "draft_outcome": "failed",
+      "signature": "valid",
+      "reason": "259 does not match encoding 1: Content-Format 50 = 'application/json': application/json is not an Applicable Content Type of core-deterministic (draft Section 4.2)",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Xj-cf50-json/envelope.cbor --value-json vectors/Xj-cf50-json/capsule-1.json --pubkey demo-key.json"
+    },
+    {
+      "vector": "Xk-bad-signature",
+      "expected": "bad-signature",
+      "got": "bad-signature",
+      "draft_outcome": "verified",
+      "signature": "invalid",
+      "reason": "COSE_Sign1 signature invalid (content binding alone: pass: preimage bytes match the payload and are in the declared encoding)",
+      "ok": true,
+      "command": "python3.12 verify_from_text.py vectors/Xk-bad-signature/envelope.cbor --preimage vectors/Xk-bad-signature/capsule-1.cbor --pubkey demo-key.json"
+    }
+  ],
+  "conformance": {
+    "1.5 -> f93e00": true,
+    "1000000.5 -> fa49742408": true,
+    "5.5 -> f94580": true,
+    "5555.5 -> fa45ad9c00": true,
+    "Infinity -> f97c00": true,
+    "-Infinity -> f9fc00": true,
+    "-0.0 -> f98000": true,
+    "1.1 -> fb3ff199999999999a": true,
+    "23 -> 17": true,
+    "24 -> 1818": true,
+    "-24 -> 37": true,
+    "-25 -> 3818": true,
+    "256 -> 190100": true,
+    "-257 -> 390100": true,
+    "65536 -> 1a00010000": true,
+    "4294967296 -> 1b0000000100000000": true,
+    "-18446744073709551616 -> 3bffffffffffffffff": true,
+    "4.2.1 key order example": true,
+    "draft {1000:1,'a':2} bytewise": true,
+    "draft {1000:1,'a':2} length-first": true,
+    "draft {'b':2,'a':1} preimage": true,
+    "draft {'b':2,'a':1} SHA-256": true,
+    "duplicate keys refused by encoder": true,
+    "validator rejects 1817 (not-canonical)": true,
+    "validator rejects 190017 (not-canonical)": true,
+    "validator rejects 5f41614162ff (not-canonical)": true,
+    "validator rejects 9f01ff (not-canonical)": true,
+    "validator rejects a2616201616101 (not-canonical)": true,
+    "validator rejects a2616101616102 (malformed)": true,
+    "validator rejects fb3ff8000000000000 (not-canonical)": true,
+    "validator rejects fa3fc00000 (not-canonical)": true,
+    "validator rejects fb7ff8000000000000 (not-canonical)": true,
+    "validator rejects f818 (malformed)": true,
+    "validator rejects 1c (malformed)": true,
+    "validator rejects 62c328 (malformed)": true,
+    "validator rejects 0102 (malformed)": true,
+    "validator rejects a1 (malformed)": true,
+    "validator accepts f97e00": true,
+    "validator accepts a2616101616202": true,
+    "validator accepts a21903e801616102": true,
+    "validator accepts fb3ff199999999999a": true,
+    "validator accepts c11a514b67b0": true,
+    "validator accepts f90001": true,
+    "validator accepts f98000": true,
+    "capsule-2 decode/encode round trip": true,
+    "NaN payload kept (f97e01)": true,
+    "NaN payload kept (fa7fc00001)": true,
+    "Ed25519 RFC 8032 TEST 1": true,
+    "Ed25519 RFC 8032 TEST 2 pub": true,
+    "Ed25519 RFC 8032 TEST 2 sig": true,
+    "Ed25519 openssl cross-check of P1 signature": true
+  },
+  "mutation_verdicts": {
+    "envelope byte flips (key given)": {
+      "invalid-envelope": 3,
+      "malformed": 65,
+      "bad-signature": 240
+    },
+    "envelope byte flips (no key)": {
+      "invalid-envelope": 7,
+      "malformed": 65,
+      "pass": 148,
+      "unsupported-hash-alg": 1,
+      "inconsistent-header": 18,
+      "cannot-recompute": 4,
+      "unsupported-encoding": 1,
+      "hash-mismatch": 64
+    },
+    "preimage byte flips": {
+      "hash-mismatch": 240
+    },
+    "preimage truncated/extended": {
+      "hash-mismatch": 3
+    },
+    "structured-value mutations": {
+      "hash-mismatch": 11
+    },
+    "deterministic-encodings value sweep (value mode)": {
+      "unsupported-encoding": 6
+    }
+  },
+  "failures": []
+}

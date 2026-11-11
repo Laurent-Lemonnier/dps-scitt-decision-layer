@@ -1,0 +1,8 @@
+{
+  "warning": "DEMONSTRATION KEY ONLY. Private seed published on purpose. Never trust it.",
+  "kty": "OKP",
+  "crv": "Ed25519",
+  "cose_alg": -8,
+  "seed_hex": "572f07dd2b6e0089ff630e712646af4c2c06a800f642a394dcc4f26ce098553b",
+  "public_hex": "e06af0fc4ad311d872ed0e8753b973c6a578076c8cc26e2b34cb81ce27102e6d"
+}

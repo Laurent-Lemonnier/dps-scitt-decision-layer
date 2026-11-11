@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "pass",
+  "description": "JSON capsule encoded core-deterministic; verifier holds the preimage bytes.",
+  "args": [
+    "--preimage",
+    "capsule-1.cbor",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

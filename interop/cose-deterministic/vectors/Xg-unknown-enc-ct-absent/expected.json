@@ -1,0 +1,10 @@
+{
+  "expected_verdict": "inconsistent-header",
+  "description": "Unknown value 2 AND 259 absent: Section 4.2 precedence gives failed, not unverified.",
+  "args": [
+    "--value-json",
+    "capsule-1.json",
+    "--pubkey",
+    "demo-key.json"
+  ]
+}

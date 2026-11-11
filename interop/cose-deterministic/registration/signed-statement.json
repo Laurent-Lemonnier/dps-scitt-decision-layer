@@ -1,0 +1,10 @@
+{
+  "file": "registration/signed-statement.cose",
+  "bytes": 245,
+  "sha256": "5c66bf38055c83de92d8db6231e0f62fbceb0d35190b00036f5a55df38b9ad19",
+  "kid_hex": "60612f2d06cb171f37437ce7536decd2",
+  "iss": "https://ts.isoluce.net/demo-issuer",
+  "sub": "urn:dps-demo:capsule:dps-demo-1",
+  "local_check": "pass",
+  "sent": false
+}

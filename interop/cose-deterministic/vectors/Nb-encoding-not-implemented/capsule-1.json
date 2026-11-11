@@ -1,0 +1,9 @@
+{
+  "capsule": "dps-demo-1",
+  "action": "send-quote",
+  "actor": "agent:pria",
+  "subject": "client:42",
+  "decision": "approved",
+  "ts": "2026-11-10T09:00:00Z",
+  "seq": 1
+}
