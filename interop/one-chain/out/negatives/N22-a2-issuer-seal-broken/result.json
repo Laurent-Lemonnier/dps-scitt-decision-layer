@@ -1,0 +1,24 @@
+{
+ "case": "N22-a2-issuer-seal-broken",
+ "expected_to_fail_at": [
+  "dps",
+  "verdict:held",
+  "K12"
+ ],
+ "failed_at": [
+  "K12",
+  "K5",
+  "K7",
+  "dps",
+  "verdict:held"
+ ],
+ "as_expected": true,
+ "verdict_state": "held",
+ "packet": "VERIFIED",
+ "packet_failures": [],
+ "joins_false": [
+  "K5",
+  "K7",
+  "K12"
+ ]
+}
