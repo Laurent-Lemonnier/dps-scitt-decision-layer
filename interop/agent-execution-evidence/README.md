@@ -13,8 +13,9 @@ allow, block, confirm and record. A `confirm` receipt says that "policy required
 operator before the call could proceed"; it "MUST be followed by exactly one tool_call receipt with the same parent_seq,
 target, request_digest and Task that records the outcome: allow if confirmation was granted, or block". The outcome
 carries `confirm_seq`. Neither receipt has a member for who confirmed, what they confirmed, or the evidence of it;
-Section 15 says the prototype has "separately recorded approvals", and Section 10 says "Content MUST NOT be included in
-a receipt". His map is closed (integer keys 1 to 29), each receipt is a COSE_Sign1 Signed Statement per Section 6 of
+the draft does not define an approval format (the authors, 11 November 2026). Section 15, which is the Implementation
+Status section and describes their implementation, not a design position, mentions "separately recorded approvals";
+Section 10 says "Content MUST NOT be included in a receipt". His map is closed (integer keys 1 to 29), each receipt is a COSE_Sign1 Signed Statement per Section 6 of
 RFC 9943 with a content type of his and the `aee_type` CWT claim, and a Bundle (Section 8) is what a Relying Party
 verifies offline (Section 9, eighteen ordered steps).
 
@@ -121,8 +122,9 @@ In N4, N9 and N10 the joins that read his verifier's pairing (J3, J7) are also f
 1. **6.7, `confirm`.** Who confirmed, what exactly, and on what evidence is not a member of the confirm receipt or of its
    outcome. "Confirmation from a Principal or operator" is the only description. The pairing can be checked; the
    confirmation cannot. This case supplies that record from outside; the join is J2 and J5.
-2. **6.7, deadline.** "Not given before its deadline" is the Policy Pack's deadline; nothing in 6.7 bounds the time
-   between the confirm receipt and its outcome, so the approval-after-the-call case (N3) is visible only from our side.
+2. **6.7, deadline.** "Not given before its deadline" is the only mention of a deadline: 6.7 gives it no member and does
+   not say where it is set (an earlier wording here called it "the Policy Pack's deadline", which the text does not
+   say; corrected 11 November 2026). Nothing in 6.7 bounds the time between the confirm receipt and its outcome, so the approval-after-the-call case (N3) is visible only from our side.
 3. **3 and 10, the Principal.** "The canonical identifier of the person (Section 10)": Section 10 does not define the
    canonical form. Appendix A uses the literal `user:alice@example.com`, and it reproduces; this case uses the same
    shape. The pepper is the Issuer's and off the TS, so J5 needs it out of band.

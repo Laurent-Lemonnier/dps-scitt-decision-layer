@@ -6,9 +6,10 @@ attachment (0.3.0) and the person's approval (signatures 0.2.0) as the record of
 
 The author's text says a confirm receipt records that "policy required confirmation from a Principal or operator before
 the call could proceed" and that the outcome receipt records allow or block (Section 6.7); who confirmed, what exactly
-they confirmed and on what evidence is not a member of either receipt, and Section 15 says approvals are "separately
-recorded". The DPS signed outcome stage (person_approval over the exact specification) is offered as that separate
-record. Built from the two texts; nothing in either is changed:
+they confirmed and on what evidence is not a member of either receipt; the draft does not define an approval format
+(Section 15, the Implementation Status, mentions "separately recorded approvals" in the authors' implementation; it is
+not a design position). The DPS signed outcome stage (person_approval over the exact specification) is offered as one
+such separate record. Built from the two texts; nothing in either is changed:
 
   AEE   synthetic Evidence Chain of six Execution Receipts (seq 0 task_start, 1 inference, 2 tool_call confirm, 3 the
         allow outcome with confirm_seq 2, 4 tool_result, 5 task_end), canonical CBOR, record-hashes per 6.7.1, agent_sig
