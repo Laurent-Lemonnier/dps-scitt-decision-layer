@@ -234,3 +234,6 @@ python3 izmaylov/mutation_tests.py --vectors izmaylov/vectors/cache/v0.6.0 | tai
 
 echo "== case 19: the approved plan of case 13b as RFC 9396 authorization_details, referenced by digest (rar/)"
 (cd rar && python3 build.py && python3 negatives.py | tail -1 && python3 token_cases.py | tail -1 && python3 evidence_cases.py | tail -1)
+
+echo "== draft-mih-sokolov-cose-deterministic-encodings-00 (cose-deterministic/): a checker from the text, on our own vectors (the authors' were not published on 11 November 2026)"
+(cd cose-deterministic && python3 run_tests.py | tail -1 && git diff --exit-code --quiet -- results.json results.md vectors) || { echo "cose-deterministic: a check failed or the committed results differ"; exit 1; }
