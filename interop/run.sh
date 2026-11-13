@@ -237,3 +237,9 @@ echo "== case 19: the approved plan of case 13b as RFC 9396 authorization_detail
 
 echo "== draft-mih-sokolov-cose-deterministic-encodings-00 (cose-deterministic/): a checker from the text, on our own vectors (the authors' were not published on 11 November 2026)"
 (cd cose-deterministic && python3 run_tests.py | tail -1 && git diff --exit-code --quiet -- results.json results.md vectors) || { echo "cose-deterministic: a check failed or the committed results differ"; exit 1; }
+
+echo "== A decision record and an OMP record, composed (omp-authority/): draft-veridom-omp-core-00 read from the text, our own vectors (the authors had published none on 13 November 2026)"
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 omp-authority/build.py > /tmp/omp-authority-build-ci.log || { echo "omp-authority: not as expected"; tail -30 /tmp/omp-authority-build-ci.log; exit 1; }
+DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 omp-authority/negatives.py > /tmp/omp-authority-negatives-ci.log || { echo "omp-authority: a failing case was not caught where expected"; tail -40 /tmp/omp-authority-negatives-ci.log; exit 1; }
+tail -1 /tmp/omp-authority-negatives-ci.log
+git diff --exit-code --quiet -- omp-authority/out || { echo "omp-authority: the results differ from the committed ones"; git --no-pager diff --stat -- omp-authority/out; exit 1; }
