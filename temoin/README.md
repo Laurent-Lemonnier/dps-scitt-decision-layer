@@ -26,8 +26,9 @@ invalide, 3 preuve de cohérence invalide, 4 racine divergente (FORK), 5 journal
 
 ## Ce qu'il ne fait pas
 
-- Il ne cosigne pas : il n'a pas de clé. Ce qui fait foi, c'est l'historique git de la branche `temoin` et les
-  journaux d'exécution de GitHub Actions, que l'opérateur du service ne contrôle pas.
+- Il n'a pas de clé à lui. Il cosigne chaque nouvelle tête par la signature « sans clé » de Sigstore (depuis le
+  13/11/2026) : un certificat éphémère délivré à l'identité de ce workflow, la signature inscrite au journal public
+  de Sigstore. L'historique git de la branche `temoin` et les journaux de GitHub Actions restent la trace de fond.
 - Il ne vérifie pas le contenu des déclarations enregistrées, seulement les empreintes de feuilles et l'arbre.
 - Il ne protège pas contre une vue différente servie à d'autres lecteurs : il compare ce qu'il voit à ce qu'il a
   vu, pas à ce que d'autres voient. Plusieurs témoins, ou la comparaison des lignes publiées ici avec les têtes
@@ -44,6 +45,16 @@ git show origin/temoin:temoin/tetes.jsonl > /tmp/tetes.jsonl
 /tmp/v/bin/python temoin/temoin.py --tetes /tmp/tetes.jsonl --rejouer
 # ou un témoin à vous, qui part de zéro (recalcul complet), puis suit le journal :
 /tmp/v/bin/python temoin/temoin.py --tetes ma-copie.jsonl
+```
+
+Vérifier la cosignature d'une tête (exemple : taille 26), avec `cosign` 2.x :
+
+```sh
+git show origin/temoin:temoin/cosignatures/26.json > 26.json
+git show origin/temoin:temoin/cosignatures/26.sigstore.json > 26.sigstore.json
+cosign verify-blob --bundle 26.sigstore.json \
+  --certificate-identity https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/.github/workflows/temoin-ts-isoluce.yml@refs/heads/main \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com 26.json
 ```
 
 Vérifier la clé épinglée sans faire confiance à ce dépôt : `sha256sum temoin/service-public.pem`, et comparer la clé

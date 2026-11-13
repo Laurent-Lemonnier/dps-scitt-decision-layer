@@ -9,7 +9,9 @@ name: temoin-ts-isoluce
 # then commits that one file as github-actions[bot]. A failed check exits non-zero: the job turns red, nothing is
 # committed, and what the service answered is kept as the run's `preuves` artifact.
 #
-# The witness signs nothing: the git history of the `temoin` branch and the logs of these runs are the record.
+# Each new head is also cosigned with Sigstore keyless signing: a short-lived certificate issued to this workflow's
+# identity, the signature recorded in Sigstore's public transparency log. No key exists anywhere to keep or leak.
+# temoin/cosignatures/<tree_size>.json is the head as witnessed, <tree_size>.sigstore.json its bundle (README).
 
 on:
   schedule:
@@ -23,6 +25,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write          # Sigstore keyless: the OIDC token of this run obtains the short-lived signing certificate
 
 concurrency:
   group: temoin-ts-isoluce
@@ -70,16 +73,50 @@ jobs:
             --cle temoin/service-public.pem \
             --preuves "$RUNNER_TEMP/preuves"
 
+      - name: Write the new head to cosign, if any
+        id: nouvelle
+        run: |
+          cd etat
+          if git diff --quiet -- temoin/tetes.jsonl 2>/dev/null && git ls-files --error-unmatch temoin/tetes.jsonl >/dev/null 2>&1; then
+            echo "tete=" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          line=$(tail -n 1 temoin/tetes.jsonl)
+          size=$(printf '%s' "$line" | python3 -c 'import json,sys; print(json.load(sys.stdin)["tree_size"])')
+          mkdir -p temoin/cosignatures
+          printf '%s\n' "$line" > "temoin/cosignatures/$size.json"
+          echo "tete=temoin/cosignatures/$size" >> "$GITHUB_OUTPUT"
+
+      - name: Install cosign (pinned)
+        if: steps.nouvelle.outputs.tete != ''
+        uses: sigstore/cosign-installer@v3.7.0
+        with:
+          cosign-release: "v2.4.1"
+
+      - name: Cosign the new head (Sigstore keyless)
+        if: steps.nouvelle.outputs.tete != ''
+        continue-on-error: true          # a Sigstore outage must not stop the witness from recording what it verified
+        run: |
+          cd etat
+          cosign sign-blob --yes --bundle "${{ steps.nouvelle.outputs.tete }}.sigstore.json" "${{ steps.nouvelle.outputs.tete }}.json"
+          cosign verify-blob --bundle "${{ steps.nouvelle.outputs.tete }}.sigstore.json" \
+            --certificate-identity "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/.github/workflows/temoin-ts-isoluce.yml@$GITHUB_REF" \
+            --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+            "${{ steps.nouvelle.outputs.tete }}.json"
+
       - name: Commit the new line, if any
         run: |
           cd etat
           git add temoin/tetes.jsonl
+          [ -d temoin/cosignatures ] && git add temoin/cosignatures
           if git diff --cached --quiet; then
             echo "no new head: nothing to commit"
             exit 0
           fi
-          if [ -n "$(git diff --cached --name-only | grep -vx 'temoin/tetes.jsonl')" ]; then
-            echo "::error::only temoin/tetes.jsonl may change"; exit 1
+          if [ -n "$(git diff --cached --name-only | grep -vx 'temoin/tetes.jsonl' | grep -vE '^temoin/cosignatures/[0-9]+(\.sigstore)?\.json$')" ]; then
+            echo "::error::only temoin/tetes.jsonl and new cosignatures may change"; exit 1
+          fi
+          if git diff --cached --diff-filter=MD --name-only | grep -q '^temoin/cosignatures/'; then
+            echo "::error::an existing cosignature was changed or removed"; exit 1
           fi
           if git diff --cached --numstat | awk '$2 != 0 { bad = 1 } END { exit !bad }'; then
             echo "::error::tetes.jsonl must only grow (a line was changed or removed)"; exit 1
