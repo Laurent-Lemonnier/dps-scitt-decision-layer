@@ -15,6 +15,11 @@ on:
   schedule:
     - cron: "23 * * * *"   # hourly at :23 (GitHub may delay or skip scheduled runs under load)
   workflow_dispatch:
+  push:                    # a change to the witness on main runs it at once (its own commits go to the temoin branch)
+    branches: [main]
+    paths:
+      - "temoin/**"
+      - ".github/workflows/temoin-ts-isoluce.yml"
 
 permissions:
   contents: write
