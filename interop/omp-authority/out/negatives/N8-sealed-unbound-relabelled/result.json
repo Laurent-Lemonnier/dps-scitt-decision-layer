@@ -1,0 +1,53 @@
+{
+ "what": "The sealed AUTHORITY_UNBOUND trace of the unbound-sealed variant, with execution_permission changed to ALLOWED afterwards and nothing recomputed.",
+ "expected_to_fail_at": [
+  "J4",
+  "J5",
+  "J7",
+  "omp.axes",
+  "omp.binding_timestamp",
+  "omp.invariant3",
+  "omp.seal.content_hash"
+ ],
+ "failed_at": [
+  "J4",
+  "J5",
+  "J7",
+  "omp.axes",
+  "omp.binding_timestamp",
+  "omp.invariant3",
+  "omp.seal.content_hash"
+ ],
+ "as_expected": true,
+ "omp_stated": [
+  "AUTHORITY_UNBOUND",
+  "ALLOWED",
+  "REGISTRY_PROOF_MISSING"
+ ],
+ "omp_evaluated_again": [
+  "AUTHORITY_UNBOUND",
+  "BLOCKED",
+  "REGISTRY_PROOF_MISSING"
+ ],
+ "review_flag": false,
+ "omp_verdict": "refused: seal.content_hash, axes, binding_timestamp, invariant3 failed",
+ "details": {
+  "omp.axes": "AUTHORITY_UNBOUND goes with BLOCKED and an ASSISTED or ESCALATED routing state",
+  "omp.binding_timestamp": "the token is not over this authority_binding object",
+  "omp.invariant3": "evaluated again: AUTHORITY_UNBOUND, BLOCKED (REGISTRY_PROOF_MISSING); stated: AUTHORITY_UNBOUND, ALLOWED (REGISTRY_PROOF_MISSING)",
+  "omp.seal.content_hash": "recomputed 6c0c0ff567586a8c…, stated c47c1ae54fbf0f3a…",
+  "J4": "not the object or the trace held: dps.outcome.authority.authority_ref, dps.recheck.authority_source_ref",
+  "J5": "the trace states ALLOWED; the recheck found not_authorised and 0 attempt(s) are recorded",
+  "J7": {
+   "officer": "adviser-1",
+   "at": "2026-11-09T10:12:00Z",
+   "result": "AUTHORITY_UNBOUND",
+   "failure_reasons": [
+    "REGISTRY_PROOF_MISSING"
+   ]
+  }
+ },
+ "not_checked": [
+  "dps.observed_results"
+ ]
+}

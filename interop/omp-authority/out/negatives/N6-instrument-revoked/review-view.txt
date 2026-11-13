@@ -1,0 +1,8 @@
+Advice to client file CF-2026-0042: recommend option B, Multi-risk Pro, formula 2 (Insurer B, synthetic), 1480 EUR a year
+  option A: Pro Essentials (Insurer A, synthetic), 1190 EUR a year: premises, equipment and liability; no operating loss after a breakdown
+  option B: Multi-risk Pro, formula 2 (Insurer B, synthetic), 1480 EUR a year: premises, equipment, liability, operating loss after fire and after equipment breakdown, three-day waiting period
+  option C: Multi-risk Pro Plus (Insurer C, synthetic), 2240 EUR a year: as B with no waiting period and cover for goods in transit, which the client does not need
+Reasons: Recommended: B. It is the only option within the stated budget that covers operating loss after an equipment breakdown, the need the client put first given the oven's age. A leaves that need uncovered. C covers it with no waiting period but exceeds the budget by half for a cover (goods in transit) the client does not use.
+Demands and needs statement: sha256:92f44ee8873ad71164f59c82964f1e74d3589502cd0a64b00e0b8e6099543a92
+Under mandate M-2026-03 (sha256:22cdf16c2a0a1eef04e6e87e76fb184dc4864c899cb1308a67d3827c3c743635)
+valid until 2026-11-09T11:12:00Z

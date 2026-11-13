@@ -1,0 +1,1 @@
+adviser-2 reviews, approves and signs, with her own key, which the verifier's trust policy lists. The OMP trace names adviser-1, whose mandate it binds, as the officer and as the one who resolved. Each record verifies alone.

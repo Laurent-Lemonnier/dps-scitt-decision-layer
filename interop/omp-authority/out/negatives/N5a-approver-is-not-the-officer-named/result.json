@@ -1,0 +1,34 @@
+{
+ "what": "adviser-2 reviews, approves and signs, with her own key, which the verifier's trust policy lists. The OMP trace names adviser-1, whose mandate it binds, as the officer and as the one who resolved. Each record verifies alone.",
+ "expected_to_fail_at": [
+  "J1",
+  "J7"
+ ],
+ "failed_at": [
+  "J1",
+  "J7"
+ ],
+ "as_expected": true,
+ "omp_stated": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "omp_evaluated_again": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "review_flag": false,
+ "omp_verdict": "BOUND; every check made, those on a stand-in named as such",
+ "details": {
+  "J1": "the identifiers differ",
+  "J7": {
+   "officer": "adviser-2",
+   "at": "2026-11-09T10:12:00Z",
+   "result": "AUTHORITY_UNBOUND",
+   "failure_reasons": [
+    "OFFICER_ID_MISMATCH"
+   ]
+  }
+ },
+ "not_checked": []
+}

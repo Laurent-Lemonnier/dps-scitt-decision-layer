@@ -1,0 +1,292 @@
+{
+ "flat": {
+  "dps.schema": "valid",
+  "dps.trust_policy": "verified",
+  "dps.issuer_seal": "verified",
+  "dps.person_approval": "verified",
+  "dps.specification_digests": "verified",
+  "dps.specification_statements": "verified",
+  "dps.record_statements": "verified",
+  "dps.action_binding": "verified",
+  "dps.stage_order": "verified",
+  "dps.authorisation_recheck": "verified",
+  "dps.observed_results": "verified",
+  "dps.rationale_provenance": "verified",
+  "omp.schema": "verified",
+  "omp.routing": "verified",
+  "omp.seal.content_hash": "verified",
+  "omp.seal.chain": "verified",
+  "omp.seal.tst": "verified",
+  "omp.axes": "verified",
+  "omp.binding_timestamp": "verified",
+  "omp.instrument_hash": "verified",
+  "omp.registry_snapshot": "verified",
+  "omp.invariant3": "failed",
+  "J1": "holds",
+  "J2": "holds",
+  "J3": "holds",
+  "J4": "holds",
+  "J5": "holds",
+  "J6": "holds",
+  "J7": "does not hold"
+ },
+ "omp": {
+  "checks": {
+   "schema": {
+    "status": "verified",
+    "detail": "the members of omp-00 section 7 and core-00 section 4, enumerations as Appendix A",
+    "basis": "text, with A5, A8, A9"
+   },
+   "routing": {
+    "status": "verified",
+    "detail": "the tree of omp-00 5.1 gives ASSISTED, confidence 0.910000; the trace states ASSISTED, 0.91",
+    "basis": "text"
+   },
+   "seal.content_hash": {
+    "status": "verified",
+    "detail": "recomputed c84572ad648b3614…, stated c84572ad648b3614…",
+    "basis": "text, with A2, A7, A12"
+   },
+   "seal.chain": {
+    "status": "verified",
+    "detail": "the chain hash over the stated content hash and the genesis value",
+    "basis": "text, with A2"
+   },
+   "seal.tst": {
+    "status": "verified",
+    "detail": "token of CN=Example TSA 7 (test only),O=Example time-stamping authority (test only), genTime 2026-11-09T10:12:06.000Z, over trace_content_hash",
+    "basis": "text; the certificate pinned is the verifier's choice"
+   },
+   "axes": {
+    "status": "verified",
+    "detail": "ASSISTED, BOUND, ALLOWED: consistent with section 3.3",
+    "basis": "text"
+   },
+   "binding_timestamp": {
+    "status": "verified",
+    "detail": "token of CN=Example TSA 7 (test only),O=Example time-stamping authority (test only), genTime 2026-11-09T10:02:02.000Z, over the authority_binding object without this member",
+    "basis": "stand_in:A5"
+   },
+   "instrument_hash": {
+    "status": "verified",
+    "detail": "the document held hashes to instrument_hash",
+    "basis": "stand_in:A1"
+   },
+   "registry_snapshot": {
+    "status": "verified",
+    "detail": "the registry state held hashes to authority_registry_snapshot_hash",
+    "basis": "stand_in:A4"
+   },
+   "invariant3": {
+    "status": "failed",
+    "detail": "evaluated again: AUTHORITY_UNBOUND, BLOCKED (INSTRUMENT_REVOKED); stated: BOUND, ALLOWED",
+    "basis": "text, with A3, A6, A9, A10, A11, A13"
+   }
+  },
+  "invariant3": {
+   "stated": {
+    "authority_binding_result": "BOUND",
+    "execution_permission": "ALLOWED",
+    "failure_reasons": []
+   },
+   "recomputed": {
+    "authority_binding_result": "AUTHORITY_UNBOUND",
+    "execution_permission": "BLOCKED",
+    "failure_reasons": [
+     "INSTRUMENT_REVOKED"
+    ]
+   },
+   "review_flag": false,
+   "notes": [
+    "the registry state says REVOKED, the instrument member ACTIVE: the registry state is followed"
+   ]
+  },
+  "verdict": "refused: invariant3 failed",
+  "seal_time": "2026-11-09T10:12:06.000Z",
+  "binding_time": "2026-11-09T10:02:02.000Z"
+ },
+ "joins": {
+  "J1 same person": {
+   "status": "holds",
+   "values": {
+    "omp.named_accountable_officer": "adviser-1",
+    "omp.instrument.officer_id": "adviser-1",
+    "omp.assisted_resolution.officer_id": "adviser-1",
+    "authority_document.officer.officer_id": "adviser-1",
+    "dps.review.reviewer_ref": "adviser-1",
+    "dps.outcome.actor_ref": "adviser-1",
+    "dps.record.affirmation_record.actor_identity": "adviser-1",
+    "dps.person_approval.key_holder (the verifier's trust policy)": "adviser-1"
+   },
+   "rests_on": "DPS: the person's signature, verified, under a key the verifier's trust policy gives to that person. OMP: the emitter's statement, sealed; the instrument's officer_id only if the authority document held hashes to instrument_hash"
+  },
+  "J2 same decision": {
+   "status": "holds",
+   "digests": {
+    "omp.assisted_resolution.proposed_response_hash": "sha256:d893d2241abebf4f7d1c8114b52fa75e83e6449a24c44d90645b76b3eea6d26b",
+    "dps.outcome.approved_spec_digest": "sha256:d893d2241abebf4f7d1c8114b52fa75e83e6449a24c44d90645b76b3eea6d26b",
+    "dps.review.shown_spec_digest": "sha256:d893d2241abebf4f7d1c8114b52fa75e83e6449a24c44d90645b76b3eea6d26b",
+    "dps.person_approval.approved_spec_digest (signed)": "sha256:d893d2241abebf4f7d1c8114b52fa75e83e6449a24c44d90645b76b3eea6d26b",
+    "sha256 of the specification's bytes": "sha256:d893d2241abebf4f7d1c8114b52fa75e83e6449a24c44d90645b76b3eea6d26b"
+   },
+   "values_omp_evaluated_vs_dps_approved": {
+    "decision_type": {
+     "omp": "insurance_advice.personalised_recommendation",
+     "dps": "insurance_advice.personalised_recommendation"
+    },
+    "jurisdiction": {
+     "omp": "FR",
+     "dps": "FR"
+    },
+    "product": {
+     "omp": "non-life.professional-multi-risk",
+     "dps": "non-life.professional-multi-risk"
+    },
+    "amount": {
+     "omp": {
+      "currency": "EUR",
+      "value": 1480
+     },
+     "dps": {
+      "currency": "EUR",
+      "value": 1480
+     }
+    }
+   },
+   "rests_on": "DPS: the specification's digest, shown, approved and signed. OMP: a member of this folder's (A15, A9), under the trace's seal; the text names no member for what was decided"
+  },
+  "J3 same instrument": {
+   "status": "holds",
+   "hashes": {
+    "dps.specification.policy_version (under the person's signature)": "sha256:22cdf16c2a0a1eef04e6e87e76fb184dc4864c899cb1308a67d3827c3c743635",
+    "omp.instrument.instrument_hash": "sha256:22cdf16c2a0a1eef04e6e87e76fb184dc4864c899cb1308a67d3827c3c743635",
+    "sha256 of the authority document held (A1)": "sha256:22cdf16c2a0a1eef04e6e87e76fb184dc4864c899cb1308a67d3827c3c743635"
+   },
+   "rests_on": "the adviser's signature covers the specification, which names the mandate by its hash: the hash was fixed no later than her signature. Non-modification only; nothing about when the mandate was written (the author's first point, 2 November 2026)"
+  },
+  "J4 the decision record cites this authority record": {
+   "status": "holds",
+   "references": {
+    "dps.outcome.authority.authority_ref": {
+     "carried": "urn:omp:authority-binding:sha256:491bd4a9c949b1262fd27db775e9f8730286e4ddc6d69071e7ca41948ef1e349",
+     "recomputed_from_the_trace_held": "urn:omp:authority-binding:sha256:491bd4a9c949b1262fd27db775e9f8730286e4ddc6d69071e7ca41948ef1e349"
+    },
+    "dps.recheck.authority_source_ref": {
+     "carried": "urn:omp:audit-trace:f6db87f7-ceb6-4a1d-b7cb-344fbbf95eb5#trace_content_hash=c84572ad648b36140f19810a4c984e7d76ee3a685a450729ba860ae8c89998ea",
+     "recomputed_from_the_trace_held": "urn:omp:audit-trace:f6db87f7-ceb6-4a1d-b7cb-344fbbf95eb5#trace_content_hash=c84572ad648b36140f19810a4c984e7d76ee3a685a450729ba860ae8c89998ea"
+    }
+   },
+   "rests_on": "the firm's seal over the attachment (the authority member is not under the person's signature); the trace's content hash, recomputed"
+  },
+  "J5 permission and recheck": {
+   "status": "holds",
+   "values": {
+    "omp.execution_permission": "ALLOWED",
+    "dps.recheck.result": "authorised",
+    "dps.attempts": 1
+   },
+   "rests_on": "both are the firm's statements, each under its own seal"
+  },
+  "J6 moments in order": {
+   "status": "holds",
+   "moments": [
+    {
+     "what": "the mandate's hash time-stamped",
+     "at": "2026-03-02T09:00:05Z",
+     "by": "test TSA token over the authority document"
+    },
+    {
+     "what": "omp routing_decided_at",
+     "at": "2026-11-09T10:02:01Z",
+     "by": "the emitter's clock"
+    },
+    {
+     "what": "omp binding token",
+     "at": "2026-11-09T10:02:02Z",
+     "by": "test TSA token (A5)"
+    },
+    {
+     "what": "dps review",
+     "at": "2026-11-09T10:10:00Z",
+     "by": "the issuer's clock"
+    },
+    {
+     "what": "dps approval = signed_at",
+     "at": "2026-11-09T10:12:00Z",
+     "by": "the issuer's clock"
+    },
+    {
+     "what": "omp approved_at",
+     "at": "2026-11-09T10:12:00Z",
+     "by": "the emitter's clock"
+    },
+    {
+     "what": "omp trace token",
+     "at": "2026-11-09T10:12:06Z",
+     "by": "test TSA token over the trace"
+    },
+    {
+     "what": "dps recheck",
+     "at": "2026-11-09T10:12:40Z",
+     "by": "the issuer's clock"
+    },
+    {
+     "what": "dps attempt",
+     "at": "2026-11-09T10:12:45Z",
+     "by": "the issuer's clock"
+    },
+    {
+     "what": "dps seal",
+     "at": "2026-11-09T10:20:30Z",
+     "by": "the issuer's clock"
+    }
+   ],
+   "rests_on": "three tokens of a TEST time-stamping authority (the mandate's hash, the binding, the trace) and the two parties' own clocks between them; with a real authority the tokens would bound the clocks from outside, here they show the order only"
+  },
+  "J7 the instrument covers the approved action at the approval": {
+   "status": "does not hold",
+   "evaluated": {
+    "officer": "adviser-1",
+    "at": "2026-11-09T10:12:00Z",
+    "result": "AUTHORITY_UNBOUND",
+    "failure_reasons": [
+     "INSTRUMENT_REVOKED"
+    ]
+   },
+   "rests_on": "Section 3.3's conditions, run on the approver, the specification and the time the DPS record states; the mandate and the registry state are the firm's own (core-00 section 8.1)"
+  }
+ },
+ "dps": {
+  "schema_errors": {
+   "record": [],
+   "attachment": [],
+   "signatures": [],
+   "trust_policy": []
+  },
+  "trust_policy": "verified",
+  "action_binding": {
+   "specification_digests": "verified",
+   "specification_statements": "verified",
+   "record_statements": "verified",
+   "action_binding": "verified",
+   "stage_order": "verified",
+   "authorisation_recheck": "verified",
+   "observed_results": "verified",
+   "rationale_provenance": "verified"
+  },
+  "action_binding_findings": {},
+  "issuer_seal": {
+   "status": "verified",
+   "key_state": "verified",
+   "holder": "Example Brokerage (synthetic)",
+   "attests": "issuer_recorded_claims_only"
+  },
+  "person_approval": {
+   "status": "verified",
+   "signature": "verified",
+   "subject": "verified",
+   "key_state": "verified",
+   "identity": "verified"
+  }
+ }
+}

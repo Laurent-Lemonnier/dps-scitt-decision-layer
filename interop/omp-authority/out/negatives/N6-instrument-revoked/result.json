@@ -1,0 +1,35 @@
+{
+ "what": "The registry state at decision time says the mandate is REVOKED; the record states ACTIVE and BOUND.",
+ "expected_to_fail_at": [
+  "J7",
+  "omp.invariant3"
+ ],
+ "failed_at": [
+  "J7",
+  "omp.invariant3"
+ ],
+ "as_expected": true,
+ "omp_stated": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "omp_evaluated_again": [
+  "AUTHORITY_UNBOUND",
+  "BLOCKED",
+  "INSTRUMENT_REVOKED"
+ ],
+ "review_flag": false,
+ "omp_verdict": "refused: invariant3 failed",
+ "details": {
+  "omp.invariant3": "evaluated again: AUTHORITY_UNBOUND, BLOCKED (INSTRUMENT_REVOKED); stated: BOUND, ALLOWED",
+  "J7": {
+   "officer": "adviser-1",
+   "at": "2026-11-09T10:12:00Z",
+   "result": "AUTHORITY_UNBOUND",
+   "failure_reasons": [
+    "INSTRUMENT_REVOKED"
+   ]
+  }
+ },
+ "not_checked": []
+}

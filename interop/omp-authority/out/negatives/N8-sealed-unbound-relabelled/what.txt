@@ -1,0 +1,1 @@
+The sealed AUTHORITY_UNBOUND trace of the unbound-sealed variant, with execution_permission changed to ALLOWED afterwards and nothing recomputed.

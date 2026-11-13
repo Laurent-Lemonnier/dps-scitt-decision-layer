@@ -1,0 +1,35 @@
+{
+ "what": "The adviser, whose mandate covers non-life contracts, approves the recommendation of an insurance-based investment product; the record states BOUND. Every DPS check verifies: she approved exactly what was issued.",
+ "expected_to_fail_at": [
+  "J7",
+  "omp.invariant3"
+ ],
+ "failed_at": [
+  "J7",
+  "omp.invariant3"
+ ],
+ "as_expected": true,
+ "omp_stated": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "omp_evaluated_again": [
+  "AUTHORITY_UNBOUND",
+  "BLOCKED",
+  "MANDATE_SCOPE_MISMATCH"
+ ],
+ "review_flag": false,
+ "omp_verdict": "refused: invariant3 failed",
+ "details": {
+  "omp.invariant3": "evaluated again: AUTHORITY_UNBOUND, BLOCKED (MANDATE_SCOPE_MISMATCH); stated: BOUND, ALLOWED",
+  "J7": {
+   "officer": "adviser-1",
+   "at": "2026-11-09T10:12:00Z",
+   "result": "AUTHORITY_UNBOUND",
+   "failure_reasons": [
+    "MANDATE_SCOPE_MISMATCH"
+   ]
+  }
+ },
+ "not_checked": []
+}

@@ -1,0 +1,1 @@
+The registry state at decision time says the mandate is REVOKED; the record states ACTIVE and BOUND.

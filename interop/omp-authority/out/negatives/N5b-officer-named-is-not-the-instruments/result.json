@@ -1,0 +1,38 @@
+{
+ "what": "The trace names adviser-2, who approved, as the Named Accountable Officer, bound to adviser-1's mandate, and states BOUND.",
+ "expected_to_fail_at": [
+  "J1",
+  "J7",
+  "omp.invariant3"
+ ],
+ "failed_at": [
+  "J1",
+  "J7",
+  "omp.invariant3"
+ ],
+ "as_expected": true,
+ "omp_stated": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "omp_evaluated_again": [
+  "AUTHORITY_UNBOUND",
+  "BLOCKED",
+  "OFFICER_ID_MISMATCH"
+ ],
+ "review_flag": false,
+ "omp_verdict": "refused: invariant3 failed",
+ "details": {
+  "omp.invariant3": "evaluated again: AUTHORITY_UNBOUND, BLOCKED (OFFICER_ID_MISMATCH); stated: BOUND, ALLOWED",
+  "J1": "the identifiers differ",
+  "J7": {
+   "officer": "adviser-2",
+   "at": "2026-11-09T10:12:00Z",
+   "result": "AUTHORITY_UNBOUND",
+   "failure_reasons": [
+    "OFFICER_ID_MISMATCH"
+   ]
+  }
+ },
+ "not_checked": []
+}
