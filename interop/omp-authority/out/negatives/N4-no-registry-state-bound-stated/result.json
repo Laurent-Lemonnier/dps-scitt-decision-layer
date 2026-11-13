@@ -1,0 +1,41 @@
+{
+ "what": "The firm keeps no authority registry, so no registry state exists at decision time, and the record states BOUND all the same, without authority_registry_snapshot_hash. (What an emitter that follows the text writes is the unbound-sealed variant of build.py.)",
+ "expected_to_fail_at": [
+  "J7",
+  "omp.invariant3",
+  "omp.registry_snapshot",
+  "omp.schema"
+ ],
+ "failed_at": [
+  "J7",
+  "omp.invariant3",
+  "omp.registry_snapshot",
+  "omp.schema"
+ ],
+ "as_expected": true,
+ "omp_stated": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "omp_evaluated_again": [
+  "AUTHORITY_UNBOUND",
+  "BLOCKED",
+  "REGISTRY_PROOF_MISSING"
+ ],
+ "review_flag": false,
+ "omp_verdict": "refused: schema, registry_snapshot, invariant3 failed",
+ "details": {
+  "omp.invariant3": "evaluated again: AUTHORITY_UNBOUND, BLOCKED (REGISTRY_PROOF_MISSING); stated: BOUND, ALLOWED",
+  "omp.registry_snapshot": "the instrument names no authority_registry_snapshot_hash",
+  "omp.schema": "delegation_instrument.authority_registry_snapshot_hash is absent; delegation_instrument.registry_inclusion_proof is absent",
+  "J7": {
+   "officer": "adviser-1",
+   "at": "2026-11-09T10:12:00Z",
+   "result": "AUTHORITY_UNBOUND",
+   "failure_reasons": [
+    "REGISTRY_PROOF_MISSING"
+   ]
+  }
+ },
+ "not_checked": []
+}

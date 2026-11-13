@@ -1,0 +1,28 @@
+{
+ "what": "As N2, and the firm issues the decision record again as well: the specification names the wider mandate, the adviser signs again, the attachment is sealed again, every time written as on 9 November. The two records now agree with each other (J3 and J4 hold). What is left is what the firm does not control: the tokens.",
+ "expected_to_fail_at": [
+  "J6",
+  "omp.invariant3"
+ ],
+ "failed_at": [
+  "J6",
+  "omp.invariant3"
+ ],
+ "as_expected": true,
+ "omp_stated": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "omp_evaluated_again": [
+  "AUTHORITY_UNBOUND",
+  "BLOCKED",
+  "BINDING_TIMESTAMP_OUTSIDE_WINDOW"
+ ],
+ "review_flag": false,
+ "omp_verdict": "refused: invariant3 failed",
+ "details": {
+  "omp.invariant3": "evaluated again: AUTHORITY_UNBOUND, BLOCKED (BINDING_TIMESTAMP_OUTSIDE_WINDOW); stated: BOUND, ALLOWED",
+  "J6": "omp routing_decided_at is before the mandate's hash time-stamped; dps review is before omp binding token; dps recheck is before omp trace token"
+ },
+ "not_checked": []
+}

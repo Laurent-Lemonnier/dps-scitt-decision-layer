@@ -1,0 +1,41 @@
+{
+ "what": "The mandate held today is not the one that was hashed: its product scope was widened afterwards. The record and the decision record carry the first hash.",
+ "expected_to_fail_at": [
+  "J3",
+  "J7",
+  "omp.instrument_hash",
+  "omp.invariant3"
+ ],
+ "failed_at": [
+  "J3",
+  "J7",
+  "omp.instrument_hash",
+  "omp.invariant3"
+ ],
+ "as_expected": true,
+ "omp_stated": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "omp_evaluated_again": [
+  "AUTHORITY_UNBOUND",
+  "BLOCKED",
+  "INSTRUMENT_HASH_MISMATCH"
+ ],
+ "review_flag": false,
+ "omp_verdict": "refused: instrument_hash, invariant3 failed",
+ "details": {
+  "omp.instrument_hash": "the document held hashes to sha256:4a62e754de473dcc…, the instrument names sha256:22cdf16c2a0a1eef…",
+  "omp.invariant3": "evaluated again: AUTHORITY_UNBOUND, BLOCKED (INSTRUMENT_HASH_MISMATCH); stated: BOUND, ALLOWED",
+  "J3": "the mandate the adviser's signature covers, the one the OMP record names and the document held are not one and the same: sha256:22cdf16c2a0a1eef…, sha256:4a62e754de473dcc…",
+  "J7": {
+   "officer": "adviser-1",
+   "at": "2026-11-09T10:12:00Z",
+   "result": "AUTHORITY_UNBOUND",
+   "failure_reasons": [
+    "INSTRUMENT_HASH_MISMATCH"
+   ]
+  }
+ },
+ "not_checked": []
+}

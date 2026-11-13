@@ -1,0 +1,128 @@
+{
+ "trace_id": "33b05763-b37c-4aca-8224-923f5c38d016",
+ "trace_version": "1.0",
+ "created_at": "2026-11-09T10:02:00.500Z",
+ "vertical": "insurance-distribution-fr (synthetic; no such profile is published)",
+ "deployment_id": "example-brokerage-1",
+ "schema_version": "X-DSDL-OMP-CORE-00-FROM-TEXT-1",
+ "interaction_id": "2c3bc524-2e12-4f15-aaeb-35220114a0ca",
+ "interaction_received": "2026-11-09T10:02:00.000Z",
+ "interaction_hash": "f0e816ab8bfa5c29c7e5973b66883d564576000cadd8065698cb1a51da3cdc5a",
+ "channel": "adviser-console",
+ "requester_id": "client-file-CF-2026-0042 (synthetic)",
+ "intent_class": "insurance_advice.personalised_recommendation",
+ "intent_confidence": 0.94,
+ "intent_top3": [
+  {
+   "class": "insurance_advice.personalised_recommendation",
+   "confidence": 0.94
+  },
+  {
+   "class": "insurance_information.no_advice",
+   "confidence": 0.04
+  },
+  {
+   "class": "claims.question",
+   "confidence": 0.02
+  }
+ ],
+ "classifier_version": "synthetic-1",
+ "confidence_score": 0.91,
+ "confidence_components": {
+  "C_m": 0.9,
+  "C_p": 1.0,
+  "C_d": 0.8,
+  "weights": {
+   "C_m": 0.5,
+   "C_p": 0.3,
+   "C_d": 0.2
+  }
+ },
+ "routing_threshold": 0.95,
+ "watchtowers_evaluated": [
+  {
+   "watchtower_id": "WT-EX-ADVICE",
+   "triggered": true,
+   "severity": "FORCE_ASSISTED",
+   "evidence": {
+    "rule": "a personalised recommendation is reviewed by a named adviser"
+   },
+   "evaluated_at": "2026-11-09T10:02:00.500Z"
+  }
+ ],
+ "watchtower_override": true,
+ "override_watchtower_id": "WT-EX-ADVICE",
+ "routing_path": "ASSISTED",
+ "routing_rationale": "omp-00 5.1 step 3: FORCE_ASSISTED from WT-EX-ADVICE",
+ "routing_decided_at": "2026-11-09T10:02:01.000Z",
+ "autonomous_dispatch": null,
+ "assisted_resolution": {
+  "resolution_action": "RA-1 APPROVE",
+  "officer_id": "adviser-1",
+  "approved_at": "2026-11-09T10:12:00.000Z",
+  "proposed_response_hash": "sha256:d893d2241abebf4f7d1c8114b52fa75e83e6449a24c44d90645b76b3eea6d26b"
+ },
+ "escalation_record": null,
+ "source_state_hash": null,
+ "routing_state": "ASSISTED",
+ "authority_binding": {
+  "authority_binding_result": "BOUND",
+  "execution_permission": "ALLOWED",
+  "delegation_instrument": {
+   "instrument_id": "M-2026-03",
+   "officer_id": "adviser-1",
+   "role_identifier": "insurance adviser, non-life",
+   "mandate_scope": "May give personalised recommendations on the contracts in scope to the firm's clients, and approve their issue to the client, within the limits below.",
+   "scope_constraints": {
+    "decision_types": [
+     "insurance_advice.personalised_recommendation"
+    ],
+    "jurisdictions": [
+     "FR"
+    ],
+    "product_scope": [
+     "non-life.professional-multi-risk",
+     "non-life.liability"
+    ],
+    "monetary_limit": {
+     "currency": "EUR",
+     "max_amount": 5000
+    }
+   },
+   "effective_date": "2026-03-01",
+   "expiry_date": "2027-02-28",
+   "revocation_status_at_decision": "ACTIVE",
+   "issuing_authority_id": "RCS-SYNTHETIC-000000000#M-2026-03",
+   "authority_root_type": "corporate_delegation",
+   "instrument_hash": "sha256:22cdf16c2a0a1eef04e6e87e76fb184dc4864c899cb1308a67d3827c3c743635",
+   "instrument_reference": "urn:example:brokerage:mandates:M-2026-03",
+   "instrument_selection_mode": "pre_registered",
+   "instrument_selected_at": "2026-11-09T10:02:01.200Z",
+   "binding_timestamp": "sha256:864611708ca2bf02669744c116884fd818c9bd4e1dbbee719fdd78568c634c5c"
+  }
+ },
+ "decision_context": {
+  "decision_type": "insurance_advice.personalised_recommendation",
+  "jurisdiction": "FR",
+  "product": "non-life.professional-multi-risk",
+  "amount": {
+   "currency": "EUR",
+   "value": 1480
+  }
+ },
+ "named_accountable_officer": {
+  "officer_id": "adviser-1",
+  "role": "insurance adviser, non-life"
+ },
+ "tst_hash_alg": "SHA-256",
+ "tst_time": "2026-11-09T10:12:06.000Z",
+ "tst_tsa_identity": "CN=Example TSA 7 (test only),O=Example time-stamping authority (test only)",
+ "tst_raw": "MIID6QYJKoZIhvcNAQcCoIID2jCCA9YCAQMxDzANBglghkgBZQMEAgEFADBjBgsqhkiG9w0BCRABBKBUBFIwUAIBAQYDiDcBMDEwDQYJYIZIAWUDBAIBBQAEIDw2bFB05IfM71rcy1lAtr/2KPMts038LqlUMq5e8md1AgIjKxgPMjAyNjExMDkxMDEyMDZaoIIB/zCCAfswggGhoAMCAQICAhtfMAoGCCqGSM49BAMCMFoxNDAyBgNVBAoMK0V4YW1wbGUgdGltZS1zdGFtcGluZyBhdXRob3JpdHkgKHRlc3Qgb25seSkxIjAgBgNVBAMMGUV4YW1wbGUgVFNBIDcgKHRlc3Qgb25seSkwHhcNMjYwMTAxMDAwMDAwWhcNMjcxMjMxMjM1OTU5WjBaMTQwMgYDVQQKDCtFeGFtcGxlIHRpbWUtc3RhbXBpbmcgYXV0aG9yaXR5ICh0ZXN0IG9ubHkpMSIwIAYDVQQDDBlFeGFtcGxlIFRTQSA3ICh0ZXN0IG9ubHkpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEZxmT6eW09I8pgC/Ijj1TirCrMlJBiZNT31/0MCbRq6kECkdMSXLOC1t0tTyJLmh48tBq9q1zOLgkSoBLRW0AvKNXMFUwDAYDVR0TAQH/BAIwADAOBgNVHQ8BAf8EBAMCBsAwFgYDVR0lAQH/BAwwCgYIKwYBBQUHAwgwHQYDVR0OBBYEFNSzohWjPb2eB5XU9aJq2h/1KWEQMAoGCCqGSM49BAMCA0gAMEUCIEjVqc9ytwVWvftXWVFFwnaChgeJ0PtVFOOL0wPhWSChAiEAouHjqY2lSYx5ZQQpKHiYXzFNWxq7F6MjICRMB5nRGCMxggFWMIIBUgIBATBgMFoxNDAyBgNVBAoMK0V4YW1wbGUgdGltZS1zdGFtcGluZyBhdXRob3JpdHkgKHRlc3Qgb25seSkxIjAgBgNVBAMMGUV4YW1wbGUgVFNBIDcgKHRlc3Qgb25seSkCAhtfMA0GCWCGSAFlAwQCAQUAoIGGMBoGCSqGSIb3DQEJAzENBgsqhkiG9w0BCRABBDAvBgkqhkiG9w0BCQQxIgQgD9v3GzST9DBXdb4D3RvwR3YezwCm/0HtQJBeEhXBFOowNwYLKoZIhvcNAQkQAi8xKDAmMCQwIgQgXr2qTokThZ165RCheSV6vAw06wVGlgoaD+bfpvVNTqEwCgYIKoZIzj0EAwIERzBFAiAUNCrM7o0gmg0hhMPwpOJjQ8+4T/3WU73YeZowuWyz0gIhAPGOEyhx4cUTZySo9kFMVfiuAjIPGNJrIscBMME7KBd0",
+ "tst_serial": "9003",
+ "tst_message_imprint": "3c366c5074e487ccef5adccb5940b6bff628f32db34dfc2ea95432ae5ef26775",
+ "tst_certificate": "MIIB+zCCAaGgAwIBAgICG18wCgYIKoZIzj0EAwIwWjE0MDIGA1UECgwrRXhhbXBsZSB0aW1lLXN0YW1waW5nIGF1dGhvcml0eSAodGVzdCBvbmx5KTEiMCAGA1UEAwwZRXhhbXBsZSBUU0EgNyAodGVzdCBvbmx5KTAeFw0yNjAxMDEwMDAwMDBaFw0yNzEyMzEyMzU5NTlaMFoxNDAyBgNVBAoMK0V4YW1wbGUgdGltZS1zdGFtcGluZyBhdXRob3JpdHkgKHRlc3Qgb25seSkxIjAgBgNVBAMMGUV4YW1wbGUgVFNBIDcgKHRlc3Qgb25seSkwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARnGZPp5bT0jymAL8iOPVOKsKsyUkGJk1PfX/QwJtGrqQQKR0xJcs4LW3S1PIkuaHjy0Gr2rXM4uCRKgEtFbQC8o1cwVTAMBgNVHRMBAf8EAjAAMA4GA1UdDwEB/wQEAwIGwDAWBgNVHSUBAf8EDDAKBggrBgEFBQcDCDAdBgNVHQ4EFgQU1LOiFaM9vZ4HldT1omraH/UpYRAwCgYIKoZIzj0EAwIDSAAwRQIgSNWpz3K3BVa9+1dZUUXCdoKGB4nQ+1UU44vTA+FZIKECIQCi4eOpjaVJjHllBCkoeJhfMU1bGrsXoyMgJEwHmdEYIw==",
+ "trace_content_hash": "3c366c5074e487ccef5adccb5940b6bff628f32db34dfc2ea95432ae5ef26775",
+ "trace_chain_hash": "85d0eb7b63ed0ebb21ec226a9b1ca1591acdc80950a24e7e84010c99e14fe8bd",
+ "sealed_at": "2026-11-09T10:12:05.000Z",
+ "seal_version": "SHA256-RFC3161-CHAIN-v1"
+}

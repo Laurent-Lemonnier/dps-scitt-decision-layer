@@ -1,0 +1,1 @@
+The firm keeps no authority registry, so no registry state exists at decision time, and the record states BOUND all the same, without authority_registry_snapshot_hash. (What an emitter that follows the text writes is the unbound-sealed variant of build.py.)
