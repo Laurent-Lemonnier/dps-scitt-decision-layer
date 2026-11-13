@@ -1,0 +1,24 @@
+{
+ "what": "The decision record's authority reference names another authority_binding object (the one of the unbound-sealed variant).",
+ "expected_to_fail_at": [
+  "J4"
+ ],
+ "failed_at": [
+  "J4"
+ ],
+ "as_expected": true,
+ "omp_stated": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "omp_evaluated_again": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "review_flag": false,
+ "omp_verdict": "BOUND; every check made, those on a stand-in named as such",
+ "details": {
+  "J4": "not the object or the trace held: dps.outcome.authority.authority_ref"
+ },
+ "not_checked": []
+}

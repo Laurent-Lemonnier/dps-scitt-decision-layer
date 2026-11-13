@@ -1,0 +1,287 @@
+[
+ {
+  "case": 1,
+  "input": "AUTONOMOUS routing state",
+  "text_expects": [
+   "EXEMPT",
+   "ALLOWED"
+  ],
+  "got": [
+   "EXEMPT",
+   "ALLOWED"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 2,
+  "input": "ASSISTED, valid active pre_registered instrument, scope match",
+  "text_expects": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "got": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 3,
+  "input": "ESCALATED, valid active pre_registered instrument, scope match",
+  "text_expects": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "got": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 4,
+  "input": "no instrument present",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "NO_VALID_DELEGATION_INSTRUMENT"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "NO_VALID_DELEGATION_INSTRUMENT"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 5,
+  "input": "officer_id mismatch",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "OFFICER_ID_MISMATCH"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "OFFICER_ID_MISMATCH"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 6,
+  "input": "effective_date after the decision timestamp",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "EFFECTIVE_DATE_FUTURE"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "EFFECTIVE_DATE_FUTURE"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 7,
+  "input": "expiry_date before the decision timestamp",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "INSTRUMENT_EXPIRED"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "INSTRUMENT_EXPIRED"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 8,
+  "input": "revocation_status REVOKED",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "INSTRUMENT_REVOKED"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "INSTRUMENT_REVOKED"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 9,
+  "input": "revocation_status SUSPENDED",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "INSTRUMENT_SUSPENDED"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "INSTRUMENT_SUSPENDED"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 10,
+  "input": "revocation_status UNKNOWN",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "REVOCATION_STATUS_UNKNOWN"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "REVOCATION_STATUS_UNKNOWN"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 11,
+  "input": "decision_type not in scope_constraints.decision_types",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "MANDATE_SCOPE_MISMATCH"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "MANDATE_SCOPE_MISMATCH"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 12,
+  "input": "jurisdiction not in scope_constraints.jurisdictions",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "JURISDICTION_OUT_OF_SCOPE"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "JURISDICTION_OUT_OF_SCOPE"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 13,
+  "input": "value exceeds scope_constraints.monetary_limit",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "MONETARY_THRESHOLD_EXCEEDED"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "MONETARY_THRESHOLD_EXCEEDED"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 14,
+  "input": "instrument_hash mismatch",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "INSTRUMENT_HASH_MISMATCH"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "INSTRUMENT_HASH_MISMATCH"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 15,
+  "input": "binding_timestamp outside window (our window: 300 s after the routing decision, A6)",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "BINDING_TIMESTAMP_OUTSIDE_WINDOW"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "BINDING_TIMESTAMP_OUTSIDE_WINDOW"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 16,
+  "input": "registry_inclusion_proof absent when required (a profile that requires it)",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "REGISTRY_PROOF_MISSING"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "REGISTRY_PROOF_MISSING"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 17,
+  "input": "post_hoc_attached (our stand-in profile: AUTHORITY_UNBOUND, A16)",
+  "text_expects": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "POST_HOC_ATTACHMENT_DETECTED"
+  ],
+  "got": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "POST_HOC_ATTACHMENT_DETECTED"
+  ],
+  "review_flag": true,
+  "as_the_text_states": true
+ },
+ {
+  "case": 18,
+  "input": "authority_root_type \"corporate_delegation_root\" (the value core-00 section 6 writes for DutyMark, WorkMark and HomeMark; Appendix A has corporate_delegation)",
+  "text_expects": [
+   "schema validation failure, record not emitted"
+  ],
+  "got": [
+   "delegation_instrument.authority_root_type 'corporate_delegation_root' is not in the enumeration"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 19,
+  "input": "the authority_binding object of the bound variant, members in two orders",
+  "text_expects": [
+   "the canonical JSON hash is unchanged"
+  ],
+  "got": [
+   "sha256:15cc20da65b2d1556b67a28734f0dd9750312105848ce383eeadb93a01a23e27",
+   "sha256:15cc20da65b2d1556b67a28734f0dd9750312105848ce383eeadb93a01a23e27"
+  ],
+  "as_the_text_states": true
+ },
+ {
+  "case": 20,
+  "input": "case 2 evaluated twice",
+  "text_expects": [
+   "identical result and permission"
+  ],
+  "got": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "as_the_text_states": true
+ }
+]

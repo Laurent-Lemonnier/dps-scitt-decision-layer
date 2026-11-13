@@ -1,0 +1,1 @@
+The record states instrument_selection_mode post_hoc_attached and BOUND, ALLOWED. core-00 4.4.1: the value MUST trigger a review flag and SHOULD NOT be treated as fully BOUND; 8.3: it cannot receive BOUND status.

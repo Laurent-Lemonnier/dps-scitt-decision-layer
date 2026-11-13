@@ -1,0 +1,10 @@
+{
+ "name": "stand-in for a profile that does not exist (EU insurance distribution, synthetic case)",
+ "accepted_root_types": [
+  "corporate_delegation",
+  "professional_registration"
+ ],
+ "binding_window_seconds": 300,
+ "registry_inclusion_proof_required": false,
+ "post_hoc_result": "AUTHORITY_UNBOUND"
+}

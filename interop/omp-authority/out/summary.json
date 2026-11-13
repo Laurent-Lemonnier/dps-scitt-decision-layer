@@ -1,0 +1,88 @@
+{
+ "bound": {
+  "as_expected": true,
+  "omp": {
+   "authority_binding_result": "BOUND",
+   "execution_permission": "ALLOWED",
+   "failure_reasons": [],
+   "verdict": "BOUND; every check made, those on a stand-in named as such",
+   "checks_on_a_stand_in": [
+    "binding_timestamp",
+    "instrument_hash",
+    "registry_snapshot"
+   ]
+  },
+  "dps": {
+   "dps.schema": "valid",
+   "dps.trust_policy": "verified",
+   "dps.issuer_seal": "verified",
+   "dps.person_approval": "verified",
+   "dps.specification_digests": "verified",
+   "dps.specification_statements": "verified",
+   "dps.record_statements": "verified",
+   "dps.action_binding": "verified",
+   "dps.stage_order": "verified",
+   "dps.authorisation_recheck": "verified",
+   "dps.observed_results": "verified",
+   "dps.rationale_provenance": "verified"
+  },
+  "joins": {
+   "J1 same person": "holds",
+   "J2 same decision": "holds",
+   "J3 same instrument": "holds",
+   "J4 the decision record cites this authority record": "holds",
+   "J5 permission and recheck": "holds",
+   "J6 moments in order": "holds",
+   "J7 the instrument covers the approved action at the approval": "holds"
+  },
+  "not_verified": {}
+ },
+ "unbound-sealed": {
+  "as_expected": true,
+  "omp": {
+   "authority_binding_result": "AUTHORITY_UNBOUND",
+   "execution_permission": "BLOCKED",
+   "failure_reasons": [
+    "REGISTRY_PROOF_MISSING"
+   ],
+   "verdict": "AUTHORITY_UNBOUND, sealed; every check made, those on a stand-in named as such",
+   "checks_on_a_stand_in": [
+    "binding_timestamp",
+    "candidate.instrument_hash"
+   ]
+  },
+  "dps": {
+   "dps.schema": "valid",
+   "dps.trust_policy": "verified",
+   "dps.issuer_seal": "verified",
+   "dps.person_approval": "verified",
+   "dps.specification_digests": "verified",
+   "dps.specification_statements": "verified",
+   "dps.record_statements": "verified",
+   "dps.action_binding": "verified",
+   "dps.stage_order": "verified",
+   "dps.authorisation_recheck": "verified",
+   "dps.observed_results": "not_checked",
+   "dps.rationale_provenance": "verified"
+  },
+  "joins": {
+   "J1 same person": "holds",
+   "J2 same decision": "holds",
+   "J3 same instrument": "holds",
+   "J4 the decision record cites this authority record": "holds",
+   "J5 permission and recheck": "holds",
+   "J6 moments in order": "holds",
+   "J7 the instrument covers the approved action at the approval": "does not hold"
+  },
+  "not_verified": {
+   "dps.observed_results": "not_checked",
+   "omp.candidate.registry_snapshot": "failed",
+   "J7": "does not hold"
+  }
+ },
+ "section5": {
+  "as_the_text_states": 20,
+  "of": 20,
+  "vectors": "our own; the authors had published none"
+ }
+}

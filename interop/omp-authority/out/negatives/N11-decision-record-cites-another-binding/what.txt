@@ -1,0 +1,1 @@
+The decision record's authority reference names another authority_binding object (the one of the unbound-sealed variant).

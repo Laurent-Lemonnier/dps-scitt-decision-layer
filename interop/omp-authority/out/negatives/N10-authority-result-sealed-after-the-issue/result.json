@@ -1,0 +1,24 @@
+{
+ "what": "The trace is sealed at 10:15, after the recommendation was issued at 10:12:45; the recheck of 10:12:40 cites it.",
+ "expected_to_fail_at": [
+  "J6"
+ ],
+ "failed_at": [
+  "J6"
+ ],
+ "as_expected": true,
+ "omp_stated": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "omp_evaluated_again": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "review_flag": false,
+ "omp_verdict": "BOUND; every check made, those on a stand-in named as such",
+ "details": {
+  "J6": "dps recheck is before omp trace token"
+ },
+ "not_checked": []
+}
