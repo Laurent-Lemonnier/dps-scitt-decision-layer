@@ -1,0 +1,36 @@
+{
+ "what": "Not a failure: the same attachment, written by an emitter that follows the text under this folder's stand-in profile. AUTHORITY_UNBOUND, POST_HOC_ATTACHMENT_DETECTED, BLOCKED, review flag; the adviser approved, the recheck refused, nothing was issued.",
+ "documented_expected_result": true,
+ "expected_to_fail_at": [
+  "J7"
+ ],
+ "failed_at": [
+  "J7"
+ ],
+ "as_expected": true,
+ "omp_stated": [
+  "AUTHORITY_UNBOUND",
+  "BLOCKED",
+  "POST_HOC_ATTACHMENT_DETECTED"
+ ],
+ "omp_evaluated_again": [
+  "AUTHORITY_UNBOUND",
+  "BLOCKED",
+  "POST_HOC_ATTACHMENT_DETECTED"
+ ],
+ "review_flag": true,
+ "omp_verdict": "AUTHORITY_UNBOUND, sealed; every check made, those on a stand-in named as such",
+ "details": {
+  "J7": {
+   "officer": "adviser-1",
+   "at": "2026-11-09T10:12:00Z",
+   "result": "AUTHORITY_UNBOUND",
+   "failure_reasons": [
+    "POST_HOC_ATTACHMENT_DETECTED"
+   ]
+  }
+ },
+ "not_checked": [
+  "dps.observed_results"
+ ]
+}

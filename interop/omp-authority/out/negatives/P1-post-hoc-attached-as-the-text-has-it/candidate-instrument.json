@@ -1,0 +1,33 @@
+{
+ "instrument_id": "M-2026-03",
+ "officer_id": "adviser-1",
+ "role_identifier": "insurance adviser, non-life",
+ "mandate_scope": "May give personalised recommendations on the contracts in scope to the firm's clients, and approve their issue to the client, within the limits below.",
+ "scope_constraints": {
+  "decision_types": [
+   "insurance_advice.personalised_recommendation"
+  ],
+  "jurisdictions": [
+   "FR"
+  ],
+  "product_scope": [
+   "non-life.professional-multi-risk",
+   "non-life.liability"
+  ],
+  "monetary_limit": {
+   "currency": "EUR",
+   "max_amount": 5000
+  }
+ },
+ "effective_date": "2026-03-01",
+ "expiry_date": "2027-02-28",
+ "revocation_status_at_decision": "ACTIVE",
+ "issuing_authority_id": "RCS-SYNTHETIC-000000000#M-2026-03",
+ "authority_root_type": "corporate_delegation",
+ "instrument_hash": "sha256:22cdf16c2a0a1eef04e6e87e76fb184dc4864c899cb1308a67d3827c3c743635",
+ "instrument_reference": "urn:example:brokerage:mandates:M-2026-03",
+ "instrument_selection_mode": "post_hoc_attached",
+ "instrument_selected_at": "2026-11-09T10:02:01.200Z",
+ "authority_registry_snapshot_hash": "sha256:ae8874930dfdf242f988e47c48c578bb81ff33ab7fb72d3acf34febd9141c6ee",
+ "registry_inclusion_proof": null
+}

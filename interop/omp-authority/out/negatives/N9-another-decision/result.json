@@ -1,0 +1,24 @@
+{
+ "what": "The OMP trace carries the digest of another recommendation (option C) and evaluated the scope on its premium; the adviser approved option B. Both records are otherwise as issued, the decision record citing this trace.",
+ "expected_to_fail_at": [
+  "J2"
+ ],
+ "failed_at": [
+  "J2"
+ ],
+ "as_expected": true,
+ "omp_stated": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "omp_evaluated_again": [
+  "BOUND",
+  "ALLOWED"
+ ],
+ "review_flag": false,
+ "omp_verdict": "BOUND; every check made, those on a stand-in named as such",
+ "details": {
+  "J2": "the digest the OMP trace carries is not the one approved"
+ },
+ "not_checked": []
+}

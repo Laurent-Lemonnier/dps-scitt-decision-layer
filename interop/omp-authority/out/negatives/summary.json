@@ -1,0 +1,311 @@
+{
+ "N1-post-hoc-attached-stated-bound": {
+  "expected_to_fail_at": [
+   "J7",
+   "omp.invariant3"
+  ],
+  "failed_at": [
+   "J7",
+   "omp.invariant3"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "omp_evaluated_again": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "POST_HOC_ATTACHMENT_DETECTED"
+  ],
+  "review_flag": true
+ },
+ "P1-post-hoc-attached-as-the-text-has-it": {
+  "expected_to_fail_at": [
+   "J7"
+  ],
+  "failed_at": [
+   "J7"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "POST_HOC_ATTACHMENT_DETECTED"
+  ],
+  "omp_evaluated_again": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "POST_HOC_ATTACHMENT_DETECTED"
+  ],
+  "review_flag": true,
+  "documented_expected_result": true
+ },
+ "N2-post-hoc-relabelled-pre-registered": {
+  "expected_to_fail_at": [
+   "J3",
+   "J4",
+   "J6",
+   "omp.invariant3"
+  ],
+  "failed_at": [
+   "J3",
+   "J4",
+   "J6",
+   "omp.invariant3"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "omp_evaluated_again": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "BINDING_TIMESTAMP_OUTSIDE_WINDOW"
+  ],
+  "review_flag": false
+ },
+ "N2b-post-hoc-relabelled-everything-reissued": {
+  "expected_to_fail_at": [
+   "J6",
+   "omp.invariant3"
+  ],
+  "failed_at": [
+   "J6",
+   "omp.invariant3"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "omp_evaluated_again": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "BINDING_TIMESTAMP_OUTSIDE_WINDOW"
+  ],
+  "review_flag": false
+ },
+ "N3-instrument-altered-after-hashing": {
+  "expected_to_fail_at": [
+   "J3",
+   "J7",
+   "omp.instrument_hash",
+   "omp.invariant3"
+  ],
+  "failed_at": [
+   "J3",
+   "J7",
+   "omp.instrument_hash",
+   "omp.invariant3"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "omp_evaluated_again": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "INSTRUMENT_HASH_MISMATCH"
+  ],
+  "review_flag": false
+ },
+ "N4-no-registry-state-bound-stated": {
+  "expected_to_fail_at": [
+   "J7",
+   "omp.invariant3",
+   "omp.registry_snapshot",
+   "omp.schema"
+  ],
+  "failed_at": [
+   "J7",
+   "omp.invariant3",
+   "omp.registry_snapshot",
+   "omp.schema"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "omp_evaluated_again": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "REGISTRY_PROOF_MISSING"
+  ],
+  "review_flag": false
+ },
+ "N6-instrument-revoked": {
+  "expected_to_fail_at": [
+   "J7",
+   "omp.invariant3"
+  ],
+  "failed_at": [
+   "J7",
+   "omp.invariant3"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "omp_evaluated_again": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "INSTRUMENT_REVOKED"
+  ],
+  "review_flag": false
+ },
+ "N7-outside-mandate-scope": {
+  "expected_to_fail_at": [
+   "J7",
+   "omp.invariant3"
+  ],
+  "failed_at": [
+   "J7",
+   "omp.invariant3"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "omp_evaluated_again": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "MANDATE_SCOPE_MISMATCH"
+  ],
+  "review_flag": false
+ },
+ "N5a-approver-is-not-the-officer-named": {
+  "expected_to_fail_at": [
+   "J1",
+   "J7"
+  ],
+  "failed_at": [
+   "J1",
+   "J7"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "omp_evaluated_again": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "review_flag": false
+ },
+ "N5b-officer-named-is-not-the-instruments": {
+  "expected_to_fail_at": [
+   "J1",
+   "J7",
+   "omp.invariant3"
+  ],
+  "failed_at": [
+   "J1",
+   "J7",
+   "omp.invariant3"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "omp_evaluated_again": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "OFFICER_ID_MISMATCH"
+  ],
+  "review_flag": false
+ },
+ "N8-sealed-unbound-relabelled": {
+  "expected_to_fail_at": [
+   "J4",
+   "J5",
+   "J7",
+   "omp.axes",
+   "omp.binding_timestamp",
+   "omp.invariant3",
+   "omp.seal.content_hash"
+  ],
+  "failed_at": [
+   "J4",
+   "J5",
+   "J7",
+   "omp.axes",
+   "omp.binding_timestamp",
+   "omp.invariant3",
+   "omp.seal.content_hash"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "AUTHORITY_UNBOUND",
+   "ALLOWED",
+   "REGISTRY_PROOF_MISSING"
+  ],
+  "omp_evaluated_again": [
+   "AUTHORITY_UNBOUND",
+   "BLOCKED",
+   "REGISTRY_PROOF_MISSING"
+  ],
+  "review_flag": false
+ },
+ "N9-another-decision": {
+  "expected_to_fail_at": [
+   "J2"
+  ],
+  "failed_at": [
+   "J2"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "omp_evaluated_again": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "review_flag": false
+ },
+ "N10-authority-result-sealed-after-the-issue": {
+  "expected_to_fail_at": [
+   "J6"
+  ],
+  "failed_at": [
+   "J6"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "omp_evaluated_again": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "review_flag": false
+ },
+ "N11-decision-record-cites-another-binding": {
+  "expected_to_fail_at": [
+   "J4"
+  ],
+  "failed_at": [
+   "J4"
+  ],
+  "as_expected": true,
+  "omp_stated": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "omp_evaluated_again": [
+   "BOUND",
+   "ALLOWED"
+  ],
+  "review_flag": false
+ }
+}
