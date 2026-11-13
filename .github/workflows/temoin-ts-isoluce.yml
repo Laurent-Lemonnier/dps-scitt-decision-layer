@@ -1,0 +1,99 @@
+name: temoin-ts-isoluce
+
+# External witness of the transparency log https://ts.isoluce.net (temoin/README.md).
+#
+# Every hour the job runs temoin/temoin.py from main (the code and the pinned key reviewed there) against the heads
+# kept on the `temoin` branch, which holds only temoin/tetes.jsonl. The script verifies the signed tree head with the
+# pinned key, then either recomputes the root from every leaf (no head yet) or checks the RFC 9162 consistency proof
+# from the last head seen to the new one. It appends a line only when the head is new and every check held; the job
+# then commits that one file as github-actions[bot]. A failed check exits non-zero: the job turns red, nothing is
+# committed, and what the service answered is kept as the run's `preuves` artifact.
+#
+# The witness signs nothing: the git history of the `temoin` branch and the logs of these runs are the record.
+
+on:
+  schedule:
+    - cron: "23 * * * *"   # hourly at :23 (GitHub may delay or skip scheduled runs under load)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: temoin-ts-isoluce
+  cancel-in-progress: false
+
+jobs:
+  witness:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Install the two dependencies (pinned)
+        run: |
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install --quiet cbor2==6.2.1 cryptography==50.0.2
+
+      - name: Check out the heads seen (branch temoin; created empty if absent)
+        run: |
+          set +e
+          git ls-remote --exit-code --heads origin temoin
+          found=$?
+          set -e
+          if [ "$found" -eq 0 ]; then
+            git fetch --no-tags --depth=1 origin +refs/heads/temoin:refs/remotes/origin/temoin
+            git worktree add --detach etat refs/remotes/origin/temoin
+          elif [ "$found" -ne 2 ]; then
+            echo "::error::cannot list the branches of origin"; exit 1
+          else
+            echo "no temoin branch yet: starting an empty (orphan) one"
+            git worktree add --detach etat HEAD
+            git -C etat checkout --quiet --orphan temoin-new
+            git -C etat rm -rfq --ignore-unmatch .
+          fi
+          mkdir -p etat/temoin
+          wc -l etat/temoin/tetes.jsonl 2>/dev/null || echo "no head seen yet"
+
+      - name: Verify the signed tree head
+        run: |
+          "$RUNNER_TEMP/venv/bin/python" temoin/temoin.py \
+            --tetes etat/temoin/tetes.jsonl \
+            --cle temoin/service-public.pem \
+            --preuves "$RUNNER_TEMP/preuves"
+
+      - name: Commit the new line, if any
+        run: |
+          cd etat
+          git add temoin/tetes.jsonl
+          if git diff --cached --quiet; then
+            echo "no new head: nothing to commit"
+            exit 0
+          fi
+          if [ -n "$(git diff --cached --name-only | grep -vx 'temoin/tetes.jsonl')" ]; then
+            echo "::error::only temoin/tetes.jsonl may change"; exit 1
+          fi
+          if git diff --cached --numstat | awk '$2 != 0 { bad = 1 } END { exit !bad }'; then
+            echo "::error::tetes.jsonl must only grow (a line was changed or removed)"; exit 1
+          fi
+          line=$(tail -n 1 temoin/tetes.jsonl)
+          size=$(printf '%s' "$line" | python3 -c 'import json,sys; print(json.load(sys.stdin)["tree_size"])')
+          root=$(printf '%s' "$line" | python3 -c 'import json,sys; print(json.load(sys.stdin)["root_hash_hex"][:16])')
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit --quiet -m "witness: ts.isoluce.net tree_size $size root $root" \
+                     -m "Run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          git push origin HEAD:refs/heads/temoin
+          git log -1 --format='pushed %H to temoin'
+
+      - name: Keep what the service answered
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preuves
+          path: ${{ runner.temp }}/preuves
+          if-no-files-found: ignore
+          retention-days: 90
