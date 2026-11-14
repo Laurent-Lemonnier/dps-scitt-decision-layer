@@ -10,6 +10,7 @@ Sources: the invoice example (a signed person_approval, verified by the Standard
 import copy
 import hashlib
 import json
+import os
 import pathlib
 import shutil
 import sys
@@ -18,8 +19,11 @@ from agent_action_capsule import canonical
 
 HERE = pathlib.Path(__file__).resolve().parent
 CASES = HERE / "cases"
-INVOICE = pathlib.Path("/root/claude-ops/luce/dps-export")
-RELEASE = pathlib.Path("/root/claude-ops/ietf/public/examples/release-decision")
+# The invoice example is not in this repository: DPS_INVOICE_EXAMPLE names the folder holding its four documents
+# (decision-record.json, action-binding-attachment.json, signatures-attachment.json, verifier-trust-policy.json).
+# cases/01-valid holds the documents this builder wrote from them. The release example is in this repository.
+INVOICE = pathlib.Path(os.environ["DPS_INVOICE_EXAMPLE"]) if os.environ.get("DPS_INVOICE_EXAMPLE") else None
+RELEASE = pathlib.Path(os.environ.get("DPS_RELEASE_EXAMPLE") or HERE.parents[1] / "examples/release-decision")
 NS = "org.decisionprovenancestandard"
 ZEROS = "0" * 64
 
@@ -71,6 +75,8 @@ def write(folder, name, data):
 
 
 def main():
+    if INVOICE is None:
+        sys.exit("set DPS_INVOICE_EXAMPLE to the folder of the invoice example; nothing was cleared or written")
     if CASES.exists():
         shutil.rmtree(CASES)
     inv_record = json.loads((INVOICE / "decision-record.json").read_bytes())

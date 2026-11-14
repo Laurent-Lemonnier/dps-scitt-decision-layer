@@ -31,9 +31,9 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 import os
 
 HERE = pathlib.Path(__file__).resolve().parent
-# the DPS Standard checkout (read only): DPS_STANDARD, else the clone run.sh makes, else the local one
+# the DPS Standard checkout (read only): DPS_STANDARD, else the clone run.sh makes
 REPO = pathlib.Path(os.environ.get("DPS_STANDARD") or (HERE / "dps-standard" if (HERE / "dps-standard").exists()
-                                                       else "/root/claude-ops/dps/standard"))
+                                                       else HERE / "dps-standard"))
 AQTA = HERE.parent / "aqta_verify_independent.py"             # our ACTION-v1 verifier, written from the text
 # a schema-valid decision record (Core v1.3 rev. 11, reference files 5.2.0) to model the decision on: this repository's release example
 _candidates = [HERE.parents[2] / "examples/release-decision/decision-record.json",

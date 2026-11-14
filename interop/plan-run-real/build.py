@@ -38,6 +38,7 @@ import datetime
 import hashlib
 import importlib.util
 import json
+import os
 import pathlib
 import re
 import sys
@@ -49,7 +50,7 @@ from cryptography.hazmat.primitives.asymmetric import ec
 HERE = pathlib.Path(__file__).resolve().parent
 INTEROP = HERE.parent
 SIGNED = HERE / "signed"
-SIGN_DIR = pathlib.Path("/root/claude-ops/sign/case-planrun")        # prepare only: where sign.py reads the files to sign
+SIGN_DIR = pathlib.Path(os.environ.get("SIGN_DIR") or HERE / "to-sign")   # prepare only: where sign.py reads the files to sign
 
 
 def load(name, path):
@@ -125,10 +126,10 @@ def prepare():
     print(f"written to {SIGN_DIR}/ and {SIGNED}/ (action-specification.json, review-view.txt)")
     print(f"decision {DECISION_ID}, stage {STAGE_ID}, valid_until {VALID_UNTIL}; the approval's moment will be the signature's signed_at")
     print("\nto create the signing request (main session, not here):\n")
-    print(f'  cd /root/claude-ops/sign && python3 sign.py request-from-spec {SIGN_DIR}/action-specification.json '
+    print(f'  (in the signing tool\'s directory) python3 sign.py request-from-spec {SIGN_DIR}/action-specification.json '
           f'{SIGN_DIR}/review-view.txt {DECISION_ID} {STAGE_ID} "{title}" --minutes 180')
     print("\nthen, once signed: pin the assertion and the passkey's public part into signed/ (person-approval.json, passkey.json,"
-          " SHA256SUMS; /root/claude-ops/sign/case-planrun/pin-signed.py <request id>) and run build.py and negatives.py")
+          " SHA256SUMS; pin-signed.py <request id>, kept with the signing tool) and run build.py and negatives.py")
 
 
 # ---------------------------------------------------------------- the real part (read only when signed/ is complete)
