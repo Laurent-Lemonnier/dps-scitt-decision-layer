@@ -50,7 +50,7 @@ from cryptography.hazmat.primitives.asymmetric.utils import decode_dss_signature
 
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = pathlib.Path(os.environ.get("DPS_STANDARD") or (HERE / "dps-standard" if (HERE / "dps-standard").exists()
-                                                       else "/root/claude-ops/dps/wt-007f8c9"))
+                                                       else HERE.parent / "aqta/approval-record/dps-standard"))
 _candidates = [HERE.parents[1] / "examples/release-decision/decision-record.json",
                HERE.parents[2] / "exemple-release/decision-record.json"]
 TEMPLATE = pathlib.Path(os.environ.get("DPS_RECORD_TEMPLATE") or next(p for p in _candidates if p.exists()))

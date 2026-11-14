@@ -38,7 +38,7 @@ SRC = HERE / "cases" / "01-valid"
 NOA = HERE / "noa"
 OUT = HERE / "cases" / "08-noa-receipt"
 OUT.mkdir(parents=True, exist_ok=True)
-spec = importlib.util.spec_from_file_location("aq", "/root/claude-ops/ietf/demo/interop/aqta/aqta_verify_independent.py")
+spec = importlib.util.spec_from_file_location("aq", str(HERE.parent / "aqta" / "aqta_verify_independent.py"))
 AQ = importlib.util.module_from_spec(spec); spec.loader.exec_module(AQ)   # its canonical() is RFC 8785
 
 CPB_REFS_LABEL, HDR_CRIT = -65537, 2
