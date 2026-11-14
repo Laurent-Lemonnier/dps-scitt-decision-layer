@@ -119,6 +119,29 @@ NaN payload preservation, and validator rejections (non-shortest argument
 and float, indefinite length, unsorted and duplicate keys, reserved
 additional information, invalid UTF-8, trailing bytes).
 
+## The authors' references on these vectors (their report, 14 November 2026)
+
+Anton Sokolov, co-author of the draft, reported by mail on 14 November 2026 that the authors ran their two
+reference implementations on the 16 vectors of this folder. We did not run their code and have not seen its
+output; what follows is their report.
+
+- References: `lib/python` and `lib/go` of the draft's repository at commit
+  `b892e0d23c68422ab58bd0f2edd1a6114158a718`, the commit whose vectors we ran. They share an owner, so they are not
+  independent of each other.
+- Input: this folder's vectors at `21cf862c1ed6c70349cf7ad29654b56b839abb46`; run on 14 November 2026, 03:49 to
+  03:57 UTC, with Python 3.12.3 and Go 1.27.4.
+- The JSON to CBOR mapping sat in their harness, not in the references, and follows entry 10 of the log below.
+- On the draft's content-binding outcome, 14 of 16 agree and 2 differ:
+
+| Vector | This checker | Their references | Why |
+|---|---|---|---|
+| Xh-label-unprotected | failed | unverified | their code reads only the protected header |
+| Xi-label-in-crit | failed | verified | their code does not process `crit` |
+
+The -00 text states no verifier outcome for either case (entry 7 of the log below): both are left for -01. The two
+cases are written as open questions in the authors' vector format in `authors-vectors/proposed-additions.json`
+(`open-label-unprotected`, `open-label-in-crit`).
+
 ## Replay
 
 ```
@@ -225,7 +248,8 @@ Each entry: where the text leaves a choice, and the reading taken here.
 - The authors' pinned vectors were run on 14 November 2026: all 8 emission
   cases and all 25 content-binding outcomes agree under the comparisons
   documented in `authors-vectors/README.md`. The checker has not been run
-  against their implementations.
+  against their implementations by us; the authors ran their two references
+  on our 16 vectors and report 14 of 16 in agreement (section above).
 - The original 16-vector report records the run of 10 November 2026. The
   authors' vector report is separate and identifies its input commit and
   SHA-256.
