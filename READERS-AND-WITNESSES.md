@@ -40,9 +40,9 @@ coverage is claimed here. No independent watcher is listed on this page yet.
 
 | Log | Operated by | Statements | Receipts checked with |
 |---|---|---|---|
-| none yet | | | |
+| https://witness.agentactioncapsule.org | Steven Mih (Action State), co-champion with the author of the IETF 127 Hackathon project | the four current Signed Statements of `interop/one-chain/registration/`, registered on 14 November 2026, 19:33 UTC; entry = SHA-256 of the Sig_structure | [second-log/](interop/one-chain/registration/second-log/README.md): its four receipts re-checked here by a script written from RFC 9162 (inclusion proof, root, signature under the key the service publishes, two negative controls each); the operator reports that the four receipts of ts.isoluce.net verify on his side |
 
-The four records of the one-chain case are ready to register, as Signed Statements with the issuer's public key:
+The four records of the one-chain case are ready to register on another log, as Signed Statements with the issuer's public key:
 [interop/one-chain/registration/](interop/one-chain/registration/README.md).
 
 Before registering anything real, a test instance of a service can be tried with a baseline statement and fourteen
