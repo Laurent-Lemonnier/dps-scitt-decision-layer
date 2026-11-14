@@ -19,11 +19,14 @@ with an AI assistant (Claude), reviewed and run by Laurent Lemonnier.
 
 Copies are in `refs/` (full hashes: `sha256sum refs/*`). The draft's
 "Note to Readers" points to a repository with a reference emitter, verifier
-and vectors; its code and files were not read. On 11 November 2026 the list
-of files at its root was looked at to see whether vectors had been published:
-none were (the draft's .md, .txt and .xml, licence and governance files; last
-push 28 October). No positive vectors from the authors were available to us
-when this was written, so all vectors here are our own.
+and vectors; its code was not read. On 11 November 2026 the list of files at
+the root of its default branch was looked at to see whether vectors had been
+published, and showed none (the draft's .md, .txt and .xml, licence and
+governance files). That was a look at one branch only: the authors' vectors
+existed, on the branch `submit-prep` (commit `37fa8eee`, dated 18 October),
+and reached `main` on 13 November (pull request 6). The 16 vectors of this
+folder were written before theirs were read. Since 14 November this checker
+has also been run on their 33 vectors: see `authors-vectors/`.
 
 Only the Python 3.12 standard library is used. CBOR (encoder, decoder,
 core-deterministic validator) and Ed25519 are implemented in this folder
