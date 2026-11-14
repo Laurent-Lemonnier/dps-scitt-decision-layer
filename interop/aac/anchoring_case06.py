@@ -24,7 +24,10 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
 HERE = pathlib.Path(__file__).resolve().parent
 CASE = HERE / "cases" / "06-transparency-receipt"
-RUNNER = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else "/root/claude-ops/dps/wt89") / "extensions/anchoring/tests/run_checks.py"
+if len(sys.argv) != 2:
+    raise SystemExit("Usage: anchoring_case06.py STANDARD_CHECKOUT")
+RUNNER_RELATIVE = "extensions/anchoring/tests/run_checks.py"
+RUNNER = pathlib.Path(sys.argv[1]) / RUNNER_RELATIVE
 spec = importlib.util.spec_from_file_location("anchoring_run_checks", RUNNER)
 AN = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(AN)
@@ -77,7 +80,7 @@ for name, leaf in candidates.items():
     reading_b["candidates"][name] = {"leaf": leaf.hex()[:16] + "…", "root_reached": root.hex()[:16] + "…" if root else None,
                                      "receipt_signature_verifies_over_root": ok}
 
-result = {"case": "06-transparency-receipt", "runner": str(RUNNER), "A_check_receipt": reading_a, "B_leaf_diagnostic": reading_b,
+result = {"case": "06-transparency-receipt", "runner": RUNNER_RELATIVE, "A_check_receipt": reading_a, "B_leaf_diagnostic": reading_b,
           "what_this_shows": [
               "A: after PR #91 the extension reads a -8 receipt; here it stops earlier, on the kid: the receipt names no key, so the "
               "policy cannot select one. Nothing to change on the Standard's side; RFC 9943 section 6 makes kid, iss and sub a MUST "

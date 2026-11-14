@@ -16,7 +16,8 @@ Each "emit" vector gives a structured value; the checker re-creates the preimage
 encoder and hashes it, and both are compared with the expected ones. The protected header is not re-created (this
 folder has no emitter of headers); it is decoded and its labels are checked against the vector's inputs.
 
-Writes results.json and results.md beside this script. Exit status 0 when every outcome agrees, 1 otherwise."""
+Writes results.json and results.md beside this script. Exit status 0 when every outcome agrees, 1 otherwise, and 2,
+with nothing written, when the file is not the pinned one."""
 import hashlib
 import json
 import os
@@ -79,6 +80,9 @@ def main(argv):
         return 2
     raw = open(argv[1], "rb").read()
     sha = hashlib.sha256(raw).hexdigest()
+    if sha != PINNED_SHA256:
+        print(f"vectors SHA-256 mismatch: expected {PINNED_SHA256}, got {sha}", file=sys.stderr)
+        return 2
     data = json.loads(raw)
     emit = [run_emit(v) for v in data["emit"]]
     verify = [run_verify(v) for v in data["verify"]]

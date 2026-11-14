@@ -1,0 +1,144 @@
+{
+ "about": "Signed Statements for trying a Transparency Service's registration checks. Test keys only.",
+ "issuer": "https://example.org/registration-vectors",
+ "kid": "registration-vectors-test-1",
+ "kid_never_configured": "registration-vectors-test-never-configured",
+ "payload_sha256": "385d6143194a364fa4a2aeb5b9257c6badae2ee74a43f8cf0f7472988af74c16",
+ "vectors": [
+  {
+   "id": "R01",
+   "file": "R01-baseline.cose",
+   "change": "none: tagged COSE_Sign1, alg -19, kid, CWT Claims with iss and sub, content type, attached payload, empty unprotected header",
+   "text": "RFC 9943 Section 6: every MUST on a Signed Statement is met",
+   "expectation": "eligible for registration if authentication succeeds and the service's additional policy requirements are met",
+   "sha256": "facce106e209f57412867c8712460f8c92624025d3b274b5085e089568556b05",
+   "bytes": 240
+  },
+  {
+   "id": "R02",
+   "file": "R02-alg-eddsa.cose",
+   "change": "alg is -8 (EdDSA) instead of -19",
+   "text": "RFC 9864 deprecates -8 in favour of the fully specified -19, and does not prohibit it; RFC 9943 does not mandate a particular signature algorithm",
+   "expectation": "left to the registration policy",
+   "sha256": "069ac099727df597e12907e6f1779d01fb2ea7b6b16b8c7b93352a0d7cb1eae7",
+   "bytes": 240
+  },
+  {
+   "id": "R03",
+   "file": "R03-unprotected-not-empty.cose",
+   "change": "the unprotected header carries one member",
+   "text": "RFC 9943 Section 6.3: a TS MAY accept it, and the unprotected header MUST be an empty map in what is included in the Statement Sequence",
+   "expectation": "if registered, the registered bytes differ from the submitted ones, and the leaf does not cover the member",
+   "sha256": "1ba232a4ac76b88dfe34ea5b30d1837f1600df3b9626ac0b8b676acbdcd5bcf9",
+   "bytes": 261
+  },
+  {
+   "id": "R04",
+   "file": "R04-untagged.cose",
+   "change": "no tag 18 in front of the COSE_Sign1",
+   "text": "RFC 9943 Section 6.1 defines Signed_Statement = #6.18(COSE_Sign1)",
+   "expectation": "outside that tagged form; record the service's observed handling without treating normalization as a cited requirement",
+   "sha256": "ee21434d0e690cd9b07a02e51cc65b35304bc126b36bbfe5bdbc74d7e5137832",
+   "bytes": 239
+  },
+  {
+   "id": "R05",
+   "file": "R05-no-sub.cose",
+   "change": "the CWT Claims carry iss and no sub",
+   "text": "RFC 9943 Section 6: the CWT Claims value MUST include iss and sub; Section 6.3 step 2: the TS MUST check the required protected headers",
+   "expectation": "refused",
+   "sha256": "da930828ce6ba74aa4674dfda99f34801c4a717253f4ee74b67c05deef8dc8e5",
+   "bytes": 202
+  },
+  {
+   "id": "R06",
+   "file": "R06-no-cwt-claims.cose",
+   "change": "no CWT Claims header (label 15) at all",
+   "text": "RFC 9943 Section 6: the protected header MUST include the CWT Claims header parameter",
+   "expectation": "refused",
+   "sha256": "c722fdff1eb9252a35ec490c962e4d59e0ddef62e88a3705d7d3207d566d8108",
+   "bytes": 157
+  },
+  {
+   "id": "R07",
+   "file": "R07-no-kid.cose",
+   "change": "no kid, and no x5t or x5chain",
+   "text": "RFC 9943 Section 6: kid MUST be present when neither x5t nor x5chain is present in the protected header",
+   "expectation": "refused",
+   "sha256": "d9b40840475ce2ce73e3a8b958b69ca6ac0a789edcfd849ccdab75c2be1a9b62",
+   "bytes": 210
+  },
+  {
+   "id": "R08",
+   "file": "R08-detached-payload.cose",
+   "change": "the payload is nil (detached); the signature is over the payload of R01",
+   "text": "draft-ietf-scitt-scrapi-11 Section 2.3: a detached payload needs an implementation-specific channel; Section 2.3.3 lists the error \"Payload Missing\"",
+   "expectation": "refused unless the service has such a channel",
+   "sha256": "5f0baeada63da8a9cf8148f5d5e525ec4c9c2165000d88a0e28b2c5a850f1414",
+   "bytes": 206
+  },
+  {
+   "id": "R09",
+   "file": "R09-crit-unknown-label.cose",
+   "change": "two additions that go together: a private label (-65537) in the protected header, and crit listing it",
+   "text": "RFC 9052 Section 3.1: a label listed in crit that the recipient does not understand is an error",
+   "expectation": "refused by a service that does not know the label",
+   "sha256": "3f02791d03920790357b31c09986409b93781b0e5a3436858d25d88b8f91aada",
+   "bytes": 254
+  },
+  {
+   "id": "R10",
+   "file": "R10-bad-signature.cose",
+   "change": "the last bit of the signature is flipped",
+   "text": "RFC 9943 Section 6.3 step 2: the TS MUST verify the signature of the Signed Statement",
+   "expectation": "refused when the service knows the issuer's key (it cannot tell otherwise)",
+   "sha256": "8f313b99598af757b03ec75dfc59b3fe62a79bf1af3ee1c2034264de0b1c1ca7",
+   "bytes": 240
+  },
+  {
+   "id": "R11",
+   "file": "R11-issuer-never-configured.cose",
+   "change": "valid, signed with a second test key the service must never be given",
+   "text": "RFC 9943 Section 5.1.1.1: a TS MUST authenticate Signed Statements as part of a Registration Policy; Section 6.3 step 2: it MUST verify the signature; Section 6: key discovery is out of scope",
+   "expectation": "refused when no authenticated binding to the signing key can be established; keep test key 2 untrusted in this test",
+   "sha256": "59d9cbce2f83a85bc97ce669d19cb35a7dd0e179c4e385f0902ac68d9291e374",
+   "bytes": 255
+  },
+  {
+   "id": "R12",
+   "file": "R12-kid-as-text.cose",
+   "change": "kid is a text string instead of a byte string",
+   "text": "RFC 9052 Section 3.1 (Table 3) and the CDDL of RFC 9943 Section 6.1: kid is a bstr",
+   "expectation": "not a conforming kid; a service that finds the key anyway is lenient",
+   "sha256": "8ad27d21b5fc577820a6efcc8b137d755cb282b18e9729cc5b95c3aff6beb99e",
+   "bytes": 240
+  },
+  {
+   "id": "R13",
+   "file": "R13-no-alg.cose",
+   "change": "no alg in the protected header",
+   "text": "RFC 9943 Section 6.1 makes alg optional; RFC 9052 Sections 3.1 and 10 allow algorithm selection to depend on the application profile or authenticated context. Signature verification remains mandatory under RFC 9943 Section 6.3",
+   "expectation": "policy-dependent: ts.isoluce.net's policy requires an explicit supported alg and refuses this vector",
+   "sha256": "844a22c6062fe7eb8edd61f377ab637cfad6cff28fcd7dd8585ac7156f78cc5e",
+   "bytes": 238
+  },
+  {
+   "id": "R14",
+   "file": "R14-iss-not-text.cose",
+   "change": "iss is the integer 1 instead of a text string",
+   "text": "RFC 8392 Section 3.1.1: iss is a StringOrURI",
+   "expectation": "refused",
+   "sha256": "d7dd5c0af4793e006c115d02c1e52e967c822ef4d6a45332321f7efd66e74abd",
+   "bytes": 199
+  },
+  {
+   "id": "R15",
+   "file": "R15-array-head-not-shortest.cose",
+   "change": "the array of four items has its head on two bytes (0x98 0x04)",
+   "text": "The cited sections (RFC 9943 Section 6.3, RFC 9942 Section 5.2.1) do not specify whether a service preserves an otherwise valid non-shortest outer array encoding. RFC 9052 Section 9's minimum-length encoding rule applies to Sig_structure, Enc_structure and MAC_structure",
+   "expectation": "if registered, say whether the leaf covers the submitted bytes or a re-framed statement",
+   "sha256": "3f86f9a4eff949923d69d1fba64a293fb3c6bd7a962848ea79063c9382f2905f",
+   "bytes": 241
+  }
+ ]
+}

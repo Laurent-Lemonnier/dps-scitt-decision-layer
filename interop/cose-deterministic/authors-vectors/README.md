@@ -1,7 +1,7 @@
 # The authors' vectors, run through the checker of this folder — 14 November 2026
 
-Steven Mih asked for it on 13 November: run the checker written from the text of
-draft-mih-sokolov-cose-deterministic-encodings-00 (`../verify_from_text.py`) on the vectors the authors publish.
+On 14 November 2026, the checker written from draft-mih-sokolov-cose-deterministic-encodings-00
+(`../verify_from_text.py`) was run on the authors' pinned vectors, as documented below.
 
 | | |
 |---|---|
@@ -36,9 +36,34 @@ On four cases the draft outcome agrees (verified) and this checker still does no
 | `verify-ctype-unknown-encoding-json` | unsupported-encoding | same |
 | `verify-length-first-preimage` | not-canonical | the bytes match, and they are not in the encoding the header declares (length-first key order under value 1) |
 
-That is a choice of this checker, said in its README, and not a disagreement on the draft: Section 4.3 lets the
-RFC 9995 check stand when the preimage is held. A reader who wants "verified" to also mean "in the declared encoding"
-gets a different answer on the fourth case, and the draft could say which it intends.
+Section 4.3 permits the content binding to verify from matching preimage bytes, subject to Section 4.2. The
+additional encoding-conformance result is this checker's own policy and must be reported separately; it is not a
+disagreement on the draft's outcome.
+
+## Proposed additions and vector-format extensions
+
+[proposed-additions.json](proposed-additions.json) contains additional tests and reporting questions. The
+unknown-encoding cases use the authors' existing format. The CBOR-sequence cases and the unprotected-header case
+require the format extensions stated in the file. They include new tests beyond this folder's original 16 vectors.
+`run_authors_vectors.py` reproduces the authors' pinned file only; `run_proposed_additions.py` replays these
+proposals with the same checker and prints its answer for each. They are offered to the authors, to take or to leave.
+
+| Case | What it adds | Expected, and why |
+|---|---|---|
+| `verify-unknown-encoding-ctype-absent`, and the same holding the value | an encoding value the verifier does not recognize, with 259 absent | failed: Section 4.2 fails the binding when 259 is absent, with no condition on the encoding value, and says the check comes first |
+| `emit-cbor-seq`, `verify-cbor-seq-value` | a CBOR sequence under `application/cbor-seq`, which Section 8.2 lists | each item encoded on its own; `value_cbor` is the two items one after the other, which needs the format extension named above |
+
+The following three inputs violate Section 3: label 271 in crit, a non-integer encoding value, and label 271 in the
+unprotected header. This checker rejects all three and reports failed. The draft does not explicitly map each Section 3
+violation to one of its content-binding outcomes. The question for the authors is how to report these nonconforming
+inputs, including whether envelope validity should be reported separately from content binding. An RFC 9995-only
+recipient that cannot process label 271 must not ignore it when crit requires its processing.
+
+| Case | The rule the input breaks | This checker |
+|---|---|---|
+| `open-label-in-crit` | Section 3: a producer MUST NOT list the label in crit | failed |
+| `open-encoding-not-int` | Section 3: the CDDL makes the value an int | failed |
+| `open-label-unprotected` | Section 3: the label MUST NOT be present in the unprotected header | failed |
 
 ## Reproduce
 
@@ -47,8 +72,12 @@ curl -sO https://raw.githubusercontent.com/action-state-group/cose-deterministic
 python3.12 run_authors_vectors.py vectors.json     # standard library only; exit status 0 when all outcomes agree
 ```
 
-`results.json` and `results.md` are what that run wrote here. The script reports whether the file's SHA-256 is the one
-pinned above.
+`results.json` and `results.md` are what that run wrote here. The script stops with exit status 2, and writes nothing, when the
+file's SHA-256 is not the one pinned above.
+
+```sh
+python3.12 run_proposed_additions.py               # the proposed additions and the three open inputs, same checker
+```
 
 ## What this does not show
 

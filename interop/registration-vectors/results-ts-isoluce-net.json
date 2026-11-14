@@ -1,0 +1,305 @@
+[
+ {
+  "id": "R01",
+  "file": "R01-baseline.cose",
+  "strict": {
+   "registered": true,
+   "issuer_verified": true,
+   "registered_bytes_equal_submitted": true,
+   "leaf": "041aba1fa89e63e5b6b0aa2922467c63fdc3bffde90004c4a63e5708ef84dc57"
+  },
+  "open_with_test_key": {
+   "registered": true,
+   "issuer_verified": true,
+   "registered_bytes_equal_submitted": true,
+   "leaf": "041aba1fa89e63e5b6b0aa2922467c63fdc3bffde90004c4a63e5708ef84dc57"
+  },
+  "open_without_key": {
+   "registered": true,
+   "issuer_verified": false,
+   "registered_bytes_equal_submitted": true,
+   "leaf": "041aba1fa89e63e5b6b0aa2922467c63fdc3bffde90004c4a63e5708ef84dc57"
+  }
+ },
+ {
+  "id": "R02",
+  "file": "R02-alg-eddsa.cose",
+  "strict": {
+   "registered": true,
+   "issuer_verified": true,
+   "registered_bytes_equal_submitted": true,
+   "leaf": "3c85eeca6479eb068a6c7ab562b672d264e8612e1e1519fd044e87e94f3b2c84"
+  },
+  "open_with_test_key": {
+   "registered": true,
+   "issuer_verified": true,
+   "registered_bytes_equal_submitted": true,
+   "leaf": "3c85eeca6479eb068a6c7ab562b672d264e8612e1e1519fd044e87e94f3b2c84"
+  },
+  "open_without_key": {
+   "registered": true,
+   "issuer_verified": false,
+   "registered_bytes_equal_submitted": true,
+   "leaf": "3c85eeca6479eb068a6c7ab562b672d264e8612e1e1519fd044e87e94f3b2c84"
+  }
+ },
+ {
+  "id": "R03",
+  "file": "R03-unprotected-not-empty.cose",
+  "strict": {
+   "registered": true,
+   "issuer_verified": true,
+   "registered_bytes_equal_submitted": false,
+   "leaf": "041aba1fa89e63e5b6b0aa2922467c63fdc3bffde90004c4a63e5708ef84dc57"
+  },
+  "open_with_test_key": {
+   "registered": true,
+   "issuer_verified": true,
+   "registered_bytes_equal_submitted": false,
+   "leaf": "041aba1fa89e63e5b6b0aa2922467c63fdc3bffde90004c4a63e5708ef84dc57"
+  },
+  "open_without_key": {
+   "registered": true,
+   "issuer_verified": false,
+   "registered_bytes_equal_submitted": false,
+   "leaf": "041aba1fa89e63e5b6b0aa2922467c63fdc3bffde90004c4a63e5708ef84dc57"
+  }
+ },
+ {
+  "id": "R04",
+  "file": "R04-untagged.cose",
+  "strict": {
+   "registered": false,
+   "title": "Malformed request",
+   "detail": "The request could not be parsed as a tagged COSE_Sign1: not tagged 18 (COSE_Sign1); RFC 9942 section 4.3 requires the tag, SCRAPI section 2.3 shows it"
+  },
+  "open_with_test_key": {
+   "registered": false,
+   "title": "Malformed request",
+   "detail": "The request could not be parsed as a tagged COSE_Sign1: not tagged 18 (COSE_Sign1); RFC 9942 section 4.3 requires the tag, SCRAPI section 2.3 shows it"
+  },
+  "open_without_key": {
+   "registered": false,
+   "title": "Malformed request",
+   "detail": "The request could not be parsed as a tagged COSE_Sign1: not tagged 18 (COSE_Sign1); RFC 9942 section 4.3 requires the tag, SCRAPI section 2.3 shows it"
+  }
+ },
+ {
+  "id": "R05",
+  "file": "R05-no-sub.cose",
+  "strict": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "The CWT Claims must include iss (1) and sub (2) as text strings (RFC 9943 section 6)"
+  },
+  "open_with_test_key": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "The CWT Claims must include iss (1) and sub (2) as text strings (RFC 9943 section 6)"
+  },
+  "open_without_key": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "The CWT Claims must include iss (1) and sub (2) as text strings (RFC 9943 section 6)"
+  }
+ },
+ {
+  "id": "R06",
+  "file": "R06-no-cwt-claims.cose",
+  "strict": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "Signed Statement carries no CWT Claims header (15) in its protected header (RFC 9943 section 6, RFC 9597)"
+  },
+  "open_with_test_key": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "Signed Statement carries no CWT Claims header (15) in its protected header (RFC 9943 section 6, RFC 9597)"
+  },
+  "open_without_key": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "Signed Statement carries no CWT Claims header (15) in its protected header (RFC 9943 section 6, RFC 9597)"
+  }
+ },
+ {
+  "id": "R07",
+  "file": "R07-no-kid.cose",
+  "strict": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "Signed Statement names no kid (4), x5t (34) or x5chain (33) in its protected header (RFC 9943 section 6)"
+  },
+  "open_with_test_key": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "Signed Statement names no kid (4), x5t (34) or x5chain (33) in its protected header (RFC 9943 section 6)"
+  },
+  "open_without_key": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "Signed Statement names no kid (4), x5t (34) or x5chain (33) in its protected header (RFC 9943 section 6)"
+  }
+ },
+ {
+  "id": "R08",
+  "file": "R08-detached-payload.cose",
+  "strict": {
+   "registered": false,
+   "title": "Payload Missing",
+   "detail": "Signed Statement payload must be present (detached payloads are not accepted by this service)"
+  },
+  "open_with_test_key": {
+   "registered": false,
+   "title": "Payload Missing",
+   "detail": "Signed Statement payload must be present (detached payloads are not accepted by this service)"
+  },
+  "open_without_key": {
+   "registered": false,
+   "title": "Payload Missing",
+   "detail": "Signed Statement payload must be present (detached payloads are not accepted by this service)"
+  }
+ },
+ {
+  "id": "R09",
+  "file": "R09-crit-unknown-label.cose",
+  "strict": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "Signed Statement carries a crit (2) header this service does not understand: [-65537] (RFC 9052 section 3.1)"
+  },
+  "open_with_test_key": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "Signed Statement carries a crit (2) header this service does not understand: [-65537] (RFC 9052 section 3.1)"
+  },
+  "open_without_key": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "Signed Statement carries a crit (2) header this service does not understand: [-65537] (RFC 9052 section 3.1)"
+  }
+ },
+ {
+  "id": "R10",
+  "file": "R10-bad-signature.cose",
+  "strict": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "Signed Statement signature does not verify under the trust anchor its kid names"
+  },
+  "open_with_test_key": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "Signed Statement signature does not verify under the trust anchor its kid names"
+  },
+  "open_without_key": {
+   "registered": true,
+   "issuer_verified": false,
+   "registered_bytes_equal_submitted": true,
+   "leaf": "d6364ea0aaca5498be6b8e62a9420cb62042f7f17b0771790e89d9544dbd8630"
+  }
+ },
+ {
+  "id": "R11",
+  "file": "R11-issuer-never-configured.cose",
+  "strict": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "Signed Statement not accepted by the current Registration Policy: its kid names no configured trust anchor"
+  },
+  "open_with_test_key": {
+   "registered": true,
+   "issuer_verified": false,
+   "registered_bytes_equal_submitted": true,
+   "leaf": "6ee85bae2ba7a4c3c534d54a9dfbed0a0da9fd8588ef61cab5cf7d0def15d6bb"
+  },
+  "open_without_key": {
+   "registered": true,
+   "issuer_verified": false,
+   "registered_bytes_equal_submitted": true,
+   "leaf": "6ee85bae2ba7a4c3c534d54a9dfbed0a0da9fd8588ef61cab5cf7d0def15d6bb"
+  }
+ },
+ {
+  "id": "R12",
+  "file": "R12-kid-as-text.cose",
+  "strict": {
+   "registered": true,
+   "issuer_verified": true,
+   "registered_bytes_equal_submitted": true,
+   "leaf": "491d69adb8a5c18f808370cb5eeebbe2a83382b490c761d7fd2037acfb6d8524"
+  },
+  "open_with_test_key": {
+   "registered": true,
+   "issuer_verified": true,
+   "registered_bytes_equal_submitted": true,
+   "leaf": "491d69adb8a5c18f808370cb5eeebbe2a83382b490c761d7fd2037acfb6d8524"
+  },
+  "open_without_key": {
+   "registered": true,
+   "issuer_verified": false,
+   "registered_bytes_equal_submitted": true,
+   "leaf": "491d69adb8a5c18f808370cb5eeebbe2a83382b490c761d7fd2037acfb6d8524"
+  }
+ },
+ {
+  "id": "R13",
+  "file": "R13-no-alg.cose",
+  "strict": {
+   "registered": false,
+   "title": "Bad Signature Algorithm",
+   "detail": "Signed Statement contained a non-supported algorithm (None); this service registers [-36, -35, -19, -8, -7]"
+  },
+  "open_with_test_key": {
+   "registered": false,
+   "title": "Bad Signature Algorithm",
+   "detail": "Signed Statement contained a non-supported algorithm (None); this service registers [-36, -35, -19, -8, -7]"
+  },
+  "open_without_key": {
+   "registered": false,
+   "title": "Bad Signature Algorithm",
+   "detail": "Signed Statement contained a non-supported algorithm (None); this service registers [-36, -35, -19, -8, -7]"
+  }
+ },
+ {
+  "id": "R14",
+  "file": "R14-iss-not-text.cose",
+  "strict": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "The CWT Claims must include iss (1) and sub (2) as text strings (RFC 9943 section 6)"
+  },
+  "open_with_test_key": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "The CWT Claims must include iss (1) and sub (2) as text strings (RFC 9943 section 6)"
+  },
+  "open_without_key": {
+   "registered": false,
+   "title": "Rejected",
+   "detail": "The CWT Claims must include iss (1) and sub (2) as text strings (RFC 9943 section 6)"
+  }
+ },
+ {
+  "id": "R15",
+  "file": "R15-array-head-not-shortest.cose",
+  "strict": {
+   "registered": true,
+   "issuer_verified": true,
+   "registered_bytes_equal_submitted": false,
+   "leaf": "041aba1fa89e63e5b6b0aa2922467c63fdc3bffde90004c4a63e5708ef84dc57"
+  },
+  "open_with_test_key": {
+   "registered": true,
+   "issuer_verified": true,
+   "registered_bytes_equal_submitted": false,
+   "leaf": "041aba1fa89e63e5b6b0aa2922467c63fdc3bffde90004c4a63e5708ef84dc57"
+  },
+  "open_without_key": {
+   "registered": true,
+   "issuer_verified": false,
+   "registered_bytes_equal_submitted": false,
+   "leaf": "041aba1fa89e63e5b6b0aa2922467c63fdc3bffde90004c4a63e5708ef84dc57"
+  }
+ }
+]

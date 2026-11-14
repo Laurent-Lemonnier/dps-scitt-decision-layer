@@ -214,15 +214,21 @@ Each entry: where the text leaves a choice, and the reading taken here.
     not place the hash-algorithm check or the signature. We check the
     signature first (independent), then 4.2, then the hash algorithm.
 17. **CBOR sequences.** Each item encoded separately (Section 8.2); a value
-    for a sequence is given as a list of items. Not exercised by the
-    vectors yet.
+    for a sequence is given as a list of items. Not exercised by the 16
+    vectors of this folder; `authors-vectors/proposed-additions.json` has
+    one emit and one verify case, replayed by `run_proposed_additions.py`.
 18. **Protected header encoding.** Nothing requires the protected header
     itself to be deterministic; not checked.
 
 ## Limits
 
-- Positive vectors from the authors were not published at the time of
-  writing; nothing here has yet been run on them.
+- The authors' pinned vectors were run on 14 November 2026: all 8 emission
+  cases and all 25 content-binding outcomes agree under the comparisons
+  documented in `authors-vectors/README.md`. The checker has not been run
+  against their implementations.
+- The original 16-vector report records the run of 10 November 2026. The
+  authors' vector report is separate and identifies its input commit and
+  SHA-256.
 - Signatures: EdDSA (-8) only; ES256 (used in the draft's example) is not
   implemented yet. Hash algorithms: SHA-256, SHA-384, SHA-512.
 - Only encoding value 1 is implemented.

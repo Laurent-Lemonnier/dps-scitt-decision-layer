@@ -1,0 +1,104 @@
+{
+ "description": "Proposals based on the authors' vectors at b892e0d2. The ordinary emit and verify cases follow their fields; the CBOR-sequence cases extend value_cbor to carry a sequence of items, and open-label-unprotected adds an unprotected member. The open group records questions about reporting Section 3 violations. These proposals include new tests beyond this folder's original 16 vectors.",
+ "header_label": 271,
+ "emit": [
+  {
+   "id": "emit-cbor-seq",
+   "description": "A CBOR sequence of two items (application/cbor-seq): each item is encoded on its own (Section 8.2, RFC 8742); value_cbor is the two items one after the other",
+   "value_cbor": "a2616202616101fb3ff8000000000000",
+   "content_type": "application/cbor-seq",
+   "hash_alg": -16,
+   "expected": {
+    "preimage": "a2616101616202f93e00",
+    "payload": "2a7a491603549bead7f5fab44f9d3257c684d88e752dac8823eb011da7223c53",
+    "protected": "a401261901022f190103746170706c69636174696f6e2f63626f722d73657119010f01"
+   }
+  }
+ ],
+ "verify": [
+  {
+   "id": "verify-unknown-encoding-ctype-absent",
+   "description": "An encoding value the verifier does not recognize, with 259 absent, holding a matching preimage: Section 4.2 fails the binding when 259 is absent, whatever the encoding value, and that check comes first",
+   "protected": "a301261901022f19010f02",
+   "payload": "a0d3af9e86e5517f729bad0657e2c6f3b7d03899894c8d6b33759074c893b5e3",
+   "preimage": "a2616101616202",
+   "expected": {
+    "outcome": "failed",
+    "reason": "content-type-absent"
+   },
+   "this_checker": {
+    "draft_outcome": "failed",
+    "verdict": "inconsistent-header"
+   }
+  },
+  {
+   "id": "verify-unknown-encoding-ctype-absent-value",
+   "description": "The same envelope, holding the structured value",
+   "protected": "a301261901022f19010f02",
+   "payload": "a0d3af9e86e5517f729bad0657e2c6f3b7d03899894c8d6b33759074c893b5e3",
+   "value_cbor": "a2616202616101",
+   "expected": {
+    "outcome": "failed",
+    "reason": "content-type-absent"
+   },
+   "this_checker": {
+    "draft_outcome": "failed",
+    "verdict": "inconsistent-header"
+   }
+  },
+  {
+   "id": "verify-cbor-seq-value",
+   "description": "Holds the two items of a CBOR sequence as a structured value; re-creates the preimage item by item",
+   "protected": "a401261901022f190103746170706c69636174696f6e2f63626f722d73657119010f01",
+   "payload": "2a7a491603549bead7f5fab44f9d3257c684d88e752dac8823eb011da7223c53",
+   "value_cbor": "a2616202616101fb3ff8000000000000",
+   "expected": {
+    "outcome": "verified",
+    "reason": "recreated-digest-match"
+   },
+   "this_checker": {
+    "draft_outcome": "verified",
+    "verdict": "pass"
+   }
+  }
+ ],
+ "open": [
+  {
+   "id": "open-label-in-crit",
+   "question": "This input violates Section 3's producer prohibition. How should a draft-aware verifier report it, and should envelope validity be separate from content binding? A recipient that cannot process label 271 cannot ignore its presence in crit.",
+   "protected": "a50126028119010f1901022f190103706170706c69636174696f6e2f63626f7219010f01",
+   "payload": "a0d3af9e86e5517f729bad0657e2c6f3b7d03899894c8d6b33759074c893b5e3",
+   "preimage": "a2616101616202",
+   "this_checker": {
+    "draft_outcome": "failed",
+    "verdict": "inconsistent-header",
+    "reason": "deterministic-encodings (label 271) listed in crit (draft Section 3)"
+   }
+  },
+  {
+   "id": "open-encoding-not-int",
+   "question": "Section 3 requires an integer encoding value; the text string \"1\" is not a valid registry value. How should this invalid parameter be reported, separately from an unknown integer value?",
+   "protected": "a401261901022f190103706170706c69636174696f6e2f63626f7219010f6131",
+   "payload": "a0d3af9e86e5517f729bad0657e2c6f3b7d03899894c8d6b33759074c893b5e3",
+   "preimage": "a2616101616202",
+   "this_checker": {
+    "draft_outcome": "failed",
+    "verdict": "inconsistent-header",
+    "reason": "deterministic-encodings value '1' is not an int (draft Section 3 CDDL)"
+   }
+  },
+  {
+   "id": "open-label-unprotected",
+   "question": "This input violates Section 3's placement rule. How should that violation be reported, and should envelope validity be separate from content binding? This proposed case extends the vector format with an unprotected member.",
+   "protected": "a301261901022f190103706170706c69636174696f6e2f63626f72",
+   "unprotected": "a119010f01",
+   "payload": "a0d3af9e86e5517f729bad0657e2c6f3b7d03899894c8d6b33759074c893b5e3",
+   "preimage": "a2616101616202",
+   "this_checker": {
+    "draft_outcome": "failed",
+    "verdict": "inconsistent-header",
+    "reason": "deterministic-encodings (label 271) in the unprotected header (draft Section 3)"
+   }
+  }
+ ]
+}

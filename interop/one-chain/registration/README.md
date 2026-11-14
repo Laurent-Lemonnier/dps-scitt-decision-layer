@@ -15,11 +15,11 @@ byte, the file of the same name in `../out/positive/`. Protected header:
 | 4 (kid) | `isoluce-case18-issuer-1`, as a byte string |
 | 15 (CWT Claims) | `{1: "https://isoluce.net", 2: "urn:isoluce:dps:case-18:<name>"}` (iss, sub) |
 
-The signature is over the Sig_structure of RFC 9052 Section 4.4. The key is a test key made for this case and used for
-nothing else. Its public half is `issuer-ed25519.pub.pem` (raw key, hex:
-`bfe07446773cb19de0699bc782ed8e3df489ea9e006dfeffbc11da3b12544771`). No service other than ts.isoluce.net has been
-told about it, so a registration policy that wants a known issuer will refuse these statements. If it does, that is a
-result to write down.
+The signature is over the Sig_structure of RFC 9052 Section 4.4. These statements are signed under kid
+`isoluce-case18-issuer-1`. The issuer's public key is `issuer-ed25519.pub.pem`; its raw public bytes are
+`bfe07446773cb19de0699bc782ed8e3df489ea9e006dfeffbc11da3b12544771`. This is distinct from the Transparency Service's
+receipt verification key and from both public-seed keys in `../../registration-vectors/`. A service must apply its own
+authentication and registration policy; please report any refusal and its reason.
 
 | File | Bytes | SHA-256 of the Signed Statement | Entry on ts.isoluce.net |
 |---|---|---|---|
@@ -34,19 +34,19 @@ An entry id on ts.isoluce.net is the hex of the Merkle leaf, SHA-256(0x00 || the
 
 ## Why there are two dispute packets
 
-The dispute packet was registered on 8 November in the afternoon. That evening the author of
-draft-xg-payment-dispute-profile gave the four constructions his -01 names and does not build, and the packet was
-corrected (see the case's README). The log is append-only, so leaf 3 still holds the packet as it was that afternoon;
-`dispute-packet.2026-11-08.signed-statement.cose` is that statement. `dispute-packet.signed-statement.cose` is the
-packet as it is in `../out/positive/` today. The three other records have not changed since they were registered.
+The earlier packet was registered on 8 November 2026 before the case's four hash constructions were corrected later
+that day (commit d6cd12c33e6b43a0fd9cd47b28ae9c75b40acdd1). Leaf 3 retains the earlier Signed Statement, archived here
+as `dispute-packet.2026-11-08.signed-statement.cose`. `dispute-packet.signed-statement.cose` carries the corrected
+packet in `../out/positive/` and was registered on 14 November as leaf 32. The other three Signed Statements still
+carry the same payload bytes as their registrations on 8 November.
 
 ## Checking a receipt from another service
 
-A receipt is checked against three things: the bytes of the Signed Statement as the service registered them, the
-service's key, and the way the service computes its leaf. On the third point services differ. ts.isoluce.net hashes
-the registered statement, as RFC 9162 does. In case 06 of `../../aac/` (27 October) the service met there hashed the
-statement's Sig_structure, and its receipt carried alg -8 with no `iss`, `sub` or `kid`; the anchoring reference of
-the Decision Provenance Standard reads -19 and needs a `kid`, so it reported that receipt as not supported
-(`../../aac/README.md`, "Findings from case 06"). Whoever registers these statements elsewhere: please say which
-bytes your leaf covers and which algorithm your receipts carry, so that a refusal can be told from a difference of
-reading.
+A receipt must be checked against the registered entry bytes, the service's verification key, and the service's entry
+and leaf construction. ts.isoluce.net uses SHA-256(0x00 || registered Signed Statement bytes). For the archived case-06
+receipt dated 27 October 2026, entry = SHA-256(Sig_structure(statement)) and leaf = SHA-256(0x00 || entry); its
+signature verifies under that construction. That receipt carries alg -8 but no kid, iss or sub. Since the merge of
+Standard PR #91 on 28 October, the anchoring reference accepts -8 receipts under an Ed25519 service key, with a
+deprecation finding; its case-06 check stops on the missing kid. The missing mandatory SCITT headers and the different
+entry construction are separate issues. See `../../aac/cases/06-transparency-receipt/anchoring-result.json`. Please
+provide the registered bytes, service verification key and entry construction with any new receipts.

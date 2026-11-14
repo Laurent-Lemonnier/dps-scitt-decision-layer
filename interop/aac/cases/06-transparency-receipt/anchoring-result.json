@@ -1,6 +1,6 @@
 {
  "case": "06-transparency-receipt",
- "runner": "/root/claude-ops/dps/wt89/extensions/anchoring/tests/run_checks.py",
+ "runner": "extensions/anchoring/tests/run_checks.py",
  "A_check_receipt": {
   "status": "failed",
   "findings": [
