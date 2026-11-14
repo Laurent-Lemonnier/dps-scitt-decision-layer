@@ -46,7 +46,7 @@ jobs:
       version: ${{ steps.pin.outputs.version }}
       tag: ${{ steps.pin.outputs.tag }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Read the pinned release from interop/requirements-gilda.txt
         id: pin
         run: |
@@ -63,7 +63,7 @@ jobs:
     needs: pins
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: vectors-approval-binding through the Action, verifier approval_binding_verify_independent.py
         uses: probityai/agent-evidence-vectors@v0.36.3
         with:
@@ -77,7 +77,7 @@ jobs:
     needs: pins
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
