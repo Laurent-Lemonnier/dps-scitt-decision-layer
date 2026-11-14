@@ -242,6 +242,15 @@ Each entry: where the text leaves a choice, and the reading taken here.
     one emit and one verify case, replayed by `run_proposed_additions.py`.
 18. **Protected header encoding.** Nothing requires the protected header
     itself to be deterministic; not checked.
+19. **A value that is not an integer.** The CDDL of Section 3 makes the value
+    an int; the text states no verifier outcome for another type. Until
+    14 November 2026 this checker reported failed. Since then it treats such
+    a value as one it does not recognize: unverified when only the structured
+    value is held, the RFC 9995 check alone when the preimage is held, never
+    a pass. Changed after the authors said that -01 carries the text string
+    "dtrm" and that an unrecognized value is unverified, never failed. No
+    vector of this folder is affected; `authors-vectors-01-proposed/` shows
+    the effect on the vectors proposed for -01.
 
 ## Limits
 

@@ -257,20 +257,26 @@ def verify(envelope_bytes, *, preimage=None, value=None, value_given=False,
                       f"deterministic-encodings (label {label}) listed in crit (draft Section 3)", "failed")
     has_enc = label in prot
     enc = prot.get(label)
+    # A value that is not an int is outside the -00 CDDL (Section 3); the text states no verifier outcome for it.
+    # Since 14 November 2026 it is treated as a value this checker does not recognize, not as a failure
+    # (ambiguity log, entry 19). `known` and `implemented` replace the direct table lookups for that reason.
+    known = type(enc) is int and enc in ENCODINGS
+    implemented = type(enc) is int and enc in IMPLEMENTED
     if has_enc:
         if type(enc) is not int:
-            return finish("inconsistent-header", f"deterministic-encodings value {enc!r} is not an int (draft Section 3 CDDL)", "failed")
+            r.log(f"deterministic-encodings value {enc!r} is not an int (outside the -00 CDDL, draft Section 3): "
+                  "treated as a value this checker does not recognize")
         if ct is None:
             return finish("inconsistent-header",
                           "deterministic-encodings present but preimage-content-type (259) absent (draft Section 4.2)",
                           "failed")
-        if enc in ENCODINGS:
+        if known:
             ok, why = content_type_matches(ct, enc)
             r.log(f"Section 4.2 match of 259 against {ENCODINGS[enc]['name']}: {ok} ({why})")
             if not ok:
                 return finish("inconsistent-header", f"259 does not match encoding {enc}: {why} (draft Section 4.2)", "failed")
         else:
-            r.log(f"deterministic-encodings={enc} not recognized: Section 4.2 match not applicable")
+            r.log(f"deterministic-encodings={enc!r} not recognized: Section 4.2 match not applicable")
     else:
         r.log(f"deterministic-encodings (label {label}) absent")
 
@@ -291,9 +297,9 @@ def verify(envelope_bytes, *, preimage=None, value=None, value_given=False,
             return finish("cannot-recompute",
                           "deterministic-encodings absent: the preimage bytes match the payload (RFC 9995 Section 5.3), "
                           "but no declared encoding to check; this checker never passes without the header", "verified")
-        if enc not in IMPLEMENTED:
+        if not implemented:
             return finish("unsupported-encoding",
-                          f"deterministic-encodings={enc} not implemented; bytes match the payload but the declared "
+                          f"deterministic-encodings={enc!r} not implemented; bytes match the payload but the declared "
                           "encoding cannot be checked", "verified")
         if strict_bytes:
             err = cbor_det.check_core_deterministic(preimage, sequence=_is_seq(ct))
@@ -307,9 +313,9 @@ def verify(envelope_bytes, *, preimage=None, value=None, value_given=False,
         if not has_enc:
             return finish("cannot-recompute",
                           "structured value held but deterministic-encodings absent (draft Section 4.3)", "unverified")
-        if enc not in IMPLEMENTED:
+        if not implemented:
             return finish("unsupported-encoding",
-                          f"deterministic-encodings={enc} not recognized/implemented (draft Section 4.3)", "unverified")
+                          f"deterministic-encodings={enc!r} not recognized/implemented (draft Section 4.3)", "unverified")
         try:
             if _is_seq(ct):
                 if not isinstance(value, list):

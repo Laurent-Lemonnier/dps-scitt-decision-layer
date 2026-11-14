@@ -82,9 +82,10 @@
    "payload": "a0d3af9e86e5517f729bad0657e2c6f3b7d03899894c8d6b33759074c893b5e3",
    "preimage": "a2616101616202",
    "this_checker": {
-    "draft_outcome": "failed",
-    "verdict": "inconsistent-header",
-    "reason": "deterministic-encodings value '1' is not an int (draft Section 3 CDDL)"
+    "draft_outcome": "verified",
+    "verdict": "unsupported-encoding",
+    "reason": "deterministic-encodings='1' not implemented; bytes match the payload but the declared encoding cannot be checked",
+    "until_2026-11-14": "failed (inconsistent-header): a value that is not an int was treated as a violation of the -00 CDDL"
    }
   },
   {

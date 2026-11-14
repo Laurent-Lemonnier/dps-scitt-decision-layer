@@ -54,7 +54,10 @@ proposals with the same checker and prints its answer for each. They are offered
 | `emit-cbor-seq`, `verify-cbor-seq-value` | a CBOR sequence under `application/cbor-seq`, which Section 8.2 lists | each item encoded on its own; `value_cbor` is the two items one after the other, which needs the format extension named above |
 
 The following three inputs violate Section 3: label 271 in crit, a non-integer encoding value, and label 271 in the
-unprotected header. This checker rejects all three and reports failed. The draft does not explicitly map each Section 3
+unprotected header. This checker reports failed for the two placement violations. For the non-integer value it
+reported failed until 14 November 2026; since then it treats it as a value it does not recognize (here verified, the
+preimage being held, and not a pass), after the authors said that -01 carries a text string and that an unrecognized
+value is never a failure (entry 19 of the ambiguity log). The draft does not explicitly map each Section 3
 violation to one of its content-binding outcomes. The question for the authors is how to report these nonconforming
 inputs, including whether envelope validity should be reported separately from content binding. An RFC 9995-only
 recipient that cannot process label 271 must not ignore it when crit requires its processing.
