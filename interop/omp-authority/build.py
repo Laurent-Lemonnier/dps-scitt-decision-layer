@@ -36,9 +36,8 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 
 HERE = pathlib.Path(__file__).resolve().parent
-# the DPS Standard checkout (read only): DPS_STANDARD, else the clone run.sh makes, else the local one
-REPO = pathlib.Path(os.environ.get("DPS_STANDARD") or next(
-    (str(p) for p in (HERE.parent / "aqta/approval-record/dps-standard",) if p.exists()), "/root/claude-ops/dps/standard"))
+# the DPS Standard checkout (read only): DPS_STANDARD, else the clone run.sh makes
+REPO = pathlib.Path(os.environ.get("DPS_STANDARD") or HERE.parent / "aqta/approval-record/dps-standard")
 TEMPLATE = pathlib.Path(os.environ.get("DPS_RECORD_TEMPLATE") or HERE.parents[1] / "examples/release-decision/decision-record.json")
 
 

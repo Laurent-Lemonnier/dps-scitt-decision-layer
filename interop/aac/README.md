@@ -68,7 +68,7 @@ attachment's `luce:idem:invoice-0901`), and nothing compares them. That join is 
 # (interop/run.sh clones it at interop/aqta/approval-record/dps-standard, the default; DPS_STANDARD names another)
 python3 -m pip install "agent-action-capsule==0.16.0" jsonschema referencing cryptography
 export DPS_STANDARD=/path/to/decision-provenance-standard   # optional when run.sh's checkout exists
-python3 build_cases.py       # rebuilds cases 01 to 05 from the source examples (it clears cases/ first: rebuild 06 to 08 and 14 after it)
+DPS_INVOICE_EXAMPLE=/path/to/invoice-example python3 build_cases.py   # rebuilds cases 01 to 05 from the source examples (the invoice example is not in this repository; it clears cases/ first: rebuild 06 to 08 and 14 after it)
 python3 build_mutations.py   # cases 15 and 16 from case 01
 python3 check_case.py cases/0[1-5]-* cases/1[4-6]-*   # both sides and the join; PASS when result matches expected (06 to 08 have their own scripts)
 ./venv-scitt/bin/python cose_case.py   # case 07, both COSE forms (scitt-cose, cbor2), with the capsule library on its path

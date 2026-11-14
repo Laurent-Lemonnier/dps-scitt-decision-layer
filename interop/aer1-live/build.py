@@ -33,7 +33,7 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 
 HERE = pathlib.Path(__file__).resolve().parent
-REPO = pathlib.Path(os.environ.get("DPS_STANDARD") or "/root/claude-ops/dps/wt-007f8c9")
+REPO = pathlib.Path(os.environ.get("DPS_STANDARD") or HERE.parent / "aqta/approval-record/dps-standard")
 _candidates = [HERE.parents[1] / "examples/release-decision/decision-record.json",
                HERE.parents[2] / "exemple-release/decision-record.json"]
 TEMPLATE = pathlib.Path(os.environ.get("DPS_RECORD_TEMPLATE") or next(p for p in _candidates if p.exists()))
