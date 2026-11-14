@@ -252,3 +252,5 @@ curl -fsSL -o "$AUTHORS_VECTORS" https://raw.githubusercontent.com/action-state-
 
 echo "== registration-vectors/: the fifteen Signed Statements regenerate to the committed bytes (nothing is posted anywhere)"
 (cd registration-vectors && python3 make_vectors.py && git diff --exit-code --quiet -- vectors) || { echo "registration-vectors: the regenerated vectors differ from the committed ones"; git --no-pager diff --stat -- registration-vectors/vectors; exit 1; }
+echo "== registration-vectors/: the policy code of service/scitt/ gives the committed table (called in memory, four settings)"
+(cd registration-vectors && python3 run_policy.py && git diff --exit-code --quiet -- results-ts-isoluce-net.json results-ts-isoluce-net.md) || { echo "registration-vectors: the policy code does not give the committed results"; git --no-pager diff --stat -- registration-vectors; exit 1; }

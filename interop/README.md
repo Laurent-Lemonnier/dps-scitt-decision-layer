@@ -63,5 +63,5 @@ directory lists what was left out. Licence: Apache-2.0, as the rest of this repo
 
 Not a reading of a draft, and so not in the table: [registration-vectors/](registration-vectors/README.md), a baseline
 Signed Statement and fourteen variations for trying the registration checks of a SCITT Transparency Service
-(RFC 9943 Sections 6, 6.1 and 6.3), with what the policy function of ts.isoluce.net does with each, called in memory
-(14 November 2026).
+(RFC 9943 Sections 6, 6.1 and 6.3), with the registration policy code of ts.isoluce.net and what it does with each,
+called in memory (14 November 2026).

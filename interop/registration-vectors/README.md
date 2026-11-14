@@ -48,24 +48,42 @@ append-only log.
 
 ## What the policy function of ts.isoluce.net does with them
 
-[results-ts-isoluce-net.md](results-ts-isoluce-net.md): an offline policy evaluation on 14 November 2026, in three
-settings. Test key 1 was supplied only to an in-memory trust-anchor set in the first two; the third has no anchor.
-No HTTP registration was performed, and nothing was appended to the live log. The table does not test client
-authentication, transport errors, receipt issuance or log persistence, and it does not establish which anchors and
-which setting the deployed service uses.
+[results-ts-isoluce-net.md](results-ts-isoluce-net.md): an offline policy evaluation in four settings, written by
+`run_policy.py`. Test key 1 is supplied only to an in-memory trust-anchor set in the first two; the last two have no
+anchor. No HTTP registration is performed, and nothing is appended to the live log. The table does not test client
+authentication, transport errors, receipt issuance or log persistence.
 
-The source of that service is not in this repository, so a third party cannot rerun this table from the files here.
-For the record, the two modules evaluated had these SHA-256: `policy.py`
-`637611b28d58caeddd6fd1b1055a32ee19d37dd6a6c198dcb3385c51f7e11e45`, `cose.py`
-`d300adaaac4d73acc9e84c1b06283ffe417823b0254e6952d384cfec7133308c` (Python 3.12, cbor2 6.2.1, cryptography 50.0.2).
+The policy code is in [service/scitt/](service/scitt/): `policy.py` and `cose.py`, the two modules that decide
+registration at ts.isoluce.net, as deployed since 14 November 2026 (SHA-256 `policy.py`
+`23f74a16a4476f11913e57aacc51769f5a89c145c2e359ad6d15266f85d921da`, `cose.py`
+`d300adaaac4d73acc9e84c1b06283ffe417823b0254e6952d384cfec7133308c`; run there with Python 3.12, cbor2 6.2.1,
+cryptography 50.0.2). The rest of that service (HTTP interface, log store, Merkle tree) is not in this repository.
 
-What the table shows about that policy, in order of weight:
+```sh
+pip install cbor2 cryptography
+python3 run_policy.py        # rewrites the two results files; the test script of this repository checks they do not change
+```
 
-- **With no anchor for the issuer and unknown issuers accepted, R10 is admitted**: its signature is corrupted, and the
-  policy does not verify a signature it has no key for. The entry is marked as not verified. Admission in that mode is
-  not issuer authentication, and it departs from RFC 9943 Section 6.3 step 2. R11 is admitted in the same way.
-- **R12, kid as a text string, is admitted and the key found.** RFC 9052 Section 3.1 and the CDDL of RFC 9943 Section
-  6.1 make kid a byte string. This is a defect of the policy.
+These vectors changed that service on 14 November 2026. The table published first, at commit `386807b`, was made with
+the earlier `policy.py` (SHA-256 `637611b28d58caeddd6fd1b1055a32ee19d37dd6a6c198dcb3385c51f7e11e45`), and showed two
+things that have since been corrected:
+
+- **A kid given as a text string was admitted and the key found** (R12). RFC 9052 Section 3.1 and the CDDL of RFC 9943
+  Section 6.1 make kid a byte string. That was a defect; the policy now refuses a kid that is not a byte string, in
+  every setting.
+- **The deployed setting accepted unknown issuers**, from 8 to 14 November 2026. With no anchor for the issuer, the
+  policy does not verify a signature it has no key for, so R10, whose signature is corrupted, was admitted and marked
+  as not verified (third column); R11 in the same way. Admission in that mode is not issuer authentication, and it
+  departs from RFC 9943 Section 6.3 step 2. The deployed setting now rejects unknown issuers (fourth column). One
+  entry was registered without verification in that period: leaf 5, a test of the service's operator (kid
+  `someone-else-1`, iss `https://example.org`). It stays in the log, which is append-only.
+
+After the change, on 14 November 2026, R01, R10, R11 and R12 were posted to the live service. Each was refused with
+status 400: R12 because its kid is not a byte string, the three others because their kid names no configured trust
+anchor. The tree size was 33 before and after.
+
+What the table shows about the policy as it is now:
+
 - R02: the policy accepts a valid -8 signature. RFC 9864 deprecates that identifier; it does not prohibit verification
   of existing signatures using it.
 - R13: the policy requires an explicit supported alg. This is a local policy restriction, not a general rejection
