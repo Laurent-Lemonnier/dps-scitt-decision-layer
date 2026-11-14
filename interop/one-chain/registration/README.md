@@ -29,6 +29,18 @@ authentication and registration policy; please report any refusal and its reason
 | `dispute-packet.signed-statement.cose` | 10820 | `73c98d14e0d05d7d3d9672582d3fb6dac5d8ea7525556806820ed646c97e25d3` | entry `13bbf54e2c1d93bb25a1efb2ef6f52b3f13b4cb3f648dda42fe413b6fc9f286e`, registered 14 November 2026 |
 | `dispute-packet.2026-11-08.signed-statement.cose` | 8939 | `d328894f075a7241380ae18e44fb84f046c047b0def4d4836f22e3645886a3ea` | leaf 3, entry `5f0fac2384f13bc571f60254ca7e21c74f1ef6c763b04e465cb07c23154da57f`, registered 8 November 2026 |
 
+A second identifier, which does not depend on the service: the SHA-256 of each statement's Sig_structure (RFC 9052
+Section 4.4). Some services use it as the entry. Computed here and, independently, by Mikhail Sergeev (issue #7,
+14 November 2026):
+
+| File | SHA-256 of the Sig_structure |
+|---|---|
+| `action-binding-attachment-a1.signed-statement.cose` | `a8e680512533f5a91c8f10b058f999dc09ff84dff83b144312039a43f4a19f7d` |
+| `action-binding-attachment-a2.signed-statement.cose` | `fe538388eb1573598d54bdd5020da6fc3fd77084ecd246732c0d14cdc3cb75db` |
+| `verdict-record.signed-statement.cose` | `49a7159ecb07be9b014cf16bad1bdcdd7b346190432fecba4dc7765b2566ee28` |
+| `dispute-packet.signed-statement.cose` | `1a5c49194a428800b8756a7213b0b3f509912e04b4a1a2a3d3fba02cac33a601` |
+| `dispute-packet.2026-11-08.signed-statement.cose` | `bdab4fe03813d92ae822d4c21c6caf0ca9f60d4ab5cd05dc8dc1000ddb6badfe` |
+
 An entry id on ts.isoluce.net is the hex of the Merkle leaf, SHA-256(0x00 || the bytes of the Signed Statement)
 (RFC 9162 Section 2.1.1). The receipt of an entry is at `https://ts.isoluce.net/entries/<entry id>`.
 
