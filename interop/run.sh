@@ -262,3 +262,8 @@ echo "== mmr-profile/: what an MMR receipt binds (draft-bryce-cose-receipts-mmr-
 MMR_TEXT=/tmp/mmr-profile-03.txt
 curl -fsSL -o "$MMR_TEXT" https://www.ietf.org/archive/id/draft-bryce-cose-receipts-mmr-profile-03.txt
 (cd mmr-profile && python3 mmr_test.py "$MMR_TEXT" | tail -1 && python3 mmr_consistency.py | tail -1 && git diff --exit-code --quiet -- results.json consistency-results.json) || { echo "mmr-profile: the text is not the one read, an expectation fails, or the committed results differ"; exit 1; }
+
+echo "== cose-deterministic/from-text-01/: the -01 text on the authors' vectors (main 0621eca4), encoder rejecting or canonicalizing non-trivial NaNs"
+V01=/tmp/cose-authors-vectors-01.json
+curl -fsSL -o "$V01" https://raw.githubusercontent.com/action-state-group/cose-deterministic-encodings/0621eca4dd59002a92e3eb4781ad1371aaa53bb5/vectors/vectors.json
+(cd cose-deterministic/from-text-01 && python3 run_01_vectors.py "$V01" | sed -n 2,4p && git diff --exit-code --quiet -- results.json results.md) || { echo "from-text-01: the pinned file is not the one read, an outcome differs, or the committed results differ"; exit 1; }

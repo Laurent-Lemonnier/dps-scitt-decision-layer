@@ -251,6 +251,13 @@ Each entry: where the text leaves a choice, and the reading taken here.
     "dtrm" and that an unrecognized value is unverified, never failed. No
     vector of this folder is affected; `authors-vectors-01-proposed/` shows
     the effect on the vectors proposed for -01.
+20. **-01: a non-trivial NaN in a value to encode.** -01 Section 3.1 takes
+    "dtrm" from draft-ietf-cbor-serialization-12, whose Section 4.1 lets an
+    encoder either reject such a NaN or encode it as 0xf97e00; -01 Section
+    4.3 gives the rejection as an example. The authors' vectors expect the
+    rejection (the four reject cases and verify-value-nan-payload). An
+    encoder taking the other branch writes a16178f97e00 for the four, and
+    verify-value-nan-payload becomes verified. `from-text-01/` runs both.
 
 ## Limits
 

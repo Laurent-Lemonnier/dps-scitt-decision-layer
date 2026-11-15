@@ -1,0 +1,767 @@
+{
+ "vectors_file": {
+  "repository": "action-state-group/cose-deterministic-encodings",
+  "path": "vectors/vectors.json",
+  "read_at_commit": "0621eca4dd59002a92e3eb4781ad1371aaa53bb5",
+  "sha256": "799b2b05c0a7ad469dfc049c7003cbe7f963865d4f6f35fa2757bfc1a8fad3c2",
+  "header_label": 271
+ },
+ "texts_read": {
+  "draft-mih-sokolov-cose-deterministic-encodings-01.txt, authors' repository at the same commit": "b7a3d0a6e0e5db08184b4667ff6e3021d09964d7890bb3b8a936c23dc8d9b25e",
+  "draft-ietf-cbor-serialization-12.txt, ietf.org archive": "1ebad1e4bf28b60212c851fbe21f270bb8ea9e94f3c8728e10063b8be2bb539c"
+ },
+ "checker": "from-text-01/verify_from_text_01.py",
+ "modes": {
+  "reject": {
+   "emit": {
+    "total": 10,
+    "agree": 10,
+    "cases": [
+     {
+      "id": "emit-draft-example",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-intro-key-order",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-intro-float",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-indefinite",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-non-preferred-int",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-nested",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-sha384",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-content-format",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-nan",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-nan-binary64",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     }
+    ]
+   },
+   "verify": {
+    "total": 27,
+    "agree": 27,
+    "cases": [
+     {
+      "id": "verify-preimage",
+      "expected_outcome": "verified",
+      "expected_reason": "preimage-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "preimage bytes match the payload and are in the declared encoding",
+      "agrees": true
+     },
+     {
+      "id": "verify-value",
+      "expected_outcome": "verified",
+      "expected_reason": "recreated-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-value-modified",
+      "expected_outcome": "failed",
+      "expected_reason": "recreated-digest-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "hash-mismatch",
+      "our_reason": "SHA-256 of the re-created preimage does not match the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-preimage-mismatch",
+      "expected_outcome": "failed",
+      "expected_reason": "preimage-digest-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "hash-mismatch",
+      "our_reason": "SHA-256 of the preimage bytes does not match the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-value-no-encoding",
+      "expected_outcome": "unverified",
+      "expected_reason": "encoding-absent",
+      "obtained_outcome": "unverified",
+      "our_verdict": "cannot-recompute",
+      "our_reason": "structured value held but deterministic-encodings absent (draft Section 4.3)",
+      "agrees": true
+     },
+     {
+      "id": "verify-preimage-no-encoding",
+      "expected_outcome": "verified",
+      "expected_reason": "preimage-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "cannot-recompute",
+      "our_reason": "deterministic-encodings absent: the preimage bytes match the payload (RFC 9995 Section 5.3), but no declared encoding to check; this checker never passes without the header",
+      "agrees": true
+     },
+     {
+      "id": "verify-value-unknown-encoding",
+      "expected_outcome": "unverified",
+      "expected_reason": "encoding-not-implemented",
+      "obtained_outcome": "unverified",
+      "our_verdict": "unsupported-encoding",
+      "our_reason": "deterministic-encodings=99 not recognized/implemented (draft Section 4.3)",
+      "agrees": true
+     },
+     {
+      "id": "verify-value-integer-1",
+      "expected_outcome": "unverified",
+      "expected_reason": "encoding-not-implemented",
+      "obtained_outcome": "unverified",
+      "our_verdict": "unsupported-encoding",
+      "our_reason": "deterministic-encodings=1 not recognized/implemented (draft Section 4.3)",
+      "agrees": true
+     },
+     {
+      "id": "verify-value-nan-payload",
+      "expected_outcome": "unverified",
+      "expected_reason": "value-not-encodable",
+      "obtained_outcome": "unverified",
+      "our_verdict": "cannot-encode-value",
+      "our_reason": "the encoder rejects the value: non-trivial NaN (signaling, non-zero payload or sign bit set) (-01 Section 4.3; cbor-serialization-12 Section 4.1, nan_mode reject)",
+      "agrees": true
+     },
+     {
+      "id": "verify-preimage-unknown-encoding",
+      "expected_outcome": "verified",
+      "expected_reason": "preimage-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "unsupported-encoding",
+      "our_reason": "deterministic-encodings=99 not implemented; bytes match the payload but the declared encoding cannot be checked",
+      "agrees": true
+     },
+     {
+      "id": "verify-nothing-held",
+      "expected_outcome": "unverified",
+      "expected_reason": "no-content",
+      "obtained_outcome": "unverified",
+      "our_verdict": "cannot-recompute",
+      "our_reason": "no preimage and no structured value held",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-absent",
+      "expected_outcome": "failed",
+      "expected_reason": "content-type-absent",
+      "obtained_outcome": "failed",
+      "our_verdict": "inconsistent-header",
+      "our_reason": "deterministic-encodings present but preimage-content-type (259) absent (draft Section 4.2)",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-absent-value",
+      "expected_outcome": "failed",
+      "expected_reason": "content-type-absent",
+      "obtained_outcome": "failed",
+      "our_verdict": "inconsistent-header",
+      "our_reason": "deterministic-encodings present but preimage-content-type (259) absent (draft Section 4.2)",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-json",
+      "expected_outcome": "failed",
+      "expected_reason": "content-type-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "inconsistent-header",
+      "our_reason": "259 does not match encoding dtrm: application/json is not an Applicable Content Type of dtrm (draft Section 4.2)",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-params-case",
+      "expected_outcome": "verified",
+      "expected_reason": "recreated-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-suffix",
+      "expected_outcome": "verified",
+      "expected_reason": "recreated-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-suffix-sd-cwt",
+      "expected_outcome": "verified",
+      "expected_reason": "preimage-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "preimage bytes match the payload and are in the declared encoding",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-not-suffix",
+      "expected_outcome": "failed",
+      "expected_reason": "content-type-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "inconsistent-header",
+      "our_reason": "259 does not match encoding dtrm: application/cbor-x is not an Applicable Content Type of dtrm (draft Section 4.2)",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-cf-cbor",
+      "expected_outcome": "verified",
+      "expected_reason": "recreated-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-cf-json",
+      "expected_outcome": "failed",
+      "expected_reason": "content-type-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "inconsistent-header",
+      "our_reason": "259 does not match encoding dtrm: Content-Format 50 = 'application/json': application/json is not an Applicable Content Type of dtrm (draft Section 4.2)",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-unknown-encoding-json",
+      "expected_outcome": "verified",
+      "expected_reason": "preimage-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "unsupported-encoding",
+      "our_reason": "deterministic-encodings=99 not implemented; bytes match the payload but the declared encoding cannot be checked",
+      "agrees": true
+     },
+     {
+      "id": "verify-binary64-held",
+      "expected_outcome": "verified",
+      "expected_reason": "recreated-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-binary64-hashed",
+      "expected_outcome": "failed",
+      "expected_reason": "recreated-digest-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "hash-mismatch",
+      "our_reason": "SHA-256 of the re-created preimage does not match the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-length-first-hashed",
+      "expected_outcome": "failed",
+      "expected_reason": "recreated-digest-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "hash-mismatch",
+      "our_reason": "SHA-256 of the re-created preimage does not match the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-length-first-preimage",
+      "expected_outcome": "verified",
+      "expected_reason": "preimage-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "not-canonical",
+      "our_reason": "preimage bytes are not RFC 8949 Section 4.2.1 deterministic: map keys not in bytewise lexicographic order: 6161 before 1903e8 (at byte offset 4)",
+      "agrees": true
+     },
+     {
+      "id": "verify-sha384",
+      "expected_outcome": "verified",
+      "expected_reason": "recreated-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-hash-alg-unknown",
+      "expected_outcome": "unverified",
+      "expected_reason": "hash-alg-not-implemented",
+      "obtained_outcome": "unverified",
+      "our_verdict": "unsupported-hash-alg",
+      "our_reason": "payload-hash-alg -999 not implemented",
+      "agrees": true
+     }
+    ]
+   },
+   "reject": {
+    "total": 4,
+    "agree": 4,
+    "cases": [
+     {
+      "id": "reject-nan-payload",
+      "expected": {
+       "error": "encode"
+      },
+      "refused": true,
+      "our_output": "refused: non-trivial NaN (signaling, non-zero payload or sign bit set)",
+      "agrees": true
+     },
+     {
+      "id": "reject-nan-signaling",
+      "expected": {
+       "error": "encode"
+      },
+      "refused": true,
+      "our_output": "refused: non-trivial NaN (signaling, non-zero payload or sign bit set)",
+      "agrees": true
+     },
+     {
+      "id": "reject-nan-sign-bit",
+      "expected": {
+       "error": "encode"
+      },
+      "refused": true,
+      "our_output": "refused: non-trivial NaN (signaling, non-zero payload or sign bit set)",
+      "agrees": true
+     },
+     {
+      "id": "reject-nan-binary64-payload",
+      "expected": {
+       "error": "encode"
+      },
+      "refused": true,
+      "our_output": "refused: non-trivial NaN (signaling, non-zero payload or sign bit set)",
+      "agrees": true
+     }
+    ]
+   }
+  },
+  "canonical": {
+   "emit": {
+    "total": 10,
+    "agree": 10,
+    "cases": [
+     {
+      "id": "emit-draft-example",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-intro-key-order",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-intro-float",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-indefinite",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-non-preferred-int",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-nested",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-sha384",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-content-format",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-nan",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     },
+     {
+      "id": "emit-nan-binary64",
+      "preimage_agrees": true,
+      "payload_agrees": true,
+      "header_labels_agree": true,
+      "agrees": true
+     }
+    ]
+   },
+   "verify": {
+    "total": 27,
+    "agree": 26,
+    "cases": [
+     {
+      "id": "verify-preimage",
+      "expected_outcome": "verified",
+      "expected_reason": "preimage-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "preimage bytes match the payload and are in the declared encoding",
+      "agrees": true
+     },
+     {
+      "id": "verify-value",
+      "expected_outcome": "verified",
+      "expected_reason": "recreated-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-value-modified",
+      "expected_outcome": "failed",
+      "expected_reason": "recreated-digest-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "hash-mismatch",
+      "our_reason": "SHA-256 of the re-created preimage does not match the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-preimage-mismatch",
+      "expected_outcome": "failed",
+      "expected_reason": "preimage-digest-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "hash-mismatch",
+      "our_reason": "SHA-256 of the preimage bytes does not match the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-value-no-encoding",
+      "expected_outcome": "unverified",
+      "expected_reason": "encoding-absent",
+      "obtained_outcome": "unverified",
+      "our_verdict": "cannot-recompute",
+      "our_reason": "structured value held but deterministic-encodings absent (draft Section 4.3)",
+      "agrees": true
+     },
+     {
+      "id": "verify-preimage-no-encoding",
+      "expected_outcome": "verified",
+      "expected_reason": "preimage-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "cannot-recompute",
+      "our_reason": "deterministic-encodings absent: the preimage bytes match the payload (RFC 9995 Section 5.3), but no declared encoding to check; this checker never passes without the header",
+      "agrees": true
+     },
+     {
+      "id": "verify-value-unknown-encoding",
+      "expected_outcome": "unverified",
+      "expected_reason": "encoding-not-implemented",
+      "obtained_outcome": "unverified",
+      "our_verdict": "unsupported-encoding",
+      "our_reason": "deterministic-encodings=99 not recognized/implemented (draft Section 4.3)",
+      "agrees": true
+     },
+     {
+      "id": "verify-value-integer-1",
+      "expected_outcome": "unverified",
+      "expected_reason": "encoding-not-implemented",
+      "obtained_outcome": "unverified",
+      "our_verdict": "unsupported-encoding",
+      "our_reason": "deterministic-encodings=1 not recognized/implemented (draft Section 4.3)",
+      "agrees": true
+     },
+     {
+      "id": "verify-value-nan-payload",
+      "expected_outcome": "unverified",
+      "expected_reason": "value-not-encodable",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": false
+     },
+     {
+      "id": "verify-preimage-unknown-encoding",
+      "expected_outcome": "verified",
+      "expected_reason": "preimage-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "unsupported-encoding",
+      "our_reason": "deterministic-encodings=99 not implemented; bytes match the payload but the declared encoding cannot be checked",
+      "agrees": true
+     },
+     {
+      "id": "verify-nothing-held",
+      "expected_outcome": "unverified",
+      "expected_reason": "no-content",
+      "obtained_outcome": "unverified",
+      "our_verdict": "cannot-recompute",
+      "our_reason": "no preimage and no structured value held",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-absent",
+      "expected_outcome": "failed",
+      "expected_reason": "content-type-absent",
+      "obtained_outcome": "failed",
+      "our_verdict": "inconsistent-header",
+      "our_reason": "deterministic-encodings present but preimage-content-type (259) absent (draft Section 4.2)",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-absent-value",
+      "expected_outcome": "failed",
+      "expected_reason": "content-type-absent",
+      "obtained_outcome": "failed",
+      "our_verdict": "inconsistent-header",
+      "our_reason": "deterministic-encodings present but preimage-content-type (259) absent (draft Section 4.2)",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-json",
+      "expected_outcome": "failed",
+      "expected_reason": "content-type-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "inconsistent-header",
+      "our_reason": "259 does not match encoding dtrm: application/json is not an Applicable Content Type of dtrm (draft Section 4.2)",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-params-case",
+      "expected_outcome": "verified",
+      "expected_reason": "recreated-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-suffix",
+      "expected_outcome": "verified",
+      "expected_reason": "recreated-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-suffix-sd-cwt",
+      "expected_outcome": "verified",
+      "expected_reason": "preimage-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "preimage bytes match the payload and are in the declared encoding",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-not-suffix",
+      "expected_outcome": "failed",
+      "expected_reason": "content-type-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "inconsistent-header",
+      "our_reason": "259 does not match encoding dtrm: application/cbor-x is not an Applicable Content Type of dtrm (draft Section 4.2)",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-cf-cbor",
+      "expected_outcome": "verified",
+      "expected_reason": "recreated-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-cf-json",
+      "expected_outcome": "failed",
+      "expected_reason": "content-type-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "inconsistent-header",
+      "our_reason": "259 does not match encoding dtrm: Content-Format 50 = 'application/json': application/json is not an Applicable Content Type of dtrm (draft Section 4.2)",
+      "agrees": true
+     },
+     {
+      "id": "verify-ctype-unknown-encoding-json",
+      "expected_outcome": "verified",
+      "expected_reason": "preimage-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "unsupported-encoding",
+      "our_reason": "deterministic-encodings=99 not implemented; bytes match the payload but the declared encoding cannot be checked",
+      "agrees": true
+     },
+     {
+      "id": "verify-binary64-held",
+      "expected_outcome": "verified",
+      "expected_reason": "recreated-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-binary64-hashed",
+      "expected_outcome": "failed",
+      "expected_reason": "recreated-digest-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "hash-mismatch",
+      "our_reason": "SHA-256 of the re-created preimage does not match the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-length-first-hashed",
+      "expected_outcome": "failed",
+      "expected_reason": "recreated-digest-mismatch",
+      "obtained_outcome": "failed",
+      "our_verdict": "hash-mismatch",
+      "our_reason": "SHA-256 of the re-created preimage does not match the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-length-first-preimage",
+      "expected_outcome": "verified",
+      "expected_reason": "preimage-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "not-canonical",
+      "our_reason": "preimage bytes are not RFC 8949 Section 4.2.1 deterministic: map keys not in bytewise lexicographic order: 6161 before 1903e8 (at byte offset 4)",
+      "agrees": true
+     },
+     {
+      "id": "verify-sha384",
+      "expected_outcome": "verified",
+      "expected_reason": "recreated-digest-match",
+      "obtained_outcome": "verified",
+      "our_verdict": "pass",
+      "our_reason": "re-created preimage matches the payload",
+      "agrees": true
+     },
+     {
+      "id": "verify-hash-alg-unknown",
+      "expected_outcome": "unverified",
+      "expected_reason": "hash-alg-not-implemented",
+      "obtained_outcome": "unverified",
+      "our_verdict": "unsupported-hash-alg",
+      "our_reason": "payload-hash-alg -999 not implemented",
+      "agrees": true
+     }
+    ]
+   },
+   "reject": {
+    "total": 4,
+    "agree": 0,
+    "cases": [
+     {
+      "id": "reject-nan-payload",
+      "expected": {
+       "error": "encode"
+      },
+      "refused": false,
+      "our_output": "a16178f97e00",
+      "agrees": false
+     },
+     {
+      "id": "reject-nan-signaling",
+      "expected": {
+       "error": "encode"
+      },
+      "refused": false,
+      "our_output": "a16178f97e00",
+      "agrees": false
+     },
+     {
+      "id": "reject-nan-sign-bit",
+      "expected": {
+       "error": "encode"
+      },
+      "refused": false,
+      "our_output": "a16178f97e00",
+      "agrees": false
+     },
+     {
+      "id": "reject-nan-binary64-payload",
+      "expected": {
+       "error": "encode"
+      },
+      "refused": false,
+      "our_output": "a16178f97e00",
+      "agrees": false
+     }
+    ]
+   }
+  }
+ },
+ "canonical_mode_differs_on": [
+  "reject-nan-binary64-payload",
+  "reject-nan-payload",
+  "reject-nan-sign-bit",
+  "reject-nan-signaling",
+  "verify-value-nan-payload"
+ ],
+ "stricter_here": [
+  "verify-preimage-no-encoding",
+  "verify-preimage-unknown-encoding",
+  "verify-ctype-unknown-encoding-json",
+  "verify-length-first-preimage"
+ ]
+}
