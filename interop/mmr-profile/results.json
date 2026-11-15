@@ -1,0 +1,266 @@
+{
+ "draft": "draft-bryce-cose-receipts-mmr-profile-03",
+ "text_sha256": "fba4838118dad19733ab6c6dbdcb92f799ccfa35db38ae3a6c1e17b84b8b56d7",
+ "A_all_ones_as_written": {
+  "1": false,
+  "3": false,
+  "7": false,
+  "15": false
+ },
+ "A_index_height_0_as_written_ends": false,
+ "B_append_returns_index_of_entry": {
+  "nodes": 394,
+  "peak_heights": [
+   7,
+   6,
+   2,
+   1,
+   0,
+   0
+  ],
+  "well_formed": false
+ },
+ "B_append_returns_new_size": {
+  "nodes": 397,
+  "peak_heights": [
+   7,
+   6,
+   3
+  ],
+  "well_formed": true
+ },
+ "empty_path_receipts": {
+  "odd_leaf_counts_1_to_119": 60,
+  "verify_at_every_other_index": 60
+ },
+ "log": {
+  "entries": 200,
+  "nodes": 397,
+  "grown_to_entries": 400,
+  "grown_nodes": 797
+ },
+ "cases": [
+  {
+   "entry": 0,
+   "mmr_index": 0,
+   "path_length": 7,
+   "signed_peak_node": 254,
+   "receipt_sha256": "e93186e75beff5296c398145d00fd66d9d6a5b856bff991d4a1bd19d77e66382",
+   "genuine_verifies": true,
+   "other_indexes_accepted_0_to_1594": [],
+   "other_entry_accepted": false,
+   "path_shortened_accepted": false,
+   "path_extended_accepted": false,
+   "log_sizes_in_entries_where_this_receipt_is_current": [
+    128,
+    255
+   ],
+   "signed_peak_still_a_node_after_growth_to_400": true
+  },
+  {
+   "entry": 1,
+   "mmr_index": 1,
+   "path_length": 7,
+   "signed_peak_node": 254,
+   "receipt_sha256": "9bc4c7a1e271524716543ed5c902442965db806b57caae8509413bb6799e466a",
+   "genuine_verifies": true,
+   "other_indexes_accepted_0_to_1594": [],
+   "other_entry_accepted": false,
+   "path_shortened_accepted": false,
+   "path_extended_accepted": false,
+   "log_sizes_in_entries_where_this_receipt_is_current": [
+    128,
+    255
+   ],
+   "signed_peak_still_a_node_after_growth_to_400": true
+  },
+  {
+   "entry": 7,
+   "mmr_index": 11,
+   "path_length": 7,
+   "signed_peak_node": 254,
+   "receipt_sha256": "ebf56a7a2276c15aa894ce7e45a5d586c3804eba76da29fd58a8b7fe11744d8d",
+   "genuine_verifies": true,
+   "other_indexes_accepted_0_to_1594": [],
+   "other_entry_accepted": false,
+   "path_shortened_accepted": false,
+   "path_extended_accepted": false,
+   "log_sizes_in_entries_where_this_receipt_is_current": [
+    128,
+    255
+   ],
+   "signed_peak_still_a_node_after_growth_to_400": true
+  },
+  {
+   "entry": 64,
+   "mmr_index": 127,
+   "path_length": 7,
+   "signed_peak_node": 254,
+   "receipt_sha256": "bb5de43bc917b0e637f5f9329998c769c461573ec57aa4108858424e163d1cb6",
+   "genuine_verifies": true,
+   "other_indexes_accepted_0_to_1594": [],
+   "other_entry_accepted": false,
+   "path_shortened_accepted": false,
+   "path_extended_accepted": false,
+   "log_sizes_in_entries_where_this_receipt_is_current": [
+    128,
+    255
+   ],
+   "signed_peak_still_a_node_after_growth_to_400": true
+  },
+  {
+   "entry": 100,
+   "mmr_index": 197,
+   "path_length": 7,
+   "signed_peak_node": 254,
+   "receipt_sha256": "6a391003f493dd902036f809b7142db060592d2597a515d64109ab660727076e",
+   "genuine_verifies": true,
+   "other_indexes_accepted_0_to_1594": [],
+   "other_entry_accepted": false,
+   "path_shortened_accepted": false,
+   "path_extended_accepted": false,
+   "log_sizes_in_entries_where_this_receipt_is_current": [
+    128,
+    255
+   ],
+   "signed_peak_still_a_node_after_growth_to_400": true
+  },
+  {
+   "entry": 128,
+   "mmr_index": 255,
+   "path_length": 6,
+   "signed_peak_node": 381,
+   "receipt_sha256": "9ff4471638e0eb4c925b5080c4fbfa05fc513d2f12c4cba47f476b9f4499a0c8",
+   "genuine_verifies": true,
+   "other_indexes_accepted_0_to_1594": [],
+   "other_entry_accepted": false,
+   "path_shortened_accepted": false,
+   "path_extended_accepted": false,
+   "log_sizes_in_entries_where_this_receipt_is_current": [
+    192,
+    255
+   ],
+   "signed_peak_still_a_node_after_growth_to_400": true
+  },
+  {
+   "entry": 199,
+   "mmr_index": 393,
+   "path_length": 3,
+   "signed_peak_node": 396,
+   "receipt_sha256": "231ea6285a9f7aa99657a16e3644d61d9b2695753c6166f1841195bdf9cc9344",
+   "genuine_verifies": true,
+   "other_indexes_accepted_0_to_1594": [],
+   "other_entry_accepted": false,
+   "path_shortened_accepted": false,
+   "path_extended_accepted": false,
+   "log_sizes_in_entries_where_this_receipt_is_current": [
+    200,
+    207
+   ],
+   "signed_peak_still_a_node_after_growth_to_400": true
+  }
+ ],
+ "expectations": [
+  {
+   "what": "A: as written, index_height(0) does not end",
+   "holds": true
+  },
+  {
+   "what": "B: index of the entry gives a malformed log",
+   "holds": true
+  },
+  {
+   "what": "B: new size gives a well-formed log (200 leaves -> 397 nodes)",
+   "holds": true
+  },
+  {
+   "what": "entry 0: genuine receipt verifies",
+   "holds": true
+  },
+  {
+   "what": "entry 0: no other index accepted",
+   "holds": true
+  },
+  {
+   "what": "entry 0: other entry, shorter or longer path refused",
+   "holds": true
+  },
+  {
+   "what": "entry 1: genuine receipt verifies",
+   "holds": true
+  },
+  {
+   "what": "entry 1: no other index accepted",
+   "holds": true
+  },
+  {
+   "what": "entry 1: other entry, shorter or longer path refused",
+   "holds": true
+  },
+  {
+   "what": "entry 7: genuine receipt verifies",
+   "holds": true
+  },
+  {
+   "what": "entry 7: no other index accepted",
+   "holds": true
+  },
+  {
+   "what": "entry 7: other entry, shorter or longer path refused",
+   "holds": true
+  },
+  {
+   "what": "entry 64: genuine receipt verifies",
+   "holds": true
+  },
+  {
+   "what": "entry 64: no other index accepted",
+   "holds": true
+  },
+  {
+   "what": "entry 64: other entry, shorter or longer path refused",
+   "holds": true
+  },
+  {
+   "what": "entry 100: genuine receipt verifies",
+   "holds": true
+  },
+  {
+   "what": "entry 100: no other index accepted",
+   "holds": true
+  },
+  {
+   "what": "entry 100: other entry, shorter or longer path refused",
+   "holds": true
+  },
+  {
+   "what": "entry 128: genuine receipt verifies",
+   "holds": true
+  },
+  {
+   "what": "entry 128: no other index accepted",
+   "holds": true
+  },
+  {
+   "what": "entry 128: other entry, shorter or longer path refused",
+   "holds": true
+  },
+  {
+   "what": "entry 199: genuine receipt verifies",
+   "holds": true
+  },
+  {
+   "what": "entry 199: no other index accepted",
+   "holds": true
+  },
+  {
+   "what": "entry 199: other entry, shorter or longer path refused",
+   "holds": true
+  },
+  {
+   "what": "edge case: a receipt whose entry is a peak (empty path) verifies at every index",
+   "holds": true
+  }
+ ],
+ "reading": "Each interior hash commits to its one-based position (8.2.1, hash_pospair64), so the receipt's index is bound: the same path and signature verify at the entry's index and at no other index tried, except when the path is empty (the entry is itself a peak; the index is then not used at all). The receipt states no log size: there is no size in [index, path], and the signed payload is a peak, which is the same for every log size in the range shown; once the log grows past it, the peak is buried but still a node, and the old receipt still verifies against it. Size, and freshness, come from elsewhere (a signed accumulator, a consistency receipt)."
+}

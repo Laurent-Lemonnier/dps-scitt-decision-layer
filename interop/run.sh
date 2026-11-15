@@ -257,3 +257,8 @@ echo "== registration-vectors/: the fifteen Signed Statements regenerate to the 
 (cd registration-vectors && python3 make_vectors.py && git diff --exit-code --quiet -- vectors) || { echo "registration-vectors: the regenerated vectors differ from the committed ones"; git --no-pager diff --stat -- registration-vectors/vectors; exit 1; }
 echo "== registration-vectors/: the policy code of service/scitt/ gives the committed table (called in memory, four settings)"
 (cd registration-vectors && python3 run_policy.py && git diff --exit-code --quiet -- results-ts-isoluce-net.json results-ts-isoluce-net.md) || { echo "registration-vectors: the policy code does not give the committed results"; git --no-pager diff --stat -- registration-vectors; exit 1; }
+
+echo "== mmr-profile/: what an MMR receipt binds (draft-bryce-cose-receipts-mmr-profile-03), from the text, synthetic log"
+MMR_TEXT=/tmp/mmr-profile-03.txt
+curl -fsSL -o "$MMR_TEXT" https://www.ietf.org/archive/id/draft-bryce-cose-receipts-mmr-profile-03.txt
+(cd mmr-profile && python3 mmr_test.py "$MMR_TEXT" | tail -1 && python3 mmr_consistency.py | tail -1 && git diff --exit-code --quiet -- results.json consistency-results.json) || { echo "mmr-profile: the text is not the one read, an expectation fails, or the committed results differ"; exit 1; }
