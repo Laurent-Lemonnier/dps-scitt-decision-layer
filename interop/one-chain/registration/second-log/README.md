@@ -28,6 +28,14 @@ It shows that two logs run by two different operators each state that these exac
 the second operator's four receipts verify from outside. It does not show anything about what the statements say,
 nor that the two logs are independent in any stronger sense than having different operators and keys.
 
+Nor does it establish the leaf indexes and tree sizes in the table. A receipt's signature covers the root, not the
+tree size, which sits in the unprotected header; the same path reaches the same root under several sizes, and, with
+the size free, under other indexes (scitt@ietf.org, "RFC 9942 inclusion receipts: tree-size is not authenticated by
+the signed root", 15 November 2026). The check above compares them with what the operator stated; it does not bind
+them. For ts.isoluce.net the binding is available: its signed tree heads (`/checkpoint.cose`) carry the size and the
+root under the service key, and its receipt reader checks a receipt against one (`--checkpoint`). Here, no signed
+tree head of the second log was checked.
+
 ## The reverse check, as the second operator reports it
 
 Steven Mih wrote on 14 November 2026 (23:16 UTC) that the four receipts of ts.isoluce.net for the same statements
