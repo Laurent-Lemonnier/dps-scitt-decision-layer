@@ -73,3 +73,16 @@ A result that disagrees is listed like one that agrees.
   shows one way; a witness of your own writing is worth more.
 
 In both cases: say who operates it, and whether you have any tie to the author or to the log's operator.
+
+## Receipts of ts.isoluce.net that sign their size and position
+
+An RFC 9942 receipt signs the root, not the tree size nor the leaf index it states (scitt@ietf.org, 15 November 2026).
+Since 15 November 2026 ts.isoluce.net issues, on request, receipts whose protected header also carries the tree size
+(label -65537) and the leaf index (label -65538), equal to those of the unprotected proof:
+
+- `GET https://ts.isoluce.net/entries/{entry_id}?signed-size=1` (also on `/transparent` and on `POST /entries`);
+- without the parameter, receipts are unchanged, because one known verifier rejects unknown protected labels;
+- the labels are private use (RFC 9052 section 11.1) and not in `crit`: a verifier that does not know them ignores them
+  and verifies as before; one that knows them should require them to equal the proof, as the service's reader does.
+
+A reader who checks such a receipt from outside is welcome in the table above, with the receipt it read.
