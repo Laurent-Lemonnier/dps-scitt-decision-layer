@@ -77,12 +77,15 @@ In both cases: say who operates it, and whether you have any tie to the author o
 ## Receipts of ts.isoluce.net that sign their size and position
 
 An RFC 9942 receipt signs the root, not the tree size nor the leaf index it states (scitt@ietf.org, 15 November 2026).
-Since 15 November 2026 ts.isoluce.net issues, on request, receipts whose protected header also carries the tree size
+Since 15 November 2026 (21:45 UTC) every receipt of ts.isoluce.net also carries, in its protected header, the tree size
 (label -65537) and the leaf index (label -65538), equal to those of the unprotected proof:
 
-- `GET https://ts.isoluce.net/entries/{entry_id}?signed-size=1` (also on `/transparent` and on `POST /entries`);
-- without the parameter, receipts are unchanged, because one known verifier rejects unknown protected labels;
+- `GET https://ts.isoluce.net/entries/{entry_id}` (also `/transparent` and `POST /entries`) returns such a receipt;
+- `?signed-size=0` returns a receipt without the two labels, for a verifier that rejects unknown protected labels;
 - the labels are private use (RFC 9052 section 11.1) and not in `crit`: a verifier that does not know them ignores them
   and verifies as before; one that knows them should require them to equal the proof, as the service's reader does.
+
+From 15 November 2026 the format was first served on request (`?signed-size=1`), then by default once the verifier
+that rejected unknown labels had been changed to accept these two and to require that they equal the proof.
 
 A reader who checks such a receipt from outside is welcome in the table above, with the receipt it read.

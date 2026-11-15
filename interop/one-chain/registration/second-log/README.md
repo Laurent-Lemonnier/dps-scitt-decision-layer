@@ -34,8 +34,9 @@ the size free, under other indexes (scitt@ietf.org, "RFC 9942 inclusion receipts
 the signed root", 15 November 2026). The check above compares them with what the operator stated; it does not bind
 them. For ts.isoluce.net the binding is available: its signed tree heads (`/checkpoint.cose`) carry the size and the
 root under the service key, and its receipt reader checks a receipt against one (`--checkpoint`). Since 15 November
-2026 ts.isoluce.net also issues, on request (`?signed-size=1`), receipts whose protected header repeats the tree size
-and the leaf index (labels -65537 and -65538, private use): the signature then binds them without a checkpoint. Here,
+2026 the receipts of ts.isoluce.net also repeat, in their protected header, the tree size and the leaf index (labels
+-65537 and -65538, private use; by default, `?signed-size=0` for the earlier form): the signature then binds them
+without a checkpoint. Here,
 no signed tree head of the second log was checked.
 
 ## The reverse check, as the second operator reports it
