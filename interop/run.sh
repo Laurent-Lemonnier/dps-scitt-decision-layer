@@ -267,3 +267,6 @@ echo "== cose-deterministic/from-text-01/: the -01 text on the authors' vectors 
 V01=/tmp/cose-authors-vectors-01.json
 curl -fsSL -o "$V01" https://raw.githubusercontent.com/action-state-group/cose-deterministic-encodings/0621eca4dd59002a92e3eb4781ad1371aaa53bb5/vectors/vectors.json
 (cd cose-deterministic/from-text-01 && python3 run_01_vectors.py "$V01" | sed -n 2,4p && git diff --exit-code --quiet -- results.json results.md) || { echo "from-text-01: the pinned file is not the one read, an outcome differs, or the committed results differ"; exit 1; }
+
+echo "== receipt-size/: a receipt of ts.isoluce.net that signs its tree size and leaf index, and one that does not (offline, 8,255 edited copies each)"
+(cd receipt-size && python3 check.py | tail -2 && git diff --exit-code --quiet -- results.json) || { echo "receipt-size: an expectation fails or the committed results differ"; exit 1; }
