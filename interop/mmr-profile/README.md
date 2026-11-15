@@ -52,6 +52,22 @@ catches the wrong size at the next link; a single receipt does not.
 A and B were sent to the authors on 15 November 2026; C, D and the consistency result were posted on the scitt@ietf.org
 thread the same day.
 
+## Already resolved in the authors' editor's copy
+
+Checked on 15 November 2026, after the fact: every point above is already resolved in the editor's copy on GitHub
+(robinbryce/draft-bryce-cose-receipts-mmr-profile, main at `f1320c0d63`, 10 October 2026; SHA-256 of
+`draft-bryce-cose-receipts-mmr-profile.md`: `1c5f55fa55b591d75f66942421b4570e206e559960bf72e2f9379afe214755fd`), which no
+published revision carries yet. A: `mask = (most_sig_bit(pos) << 1) - 1`. B: `append(entry) -> count`, the number of
+nodes after the append. C: the detached payload is the accumulator's node values concatenated in descending height
+order (#45). D: right-peaks are the peaks of tree-size-2 no consistency path leads to (#17, #44). The consistency
+result: tree-size-2 is a REQUIRED protected header parameter, equal to tree-size-2 of the last proof, and tree-size-1
+must equal the size the verifier already trusts (#39, #40); "Declared tree sizes" in its Security Considerations
+states the case tested here. The empty path: allowed (#28), and "Tree size of a receipt of inclusion" states that the
+index is then not bound. The path-length remark of 5.1 is gone (#48). Bassem Kudsi pointed this out on 15 November
+2026; issue #58 asks for executable known-answer values.
+
+The results of this folder therefore describe the published -03 text, not the profile as its authors now write it.
+
 ## What this does not show
 
 Nothing about a production MMR log: no receipt of a running service was checked. Nothing about the authors'
