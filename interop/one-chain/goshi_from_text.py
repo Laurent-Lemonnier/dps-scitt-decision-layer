@@ -3,22 +3,24 @@
 2026), a vendor profile of draft-farley-acta-signed-receipts-03 (Farley, 29 August 2026), written from the two texts
 alone: no code of either author was read. Goshi's text describes an implementation (ActaSeal's DisputeEvidencePacket)
 in prose and names its parts; where the prose names a field without defining its construction, this module fixes one
-construction and says so in AMBIGUITIES. Section numbers refer to Goshi unless prefixed F- (Farley).
+construction and says so in AMBIGUITIES. Since 16 November 2026 the section numbers in the messages this verifier
+emits are those of draft-xg-payment-dispute-profile-02 (see the note of 16 November below); the keys of AMBIGUITIES keep
+the numbers of -01, the text that log was written against. F- is Farley.
 
-What the text lets a verifier re-derive (Section 5: "re-derivation, not trust"):
-  - the receipt signature over canonical bytes (F-5.2: JCS of the payload member, Ed25519, key resolved out of band);
-  - the receipt's payload shape of Section 3 (eleven members plus the base draft's type, issued_at, issuer_id);
-  - event hashes and chain links of the ledger slice (Section 5, Section 4.4 "each custody event bound to a ledger
+What the text lets a verifier re-derive (-02 Section 9: "re-derivation, not trust"):
+  - the receipt signature over canonical bytes (-02 Sections 3 and 4: JCS of the payload member, Ed25519, key resolved
+    out of band);
+  - the receipt's payload shape of -02 Section 4 (eleven members; the base draft's type, issued_at, issuer_id when present);
+  - event hashes and chain links of the ledger slice (-02 Section 9, Section 8.4 "each custody event bound to a ledger
     event hash");
-  - the scope verdict from the recorded intent scope and executed action (Section 4.2: in_scope, BREACH:<field>,
+  - the scope verdict from the recorded intent scope and executed action (-02 Section 8.2; in_scope, BREACH:<field>,
     not_evaluated; "MUST be re-derived by the verifier from recorded inputs, never asserted without re-derivation");
-  - the settlement anchor hash (Section 4.3: "bound by an anchor_hash (a canonical hash of the anchor content)";
+  - the settlement anchor hash (-02 Sections 5 and 8.3; "bound by an anchor_hash (a canonical hash of the anchor content)";
     absence MUST be stated as SETTLEMENT_UNANCHORED; a manifest without the block MUST fail);
-  - headline consistency across manifest, receipt and ledger slice (Section 5).
-Every failure is named (Section 5). The two names the text gives are SCOPE_HEADLINE_MISMATCH and
-SETTLEMENT_ANCHOR_HASH_MISMATCH (Section 5) and SETTLEMENT_UNANCHORED (Section 4.3); every other name is this module's.
-Three results: VERIFIED, FAILED, and NOTHING_RECORDED when the packet anchors a transfer and cites no approval event, no
-verdict and no executed action (neither a pass nor a breach: there is no record to fail; the name is this module's).
+  - headline consistency across manifest, receipt and ledger slice (-02 Section 9).
+Every failure is named (-02 Section 9). Three results: VERIFIED, FAILED, and NOTHING_RECORDED when the packet anchors a
+transfer and cites no approval event, no verdict and no executed action (neither a pass nor a breach: there is no record
+to fail; the name is this module's).
 
 8 November 2026: the author of the profile, Xavier Goshi, read this module's log and gave by mail the constructions his
 public implementation uses for four of the fields -01 names without constructing, to be written into -02: action_hash and
@@ -32,6 +34,28 @@ entries of AMBIGUITIES say which are resolved by them, which stay open, and whic
 (the typed digest of the approval held outside the ledger, inside the ApprovalGranted payload). The canonicalisation was
 confirmed against his verifier's canonical_hash (json.dumps sort_keys, separators (",", ":"), ensure_ascii False, UTF-8,
 SHA-256 over the whole recorded object); nothing else of his code was read.
+
+16 November 2026: draft-xg-payment-dispute-profile-02 was posted, and this module was read against it. What -02 changes
+for a verifier written from the text, and what was changed here (STATUS_02 gives the state of each entry of AMBIGUITIES):
+  - Section 3 defines the envelope itself; draft-farley-acta-signed-receipts is informative and "not required". The base
+    draft's members type, issued_at and issuer_id are no longer required of a receipt: they are checked when present (the
+    chain's packet carries them), not demanded (the vector of Appendix A carries the eleven members only).
+  - Section 4 adds booleans to the stated value domain; canonical() accepts them.
+  - Section 5 writes the constructions given on 8 November (action_hash and scope_hash, ledger_entry_hash,
+    approval_event_hash, anchor_hash) and adds signer_pubkey_hash (the SHA-256 of the raw Ed25519 public key, as read
+    here before). It says that evidence_set_hash and rail_anchors_hash are signed and "a verifier MUST NOT report them as
+    checked": this module's two comparisons are no longer checks or failures; they are reported under
+    re_derived.signed_not_checked.
+  - Section 8.4: the acquisition, custody and authentication records are the producer's claims and "a verifier MUST NOT
+    report them as authenticated": what this module checks of them is shape and binding, and its report says so.
+  - Section 11: producer-claimed time and registration time MUST be reported separately: re_derived.times.
+  - Section 5 lists eight failure names of the reference verifier; seven are given beside ours as text_name
+    (TEXT_NAMES_02), the eighth (SCOPE_HASH_MISMATCH) is a name this module already emits. Apart from the two codes
+    removed with the two comparisons above (RAIL_ANCHORS_HASH_MISMATCH, EVIDENCE_SET_HASH_MISMATCH), the codes this
+    module emits are unchanged.
+Not changed, and not settled by -02: the event shape of the ledger slice (Appendix B: "named but not yet defined"), the
+approval event of a breached scope, the extension dps_approval (Section 5: an approval held outside the ledger "is out
+of scope for this revision"). Section 6 (registration as a Signed Statement) is not implemented here.
 """
 import hashlib
 import json
@@ -39,15 +63,26 @@ import json
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
-RECEIPT_TYPE = "actaseal:policy_decision"                       # Section 3
+RECEIPT_TYPE = "actaseal:policy_decision"                       # -01 Section 3; not in -02
 PROFILE_MEMBERS = ("decision", "reason_code", "action_hash", "evidence_set_hash", "ledger_entry_hash", "timestamp",
-                   "mandate_hash", "rail_anchors_hash", "scope_conformance", "key_id", "signer_pubkey_hash")   # Section 3
-BASE_MEMBERS = ("type", "issued_at", "issuer_id")               # F-2.2 REQUIRED members of every payload
+                   "mandate_hash", "rail_anchors_hash", "scope_conformance", "key_id", "signer_pubkey_hash")   # -02 Section 4
+BASE_MEMBERS = ("type", "issued_at", "issuer_id")               # F-2.2; required by -01 through the base draft, optional under -02
 DECISIONS = ("allow", "deny", "rate_limit", "require_approval")  # F-3.1.1
-SETTLEMENT_MEMBERS = ("rail", "txn_ref", "finality_status", "amount_minor", "currency", "captured_at", "network", "payer")  # 4.3
-AGENT_ANCHOR_MEMBERS = ("mandate_hash", "agent_id", "approval_event_hash", "receipt_signature", "network_token_id", "threeds_acs_result")  # 4.2
-CE3_CATEGORIES = ("device_identity", "delivery_information", "additional_identity_factor")   # 4.1
-TEXT_NAMED_FAILURES = ("SCOPE_HEADLINE_MISMATCH", "SETTLEMENT_ANCHOR_HASH_MISMATCH", "SETTLEMENT_UNANCHORED")
+SETTLEMENT_MEMBERS = ("rail", "txn_ref", "finality_status", "amount_minor", "currency", "captured_at", "network", "payer")  # 8.3
+AGENT_ANCHOR_MEMBERS = ("mandate_hash", "agent_id", "approval_event_hash", "receipt_signature", "network_token_id", "threeds_acs_result")  # 8.2
+CE3_CATEGORIES = ("device_identity", "delivery_information", "additional_identity_factor")   # 8.1
+# names the text gives: -02 Section 9 (two examples), Section 8.3 (SETTLEMENT_UNANCHORED), Section 5 (eight names of the
+# reference verifier, one of which is also this module's)
+TEXT_NAMED_FAILURES = ("SCOPE_HEADLINE_MISMATCH", "SETTLEMENT_ANCHOR_HASH_MISMATCH", "SETTLEMENT_UNANCHORED", "SCOPE_HASH_MISMATCH")
+# this module's code -> the name -02 Section 5 lists for the reference verifier. The text lists the names and not the
+# condition each one reports: the pairing is the one worked out with the author's verifier on 8 November 2026 (README).
+TEXT_NAMES_02 = {"LEDGER_ENTRY_HASH_UNKNOWN": "RECEIPT_LEDGER_ENTRY_NOT_IN_SLICE",
+                 "LEDGER_ENTRY_OTHER_ACTION": "RECEIPT_BOUND_TO_DIFFERENT_ACTION",
+                 "ACTION_PACKET_HASH_MISMATCH": "RECEIPT_ACTION_HASH_MISMATCH",
+                 "APPROVAL_EVENT_ACTION_HASH_MISMATCH": "APPROVAL_MANIFESTATION_INCONSISTENT",
+                 "RECEIPT_SIGNER_PUBKEY_HASH": "RECEIPT_SIGNER_PUBKEY_HASH_MISMATCH",
+                 "SETTLEMENT_BLOCK_MISSING": "SETTLEMENT_FIELD_MISSING",
+                 "SETTLEMENT_ANCHOR_SHAPE": "SETTLEMENT_ANCHOR_INVALID"}
 
 AMBIGUITIES = {
     "3 canonical form": "[matches the author's, 8 November 2026] Section 3 says the payload is strings, null and nested objects/arrays "
@@ -130,13 +165,63 @@ AMBIGUITIES = {
                       "not verified, since the profile's receipt is a 'canonical dict' under an envelope.",
 }
 
+# What draft-xg-payment-dispute-profile-02 (16 November 2026) does with each entry above, and what it adds. Same keys.
+STATUS_02 = {
+    "3 canonical form": "-02 Section 4: unchanged, and booleans join the stated value domain of the receipt; accepted here "
+                        "since 16 November. Integers below 2^53 in the recorded intent scope stay this module's.",
+    "3 action_hash": "written into -02 Section 5 as given on 8 November; a verifier MUST recompute it. No change here.",
+    "3 evidence_set_hash": "-02 Section 5: signed, not re-derived by the reference verifier, and a verifier MUST NOT report "
+                           "it as checked. This module's comparison is no longer a check: re_derived.signed_not_checked.",
+    "3 ledger_entry_hash": "the construction is written into -02 Section 5. The event shape stays this module's: Appendix B "
+                           "says the packet manifest, the ledger slice and the ledger event hash are named but not yet defined.",
+    "3 mandate_hash": "open: named in -02 Sections 4 and 8.2, not constructed; whether null is allowed is not said (the "
+                      "vector of Appendix A carries a hex value).",
+    "3 rail_anchors_hash": "-02 Section 5: as evidence_set_hash; re_derived.signed_not_checked.",
+    "3 key_id and signer_pubkey_hash": "-02 Section 5: signer_pubkey_hash is the SHA-256 of the raw Ed25519 public key bytes, "
+                                       "as read here; key_id names that key in the operator's published keyring, and is "
+                                       "compared here with the envelope's kid. issuer_id is the base draft's member, which "
+                                       "-02 no longer requires: compared only when present.",
+    "3 timestamp and issued_at": "-02 Section 4 lists timestamp only; Section 11: it is claimed by the producer, MUST NOT be "
+                                 "treated as trusted time, and is reported apart from registration time (re_derived.times). "
+                                 "issued_at is the base draft's member, kept by the chain's packet, no longer required.",
+    "4.1 categories": "-02 Section 8.1: the text is unchanged; open.",
+    "4.2 approval event hash": "the construction is written into -02 Section 5, with two additions: the member is present only "
+                               "when the policy required an approval, and an approval held outside the ledger is out of scope "
+                               "for this revision, so dps_approval stays an extension the text does not define. Not addressed: "
+                               "the approval event of a breached scope. Read to the letter, Section 5 asks for an action_hash "
+                               "equal to the receipt's, which the approval event of the stated negative chain does not carry "
+                               "(it carries the scope_hash); re_derived.anchors says which pairing was found.",
+    "4.2 intent scope and executed action": "written into -02 Section 5 (the ScopeEvaluated event's executed_action and "
+                                            "intent_scope). The manifest's copies and their sources stay this module's.",
+    "4.2 receipt_signature in agent_anchors": "-02 Section 8.2: the text is unchanged; open.",
+    "4.3 anchor_hash": "written into -02 Section 5 as given on 8 November. No change here.",
+    "4.3 settlement versus headline": "-02 Section 9: the text is unchanged; open.",
+    "4.4 wrapper": "-02 Section 8.4: still described, not specified. New: the three records are the producer's claims, not "
+                   "covered by the receipt signature or the ledger chain, and a verifier MUST NOT report them as "
+                   "authenticated; this module's report now says that its checks of them are of shape and binding only.",
+    "5 failure names": "-02 Section 5 lists eight names of the reference verifier. One is also this module's "
+                       "(SCOPE_HASH_MISMATCH); seven are given beside ours as text_name. The codes are unchanged.",
+    "F-2.1 envelope": "-02 Section 3 defines the envelope {payload, signature{alg, kid, sig}} itself; the base draft is an "
+                      "informative reference, not required.",
+    "new in -02, 6 registration": "the receipt's canonical bytes as the payload of a COSE_Sign1 Signed Statement, signed with "
+                                  "the receipt's own key, issuer supplied by the registering party, subject the manifest's "
+                                  "action identifier. Not implemented here. The Signed Statement of this case "
+                                  "(registration/) carries the whole packet under another issuer key: it is not the "
+                                  "statement Section 6 describes. Not said in the text: the COSE algorithm identifier, the "
+                                  "content type.",
+    "new in -02, Appendix A": "the interoperability vector: checked from the text by appendix_a_02.py (seed, public key, "
+                              "lengths, SHA-256, leaf hash, signature over the canonical payload, signer_pubkey_hash) and by "
+                              "verify_packet(receipt_only=True).",
+}
+
 
 class Refuse(Exception):
     pass
 
 
 def canonical(value):
-    """JCS over the value domain Section 3 states (strings, null, objects, arrays). Anything else is refused."""
+    """JCS over the value domain -02 Section 4 states (strings, booleans, null, objects, arrays), and integers below
+    2^53 (this module's, for the recorded intent scope). Anything else is refused."""
     def walk(v, path):
         if isinstance(v, dict):
             for k in v:
@@ -146,8 +231,10 @@ def canonical(value):
         elif isinstance(v, list):
             for i, x in enumerate(v):
                 walk(x, f"{path}/{i}")
-        elif isinstance(v, bool) or isinstance(v, float):
-            raise Refuse(f"{path}: a float or boolean, outside the profile's value domain (amounts are decimal strings)")
+        elif isinstance(v, bool):
+            pass                                             # -02 Section 4: booleans are in the value domain (JCS: true, false)
+        elif isinstance(v, float):
+            raise Refuse(f"{path}: a float, outside the profile's value domain (amounts are decimal strings)")
         elif isinstance(v, int) and abs(v) >= 2 ** 53:
             raise Refuse(f"{path}: an integer beyond 2^53, where JCS number formatting and the host serializer part")
         elif v is not None and not isinstance(v, (str, int)):
@@ -165,7 +252,7 @@ def event_hash(event):
 
 
 def anchor_hash(block):
-    """4.3 as the author constructs it (8 November 2026): the canonical hash of the anchor object inside
+    """8.3 as the author constructs it (8 November 2026): the canonical hash of the anchor object inside
     {status: "anchored", anchor, anchor_hash}."""
     return sha256_hex(canonical(block["anchor"]))
 
@@ -175,7 +262,7 @@ def canonical_hash(obj):
     return sha256_hex(canonical(obj))
 
 
-UNANCHORED = {"status": "SETTLEMENT_UNANCHORED"}                 # 4.3, the author's exact shape of an unanchored packet
+UNANCHORED = {"status": "SETTLEMENT_UNANCHORED"}                 # 8.3, the author's exact shape of an unanchored packet
 
 
 def evidence_set_hash(digests):
@@ -183,7 +270,7 @@ def evidence_set_hash(digests):
 
 
 def scope_verdict(intent_scope, executed_action):
-    """Section 4.2: the intent-scope vs executed-action diff. in_scope when every key of the intent scope has the same
+    """Section 8.2: the intent-scope vs executed-action diff. in_scope when every key of the intent scope has the same
     value in the executed action and the executed action has no key the intent scope lacks; BREACH:<field> naming the
     first differing key in sorted order; not_evaluated when either side is missing."""
     if not isinstance(intent_scope, dict) or not isinstance(executed_action, dict):
@@ -194,102 +281,127 @@ def scope_verdict(intent_scope, executed_action):
     return "in_scope"
 
 
-def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_required=True):
-    """packet: {receipt, manifest, ledger_slice, fre901}. public_key_hex: the receipt key resolved out of band (F-5.2
-    step 4: never from the receipt itself; manifest.receipt_public_key_hex is a hint the verifier decides to trust or
-    not). held: dict type -> set of hex digests of the items the verifier holds, to resolve the agent anchors against
-    (an anchor whose digest is not held is named, not failed: the text says what the anchors are, not that a verifier
-    holds them). Returns {result, failures, checks, re_derived}."""
+def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_required=True, receipt_only=False):
+    """packet: {receipt, manifest, ledger_slice, fre901}. public_key_hex: the receipt key resolved out of band (-02
+    Section 4 and 11: never from the receipt or the packet itself; manifest.receipt_public_key_hex is a hint the verifier
+    decides to trust or not). held: dict type -> set of hex digests of the items the verifier holds, to resolve the agent
+    anchors against (an anchor whose digest is not held is named, not failed: the text says what the anchors are, not
+    that a verifier holds them). receipt_only: stop after the receipt (envelope, signature, members), for a receipt
+    that comes without a packet, such as the vector of -02 Appendix A. Returns {result, failures, checks, re_derived}."""
     F, C, R = [], [], {}
 
     def fail(code, why):
-        F.append({"code": code, "why": why, "named_in_text": code in TEXT_NAMED_FAILURES})
+        F.append({"code": code, "why": why, "named_in_text": code in TEXT_NAMED_FAILURES,
+                  **({"text_name": TEXT_NAMES_02[code]} if code in TEXT_NAMES_02 else {})})
 
     def ok(what):
         C.append(what)
 
     receipt, manifest, ledger, fre = packet.get("receipt"), packet.get("manifest"), packet.get("ledger_slice"), packet.get("fre901")
-    # ---- F-2.1, F-5.2: the envelope and the signature over the canonical payload
+    # ---- -02 Sections 3 and 4: the envelope and the signature over the canonical payload
     if not isinstance(receipt, dict) or set(receipt) != {"payload", "signature"}:
-        fail("RECEIPT_SHAPE", "F-2.1: the envelope is {payload, signature}; the flat shape is not this profile's")
+        fail("RECEIPT_SHAPE", "3: the envelope is {payload, signature{alg, kid, sig}}; the flat shape is not this profile's")
         return {"result": "FAILED", "failures": F, "checks": C, "re_derived": R}
     sig, payload = receipt["signature"], receipt["payload"]
     if not isinstance(sig, dict) or set(sig) != {"alg", "kid", "sig"}:
-        fail("RECEIPT_SIGNATURE_OBJECT", "F-2.1.1: alg, kid, sig REQUIRED")
+        fail("RECEIPT_SIGNATURE_OBJECT", "3: the signature object is {alg, kid, sig}")
     elif sig["alg"] != "EdDSA":
-        fail("RECEIPT_ALG", f"F-2.1.1 / 3: alg is {sig['alg']!r}, this profile's is EdDSA")
+        fail("RECEIPT_ALG", f"4: alg is {sig['alg']!r}, this profile's is EdDSA")
     else:
         try:
             cb = canonical(payload)
             if sig["sig"] != sig["sig"].lower() or len(sig["sig"]) != 128:
-                fail("RECEIPT_SIGNATURE_ENCODING", "3: Ed25519, lowercase hex (F-2.1.1: not rejected on length alone, here on both)")
+                fail("RECEIPT_SIGNATURE_ENCODING", "4: Ed25519, lowercase hex")
             Ed25519PublicKey.from_public_bytes(bytes.fromhex(public_key_hex)).verify(bytes.fromhex(sig["sig"]), cb)
-            ok("receipt signature verified over the canonical payload bytes with the key resolved out of band (F-5.2 steps 2-5)")
+            ok("receipt signature verified over the canonical payload bytes with the key resolved out of band (3, 4)")
             R["canonical_payload_sha256"] = sha256_hex(cb)
         except Refuse as e:
-            fail("RECEIPT_PAYLOAD_VALUE_DOMAIN", f"3: {e}")
+            fail("RECEIPT_PAYLOAD_VALUE_DOMAIN", f"4: {e}")
         except (InvalidSignature, ValueError):
-            fail("RECEIPT_SIGNATURE_INVALID", "F-5.2 step 6: the signature does not verify over the canonical payload; the receipt MUST be rejected")
-    # ---- 3: the payload members
+            fail("RECEIPT_SIGNATURE_INVALID", "3 / 9: the signature does not verify over the canonical payload")
+    # ---- -02 Section 4: the payload members. The base draft's three members (F-2.2) were required through -01's "a
+    # base-draft receipt with"; -02 defines the envelope itself and does not require them: checked when present.
     if isinstance(payload, dict):
-        missing = [m for m in BASE_MEMBERS + PROFILE_MEMBERS if m not in payload]
+        missing = [m for m in PROFILE_MEMBERS if m not in payload]
+        base = [m for m in BASE_MEMBERS if m in payload]
+        R["base_draft_members"] = base
         if missing:
-            fail("RECEIPT_MEMBER_MISSING", f"3 / F-2.2: {missing}")
+            fail("RECEIPT_MEMBER_MISSING", f"4: {missing}")
+        elif len(base) == len(BASE_MEMBERS):
+            ok("the receipt carries the eleven profile members of Section 4 and the base draft's three members (F-2.2, not required by -02)")
         else:
-            ok("the receipt carries the three base members and the eleven profile members of Section 3")
-        if payload.get("type") != RECEIPT_TYPE:
-            fail("RECEIPT_TYPE", f"3: type is {payload.get('type')!r}, this profile's is {RECEIPT_TYPE}")
+            ok("the receipt carries the eleven profile members of Section 4" +
+               (f"; of the base draft's members (F-2.2, not required by -02) it carries {base}" if base else ""))
+        other = sorted(set(payload) - set(PROFILE_MEMBERS) - set(BASE_MEMBERS))
+        if other:
+            R["members_not_in_the_text"] = other              # named, not failed: the text does not say a receipt carries nothing else
+        if "type" in payload and payload.get("type") != RECEIPT_TYPE:
+            fail("RECEIPT_TYPE", f"-01 Section 3: type is {payload.get('type')!r}, the profile's was {RECEIPT_TYPE} (-02 has no type member)")
         if payload.get("decision") not in DECISIONS:
             fail("RECEIPT_DECISION_VALUE", f"F-3.1.1: decision is {payload.get('decision')!r}")
-        if isinstance(sig, dict) and not (payload.get("issuer_id") == sig.get("kid") == payload.get("key_id")):
-            fail("RECEIPT_ISSUER_KID_MISMATCH", "F-2.2: issuer_id MUST match the signature's kid (and 3: key_id, read as the same)")
+        if isinstance(sig, dict) and not (payload.get("key_id") == sig.get("kid") and payload.get("issuer_id", sig.get("kid")) == sig.get("kid")):
+            fail("RECEIPT_ISSUER_KID_MISMATCH", "5: key_id names the signing key, read as the envelope's kid; F-2.2: issuer_id, when present, MUST match the kid")
         if payload.get("signer_pubkey_hash") != sha256_hex(bytes.fromhex(public_key_hex)):
-            fail("RECEIPT_SIGNER_PUBKEY_HASH", "3: signer_pubkey_hash is not the SHA-256 of the key resolved (this module's construction)")
+            fail("RECEIPT_SIGNER_PUBKEY_HASH", "5: signer_pubkey_hash is not the SHA-256 of the raw Ed25519 public key bytes of the key resolved")
+        else:
+            ok("signer_pubkey_hash is the SHA-256 of the raw Ed25519 public key bytes of the key resolved (5)")
         if payload.get("reason_code") in (None, ""):
-            fail("RECEIPT_REASON_CODE_MISSING", "3: reason_code is a member of the canonical dict; empty here")
+            fail("RECEIPT_REASON_CODE_MISSING", "4: reason_code is a member of the canonical dict; empty here")
+        # -02 Section 11: the timestamp is the producer's claim; registration time is reported apart from it. This
+        # verifier is given no Transparency Service Receipt, so it has no registration time to report.
+        R["times"] = {"producer_claimed": payload.get("timestamp"),
+                      "registration": None,
+                      "note": "11: the receipt's timestamp is claimed by its producer and is not trusted time; no Transparency "
+                              "Service Receipt is among this verifier's inputs, so no registration time is reported"}
+    if receipt_only:
+        return {"result": "VERIFIED" if not F else "FAILED", "failures": F, "checks": C, "re_derived": R, "scope": "receipt only"}
     if not isinstance(manifest, dict):
-        fail("MANIFEST_MISSING", "4.3: a manifest without the settlement block MUST fail; there is no manifest at all")
+        fail("MANIFEST_MISSING", "8.3: a manifest without the settlement block MUST fail; there is no manifest at all")
         return {"result": "FAILED", "failures": F, "checks": C, "re_derived": R}
-    # ---- 4.3: the settlement anchor
+    # ---- 8.3: the settlement anchor
     # the block is {status: "anchored", anchor, anchor_hash} or exactly {status: "SETTLEMENT_UNANCHORED"} (the author, 8 November)
     block = manifest.get("settlement_anchor")
     sa = None                                                     # the anchor object when the block is anchored
     if "settlement_anchor" not in manifest or not isinstance(block, dict):
-        fail("SETTLEMENT_BLOCK_MISSING", "4.3: a manifest without the settlement block MUST fail; an unanchored packet states "
+        fail("SETTLEMENT_BLOCK_MISSING", "8.3: a manifest without the settlement block MUST fail; an unanchored packet states "
                                          "{status: SETTLEMENT_UNANCHORED} (this module's name for the absence of the block itself)")
     elif block.get("status") == "SETTLEMENT_UNANCHORED":
         if block != UNANCHORED:
-            fail("SETTLEMENT_ANCHOR_SHAPE", f"4.3: an unanchored packet carries exactly {{status: SETTLEMENT_UNANCHORED}}; this block "
+            fail("SETTLEMENT_ANCHOR_SHAPE", f"8.3: an unanchored packet carries exactly {{status: SETTLEMENT_UNANCHORED}}; this block "
                                             f"also carries {sorted(set(block) - {'status'})}")
-        fail("SETTLEMENT_UNANCHORED", "4.3: the packet states that no settlement is anchored")
+        fail("SETTLEMENT_UNANCHORED", "8.3: the packet states that no settlement is anchored")
     elif block.get("status") != "anchored" or set(block) != {"status", "anchor", "anchor_hash"} or not isinstance(block.get("anchor"), dict):
-        fail("SETTLEMENT_ANCHOR_SHAPE", "4.3: an anchored block is {status: 'anchored', anchor, anchor_hash}")
+        fail("SETTLEMENT_ANCHOR_SHAPE", "8.3: an anchored block is {status: 'anchored', anchor, anchor_hash}")
     else:
         sa = block["anchor"]
         miss = [m for m in SETTLEMENT_MEMBERS + ("unanchored_fields",) if m not in sa]
         if miss:
-            fail("SETTLEMENT_ANCHOR_MEMBER_MISSING", f"4.3: {miss}")
+            fail("SETTLEMENT_ANCHOR_MEMBER_MISSING", f"8.3: {miss}")
         else:
             try:
                 if anchor_hash(block) != block["anchor_hash"]:
-                    fail("SETTLEMENT_ANCHOR_HASH_MISMATCH", "4.3 / 5: anchor_hash does not recompute over the anchor object")
+                    fail("SETTLEMENT_ANCHOR_HASH_MISMATCH", "5 / 8.3 / 9: anchor_hash does not recompute over the anchor object")
                 else:
-                    ok("settlement anchor_hash recomputed over the anchor object inside the anchored block (4.3, the author's construction)")
+                    ok("settlement anchor_hash recomputed over the anchor object inside the anchored block (5, 8.3)")
             except Refuse as e:
                 fail("SETTLEMENT_ANCHOR_VALUE_DOMAIN", str(e))
             for f in sa["unanchored_fields"]:
                 if f in SETTLEMENT_MEMBERS and sa.get(f) is not None:
-                    fail("SETTLEMENT_UNANCHORED_FIELD_HAS_VALUE", f"4.3: {f} is named unanchored and carries a value")
-            if isinstance(payload, dict) and payload.get("rail_anchors_hash") != block.get("anchor_hash"):
-                fail("RAIL_ANCHORS_HASH_MISMATCH", "3 / 4.3: the receipt's rail_anchors_hash is not the settlement anchor_hash (this module's reading)")
+                    fail("SETTLEMENT_UNANCHORED_FIELD_HAS_VALUE", f"8.3: {f} is named unanchored and carries a value")
+            if isinstance(payload, dict):
+                # -02 Section 5: rail_anchors_hash is signed, not re-derived by the reference verifier, and "a verifier MUST
+                # NOT report [it] as checked". Until 16 November a difference was the failure RAIL_ANCHORS_HASH_MISMATCH.
+                R.setdefault("signed_not_checked", {})["rail_anchors_hash"] = {
+                    "construction": "this module's reading, not the text's: equal to the settlement anchor_hash",
+                    "equal_under_that_reading": payload.get("rail_anchors_hash") == block.get("anchor_hash")}
             head = manifest.get("headline", {})
             if sa.get("amount_minor") != head.get("amount_minor") or sa.get("currency") != head.get("currency"):
-                fail("SETTLEMENT_HEADLINE_MISMATCH", f"5: what moved ({sa.get('amount_minor')} {sa.get('currency')}) is not the manifest's "
+                fail("SETTLEMENT_HEADLINE_MISMATCH", f"9: what moved ({sa.get('amount_minor')} {sa.get('currency')}) is not the manifest's "
                                                      f"headline amount ({head.get('amount_minor')} {head.get('currency')})")
             else:
-                ok("settlement amount and currency equal the manifest's headline amount (5: headline consistency)")
+                ok("settlement amount and currency equal the manifest's headline amount (9: headline consistency)")
     anchored_hash = block.get("anchor_hash") if sa is not None else None
-    # ---- ledger slice: event hashes and chain links (5, 4.4)
+    # ---- ledger slice: event hashes and chain links (9, 8.4)
     events = ledger if isinstance(ledger, list) else []
     hashes, by_hash = set(), {}
     prev = "0" * 64
@@ -297,10 +409,10 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
     for i, ev in enumerate(events):
         try:
             if ev.get("event_hash") != event_hash(ev):
-                fail("LEDGER_EVENT_HASH_MISMATCH", f"5: event {i} ({ev.get('type')}) does not recompute")
+                fail("LEDGER_EVENT_HASH_MISMATCH", f"9: event {i} ({ev.get('type')}) does not recompute")
                 chain_ok = False
             if ev.get("prev_hash") != prev:
-                fail("LEDGER_CHAIN_BROKEN", f"5: event {i} does not link to event {i - 1}")
+                fail("LEDGER_CHAIN_BROKEN", f"9: event {i} does not link to event {i - 1}")
                 chain_ok = False
         except Refuse as e:
             fail("LEDGER_EVENT_VALUE_DOMAIN", f"event {i}: {e}")
@@ -309,7 +421,7 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
         hashes.add(prev)
         by_hash[prev] = ev
     if chain_ok:
-        ok(f"{len(events)} ledger events recompute and link (5)")
+        ok(f"{len(events)} ledger events recompute and link (9)")
     # the action the packet is about: every event the receipt or the anchors point to must be an event for it (the author)
     action_id = manifest.get("action_id")
     if not action_id:
@@ -319,25 +431,25 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
     if isinstance(payload, dict):
         entry = by_hash.get(payload.get("ledger_entry_hash"))
         if entry is None:
-            fail("LEDGER_ENTRY_HASH_UNKNOWN", "3: the receipt's ledger_entry_hash is not an event of the ledger slice")
+            fail("LEDGER_ENTRY_HASH_UNKNOWN", "5: the receipt's ledger_entry_hash is not an event of the ledger slice")
         elif entry.get("action_id") != action_id:
-            fail("LEDGER_ENTRY_OTHER_ACTION", f"3: the receipt's ledger_entry_hash names an event of action {entry.get('action_id')!r}, "
+            fail("LEDGER_ENTRY_OTHER_ACTION", f"5: the receipt's ledger_entry_hash names an event of action {entry.get('action_id')!r}, "
                                               f"not of {action_id!r} (the author's construction: an event for the same action_id)")
         else:
             aph = (entry.get("data") or {}).get("action_packet_hash") if isinstance(entry.get("data"), dict) else None
             if aph is not None and aph != payload.get("action_hash"):
-                fail("ACTION_PACKET_HASH_MISMATCH", f"3: the event ledger_entry_hash names ({entry.get('type')}) carries action_packet_hash "
+                fail("ACTION_PACKET_HASH_MISMATCH", f"5: the event ledger_entry_hash names ({entry.get('type')}) carries action_packet_hash "
                                                     "different from the receipt's action_hash (the author's equality)")
             else:
                 ok(f"ledger_entry_hash is the {entry.get('type')} event of this action" +
-                   ("; its action_packet_hash equals action_hash" if aph is not None else "") + " (3, the author's construction)")
-    # ---- 4.2: agent anchors and the scope verdict re-derived
+                   ("; its action_packet_hash equals action_hash" if aph is not None else "") + " (5)")
+    # ---- 8.2: agent anchors and the scope verdict re-derived
     R["anchors"] = []
 
     def resolve(name, ref):
         """A typed digest {type, alg, digest} (this module's reading for further_anchors and the extension) against the items held."""
         if not isinstance(ref, dict) or set(ref) != {"type", "alg", "digest"}:
-            fail("ANCHOR_SHAPE", f"4.2: {name} is not a typed digest {{type, alg, digest}} (this module's reading)")
+            fail("ANCHOR_SHAPE", f"8.2: {name} is not a typed digest {{type, alg, digest}} (this module's reading)")
             return
         state = "not resolved: verifier holds nothing of that type" if held is None or ref["type"] not in held else \
             ("resolved" if ref["digest"] in held[ref["type"]] else "not held")
@@ -347,35 +459,35 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
 
     aa = manifest.get("agent_anchors")
     if not isinstance(aa, dict) or set(aa) != set(AGENT_ANCHOR_MEMBERS):
-        fail("AGENT_ANCHORS_SHAPE", f"4.2: the block's shape is {list(AGENT_ANCHOR_MEMBERS)}")
+        fail("AGENT_ANCHORS_SHAPE", f"8.2: the block's shape is {list(AGENT_ANCHOR_MEMBERS)}")
         aa = None
     else:
         if isinstance(sig, dict) and aa.get("receipt_signature") != sig.get("sig"):
-            fail("AGENT_ANCHORS_RECEIPT_SIGNATURE", "4.2: the block's receipt signature is not the envelope's")
+            fail("AGENT_ANCHORS_RECEIPT_SIGNATURE", "8.2: the block's receipt signature is not the envelope's")
         if isinstance(payload, dict) and aa.get("mandate_hash") != payload.get("mandate_hash"):
-            fail("MANDATE_HASH_INCONSISTENT", "3 / 4.2: mandate_hash differs between receipt and block")
+            fail("MANDATE_HASH_INCONSISTENT", "4 / 8.2: mandate_hash differs between receipt and block")
     for name in manifest.get("further_anchors", {}):
         resolve(name, manifest["further_anchors"][name])
-    # ---- 4.2: the scope verdict re-derived from the inputs the ScopeEvaluated event recorded (the author, 8 November)
+    # ---- 8.2: the scope verdict re-derived from the inputs the ScopeEvaluated event recorded (the author, 8 November)
     scope_events = [ev for ev in own if ev.get("type") == "ScopeEvaluated"]
     scope_ev = scope_events[-1] if scope_events else None
     sdata = scope_ev.get("data") if isinstance(scope_ev, dict) and isinstance(scope_ev.get("data"), dict) else {}
     intent, executed = sdata.get("intent_scope"), sdata.get("executed_action")
     if len(scope_events) > 1:
-        fail("SCOPE_EVENT_DUPLICATED", f"4.2: {len(scope_events)} ScopeEvaluated events for this action; the last is read")
+        fail("SCOPE_EVENT_DUPLICATED", f"8.2: {len(scope_events)} ScopeEvaluated events for this action; the last is read")
     derived = scope_verdict(intent, executed)
     R["scope_conformance"] = derived
     head_scope = manifest.get("headline", {}).get("scope_conformance")
     if isinstance(payload, dict):
         if scope_ev is None and payload.get("scope_conformance") != "not_evaluated":
-            fail("SCOPE_EVENT_MISSING", f"4.2: the receipt states {payload.get('scope_conformance')!r} and the slice holds no ScopeEvaluated "
+            fail("SCOPE_EVENT_MISSING", f"8.2: the receipt states {payload.get('scope_conformance')!r} and the slice holds no ScopeEvaluated "
                                         "event for this action: nothing recorded to re-derive from")
         if payload.get("scope_conformance") != derived or head_scope != derived:
-            fail("SCOPE_HEADLINE_MISMATCH", f"4.2 / 5: re-derived {derived!r}; receipt says {payload.get('scope_conformance')!r}, "
+            fail("SCOPE_HEADLINE_MISMATCH", f"8.2 / 9: re-derived {derived!r}; receipt says {payload.get('scope_conformance')!r}, "
                                             f"manifest headline {head_scope!r}")
         else:
             ok(f"scope verdict re-derived from the intent scope and executed action the ScopeEvaluated event records: {derived}; "
-               "receipt and manifest headline agree (4.2, 5)")
+               "receipt and manifest headline agree (8.2, 9)")
         # action_hash and scope_hash: the canonical hashes of the recorded objects (the author's construction); the event's own
         # members must recompute, the receipt's action_hash must be the event's, and the manifest's copies must be the event's
         scope_hash = None
@@ -385,25 +497,25 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
             try:
                 h = canonical_hash(obj) if obj is not None else None
                 if sdata.get(hkey) != h:
-                    fail("SCOPE_HASH_MISMATCH", f"4.2: the ScopeEvaluated event's {hkey} does not recompute from its recorded {which}")
+                    fail("SCOPE_HASH_MISMATCH", f"5: the ScopeEvaluated event's {hkey} does not recompute from its recorded {which}")
                 if hkey == "scope_hash":
                     scope_hash = h
                 if manifest.get(which) != obj or manifest.get(f"{which}_sha256") != h:
-                    fail("MANIFEST_SCOPE_INPUT_DIFFERS", f"4.2: the manifest's copy of {which} (or its digest) is not what the ScopeEvaluated "
+                    fail("MANIFEST_SCOPE_INPUT_DIFFERS", f"8.2: the manifest's copy of {which} (or its digest) is not what the ScopeEvaluated "
                                                          "event recorded")
             except Refuse as e:
                 fail("SCOPE_INPUT_VALUE_DOMAIN", f"{which}: {e}")
         if scope_ev is not None:
             try:
                 if payload.get("action_hash") != canonical_hash(executed):
-                    fail("ACTION_HASH_MISMATCH", "3: action_hash is not the canonical hash of the executed_action the ScopeEvaluated event "
+                    fail("ACTION_HASH_MISMATCH", "5: action_hash is not the canonical hash of the executed_action the ScopeEvaluated event "
                                                  "records (the author's construction)")
                 else:
-                    ok("action_hash is the canonical hash of the executed_action recorded in the ScopeEvaluated event (3, 4.2)")
+                    ok("action_hash is the canonical hash of the executed_action recorded in the ScopeEvaluated event (5)")
             except Refuse:
                 pass                                         # named above
         elif payload.get("action_hash") is not None:
-            fail("ACTION_HASH_MISMATCH", "3: the receipt carries an action_hash and the slice records no executed action to recompute it from")
+            fail("ACTION_HASH_MISMATCH", "5: the receipt carries an action_hash and the slice records no executed action to recompute it from")
         # the approval event: the event_hash of an ApprovalGranted/ApprovalDenied event of the slice whose payload carries an
         # action_hash equal to the receipt's (the author). Extension beyond -01: the payload may carry dps_approval, the typed
         # digests of the approval held outside the ledger, resolved against the items held.
@@ -414,24 +526,26 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
                 R["anchors"].append({"name": name, "state": "absent: the packet cites no approval event"})
                 return
             if not isinstance(h, str):
-                fail("APPROVAL_EVENT_SHAPE", f"4.2: {name} is not an event_hash (hex string) of the ledger slice (the author's construction)")
+                fail("APPROVAL_EVENT_SHAPE", f"5: {name} is not an event_hash (hex string) of the ledger slice (the author's construction)")
                 return
             ev = by_hash.get(h)
             if ev is None:
-                fail("APPROVAL_EVENT_UNKNOWN", f"4.2: {name} is not an event of the ledger slice")
+                fail("APPROVAL_EVENT_UNKNOWN", f"5: {name} is not an event of the ledger slice")
                 return
             if ev.get("type") not in ("ApprovalGranted", "ApprovalDenied"):
-                fail("APPROVAL_EVENT_TYPE", f"4.2: {name} names a {ev.get('type')} event, not ApprovalGranted or ApprovalDenied")
+                fail("APPROVAL_EVENT_TYPE", f"5: {name} names a {ev.get('type')} event, not ApprovalGranted or ApprovalDenied")
             if ev.get("action_id") != action_id:
-                fail("APPROVAL_EVENT_OTHER_ACTION", f"4.2: {name} names an event of another action")
+                fail("APPROVAL_EVENT_OTHER_ACTION", f"5: {name} names an event of another action")
             d = ev.get("data") if isinstance(ev.get("data"), dict) else {}
             if d.get("action_hash") == payload.get("action_hash"):
                 state = "resolved in the ledger slice: the event's action_hash is the receipt's"
             elif derived.startswith("BREACH:") and scope_hash is not None and d.get("action_hash") == scope_hash:
                 state = ("resolved in the ledger slice: the event's action_hash is the scope_hash, the approval covers the intent "
-                         "scope and not the executed action, consistent with the BREACH re-derived (this module's reading, open for -02)")
+                         "scope and not the executed action, consistent with the BREACH re-derived (this module's reading; -02 "
+                         "Section 5 asks for an action_hash equal to the receipt's and does not address a breached scope)")
+                R["approval_event_pairing_not_in_the_text"] = True
             else:
-                fail("APPROVAL_EVENT_ACTION_HASH_MISMATCH", f"4.2: the payload of {name}'s event carries action_hash "
+                fail("APPROVAL_EVENT_ACTION_HASH_MISMATCH", f"5: the payload of {name}'s event carries action_hash "
                                                             f"{str(d.get('action_hash'))[:16]}..., not the receipt's (the author's equality)")
                 state = "not resolved"
             entry = {"name": name, "event_hash": h, "type": ev.get("type"), "state": state}
@@ -462,16 +576,16 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
             if isinstance(xb, dict) and xb.get("status") == "anchored" and isinstance(xb.get("anchor"), dict):
                 try:
                     if anchor_hash(xb) != xb.get("anchor_hash"):
-                        fail("SETTLEMENT_ANCHOR_HASH_MISMATCH", f"4.3 / 5: additional_executions[{i}].settlement_anchor does not recompute")
+                        fail("SETTLEMENT_ANCHOR_HASH_MISMATCH", f"5 / 8.3 / 9: additional_executions[{i}].settlement_anchor does not recompute")
                 except Refuse as e:
                     fail("SETTLEMENT_ANCHOR_VALUE_DOMAIN", str(e))
             elif xb == UNANCHORED:
-                fail("SETTLEMENT_UNANCHORED", f"4.3: additional_executions[{i}] states that its transfer is not anchored")
+                fail("SETTLEMENT_UNANCHORED", f"8.3: additional_executions[{i}] states that its transfer is not anchored")
             else:
-                fail("SETTLEMENT_BLOCK_MISSING", f"4.3: additional_executions[{i}] records a transfer with no settlement block")
+                fail("SETTLEMENT_BLOCK_MISSING", f"8.3: additional_executions[{i}] records a transfer with no settlement block")
         for h, txns in approval_uses.items():
             if len(txns) > 1:
-                fail("APPROVAL_EVENT_CITED_TWICE", f"4.2: one approval event ({h[:16]}...) is cited for {len(txns)} transfers "
+                fail("APPROVAL_EVENT_CITED_TWICE", f"8.2: one approval event ({h[:16]}...) is cited for {len(txns)} transfers "
                                                    f"({', '.join(map(str, txns))}); the packet carries no count on an approval event, so it "
                                                    "cannot show that one approval covers two requests; that is the Standard's request_limit "
                                                    "check (action binding rule 5), which this verifier cannot make")
@@ -490,13 +604,14 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
                 cited += [ex.get(k, {}).get("digest") if isinstance(ex.get(k), dict) else None for k in ("allow_outcome_receipt", "tool_result_receipt")]
                 xb = ex.get("settlement_anchor")
                 cited.append(xb.get("anchor_hash") if isinstance(xb, dict) else None)
-        if payload.get("evidence_set_hash") != evidence_set_hash([c for c in cited if c]):
-            fail("EVIDENCE_SET_HASH_MISMATCH", "3: evidence_set_hash does not recompute over the digests the packet cites (this module's construction)")
-        else:
-            ok("evidence_set_hash recomputed over the digests the packet cites")
+        # -02 Section 5: evidence_set_hash is signed, not re-derived by the reference verifier, and "a verifier MUST NOT
+        # report [it] as checked". Until 16 November a difference was the failure EVIDENCE_SET_HASH_MISMATCH.
+        R.setdefault("signed_not_checked", {})["evidence_set_hash"] = {
+            "construction": "this module's, not the text's: SHA-256 over the canonical JSON of the sorted digests the packet cites",
+            "equal_under_that_construction": payload.get("evidence_set_hash") == evidence_set_hash([c for c in cited if c])}
         # what is behind the settlement: an approval event, a verdict, an executed action. A packet that anchors a transfer
         # and cites none of the three records nothing behind the money that moved. That is a finding of its own, not a
-        # BREACH (there is no intent scope to breach) and not a pass: the text (4.1) forbids inventing evidence and
+        # BREACH (there is no intent scope to breach) and not a pass: the text (8.1) forbids inventing evidence and
         # provides gap notes; it does not name this case. The names below are this module's.
         absent = [name for name, present in (("approval event", isinstance(aa, dict) and aa.get("approval_event_hash") is not None),
                                               ("verdict", "verdict_record" in (manifest.get("further_anchors") or {})),
@@ -509,34 +624,37 @@ def verify_packet(packet, *, public_key_hex, held=None, dispute_reason_code_requ
             else:
                 fail("RECORD_ABSENT", f"the packet anchors a transfer and cites no {', no '.join(absent)}")
         R["absent"] = absent
-    # ---- 4.1: the categories
+    # ---- 8.1: the categories
     cats = manifest.get("ce3_fpt_categories")
     if not isinstance(cats, dict) or set(cats) != set(CE3_CATEGORIES):
-        fail("CATEGORIES_SHAPE", f"4.1: three categories {list(CE3_CATEGORIES)}")
+        fail("CATEGORIES_SHAPE", f"8.1: three categories {list(CE3_CATEGORIES)}")
     else:
         for c, v in cats.items():
             if v.get("populated") and v.get("value") in (None, ""):
-                fail("CATEGORY_POPULATED_WITHOUT_VALUE", f"4.1: {c} marked populated with no value (the mapper MUST NOT invent evidence)")
+                fail("CATEGORY_POPULATED_WITHOUT_VALUE", f"8.1: {c} marked populated with no value (the mapper MUST NOT invent evidence)")
             if not v.get("populated") and not v.get("gap_note"):
-                fail("CATEGORY_GAP_UNDECLARED", f"4.1: {c} unpopulated without a gap note")
+                fail("CATEGORY_GAP_UNDECLARED", f"8.1: {c} unpopulated without a gap note")
     if dispute_reason_code_required and not manifest.get("dispute_reason_code"):
-        fail("DISPUTE_REASON_CODE_MISSING", "4.1: a missing dispute reason code MUST cause the mapper to raise rather than pass silently")
-    # ---- 4.4: the FRE 901 wrapper
+        fail("DISPUTE_REASON_CODE_MISSING", "8.1: a missing dispute reason code MUST cause the mapper to raise rather than pass silently")
+    # ---- 8.4: the FRE 901 wrapper
     if not isinstance(fre, dict) or set(fre) != {"acquisition", "custody", "authentication_statement"}:
-        fail("FRE901_SHAPE", "4.4: acquisition record, custody record, authentication statement")
+        fail("FRE901_SHAPE", "8.4: acquisition record, custody record, authentication statement")
     else:
         acq = fre["acquisition"]
         if not all(acq.get(k) for k in ("captured_by", "captured_at", "tool", "clock_source")) or "gaps" not in acq:
-            fail("ACQUISITION_INCOMPLETE", "4.4: who, when, with what tool and clock source; gaps declared")
+            fail("ACQUISITION_INCOMPLETE", "8.4: who, when, with what tool and clock source; gaps declared")
         if "untrusted" not in str(acq.get("clock_source", "")) and not acq.get("external_time_anchor"):
-            fail("CLOCK_NOT_DECLARED_UNTRUSTED", "7: absent an external anchor proof, the host clock MUST be declared untrusted")
+            fail("CLOCK_NOT_DECLARED_UNTRUSTED", "11: absent an external anchor proof, the host clock MUST be declared untrusted")
         unbound = [c for c in fre["custody"] if c.get("ledger_event_hash") not in hashes]
         if unbound:
-            fail("CUSTODY_EVENT_UNBOUND", f"4.4: {len(unbound)} custody event(s) not bound to a ledger event hash of the slice")
+            fail("CUSTODY_EVENT_UNBOUND", f"8.4: {len(unbound)} custody event(s) not bound to a ledger event hash of the slice")
         elif fre["custody"]:
-            ok(f"{len(fre['custody'])} custody events each bound to a ledger event hash (4.4)")
+            ok(f"{len(fre['custody'])} custody events each name a ledger event hash of the slice (8.4: a binding, not an authentication)")
         if not isinstance(fre["authentication_statement"].get("re_derivable"), list) or not fre["authentication_statement"]["re_derivable"]:
-            fail("AUTHENTICATION_STATEMENT_EMPTY", "4.4: it names exactly what a challenger can independently re-derive")
+            fail("AUTHENTICATION_STATEMENT_EMPTY", "8.4: it names exactly what a challenger can independently re-derive")
+        R["fre901"] = ("8.4: the acquisition, custody and authentication records are the producer's claims, not covered by the "
+                       "receipt signature or the ledger chain; this verifier checked their shape and the custody bindings and "
+                       "does not report them as authenticated")
     # three results: VERIFIED; FAILED when a check fails; NOTHING_RECORDED when the only finding is that the packet anchors a
     # transfer and records nothing behind it (neither a pass nor a breach: there is no document to fail)
     result = "VERIFIED" if not F else ("NOTHING_RECORDED" if all(f["code"] == "NOTHING_RECORDED" for f in F) else "FAILED")

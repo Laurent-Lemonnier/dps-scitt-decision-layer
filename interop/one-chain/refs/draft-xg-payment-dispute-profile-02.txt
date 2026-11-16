@@ -1,0 +1,784 @@
+
+
+
+
+SCITT                                                           X. Goshi
+Internet-Draft                                                  ActaSeal
+Intended status: Informational                          16 November 2026
+Expires: 20 May 2027
+
+
+    Card-Scheme Dispute Evidence Profile of Signed Decision Receipts
+                  draft-xg-payment-dispute-profile-02
+
+Abstract
+
+   In an agent-initiated payment dispute, the payer, the merchant, the
+   payment service provider and the agent operator each keep their own
+   record of the same decision, and none of those records can be
+   verified by the other parties.  This document states that problem and
+   defines a signed dispute receipt, registrable as the payload of a
+   SCITT Signed Statement, that binds the decision to card-scheme
+   dispute-evidence categories, to the agent's delegated scope, to the
+   settlement that actually occurred, and to an evidentiary-custody
+   record, so that parties with opposed interests can verify the same
+   evidence offline.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 20 May 2027.
+
+Copyright Notice
+
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+
+
+
+Goshi                      Expires 20 May 2027                  [Page 1]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Conventions and Definitions . . . . . . . . . . . . . . . . .   2
+   2.  Problem Statement . . . . . . . . . . . . . . . . . . . . . .   2
+   3.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
+   4.  Receipt Profile . . . . . . . . . . . . . . . . . . . . . . .   3
+   5.  Field Constructions . . . . . . . . . . . . . . . . . . . . .   4
+   6.  Registration with a SCITT Transparency Service  . . . . . . .   5
+   7.  Relation to Other Work  . . . . . . . . . . . . . . . . . . .   6
+   8.  Evidence Layers Bound to the Receipt  . . . . . . . . . . . .   6
+     8.1.  CE 3.0 / First-Party Trust Categories . . . . . . . . . .   6
+     8.2.  Agent Anchors . . . . . . . . . . . . . . . . . . . . . .   6
+     8.3.  Settlement Anchor . . . . . . . . . . . . . . . . . . . .   7
+     8.4.  FRE 901 Wrapper . . . . . . . . . . . . . . . . . . . . .   7
+   9.  Verification  . . . . . . . . . . . . . . . . . . . . . . . .   7
+   10. Implementation Status . . . . . . . . . . . . . . . . . . . .   7
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .   8
+   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
+   13. Normative References  . . . . . . . . . . . . . . . . . . . .   9
+   14. Informative References  . . . . . . . . . . . . . . . . . . .   9
+   Appendix A.  Interoperability Test Vector . . . . . . . . . . . .  12
+   Appendix B.  Changes Since -01  . . . . . . . . . . . . . . . . .  13
+   Appendix C.  Changes Since -00  . . . . . . . . . . . . . . . . .  13
+   Appendix D.  Acknowledgements . . . . . . . . . . . . . . . . . .  14
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  14
+
+1.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+   These key words bind conformance to this profile.
+
+2.  Problem Statement
+
+   When an AI agent makes a payment on a user's behalf and the payment
+   is disputed, at least four parties hold a record of what happened:
+   the payer, the merchant, the payment service provider and the agent
+   operator.  Each record is produced and stored by a party with an
+   interest in the outcome.
+
+
+
+Goshi                      Expires 20 May 2027                  [Page 2]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+   *  No party can verify another party's record without trusting that
+      party's systems.
+
+   *  The records are not bound to the money that actually settled, so a
+      decision log and a settlement record can disagree with nothing to
+      show which one is true.
+
+   *  The records are not ordered against each other by a service all
+      parties accept, so a record can be produced or changed after the
+      dispute is raised.
+
+   *  Nothing records whether the agent acted inside the scope its user
+      delegated, which is the question adjudication usually turns on.
+
+   Adjudicators -- card-scheme representment (Visa Compelling Evidence
+   3.0, Mastercard First-Party Trust), and courts applying [FRE901] and
+   [FRE902] -- are therefore left to weigh competing records that none
+   of them can check.
+
+3.  Introduction
+
+   This document defines a dispute receipt: an Ed25519 ([RFC8032])
+   signature over an [RFC8785] (JCS) canonicalized payload, in an
+   envelope of the form {payload, signature{alg, kid, sig}}, verifiable
+   offline with keys resolved out of band.  It binds four evidence
+   layers to the receipt -- scheme dispute-evidence categories, agent
+   scope anchors, a settlement anchor, and an evidentiary-custody
+   wrapper -- and specifies how the receipt is registered with a SCITT
+   Transparency Service ([RFC9943]) so that every party can check when
+   it existed and that it was not changed afterwards.
+
+4.  Receipt Profile
+
+   A conforming dispute receipt has:
+
+   *  Payload: the implementation's PolicyDecisionReceipt canonical dict
+      -- decision, reason_code, action_hash, evidence_set_hash,
+      ledger_entry_hash, timestamp, mandate_hash, rail_anchors_hash,
+      scope_conformance, key_id, signer_pubkey_hash.
+
+   *  Signature: Ed25519, lowercase hex (alg = EdDSA).
+
+   *  Keys MUST be resolved out of band (the packet manifest carries
+      receipt_public_key_hex; verifiers decide whether to trust it --
+      the envelope cannot authenticate its own key).
+
+
+
+
+
+
+Goshi                      Expires 20 May 2027                  [Page 3]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+   Conformance, verified: the reference implementation ships two
+   canonicalizers.  The v2 canonicalizer is full RFC 8785 JCS --
+   ECMAScript Number::toString formatting and UTF-16 code-unit key
+   ordering per [RFC8785] section 3.2, checked against the RFC's own
+   Appendix / cyberphone json-canonicalization test vectors (French,
+   structures, values, weird).  The v1 canonicalizer -- unchanged, and
+   what every already-signed receipt was hashed and signed with -- sorts
+   keys by codepoint rather than UTF-16 code unit and defers number
+   formatting to the host language's default JSON serializer.  Both
+   diverge from JCS only outside this payload's value domain (no receipt
+   field is a non-decimal number or a non-BMP key), and produce byte-
+   identical output to v2 for every field this profile actually emits:
+   the receipt dict is strings, booleans, null, and nested objects/
+   arrays of the same, with amounts pre-converted to decimal strings
+   before canonicalization.  Interop claims for this profile's receipt
+   payload MAY say "JCS" ([RFC8785]) without qualification; a general-
+   purpose caller outside this value domain SHOULD use the JCS-
+   conformant canonicalizer explicitly rather than assume the legacy
+   path is conformant for arbitrary input.
+
+5.  Field Constructions
+
+   So that a second implementation can compute the same values, the
+   receipt fields that bind to other parts of the packet are built as
+   follows.  "Canonical hash" means lowercase hex SHA-256 over the
+   canonical bytes of Section 4, except where a field below says
+   otherwise.
+
+   *  action_hash: the canonical hash of the executed-action object
+      recorded in the action's ScopeEvaluated ledger event (its
+      executed_action); scope_hash is built the same way from
+      intent_scope.  A verifier MUST recompute both from the recorded
+      objects.
+
+   *  ledger_entry_hash: the event hash of a ledger event present in the
+      packet's ledger slice, recorded for the same action identifier as
+      the manifest.  When that event's payload carries
+      action_packet_hash, it MUST equal the receipt's action_hash.
+
+   *  approval_event_hash (present only when the policy required an
+      approval): the event hash of an ApprovalGranted or ApprovalDenied
+      event in the ledger slice, whose payload carries an action_hash
+      equal to the receipt's.  An approval held outside the ledger is
+      out of scope for this revision.
+
+   *  signer_pubkey_hash: SHA-256 of the raw Ed25519 public key bytes;
+      key_id names that key in the operator's published keyring.
+
+
+
+
+Goshi                      Expires 20 May 2027                  [Page 4]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+   *  anchor_hash (Section 8.3): the canonical hash of the anchor object
+      inside the block {status: "anchored", anchor, anchor_hash}. An
+      unanchored packet carries exactly {status:
+      "SETTLEMENT_UNANCHORED"} and nothing else.
+
+   *  evidence_set_hash and rail_anchors_hash are signed but not re-
+      derived by the reference verifier in this revision; a verifier
+      MUST NOT report them as checked.
+
+   Failure names the reference verifier emits for these bindings include
+   RECEIPT_LEDGER_ENTRY_NOT_IN_SLICE, RECEIPT_BOUND_TO_DIFFERENT_ACTION,
+   RECEIPT_ACTION_HASH_MISMATCH, SCOPE_HASH_MISMATCH,
+   APPROVAL_MANIFESTATION_INCONSISTENT,
+   RECEIPT_SIGNER_PUBKEY_HASH_MISMATCH, SETTLEMENT_FIELD_MISSING and
+   SETTLEMENT_ANCHOR_INVALID.
+
+6.  Registration with a SCITT Transparency Service
+
+   A dispute receipt SHOULD be registered as the payload of a SCITT
+   Signed Statement with a Transparency Service conforming to [RFC9943].
+   The Transparency Service's receipt then gives every party in the
+   dispute the same independent evidence of when the dispute receipt
+   existed and that it has not been changed, without any party having to
+   trust another party's storage.
+
+   The Signed Statement carrying the dispute receipt is a COSE_Sign1
+   object as specified by [RFC9943], and the Transparency Service uses
+   one of the verifiable data structures that architecture permits.
+   Offline verification of the Transparency Service's receipt is
+   required, as in [RFC9943].
+
+   *  The Signed Statement is a COSE_Sign1 [RFC9052] whose payload is
+      the receipt's canonical bytes, signed with the receipt's own
+      signing key, with the CWT claims issuer set to an identifier the
+      registering party supplies (the receipt payload carries none) and
+      subject set to the action identifier from the packet manifest, or
+      to the receipt's action_hash when no manifest is at hand.  A party
+      that already trusts the receipt key needs no other key to check
+      the statement.
+
+   *  Registration follows [SCRAPI]: the statement is sent with POST to
+      /entries, and the Transparency Service's Receipt is obtained from
+      the response or from the location it names.
+
+   *  A Receipt that is only structurally valid MUST NOT be reported as
+      verified.
+
+
+
+
+
+Goshi                      Expires 20 May 2027                  [Page 5]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+7.  Relation to Other Work
+
+   The receipt envelope is format-compatible with [FARLEY], which is not
+   required to implement this document.  [LEMONNIER] addresses the
+   provenance of decisions in general; this document addresses the
+   narrower case where parties with opposed interests must verify the
+   same evidence in a payment dispute.  The author is open to merging
+   the dispute-specific requirements into a common SCITT document.
+
+   [THAHA] profiles SCITT for the execution records of AI agents, and
+   [WRIGHT] defines an issuer-bound verdict record.  [ASQAV] and
+   [ATTEST] define signed receipts for AI agent actions and inference
+   decisions outside SCITT.  This document is not another general agent
+   profile: it records what one use, a payment dispute, needs from
+   whichever single SCITT agent profile the working group develops.
+
+   [MIH] defines settlement records as a companion to an agent action
+   capsule profile, and [HOPLEY] defines a categorical refund receipt
+   for agentic-payment flows.  Both touch the money-movement side that
+   the settlement anchor of Section 8.3 covers; this document binds that
+   movement to the dispute decision and its evidence rather than
+   defining a settlement or refund record of its own.
+
+8.  Evidence Layers Bound to the Receipt
+
+8.1.  CE 3.0 / First-Party Trust Categories
+
+   The reference implementation's CE 3.0 view emits the three scheme
+   categories -- device identity, delivery information, additional
+   identity factor -- each populated only from fields the packet
+   actually holds.  At the time of writing the packet genuinely holds
+   one identity data point (the actor login identifier confirmed by an
+   ActorValidated ledger event); device identity and delivery
+   information are emitted unpopulated with explicit gap notes.  A
+   missing dispute reason code MUST cause the mapper to raise rather
+   than pass silently.  The mapper MUST NOT invent evidence.
+
+8.2.  Agent Anchors
+
+   Agent-native facts with no scheme-defined slot ride in a distinct
+   agent_anchors block: AP2 mandate_hash, TAP agent_id, approval event
+   hash, receipt signature.  Network token id and 3DS/ACS result are
+   part of the block's shape but null when the implementation has no
+   source for them.  The receipt's scope_conformance field (the intent-
+   scope vs. executed-action diff) is the adjudication headline -- one
+   of in_scope, BREACH:<field>, or not_evaluated -- and MUST be re-
+   derived by the verifier from recorded inputs, never asserted without
+   re-derivation.
+
+
+
+Goshi                      Expires 20 May 2027                  [Page 6]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+8.3.  Settlement Anchor
+
+   The manifest's settlement_anchor block records what money actually
+   moved: {rail, txn_ref, finality_status, amount_minor, currency,
+   captured_at, network, payer}, plus unanchored_fields naming what the
+   settlement rail's public artifact did not witness (for example, an
+   x402 v2 settlement response carries no amount).  The block is bound
+   by an anchor_hash (a canonical hash of the anchor content).  Absence
+   MUST be stated as SETTLEMENT_UNANCHORED; a manifest without the block
+   MUST fail verification.
+
+8.4.  FRE 901 Wrapper
+
+   The packet carries an acquisition record (who captured the evidence,
+   when, with what tool and clock source -- gaps declared, custodian
+   never invented), a custody record (each custody event bound to a
+   ledger event hash), and an authentication statement naming exactly
+   what a challenger can independently re-derive, aligned with
+   [FRE901](b)(9) and [FRE902](13)-(14).
+
+   In the reference implementation these three records are not covered
+   by the receipt signature or the ledger chain: their contents, such as
+   a named custodian, are the producer's claims.  A verifier MUST NOT
+   report them as authenticated.
+
+9.  Verification
+
+   Verification is re-derivation, not trust: the packet ships a verifier
+   with no non-standard-library dependency beyond a cryptographic
+   primitives library, which recomputes event hashes and chain links,
+   the receipt signature over canonical bytes, the scope verdict from
+   the recorded intent scope and executed action, the settlement anchor
+   hash, and headline consistency across manifest, receipt, and ledger
+   slice.  Every failure MUST be named (for example,
+   SCOPE_HEADLINE_MISMATCH, SETTLEMENT_ANCHOR_HASH_MISMATCH).
+
+10.  Implementation Status
+
+   [Note to the RFC Editor: please remove this section before
+   publication, per [RFC7942].]
+
+   This section records the status of known implementations of this
+   profile at the time of posting, per [RFC7942].  It is not an
+   endorsement, and the listing is not exhaustive.
+
+   *  Organization: ActaSeal.
+
+
+
+
+
+Goshi                      Expires 20 May 2027                  [Page 7]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+   *  Name: DisputeEvidencePacket (packet producer) and actaseal-verify
+      (standalone offline verifier), <https://github.com/actaseal/
+      actaseal-verify>, published on PyPI as actaseal-verify, archived
+      at https://doi.org/10.5281/zenodo.23309307.
+
+   *  Description: produces the receipt and the four evidence layers of
+      this profile as one packet; the verifier recomputes event hashes
+      and chain links, the receipt signature over canonical bytes, the
+      scope verdict, the settlement anchor hash and headline
+      consistency, and names every failure as in Section 9.
+
+   *  Maturity: prototype.
+
+   *  Independent use: ap2-evidence-pack 1.6.0, a separate project for
+      AP2 dispute evidence, publishes an informative mapping of its
+      receipt fields to -01 of this document.
+
+   *  Coverage: the receipt, the four evidence layers and offline packet
+      verification, with published conformance vectors.  Not yet
+      covered: verification of a Transparency Service Receipt (the
+      registration client is tested against a local stub only), and re-
+      derivation of evidence_set_hash and rail_anchors_hash; signing of
+      the acquisition, custody and authentication records; and rejecting
+      packet members the verifier does not check (an added file is
+      currently ignored).
+
+   *  Licensing: verifier under the Apache License 2.0.
+
+   *  Contact: the author of this document.
+
+11.  Security Considerations
+
+   The timestamp field of a dispute receipt is claimed by its producer
+   and MUST NOT be treated as trusted time.  A record created or altered
+   after a dispute is raised can carry an earlier claimed time.  Only
+   registration with a Transparency Service gives an independent upper
+   bound: the receipt existed no later than its registration.  Verifiers
+   MUST report producer-claimed time and registration time separately.
+
+   In addition: the settlement anchor is only as strong as its source.
+   A reference implementation that plugs a test-only fixture into the
+   settlement-anchor seam witnesses nothing; production deployments MUST
+   plug a real acquirer or facilitator feed into that seam -- for
+   example, a facilitator implementing [X402] or an equivalent
+   settlement rail.  Independent time requires an external anchor proof
+   ([RFC3161], a transparency log per [RFC6962], or a SCITT Transparency
+   Service per [RFC9943]); absent that, the host clock MUST be declared
+   untrusted in the acquisition record.
+
+
+
+Goshi                      Expires 20 May 2027                  [Page 8]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+   A packet MAY carry a copy of the verifier for convenience, but a
+   party checking a packet MUST NOT rely on that copy: whoever produced
+   the packet could replace it with one that reports success.  The
+   verifier MUST be obtained independently of the packet.  Likewise, a
+   signature checked only against the key the packet itself declares
+   shows internal consistency, not origin; without a key resolved out of
+   band, a packet re-signed end to end with another key verifies.
+
+   The dispute-evidence categories in Section 8.1 are named for, but not
+   endorsed or specified by, the card schemes: see [CE3] and [FPT] for
+   the scheme-owned program requirements this profile's category names
+   reference.  [LCP] is an unrelated but complementary mechanism for
+   binding the terms of service in force at transaction time; it is out
+   of scope for this profile but referenced here for implementers who
+   need both.
+
+12.  IANA Considerations
+
+   This document has no IANA actions.
+
+13.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", May 2017,
+              <https://www.rfc-editor.org/info/rfc8174>.
+
+   [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
+              Signature Algorithm (EdDSA)", January 2017,
+              <https://www.rfc-editor.org/info/rfc8032>.
+
+   [RFC8785]  Rundgren, A., Jordan, B., and S. Erdtman, "JSON
+              Canonicalization Scheme (JCS)", June 2020,
+              <https://www.rfc-editor.org/info/rfc8785>.
+
+   [RFC9052]  Schaad, J., "CBOR Object Signing and Encryption (COSE):
+              Structures and Process", RFC 9052, August 2022,
+              <https://www.rfc-editor.org/info/rfc9052>.
+
+   [RFC9943]  Birkholz, H., Delignat-Lavaud, A., Fournet, C., Deshpande,
+              Y., and S. Lasker, "An Architecture for Trustworthy and
+              Transparent Digital Supply Chains", RFC 9943, June 2026,
+              <https://www.rfc-editor.org/info/rfc9943>.
+
+14.  Informative References
+
+
+
+Goshi                      Expires 20 May 2027                  [Page 9]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+   [FARLEY]   Farley, T., "Signed Decision Receipts for Machine-to-
+              Machine Access Control", Work in Progress, Internet-Draft,
+              draft-farley-acta-signed-receipts-03, 29 August 2026,
+              <https://datatracker.ietf.org/doc/draft-farley-acta-
+              signed-receipts/>.
+
+   [RFC3161]  Adams, C., Cain, P., Pinkas, D., and R. Zuccherato,
+              "Internet X.509 Public Key Infrastructure Time-Stamp
+              Protocol (TSP)", August 2001,
+              <https://www.rfc-editor.org/info/rfc3161>.
+
+   [RFC6962]  Laurie, B., Langley, A., and E. Kasper, "Certificate
+              Transparency", June 2013,
+              <https://www.rfc-editor.org/info/rfc6962>.
+
+   [RFC9162]  Laurie, B., Messeri, E., and R. Stradling, "Certificate
+              Transparency Version 2.0", December 2021,
+              <https://www.rfc-editor.org/info/rfc9162>.
+
+   [RFC7942]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
+              Code: The Implementation Status Section", BCP 205,
+              RFC 7942, July 2016,
+              <https://www.rfc-editor.org/info/rfc7942>.
+
+   [FRE901]   Legal Information Institute, Cornell Law School, "Federal
+              Rules of Evidence, Rule 901: Authenticating or Identifying
+              Evidence",
+              <https://www.law.cornell.edu/rules/fre/rule_901>.
+
+   [FRE902]   Legal Information Institute, Cornell Law School, "Federal
+              Rules of Evidence, Rule 902: Evidence That Is Self-
+              Authenticating",
+              <https://www.law.cornell.edu/rules/fre/rule_902>.
+
+   [CE3]      Visa Inc., "Visa Compelling Evidence 3.0",
+              <https://usa.visa.com/support/small-business/regulations-
+              fees.html>.
+
+   [FPT]      Mastercard International, "Mastercard First-Party Trust
+              Program", <https://www.mastercard.us/>.
+
+   [LCP]      Integra Ledger and AAA-ICDR, "Legal Context Protocol v1",
+              <https://github.com/legal-context-protocol/legal-context-
+              protocol>.
+
+   [X402]     x402 Foundation, "x402 Payment Protocol",
+              <https://github.com/x402-foundation/x402>.
+
+
+
+
+Goshi                      Expires 20 May 2027                 [Page 10]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+   [SCRAPI]   Birkholz, H., Geater, J., and A. Delignat-Lavaud, "Supply
+              Chain Integrity, Transparency, and Trust (SCITT) Reference
+              APIs", Work in Progress, Internet-Draft, draft-ietf-scitt-
+              scrapi-11, June 2026, <https://datatracker.ietf.org/doc/
+              draft-ietf-scitt-scrapi/>.
+
+   [THAHA]    Thaha, S. and S. Shamsudeen, "Agent Execution Evidence: A
+              SCITT Profile for Verifiable Records of AI Agent Runs",
+              Work in Progress, Internet-Draft, draft-thaha-scitt-agent-
+              execution-evidence-02, November 2026,
+              <https://datatracker.ietf.org/doc/draft-thaha-scitt-agent-
+              execution-evidence/>.
+
+   [LEMONNIER]
+              Lemonnier, L., "Decision Provenance for SCITT: binding
+              software releases and agent actions to the decisions
+              behind them", Work in Progress, Internet-Draft, draft-
+              lemonnier-scitt-decision-provenance-01, November 2026,
+              <https://datatracker.ietf.org/doc/draft-lemonnier-scitt-
+              decision-provenance/>.
+
+   [WRIGHT]   Wright, D., "Verdict Records: Results on Claims that Cite
+              Receipts as Evidence", Work in Progress, Internet-Draft,
+              draft-wright-verdict-record-02, November 2026,
+              <https://datatracker.ietf.org/doc/draft-wright-verdict-
+              record/>.
+
+   [ASQAV]    Marques, J., "Compliance Receipts for AI Agent Actions",
+              Work in Progress, Internet-Draft, draft-marques-asqav-
+              compliance-receipts-09, September 2026,
+              <https://datatracker.ietf.org/doc/draft-marques-asqav-
+              compliance-receipts/>.
+
+   [ATTEST]   Chueayen, C., "Attestation Receipts for AI Inference
+              Decisions", Work in Progress, Internet-Draft, draft-
+              chueayen-attestation-receipts-03, September 2026,
+              <https://datatracker.ietf.org/doc/draft-chueayen-
+              attestation-receipts/>.
+
+   [RFC8792]  Watsen, K., Auerswald, E., Farrel, A., and Q. Wu,
+              "Handling Long Lines in Content of Internet-Drafts and
+              RFCs", RFC 8792, DOI 10.17487/RFC8792, June 2020,
+              <https://www.rfc-editor.org/info/rfc8792>.
+
+   [MIH]      Mih, S., "Agent Settlement Records", Work in Progress,
+              Internet-Draft, draft-mih-agent-settlement-records-00,
+              October 2026, <https://datatracker.ietf.org/doc/draft-mih-
+              agent-settlement-records/>.
+
+
+
+Goshi                      Expires 20 May 2027                 [Page 11]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+   [HOPLEY]   Hopley, C., "Categorical Refund Receipt Format for
+              Agentic-Payment Flows", Work in Progress, Internet-Draft,
+              draft-hopley-x402-refund-receipt-02, May 2026,
+              <https://datatracker.ietf.org/doc/draft-hopley-x402-
+              refund-receipt/>.
+
+Appendix A.  Interoperability Test Vector
+
+   This vector was produced independently by Raghuvar Karthik Durga and
+   checked against this profile by the author: the Ed25519 signature
+   verifies over JCS(payload), signer_pubkey_hash is the SHA-256 of the
+   raw 32-byte public key, and the key derives from the seed below.
+
+   The seed is TEST-ONLY.  It is public and MUST NOT be used to sign
+   anything other than test material.
+
+   Seed (TEST-ONLY, SHA-256 of "actaseal-durga-interop-vector-seed-
+   v1"):
+      5def0cf4af80b8a628a00716b415573486663869fc55d89c0ac4b417e1c0e0c9
+
+   Ed25519 public key (raw, hex):
+      0dae9a128c629264f1dda4b6e7e1bc1679f7960c6ed59f9a9ac0f98f3fd16d8e
+
+   Envelope length:
+      862 octets; JCS(payload) is 659 octets.
+
+   SHA-256(R):
+      b29b8545c198afad28e1039626e4685e0b874d41c4815da690034899ab37f6cf
+
+   Leaf hash per [RFC9162], SHA-256(0x00 || R):
+      9fd30a27f4018ac40689d2d70e50b4f721c35fdd262d52ec76394c50e9131578
+
+   The envelope R follows, folded with the single backslash strategy of
+   [RFC8792]: remove each trailing backslash and the line break after it
+   to recover R.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Goshi                      Expires 20 May 2027                 [Page 12]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+   =============== NOTE: '\' line wrapping per RFC 8792 ================
+
+   {"payload":{"action_hash":"4351fb489db1f767f953e01cd6fbdae64b4b7b585\
+   80bd7c78471fd8372c7d5e4","decision":"allow","evidence_set_hash":"a1b\
+   3733ca57b6cb66530672299f5875b08caf047cdf346874f34bba003734fb9","key_\
+   id":"audit-ed25519-kid","ledger_entry_hash":"841fd4cd8f20a67759b4734\
+   3832d5b16e86b768513d2924d23014fb152495510","mandate_hash":"b80f5d50a\
+   332fce298217f81292c494b6cf0904ae7a0b54e3dd76a6f22652fac","rail_ancho\
+   rs_hash":"fee5198cc30048d35f822349c2f38bd947c633aaff54d9a6a2223c42fc\
+   b368ef","reason_code":"IN_SCOPE","scope_conformance":"in_scope","sig\
+   ner_pubkey_hash":"e4014067dd1941b5e722c7ad1d9da9643be1b8d2e1f963322b\
+   24ee8f367c6157","timestamp":"2026-10-31T18:00:00.000000Z"},"signatur\
+   e":{"alg":"EdDSA","kid":"audit-ed25519-kid","sig":"5ba48413aa8e95903\
+   d5d5a530a4180d1282d69c53282037731227481a703e01aa5abe9839918e386e96b1\
+   e6e985a951a8a6df8c949415abec37c45723df9460e"}}
+
+Appendix B.  Changes Since -01
+
+   *  Stated that the acquisition, custody and authentication records
+      are producer claims, and that a verifier carried inside a packet,
+      or a key declared only by the packet, does not authenticate it.
+
+   *  Added a Problem Statement section.
+
+   *  Defined the receipt envelope here, so that draft-farley-acta-
+      signed-receipts is now an informative reference.  The packet
+      manifest, the ledger slice and the ledger event hash are named but
+      not yet defined in this document.
+
+   *  Added registration of the receipt as a SCITT Signed Statement.
+
+   *  Added a Relation to Other Work section.
+
+   *  Added constructions for action_hash, ledger_entry_hash,
+      approval_event_hash, signer_pubkey_hash and anchor_hash, after an
+      independent reading of -01 by Laurent Lemonnier showed they were
+      named but not constructed.
+
+   *  Added an interoperability test vector.
+
+   *  Retargeted from an Independent Submission vendor profile to
+      consideration by the SCITT working group.
+
+Appendix C.  Changes Since -00
+
+   *  Added an Implementation Status section (RFC 7942).
+
+
+
+
+
+Goshi                      Expires 20 May 2027                 [Page 13]
+
+Internet-Draft       Payment-Dispute Receipt Profile       November 2026
+
+
+   *  Updated the base-draft reference to draft-farley-acta-signed-
+      receipts-03.
+
+   *  Named a SCITT Transparency Service (RFC 9943) as a third kind of
+      external time anchor.
+
+   *  Updated the x402 reference to the x402 Foundation repository.
+
+Appendix D.  Acknowledgements
+
+   Thanks to Laurent Lemonnier for an independent reading of -01, and to
+   Raghuvar Karthik Durga for the interoperability test vector.
+
+Author's Address
+
+   Xavier Goshi
+   ActaSeal
+   India
+   Email: xavier@actaseal.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Goshi                      Expires 20 May 2027                 [Page 14]

@@ -660,7 +660,7 @@ if __name__ == "__main__":
                                    "dps_a2_action_binding": l12["dps_a2"]["dimensions"]["action_binding"], "verdict": nres["link3_verdict"]["summary"],
                                    "packet": nres["link4_packet"]["result"], "scope_re_derived": nres["link4_packet"]["re_derived"]["scope_conformance"],
                                    "joins": nres["joins"]},
-               "goshi_ambiguities": G.AMBIGUITIES, "all_verified": res["all_verified"] and neg_as_expected}
+               "goshi_ambiguities": G.AMBIGUITIES, "goshi_status_under_02": G.STATUS_02, "all_verified": res["all_verified"] and neg_as_expected}
     (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1, default=str) + "\n")
     print(json.dumps(summary, ensure_ascii=False, indent=1, default=str))
     sys.exit(0 if summary["all_verified"] else 1)

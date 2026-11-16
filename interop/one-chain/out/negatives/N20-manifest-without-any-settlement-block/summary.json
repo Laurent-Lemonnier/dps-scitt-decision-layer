@@ -319,22 +319,33 @@
   "failures": [
    {
     "code": "SETTLEMENT_BLOCK_MISSING",
-    "why": "4.3: a manifest without the settlement block MUST fail; an unanchored packet states {status: SETTLEMENT_UNANCHORED} (this module's name for the absence of the block itself)",
-    "named_in_text": false
+    "why": "8.3: a manifest without the settlement block MUST fail; an unanchored packet states {status: SETTLEMENT_UNANCHORED} (this module's name for the absence of the block itself)",
+    "named_in_text": false,
+    "text_name": "SETTLEMENT_FIELD_MISSING"
    }
   ],
   "checks": [
-   "receipt signature verified over the canonical payload bytes with the key resolved out of band (F-5.2 steps 2-5)",
-   "the receipt carries the three base members and the eleven profile members of Section 3",
-   "6 ledger events recompute and link (5)",
-   "ledger_entry_hash is the ActionExecuted event of this action; its action_packet_hash equals action_hash (3, the author's construction)",
-   "scope verdict re-derived from the intent scope and executed action the ScopeEvaluated event records: in_scope; receipt and manifest headline agree (4.2, 5)",
-   "action_hash is the canonical hash of the executed_action recorded in the ScopeEvaluated event (3, 4.2)",
-   "evidence_set_hash recomputed over the digests the packet cites",
-   "3 custody events each bound to a ledger event hash (4.4)"
+   "receipt signature verified over the canonical payload bytes with the key resolved out of band (3, 4)",
+   "the receipt carries the eleven profile members of Section 4 and the base draft's three members (F-2.2, not required by -02)",
+   "signer_pubkey_hash is the SHA-256 of the raw Ed25519 public key bytes of the key resolved (5)",
+   "6 ledger events recompute and link (9)",
+   "ledger_entry_hash is the ActionExecuted event of this action; its action_packet_hash equals action_hash (5)",
+   "scope verdict re-derived from the intent scope and executed action the ScopeEvaluated event records: in_scope; receipt and manifest headline agree (8.2, 9)",
+   "action_hash is the canonical hash of the executed_action recorded in the ScopeEvaluated event (5)",
+   "3 custody events each name a ledger event hash of the slice (8.4: a binding, not an authentication)"
   ],
   "re_derived": {
    "canonical_payload_sha256": "07b3fba70a5896060c7602e1c009c018663b28df2af98b5d0a8e253b3760dca3",
+   "base_draft_members": [
+    "type",
+    "issued_at",
+    "issuer_id"
+   ],
+   "times": {
+    "producer_claimed": "2026-11-04T10:01:18.000Z",
+    "registration": null,
+    "note": "11: the receipt's timestamp is claimed by its producer and is not trusted time; no Transparency Service Receipt is among this verifier's inputs, so no registration time is reported"
+   },
    "anchors": [
     {
      "name": "verdict_record",
@@ -392,7 +403,14 @@
      "<first>"
     ]
    },
-   "absent": []
+   "signed_not_checked": {
+    "evidence_set_hash": {
+     "construction": "this module's, not the text's: SHA-256 over the canonical JSON of the sorted digests the packet cites",
+     "equal_under_that_construction": true
+    }
+   },
+   "absent": [],
+   "fre901": "8.4: the acquisition, custody and authentication records are the producer's claims, not covered by the receipt signature or the ledger chain; this verifier checked their shape and the custody bindings and does not report them as authenticated"
   }
  },
  "joins": {

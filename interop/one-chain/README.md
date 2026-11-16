@@ -25,6 +25,39 @@ resolve, which stay open, and which one of ours is kept as an extension beyond -
 the canonicalisation behind the four hashes in `actaseal-verify/verify.py` (`canonical_hash`: `json.dumps` with sorted
 keys, separators `(",", ":")`, `ensure_ascii=False`, UTF-8, SHA-256 over the whole recorded object), to confirm his mail.
 
+**Read against -02 (16 November 2026).** draft-xg-payment-dispute-profile-02 was posted on 16 November 2026
+(`refs/draft-xg-payment-dispute-profile-02.txt`, SHA-256 `e1c9345c…a5303`). It is no longer a vendor profile of the
+Farley draft: it defines the envelope itself, is submitted for consideration by the SCITT working group, and writes in
+its Section 5 the constructions its author gave on 8 November. The packet this case builds is unchanged, byte for byte
+(`out/positive/dispute-packet.json`, SHA-256 `6ac56ce9…d03d`): its manifest still says `-01`, which is the text it was
+built from, and the Signed Statement registered on two logs still carries it. What changed is the verifier,
+`goshi_from_text.py`, so that it reads the packet as -02 asks:
+
+- the base draft's `type`, `issued_at` and `issuer_id` are checked when present and no longer required; before this
+  change the verifier refused the vector of -02 Appendix A, which does not carry them;
+- `evidence_set_hash` and `rail_anchors_hash` are no longer reported as checked (-02 Section 5: "a verifier MUST NOT
+  report them as checked"); the two comparisons are in the report as `signed_not_checked`, under this module's
+  constructions, and the two codes that named a difference (RAIL_ANCHORS_HASH_MISMATCH, EVIDENCE_SET_HASH_MISMATCH)
+  are gone; no failing case expected either;
+- the acquisition, custody and authentication records are reported as the producer's claims (Section 8.4), and the
+  receipt's `timestamp` as producer-claimed time, apart from registration time (Section 11);
+- the messages cite the sections of -02, and seven of the eight names of the reference verifier that Section 5 lists
+  are given beside ours (`text_name`); the eighth, SCOPE_HASH_MISMATCH, is a name this verifier already emits, for a
+  condition of its own (the text lists the names, not the condition each reports). The other codes are unchanged, so
+  the twenty-two failing cases fail under the same names.
+
+With this, the chain verifies as before, 22 of 22 failing cases are caught where expected, and `appendix_a_02.py`
+checks the vector of Appendix A from the text (seven checks): every stated value recomputes and the receipt verifies.
+Not settled by -02, and left as they were: the event shape of the ledger slice (Appendix B: "named but not yet
+defined"); the `dps_approval` extension (Section 5: an approval held outside the ledger "is out of scope for this
+revision"); and the approval event of the stated negative chain, whose `action_hash` is the `scope_hash` and not the
+receipt's `action_hash`: read to the letter, Section 5 asks for the receipt's. Not done: a receipt of exactly eleven
+members under a manifest that names -02, which would change the packet's bytes; and the Signed Statement of Section 6
+(the receipt's canonical bytes under the receipt's own key), which is another statement than the one registered on
+the two logs. The tables and the log below keep the section numbers of -01 and the state under -01, except where a
+date says otherwise; `goshi_from_text.STATUS_02` (in `out/summary.json` as `goshi_status_under_02`) gives the state of
+each entry under -02.
+
 ## The chain
 
 | link | record | built by | verified by | proves | does not prove |
@@ -183,8 +216,11 @@ kept beyond -01 with his agreement; **open** otherwise. By section:
   `[{event, at, actor, ledger_event_hash}]`, authentication statement `{re_derivable: [...]}`; Section 7's "host clock
   MUST be declared untrusted" is checked as a word in `clock_source` or an `external_time_anchor`.
 - **5, failure names** (open; the author offers to align). SCOPE_HEADLINE_MISMATCH, SETTLEMENT_ANCHOR_HASH_MISMATCH and
-  SETTLEMENT_UNANCHORED are the text's; the fifty-seven other codes this verifier can emit are its own, each marked
-  `named_in_text: false` in the report. The table below lists those that describe the same thing as a name of his.
+  SETTLEMENT_UNANCHORED are the text's; the fifty-seven other codes this verifier could emit were its own, each marked
+  `named_in_text: false` in the report. Since 16 November 2026 it can emit fifty-eight codes, two fewer than before: four are
+  names -02 gives (these three and SCOPE_HASH_MISMATCH, `named_in_text: true`), fifty-four are its own, seven of them
+  with the reference verifier's name beside (`text_name`). The table below lists those that describe the same thing
+  as a name of his.
 - **Farley 2.1** (open). The envelope shape only; the flat shape (2.1, 6.6) is refused, not verified.
 - **Farley 9.8** (open). "Decisions are not executions": the receipt's `decision allow` records permission; what executed is
   in the settlement anchor, the ledger slice and, outside the packet, in the DPS result stage and Thaha's tool_result. The
@@ -219,6 +255,8 @@ so the list is partial. Three names are the text's and already shared.
 Not in his verifier as far as read, ours alone: ANCHOR_UNRESOLVED, APPROVAL_EVENT_CITED_TWICE, NOTHING_RECORDED,
 RECORD_ABSENT, SETTLEMENT_HEADLINE_MISMATCH, RAIL_ANCHORS_HASH_MISMATCH, EVIDENCE_SET_HASH_MISMATCH and the FRE 901 and
 category names. The names in the code are unchanged until the author answers; the proposal column is the offer.
+(16 November 2026: RAIL_ANCHORS_HASH_MISMATCH and EVIDENCE_SET_HASH_MISMATCH are no longer in the code, see "Read
+against -02" above; the other names are unchanged.)
 
 New for Thaha and Wright (beyond the logs of cases 16 and 17): none in their texts. One reading of ours: the outcome
 receipt's transaction id (Thaha key 25) is joined to the settlement `txn_ref` (K3); his text does not name the namespace

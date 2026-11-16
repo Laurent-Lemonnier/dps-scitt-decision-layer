@@ -72,5 +72,26 @@
   "5 failure names": "the text names failures by example. SCOPE_HEADLINE_MISMATCH, SETTLEMENT_ANCHOR_HASH_MISMATCH and SETTLEMENT_UNANCHORED are the text's; every other code this verifier emits is its own.",
   "F-2.1 envelope": "the envelope shape only (payload + signature{alg, kid, sig}); the flat shape of F-2.1 and F-6.6 is refused, not verified, since the profile's receipt is a 'canonical dict' under an envelope."
  },
+ "goshi_status_under_02": {
+  "3 canonical form": "-02 Section 4: unchanged, and booleans join the stated value domain of the receipt; accepted here since 16 November. Integers below 2^53 in the recorded intent scope stay this module's.",
+  "3 action_hash": "written into -02 Section 5 as given on 8 November; a verifier MUST recompute it. No change here.",
+  "3 evidence_set_hash": "-02 Section 5: signed, not re-derived by the reference verifier, and a verifier MUST NOT report it as checked. This module's comparison is no longer a check: re_derived.signed_not_checked.",
+  "3 ledger_entry_hash": "the construction is written into -02 Section 5. The event shape stays this module's: Appendix B says the packet manifest, the ledger slice and the ledger event hash are named but not yet defined.",
+  "3 mandate_hash": "open: named in -02 Sections 4 and 8.2, not constructed; whether null is allowed is not said (the vector of Appendix A carries a hex value).",
+  "3 rail_anchors_hash": "-02 Section 5: as evidence_set_hash; re_derived.signed_not_checked.",
+  "3 key_id and signer_pubkey_hash": "-02 Section 5: signer_pubkey_hash is the SHA-256 of the raw Ed25519 public key bytes, as read here; key_id names that key in the operator's published keyring, and is compared here with the envelope's kid. issuer_id is the base draft's member, which -02 no longer requires: compared only when present.",
+  "3 timestamp and issued_at": "-02 Section 4 lists timestamp only; Section 11: it is claimed by the producer, MUST NOT be treated as trusted time, and is reported apart from registration time (re_derived.times). issued_at is the base draft's member, kept by the chain's packet, no longer required.",
+  "4.1 categories": "-02 Section 8.1: the text is unchanged; open.",
+  "4.2 approval event hash": "the construction is written into -02 Section 5, with two additions: the member is present only when the policy required an approval, and an approval held outside the ledger is out of scope for this revision, so dps_approval stays an extension the text does not define. Not addressed: the approval event of a breached scope. Read to the letter, Section 5 asks for an action_hash equal to the receipt's, which the approval event of the stated negative chain does not carry (it carries the scope_hash); re_derived.anchors says which pairing was found.",
+  "4.2 intent scope and executed action": "written into -02 Section 5 (the ScopeEvaluated event's executed_action and intent_scope). The manifest's copies and their sources stay this module's.",
+  "4.2 receipt_signature in agent_anchors": "-02 Section 8.2: the text is unchanged; open.",
+  "4.3 anchor_hash": "written into -02 Section 5 as given on 8 November. No change here.",
+  "4.3 settlement versus headline": "-02 Section 9: the text is unchanged; open.",
+  "4.4 wrapper": "-02 Section 8.4: still described, not specified. New: the three records are the producer's claims, not covered by the receipt signature or the ledger chain, and a verifier MUST NOT report them as authenticated; this module's report now says that its checks of them are of shape and binding only.",
+  "5 failure names": "-02 Section 5 lists eight names of the reference verifier. One is also this module's (SCOPE_HASH_MISMATCH); seven are given beside ours as text_name. The codes are unchanged.",
+  "F-2.1 envelope": "-02 Section 3 defines the envelope {payload, signature{alg, kid, sig}} itself; the base draft is an informative reference, not required.",
+  "new in -02, 6 registration": "the receipt's canonical bytes as the payload of a COSE_Sign1 Signed Statement, signed with the receipt's own key, issuer supplied by the registering party, subject the manifest's action identifier. Not implemented here. The Signed Statement of this case (registration/) carries the whole packet under another issuer key: it is not the statement Section 6 describes. Not said in the text: the COSE algorithm identifier, the content type.",
+  "new in -02, Appendix A": "the interoperability vector: checked from the text by appendix_a_02.py (seed, public key, lengths, SHA-256, leaf hash, signature over the canonical payload, signer_pubkey_hash) and by verify_packet(receipt_only=True)."
+ },
  "all_verified": true
 }

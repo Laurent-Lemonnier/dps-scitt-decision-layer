@@ -180,6 +180,7 @@ echo "== Case 18: one chain (one-chain): Thaha confirm/allow -> DPS approval and
 mkdir -p one-chain/out
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 one-chain/build.py > one-chain/out/build-ci.log || { echo "one-chain: not all verified"; tail -30 one-chain/out/build-ci.log; exit 1; }
 DPS_STANDARD="$PWD/aqta/approval-record/dps-standard" python3 one-chain/negatives.py > one-chain/out/negatives-ci.log || { echo "one-chain: a failing case was not caught where expected"; cat one-chain/out/negatives-ci.log; exit 1; }
+python3 one-chain/appendix_a_02.py > /tmp/one-chain-appendix-a-02.log || { echo "one-chain: the vector of draft-xg-payment-dispute-profile-02 Appendix A did not check from the text"; tail -20 /tmp/one-chain-appendix-a-02.log; exit 1; }
 git diff --exit-code --quiet -- one-chain/out/negatives-ci.log || { echo "one-chain: the committed negatives-ci.log differs from this run (stale log, found by Mikhail Sergeev's outside run of 14 November 2026)"; git --no-pager diff --stat -- one-chain/out/negatives-ci.log; exit 1; }
 python3 one-chain/registration/second-log/verify_witness.py > /tmp/second-log-ci.log || { echo "one-chain second log: a receipt of the second Transparency Service did not verify"; tail -5 /tmp/second-log-ci.log; exit 1; }
 echo "# second log: the four Signed Statements as registered on witness.agentactioncapsule.org on 14 November 2026; its four receipts re-checked here (entry, leaf, inclusion proof, signature under the published key, two negative controls each)"
