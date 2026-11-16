@@ -1,0 +1,148 @@
+{
+ "M1-a-twelfth-member-signed": {
+  "what": "the receipt payload carries issued_at beside the eleven members, and the signature covers it: the packet verifier names the member and verifies (the text does not say a receipt carries nothing else); the letter check fails",
+  "expected": [
+   "letter:RECEIPT_MEMBER_NOT_IN_SECTION_4"
+  ],
+  "failed_at": [
+   "letter:RECEIPT_MEMBER_NOT_IN_SECTION_4"
+  ],
+  "as_expected": true
+ },
+ "M2-a-member-missing-signed": {
+  "what": "the receipt payload has ten members: rail_anchors_hash is absent, and the signature covers the ten",
+  "expected": [
+   "letter:RECEIPT_MEMBER_MISSING",
+   "reader:RECEIPT_MEMBER_MISSING"
+  ],
+  "failed_at": [
+   "letter:RECEIPT_MEMBER_MISSING",
+   "reader:RECEIPT_MEMBER_MISSING"
+  ],
+  "as_expected": true
+ },
+ "M3-manifest-names-01": {
+  "what": "the same packet under a manifest whose profile member names draft-xg-payment-dispute-profile-01: nothing the packet verifier re-derives depends on that member",
+  "expected": [
+   "letter:MANIFEST_NAMES_ANOTHER_REVISION"
+  ],
+  "failed_at": [
+   "letter:MANIFEST_NAMES_ANOTHER_REVISION"
+  ],
+  "as_expected": true
+ },
+ "M4-statement-signed-with-another-key": {
+  "what": "the Signed Statement carries the receipt's canonical bytes and the receipt's key_id as kid, and is signed with another key",
+  "expected": [
+   "statement:STATEMENT_NOT_SIGNED_BY_THE_RECEIPT_KEY"
+  ],
+  "failed_at": [
+   "statement:STATEMENT_NOT_SIGNED_BY_THE_RECEIPT_KEY"
+  ],
+  "as_expected": true
+ },
+ "M5-subject-is-not-the-action-identifier": {
+  "what": "the Signed Statement's subject names another action than the packet manifest's action_id",
+  "expected": [
+   "statement:STATEMENT_SUBJECT_NOT_THE_ACTION_IDENTIFIER"
+  ],
+  "failed_at": [
+   "statement:STATEMENT_SUBJECT_NOT_THE_ACTION_IDENTIFIER"
+  ],
+  "as_expected": true
+ },
+ "M6-statement-carries-the-whole-packet": {
+  "what": "the Signed Statement's payload is the file of the whole dispute packet, the form of the parent case's registration, not the receipt's canonical bytes",
+  "expected": [
+   "statement:STATEMENT_PAYLOAD_NOT_THE_RECEIPT"
+  ],
+  "failed_at": [
+   "statement:STATEMENT_PAYLOAD_NOT_THE_RECEIPT"
+  ],
+  "as_expected": true
+ },
+ "M7-statement-carries-the-receipt-not-canonical": {
+  "what": "the Signed Statement's payload is the receipt as indented JSON: the same receipt, not its canonical bytes",
+  "expected": [
+   "statement:STATEMENT_PAYLOAD_NOT_THE_RECEIPT"
+  ],
+  "failed_at": [
+   "statement:STATEMENT_PAYLOAD_NOT_THE_RECEIPT"
+  ],
+  "as_expected": true
+ },
+ "M8-statement-carries-another-receipt": {
+  "what": "the Signed Statement's payload is the canonical bytes of the parent packet's receipt (the same action, another receipt), signed with this packet's receipt key",
+  "expected": [
+   "statement:STATEMENT_PAYLOAD_NOT_THE_RECEIPT"
+  ],
+  "failed_at": [
+   "statement:STATEMENT_PAYLOAD_NOT_THE_RECEIPT"
+  ],
+  "as_expected": true
+ },
+ "M9-statement-carries-the-payload-member-alone": {
+  "what": "the Signed Statement's payload is the canonical bytes of the receipt's payload member, without the signature object: the other reading of \"the receipt's canonical bytes\" (letter.READINGS, R1). It fails here because one reading was chosen, not because the text excludes it",
+  "expected": [
+   "statement:STATEMENT_PAYLOAD_IS_THE_PAYLOAD_MEMBER_ALONE"
+  ],
+  "failed_at": [
+   "statement:STATEMENT_PAYLOAD_IS_THE_PAYLOAD_MEMBER_ALONE"
+  ],
+  "as_expected": true
+ },
+ "M10-statement-without-issuer": {
+  "what": "the CWT claims of the Signed Statement carry a subject and no issuer",
+  "expected": [
+   "statement:STATEMENT_ISSUER_MISSING"
+  ],
+  "failed_at": [
+   "statement:STATEMENT_ISSUER_MISSING"
+  ],
+  "as_expected": true
+ },
+ "M11-approval-held-outside-the-ledger": {
+  "what": "the ApprovalGranted event keeps the parent case's dps_approval, the typed digests of an approval held outside the ledger (Section 5: out of scope for this revision); the ledger is chained over it and the packet verifier, which reads that member as an extension, names no failure",
+  "expected": [
+   "letter:APPROVAL_HELD_OUTSIDE_THE_LEDGER"
+  ],
+  "failed_at": [
+   "letter:APPROVAL_HELD_OUTSIDE_THE_LEDGER"
+  ],
+  "as_expected": true
+ },
+ "M12-a-number-in-the-receipt": {
+  "what": "mandate_hash is the number 0 in the receipt and in the agent anchors, signed: outside the value domain Section 4 states for the receipt (strings, booleans, null). The packet verifier canonicalises integers below 2^53 (its own allowance, for the recorded intent scope) and names no failure",
+  "expected": [
+   "letter:RECEIPT_VALUE_OUTSIDE_THE_STATED_DOMAIN"
+  ],
+  "failed_at": [
+   "letter:RECEIPT_VALUE_OUTSIDE_THE_STATED_DOMAIN"
+  ],
+  "as_expected": true
+ },
+ "M13-receipt-and-statement-signed-end-to-end-with-another-key": {
+  "what": "the receipt and the Signed Statement are signed with another key, and the manifest and signer_pubkey_hash declare that key: the packet is consistent with itself (the letter check, which reads only the packet, passes) and fails against the key resolved out of band (Section 11: \"without a key resolved out of band, a packet re-signed end to end with another key verifies\")",
+  "expected": [
+   "reader:RECEIPT_SIGNATURE_INVALID",
+   "reader:RECEIPT_SIGNER_PUBKEY_HASH",
+   "statement:STATEMENT_NOT_SIGNED_BY_THE_RECEIPT_KEY"
+  ],
+  "failed_at": [
+   "reader:RECEIPT_SIGNATURE_INVALID",
+   "reader:RECEIPT_SIGNER_PUBKEY_HASH",
+   "statement:STATEMENT_NOT_SIGNED_BY_THE_RECEIPT_KEY"
+  ],
+  "as_expected": true
+ },
+ "M14-statement-under-an-algorithm-that-is-not-ed25519": {
+  "what": "the Signed Statement's protected header names alg -7 (ES256) over an Ed25519 signature",
+  "expected": [
+   "statement:STATEMENT_ALG"
+  ],
+  "failed_at": [
+   "statement:STATEMENT_ALG"
+  ],
+  "as_expected": true
+ }
+}

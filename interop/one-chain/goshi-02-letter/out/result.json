@@ -1,0 +1,213 @@
+{
+ "built_to": "the letter of draft-xg-payment-dispute-profile-02 as we read it (letter.READINGS); not a claim of conformance",
+ "receipt": {
+  "members": [
+   "action_hash",
+   "decision",
+   "evidence_set_hash",
+   "key_id",
+   "ledger_entry_hash",
+   "mandate_hash",
+   "rail_anchors_hash",
+   "reason_code",
+   "scope_conformance",
+   "signer_pubkey_hash",
+   "timestamp"
+  ],
+  "member_count": 11,
+  "envelope_octets": 857,
+  "canonical_payload_octets": 635,
+  "sha256_envelope": "c9756009db10994587b12730e9c1ac91f3ba54d4d03880d95b341f2160b941f3",
+  "sha256_canonical_payload": "d107a126d4eb0724e226ba11331289a1a3c58a96f0156bc2d717ce4afdf89bd5",
+  "appendix_a_form_leaf_hash_sha256_00_envelope": "c515a9d22a2a511eb5bf0360d9fd405d20fbf0e728a14dd3cbea3e0fdfe20c7d"
+ },
+ "statement": {
+  "octets": 1062,
+  "sha256": "e9cf80fb1f0a3c37d25080c878eb8b5ae9ea2775d1e225d0547dbd1449c0d85b",
+  "protected_header": {
+   "1 alg": -19,
+   "3 content type": "application/json",
+   "4 kid": "one-chain-goshi-02-letter-test-key-1",
+   "15 CWT claims": {
+    "1 iss": "urn:example:merchant:dispute-desk",
+    "2 sub": "urn:example:action:refund-8812"
+   }
+  },
+  "entry_id_on_a_log_whose_leaf_is_the_statement_sha256_00_statement": "431009a9ee3cd08e8fdc18578871fc7a7a3e2eac80ea1f847bf595a17d166490"
+ },
+ "reports": {
+  "reader": {
+   "result": "VERIFIED",
+   "failures": [],
+   "checks": [
+    "receipt signature verified over the canonical payload bytes with the key resolved out of band (3, 4)",
+    "the receipt carries the eleven profile members of Section 4",
+    "signer_pubkey_hash is the SHA-256 of the raw Ed25519 public key bytes of the key resolved (5)",
+    "settlement anchor_hash recomputed over the anchor object inside the anchored block (5, 8.3)",
+    "settlement amount and currency equal the manifest's headline amount (9: headline consistency)",
+    "6 ledger events recompute and link (9)",
+    "ledger_entry_hash is the ActionExecuted event of this action; its action_packet_hash equals action_hash (5)",
+    "scope verdict re-derived from the intent scope and executed action the ScopeEvaluated event records: in_scope; receipt and manifest headline agree (8.2, 9)",
+    "action_hash is the canonical hash of the executed_action recorded in the ScopeEvaluated event (5)",
+    "3 custody events each name a ledger event hash of the slice (8.4: a binding, not an authentication)"
+   ],
+   "re_derived": {
+    "canonical_payload_sha256": "d107a126d4eb0724e226ba11331289a1a3c58a96f0156bc2d717ce4afdf89bd5",
+    "base_draft_members": [],
+    "times": {
+     "producer_claimed": "2026-11-04T10:01:18.000Z",
+     "registration": null,
+     "note": "11: the receipt's timestamp is claimed by its producer and is not trusted time; no Transparency Service Receipt is among this verifier's inputs, so no registration time is reported"
+    },
+    "signed_not_checked": {
+     "rail_anchors_hash": {
+      "construction": "this module's reading, not the text's: equal to the settlement anchor_hash",
+      "equal_under_that_reading": true
+     },
+     "evidence_set_hash": {
+      "construction": "this module's, not the text's: SHA-256 over the canonical JSON of the sorted digests the packet cites",
+      "equal_under_that_construction": true
+     }
+    },
+    "anchors": [
+     {
+      "name": "verdict_record",
+      "type": "verdict-record/1",
+      "alg": "SHA-256",
+      "digest": "875dfb8823e851c92373cb767dd8318e145a3cda41a7882f0bf79dec6411ea43",
+      "state": "resolved"
+     },
+     {
+      "name": "signatures_attachment",
+      "type": "org.decisionprovenancestandard.signatures_attachment",
+      "alg": "SHA-256",
+      "digest": "a17500e3599f00e012bafb46f4e3411cc102f97993f7a7383a63cc564812abcf",
+      "state": "resolved"
+     },
+     {
+      "name": "allow_outcome_receipt",
+      "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+      "alg": "SHA-256",
+      "digest": "16b37c5ccd1676e4b6f0b2e25849773f1243ebc59a91e909fdf05330bf24c78f",
+      "state": "not resolved: verifier holds nothing of that type"
+     },
+     {
+      "name": "tool_result_receipt",
+      "type": "org.ietf.draft-thaha-scitt-agent-execution-evidence-02.execution_receipt",
+      "alg": "SHA-256",
+      "digest": "a9085fb1cd6f77136f4bdf316ce42b8d7fdb9bca75ea50b32bcce80a2a7a7a35",
+      "state": "not resolved: verifier holds nothing of that type"
+     },
+     {
+      "name": "approval_event_hash",
+      "event_hash": "4be2859f8f4e8ac5a4ff2caf4d6382e52d107727fee0e5868b121dd87df20886",
+      "type": "ApprovalGranted",
+      "state": "resolved in the ledger slice: the event's action_hash is the receipt's"
+     }
+    ],
+    "scope_conformance": "in_scope",
+    "approval_event_uses": {
+     "4be2859f8f4e8ac5a4ff2caf4d6382e52d107727fee0e5868b121dd87df20886": [
+      "txn-2026-1104-8812"
+     ]
+    },
+    "absent": [],
+    "fre901": "8.4: the acquisition, custody and authentication records are the producer's claims, not covered by the receipt signature or the ledger chain; this verifier checked their shape and the custody bindings and does not report them as authenticated"
+   }
+  },
+  "letter": {
+   "result": "VERIFIED",
+   "failures": [],
+   "checks": [
+    "the receipt payload has the eleven members of Section 4 and no other",
+    "every value of the receipt payload is a string, a boolean or null (4)",
+    "the manifest names draft-xg-payment-dispute-profile-02",
+    "the manifest carries receipt_public_key_hex, whose SHA-256 is the receipt's signer_pubkey_hash (4, 5); a hint, not a key resolved out of band",
+    "approval_event_hash is an ApprovalGranted or ApprovalDenied event of the slice whose payload carries the receipt's action_hash (5)",
+    "the approval event points to no approval held outside the ledger (5)"
+   ]
+  },
+  "statement": {
+   "result": "VERIFIED",
+   "failures": [],
+   "checks": [
+    "the statement's payload is, byte for byte, the canonical bytes of the packet's receipt envelope (6, reading R1)",
+    "the statement's signature verifies, under alg -19, with the receipt key resolved out of band (6: \"signed with the receipt's own signing key\")",
+    "the statement's kid is the receipt's key_id, as a byte string (reading R4)",
+    "the CWT claims carry an issuer (6)",
+    "the subject is the action identifier of the packet manifest (6)"
+   ],
+   "read": {
+    "alg": -19,
+    "content_type": "application/json",
+    "kid": "one-chain-goshi-02-letter-test-key-1",
+    "iss": "urn:example:merchant:dispute-desk",
+    "sub": "urn:example:action:refund-8812"
+   }
+  }
+ },
+ "same_action_as_the_parent_packet": {
+  "action_id equal": true,
+  "action_hash equal": true,
+  "intent scope and executed action equal": true,
+  "settlement anchor block equal": true,
+  "verdict record digest equal": true,
+  "scope_conformance equal": true,
+  "producer-claimed timestamp equal": true,
+  "receipt keys differ": true,
+  "ledger_entry_hash differs (the ledger was chained again)": true
+ },
+ "readings": {
+  "R1 the payload of the Signed Statement": {
+   "text": "6: \"The Signed Statement is a COSE_Sign1 [RFC9052] whose payload is the receipt's canonical bytes\"; 3: a dispute receipt is \"an Ed25519 ([RFC8032]) signature over an [RFC8785] (JCS) canonicalized payload, in an envelope of the form {payload, signature{alg, kid, sig}}\"",
+   "open": "the receipt's canonical bytes can be the canonical bytes of the whole envelope, or of its payload member alone",
+   "choice": "the JCS bytes of the whole envelope {payload, signature}: the receipt is the envelope (Section 3), and Appendix A gives SHA-256(R) and a leaf hash for the envelope R, which is printed in that form. The receipt's own signature is then inside the registered bytes"
+  },
+  "R2 the COSE algorithm identifier": {
+   "text": "6: \"signed with the receipt's own signing key\"; 4: \"Signature: Ed25519, lowercase hex (alg = EdDSA)\"",
+   "open": "the COSE_Sign1 needs an integer alg; Ed25519 has two, -8 (EdDSA, RFC 9053) and -19 (Ed25519, RFC 9864); the text names neither",
+   "choice": "-19, the identifier ts.isoluce.net signs its receipts with and the one the statements of ../registration carry; check_statement accepts -8 as well"
+  },
+  "R3 the content type": {
+   "text": "6: the bullet that describes the Signed Statement names its payload, its key, the CWT claims issuer and subject",
+   "open": "no content type (COSE header 3) is named",
+   "choice": "application/json, as the statements of ../registration carry for a JSON payload"
+  },
+  "R4 the kid of the Signed Statement": {
+   "text": "6: \"A party that already trusts the receipt key needs no other key to check the statement\"; 5: \"key_id names that key in the operator's published keyring\"",
+   "open": "the text does not say how the COSE_Sign1 names the key; RFC 9943 Section 6 requires a kid when there is no x5t or x5chain",
+   "choice": "the receipt's key_id, as a byte string (ts.isoluce.net refuses a kid that is not a byte string)"
+  },
+  "R5 the issuer": {
+   "text": "6: \"with the CWT claims issuer set to an identifier the registering party supplies (the receipt payload carries none)\"",
+   "open": "which identifier",
+   "choice": "urn:example:merchant:dispute-desk, the fictional desk the packet's acquisition record names: the key is a test key whose seed is public, so the statement is put under no real identifier"
+  },
+  "R6 the eleven members and approval_event_hash": {
+   "text": "4: \"Payload: the implementation's PolicyDecisionReceipt canonical dict -- decision, reason_code, action_hash, evidence_set_hash, ledger_entry_hash, timestamp, mandate_hash, rail_anchors_hash, scope_conformance, key_id, signer_pubkey_hash\"; 5: \"the receipt fields that bind to other parts of the packet are built as follows\", a list that includes approval_event_hash and anchor_hash; 8.2: the agent_anchors block carries the \"approval event hash\"",
+   "open": "whether approval_event_hash and anchor_hash are members of the receipt payload",
+   "choice": "no: the payload has the eleven members of Section 4 and no other, as the vector of Appendix A does; approval_event_hash is in the manifest's agent_anchors block (8.2), anchor_hash in its settlement block (8.3)"
+  },
+  "R7 mandate_hash without an AP2 mandate": {
+   "text": "8.2: \"AP2 mandate_hash\"; \"Network token id and 3DS/ACS result are part of the block's shape but null when the implementation has no source for them\"; 4: \"the receipt dict is strings, booleans, null\"",
+   "open": "whether mandate_hash may be null when the approval is a person's and not an AP2 mandate",
+   "choice": "null, in the receipt and in the agent_anchors block"
+  },
+  "R8 evidence_set_hash and rail_anchors_hash": {
+   "text": "5: \"evidence_set_hash and rail_anchors_hash are signed but not re-derived by the reference verifier in this revision; a verifier MUST NOT report them as checked\"",
+   "open": "what the two values are built from",
+   "choice": "the constructions of the parent case (the SHA-256 of the canonical JSON of the sorted digests the packet cites; the settlement anchor_hash). They are signed and not reported as checked"
+  },
+  "R9 the manifest, the ledger slice and the event hash": {
+   "text": "Appendix B: \"The packet manifest, the ledger slice and the ledger event hash are named but not yet defined in this document\"",
+   "open": "their shapes",
+   "choice": "the shapes of the parent case, which ../goshi_from_text.py reads; a member profile in the manifest names the revision the packet was built to (the text asks for no such member)"
+  },
+  "R10 a number in the recorded action": {
+   "text": "5: \"action_hash: the canonical hash of the executed-action object recorded in the action's ScopeEvaluated ledger event\"; \"'Canonical hash' means lowercase hex SHA-256 over the canonical bytes of Section 4\"; 4: \"the receipt dict is strings, booleans, null, and nested objects/arrays of the same, with amounts pre-converted to decimal strings before canonicalization\"",
+   "open": "whether the value domain stated for the receipt dict also binds the recorded executed-action and intent-scope objects",
+   "choice": "no: the two recorded objects keep amount_minor as the integer the tool door saw (12000), which JCS writes as a plain integer, so that action_hash is the digest the other three links of the chain carry. The receipt itself holds strings and null only"
+  }
+ },
+ "all_verified": true
+}

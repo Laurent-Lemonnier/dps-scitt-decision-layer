@@ -1,0 +1,8 @@
+{
+ "note": "TEST ONLY. The seed is public: it MUST NOT be used to sign anything other than test material.",
+ "seed_label": "dps-scitt-decision-layer one-chain/goshi-02-letter: dispute receipt key (TEST ONLY, public seed) v1",
+ "seed_hex_sha256_of_the_label": "23d704b4838452acff698034748cb75b7c5c8c61152f3d2911f49d0092eb988c",
+ "ed25519_public_key_raw_hex": "c48b4defbd14d776470a016134b8b02924e481941c08191038e81d31b23794cd",
+ "key_id": "one-chain-goshi-02-letter-test-key-1",
+ "ed25519_public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAxItN770U13ZHCgFhNLiwKSTkgZQcCBkQOOgdMbI3lM0=\n-----END PUBLIC KEY-----\n"
+}

@@ -1,0 +1,60 @@
+{
+ "service": "https://ts.isoluce.net",
+ "service_keys": "interop/receipt-size/vectors/scitt-keys.cbor (pinned 15 November 2026)",
+ "reader": "interop/receipt-size/verify_receipt.py",
+ "receipts": {
+  "section-6": {
+   "statement": "out/section-6.signed-statement.cose",
+   "statement_sha256": "e9cf80fb1f0a3c37d25080c878eb8b5ae9ea2775d1e225d0547dbd1449c0d85b",
+   "receipt": "registration/section-6.receipt.cose",
+   "receipt_sha256": "b80b07855946c0b4c26a66dd43112f5847c0c7fdcd5672d8f3b5bba457b9e33d",
+   "entry_id": "431009a9ee3cd08e8fdc18578871fc7a7a3e2eac80ea1f847bf595a17d166490",
+   "verified": true,
+   "size_and_index_signed": true,
+   "leaf_index": 53,
+   "tree_size": 54,
+   "root_hex": "b6b3f50fdd4d5721d9e5b20a151cd80bae47a902fa6d4f57797caae089d0c81d",
+   "kid": "g3JYRtHgACp0biv12cMhoDDEGxDjRRDIv9UoWb0kjDA",
+   "error": null,
+   "registration_time_the_service_states": "2026-11-16T21:34:03Z"
+  },
+  "dispute-packet": {
+   "statement": "registration/dispute-packet.signed-statement.cose",
+   "statement_sha256": "c1e352055456d8030db26ccb4993766c5d3e6b65732402c247bdb9df76377eae",
+   "receipt": "registration/dispute-packet.receipt.cose",
+   "receipt_sha256": "1b1ea47a79074a2f23ba8bd38b5a8d5fa333835a03dbd58e0314c44100bfb6a3",
+   "entry_id": "0d4f366fabcf0fbbba235fa39d460956551e8dbf659f57c273eed055b1b78a66",
+   "verified": true,
+   "size_and_index_signed": true,
+   "leaf_index": 54,
+   "tree_size": 55,
+   "root_hex": "d6717a8d1acb30fb820fe4b793b1404d99d34453e8a5070c00516874f12d68cf",
+   "kid": "g3JYRtHgACp0biv12cMhoDDEGxDjRRDIv9UoWb0kjDA",
+   "error": null,
+   "registration_time_the_service_states": "2026-11-16T21:34:03Z"
+  }
+ },
+ "statements": {
+  "section-6 is the Signed Statement of Section 6 for out/dispute-packet.json (letter.check_statement)": true,
+  "the dispute-packet statement's payload is out/dispute-packet.json, byte for byte": true
+ },
+ "altered_receipts_refused": {
+  "the Receipt of the Section 6 statement, given the dispute-packet statement": {
+   "refused": true,
+   "error": "signature does not verify over the root reached"
+  },
+  "one bit of its signature changed": {
+   "refused": true,
+   "error": "signature does not verify over the root reached"
+  },
+  "one bit of the first hash of its inclusion path changed": {
+   "refused": true,
+   "error": "signature does not verify over the root reached"
+  }
+ },
+ "times": {
+  "producer_claimed (the dispute receipt's timestamp; not trusted time)": "2026-11-04T10:01:18.000Z",
+  "registration (the iat of the Transparency Service's Receipt of the Section 6 statement; the service's statement, an upper bound only as far as the service is trusted)": "2026-11-16T21:34:03Z"
+ },
+ "all_as_expected": true
+}

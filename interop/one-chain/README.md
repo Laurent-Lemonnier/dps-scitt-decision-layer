@@ -51,10 +51,13 @@ checks the vector of Appendix A from the text (seven checks): every stated value
 Not settled by -02, and left as they were: the event shape of the ledger slice (Appendix B: "named but not yet
 defined"); the `dps_approval` extension (Section 5: an approval held outside the ledger "is out of scope for this
 revision"); and the approval event of the stated negative chain, whose `action_hash` is the `scope_hash` and not the
-receipt's `action_hash`: read to the letter, Section 5 asks for the receipt's. Not done: a receipt of exactly eleven
-members under a manifest that names -02, which would change the packet's bytes; and the Signed Statement of Section 6
-(the receipt's canonical bytes under the receipt's own key), which is another statement than the one registered on
-the two logs. The tables and the log below keep the section numbers of -01 and the state under -01, except where a
+receipt's `action_hash`: read to the letter, Section 5 asks for the receipt's. Not done in this packet, which stays as
+registered: a receipt of exactly eleven members under a manifest that names -02, which would change the packet's
+bytes; and the Signed Statement of Section 6 (the receipt's canonical bytes under the receipt's own key), which is
+another statement than the one registered on the two logs. Both are built beside it, as a second packet for the same
+action, in [goshi-02-letter/](goshi-02-letter/README.md) (16 November 2026): built to the letter of -02 as we read it,
+verified by `goshi_from_text.py` unchanged, with fourteen failing cases of its own, and registered on ts.isoluce.net as
+two new entries (leaves 53 and 54). The tables and the log below keep the section numbers of -01 and the state under -01, except where a
 date says otherwise; `goshi_from_text.STATUS_02` (in `out/summary.json` as `goshi_status_under_02`) gives the state of
 each entry under -02.
 
