@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One-chain evidence reader</title>
+<style>
+  :root { color-scheme: light; font: 17px/1.5 system-ui, sans-serif; color: #152931; background: #f1f5f4; }
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  main { max-width: 64rem; margin: auto; padding: 2rem clamp(1rem, 5vw, 3rem); }
+  h1, h2, h3 { line-height: 1.2; }
+  h1 { margin: .4rem 0; font-size: clamp(1.8rem, 5vw, 3rem); }
+  h2 { font-size: 1.35rem; }
+  a { color: #075d65; }
+  .card { background: #fff; border: 1px solid #cad9d9; border-radius: .75rem; padding: 1.15rem; margin: 1rem 0; }
+  .muted { color: #435861; }
+  .controls { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; }
+  label { display: grid; gap: .25rem; font-weight: 600; }
+  select, button { font: inherit; color: inherit; background: #fff; border: 1px solid #648489; border-radius: .35rem; padding: .35rem .65rem; }
+  :focus-visible { outline: 3px solid #075d65; outline-offset: 3px; }
+  .status { border-left: .35rem solid #237965; padding: .6rem .85rem; background: #e9f5ee; }
+  .status.difference { background: #fdf0e4; border-color: #a65422; }
+  .status.missing { background: #fff7dd; border-color: #9e710c; }
+  .table { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: .65rem; border-bottom: 1px solid #d7e2e1; vertical-align: top; }
+  th { background: #eef4f3; }
+  details { padding: .5rem 0; }
+  summary { font-weight: 550; cursor: pointer; }
+  pre { padding: .65rem; background: #f2f6f5; overflow: auto; max-height: 36vh; }
+  code, .digest { overflow-wrap: anywhere; font-size: .86em; }
+  .actions { display: flex; flex-wrap: wrap; gap: .55rem; align-items: center; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>One-chain evidence reader</h1>
+    <p>Synthetic refund dossiers from the IETF 127 interop exercise. Follow a decision, an execution receipt, an audit verdict and a payment dispute packet.</p>
+    <p class="muted">Verification statuses come from the published fixture reports. This offline page displays those reports and matches verdict references to the enclosed file digests. Run the original tools to repeat signature and policy checks.</p>
+  </header>
+  <section class="card controls" aria-label="Choose a dossier">
+    <label>Dossier <select id="case"></select></label>
+    <label>Start from <select id="entry">
+      <option value="dps">Decision · DPS</option>
+      <option value="execution">Execution · Thaha</option>
+      <option value="verdict">Verdict · Wright</option>
+      <option value="payment">Payment dispute · Goshi</option>
+    </select></label>
+  </section>
+  <div id="overview" aria-live="polite"></div>
+  <section class="card" aria-labelledby="chain-title">
+    <h2 id="chain-title">Evidence chain</h2>
+    <div class="table"><table><thead><tr><th scope="col">Contribution</th><th scope="col">Finding</th><th scope="col">Source pieces</th></tr></thead><tbody id="chain"></tbody></table></div>
+  </section>
+  <section class="card" aria-labelledby="pieces-title">
+    <h2 id="pieces-title">Source pieces</h2>
+    <p class="muted" id="provenance"></p>
+    <div id="pieces"></div>
+  </section>
+</main>
+<script type="application/json" id="dataset"><!--CASE_DATA--></script>
+<script>
+"use strict";
+const data = JSON.parse(document.getElementById("dataset").textContent);
+const byId = id => document.getElementById(id);
+const select = byId("case");
+const entry = byId("entry");
+
+function node(tag, text) {
+  const el = document.createElement(tag);
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
+
+function link(label, target) {
+  const a = node("a", label);
+  a.href = target;
+  return a;
+}
+
+function download(label, name, content, mime) {
+  const button = node("button", label);
+  button.type = "button";
+  button.onclick = () => {
+    const uri = URL.createObjectURL(new Blob([content], {type: mime}));
+    const a = link("", uri);
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(uri), 1000);
+  };
+  return button;
+}
+
+const amount = m => `${Number(m.value).toFixed(2)} ${m.unit}`;
+const pieceId = file => `piece-${file}`;
+const pieceLink = (file, item) => link(item.title, `#${pieceId(file)}`);
+const decode = value => Uint8Array.from(atob(value), char => char.charCodeAt(0));
+
+function renderOverview(dossier) {
+  const decision = dossier.decision;
+  const box = node("section");
+  box.className = "card";
+  box.append(node("h2", "Decision as recorded"), node("p", decision.label));
+  const headline = node("p", dossier.missing.length
+    ? "Open · the local dossier lacks an approval piece required to rerun the verdict."
+    : dossier.verdict === "not_as_approved"
+      ? "Discrepancy · 120 EUR approved, 150 EUR recorded in the executed specification."
+      : "Match · the approved and executed specifications agree in the fixture.");
+  headline.className = `status ${dossier.key}`;
+  box.append(headline);
+  const actions = node("div");
+  actions.className = "actions";
+  actions.append(pieceLink("decision-record.json", dossier.pieces["decision-record.json"]),
+    download("Download decision JSON-LD", `${dossier.key}.jsonld`,
+      JSON.stringify(decision, null, 2), "application/ld+json"));
+  box.append(actions);
+  byId("overview").replaceChildren(box);
+}
+
+function renderChain(dossier) {
+  const incomplete = dossier.missing.length > 0;
+  const historical = incomplete ? " Historical result from the complete fixture." : "";
+  const unavailable = dossier.verdictInputs.filter(input => input.file === null);
+  const verdictInputs = dossier.verdictInputs.filter(input => input.file !== null).map(input => input.file);
+  const verdict = unavailable.length
+    ? `Local rerun open. ${unavailable.length} cited piece missing. Original verdict: ${dossier.verdictState} / ${dossier.verdict}.`
+    : `${dossier.verdictState} · the published rerun derived ${dossier.verdict}.`;
+  const lanes = [
+    ["dps", "Decision · DPS", incomplete
+      ? `Decision records ${amount(dossier.decision.magnitude)}. Approval attachment A1 missing locally.`
+      : `${amount(dossier.decision.magnitude)} approved. Person approval: ${dossier.signatureStatus}. Action binding: ${dossier.bindingStatus}.`,
+    ["decision-record.json", "action-binding-attachment-a1.json", "signatures-attachment.json", "action-specification.json", "action-binding-attachment-a2.json"]],
+    ["execution", "Execution · Thaha",
+      `${amount(dossier.attempted)} in the executed specification. Execution receipt report: ${dossier.receiptStatus}.${historical}`,
+      ["action-specification-executed.json", "aee-bundle.cbor", "receipts.diag.json", "tool-response.json"]],
+    ["verdict", "Verdict · Wright", verdict,
+      ["verdict-record.json", "verdict-record.container.json", ...verdictInputs, ...dossier.missing]],
+    ["payment", "Payment dispute · Goshi",
+      `${amount(dossier.settlement)} in the settlement anchor. Packet report: ${dossier.packetStatus}; scope: ${dossier.scope}.${historical}`,
+      ["dispute-packet.json"]],
+  ];
+  const rows = lanes.map(([id, title, result, files]) => {
+    const row = node("tr");
+    row.id = `lane-${id}`;
+    row.tabIndex = -1;
+    const heading = node("th", title);
+    heading.scope = "row";
+    const findings = node("td", result);
+    if (id === "verdict") {
+      findings.append(node("br"), link("Rule: executed-as-approved:v1", dossier.rule));
+    }
+    if (id === "execution") {
+      const detail = node("details");
+      detail.append(node("summary", "Checks left out by the receipt reader"));
+      const list = node("ul");
+      dossier.receiptLimitations.forEach(item => list.append(node("li", item)));
+      detail.append(list);
+      findings.append(detail);
+    }
+    const sources = node("td");
+    const list = node("ul");
+    [...new Set(files)].forEach(file => {
+      const item = node("li");
+      item.append(pieceLink(file, dossier.pieces[file]));
+      list.append(item);
+    });
+    sources.append(list);
+    row.append(heading, findings, sources);
+    return row;
+  });
+  byId("chain").replaceChildren(...rows);
+}
+
+function renderPieces(dossier) {
+  byId("provenance").textContent =
+    `Fixture corpus ${data.corpus} · DPS reference checks ${dossier.dpsCommit}.`;
+  const items = Object.entries(dossier.pieces).map(([file, piece]) => {
+    const detail = node("details");
+    detail.id = pieceId(file);
+    detail.append(node("summary", `${piece.title}${piece.bytes === null ? " · missing" : ""}`));
+    const digest = node("p", `SHA-256 ${piece.sha256}`);
+    digest.className = "digest";
+    detail.append(digest);
+    if (piece.bytes === null) {
+      detail.append(node("p", "This piece is intentionally absent. Its digest remains visible in the verdict’s evidence list."));
+      return detail;
+    }
+    const bytes = decode(piece.bytes);
+    const actions = node("div");
+    actions.className = "actions";
+    actions.append(download("Download original", file, bytes, file.endsWith(".cbor") ? "application/cbor" : "application/json"),
+      link("Source at pinned revision", piece.source));
+    detail.append(actions);
+    if (file.endsWith(".json")) detail.append(node("pre", new TextDecoder().decode(bytes)));
+    return detail;
+  });
+  byId("pieces").replaceChildren(...items);
+}
+
+function revealPiece() {
+  const detail = byId(location.hash.slice(1));
+  if (detail instanceof HTMLDetailsElement) {
+    detail.open = true;
+    detail.scrollIntoView();
+  }
+}
+
+function render() {
+  const dossier = data.cases.find(item => item.key === select.value);
+  renderOverview(dossier);
+  renderChain(dossier);
+  renderPieces(dossier);
+  revealPiece();
+}
+
+data.cases.forEach(dossier => {
+  const option = node("option", dossier.label);
+  option.value = dossier.key;
+  select.append(option);
+});
+select.addEventListener("change", render);
+entry.addEventListener("change", () => byId(`lane-${entry.value}`).focus());
+addEventListener("hashchange", revealPiece);
+document.addEventListener("click", event => {
+  const a = event.target.closest("a");
+  if (a && a.hash === location.hash && a.getAttribute("href").startsWith("#")) revealPiece();
+});
+render();
+</script>
+</body>
+</html>
