@@ -38,7 +38,7 @@
   <header>
     <h1>One-chain evidence reader</h1>
     <p>Synthetic refund dossiers from the IETF 127 interop exercise. Follow a decision, an execution receipt, an audit verdict and a payment dispute packet.</p>
-    <p class="muted">Verification statuses come from the published fixture reports. This offline page displays those reports and matches verdict references to the enclosed file digests. Run the original tools to repeat signature and policy checks.</p>
+    <p class="muted">This page opens offline. Each dossier identifies whether its report was supplied or produced by a native replay at build time.</p>
   </header>
   <section class="card controls" aria-label="Choose a dossier">
     <label>Dossier <select id="case"></select></label>
@@ -103,13 +103,26 @@ function renderOverview(dossier) {
   const box = node("section");
   box.className = "card";
   box.append(node("h2", "Decision as recorded"), node("p", decision.label));
-  const headline = node("p", dossier.missing.length
-    ? "Open · the local dossier lacks an approval piece required to rerun the verdict."
-    : dossier.verdict === "not_as_approved"
-      ? "Discrepancy · 120 EUR approved, 150 EUR recorded in the executed specification."
-      : "Match · the approved and executed specifications agree in the fixture.");
-  headline.className = `status ${dossier.key}`;
-  box.append(headline);
+  const absent = dossier.verdictInputs.some(input => input.file === null);
+  const result = dossier.verdictState === "released" && dossier.recomputeStatus === "PASS" &&
+    dossier.recomputed === dossier.verdict ? dossier.recomputed : null;
+  let message = "Open · consult the verdict and the checks that were performed.";
+  let variant = "missing";
+  if (absent) {
+    message = "Open · the local dossier lacks a piece cited by the verdict.";
+  } else if (result === "not_as_approved") {
+    message = `Discrepancy · ${amount(decision.magnitude)} approved, ${amount(dossier.attempted)} in the executed specification.`;
+    variant = "difference";
+  } else if (result === "executed_as_approved") {
+    message = "Match · the report agrees with the verdict about the approved and executed specifications.";
+    variant = "match";
+  }
+  const headline = node("p", message);
+  headline.className = `status ${variant}`;
+  const origin = dossier.replayed
+    ? "Native replay ran on the enclosed files with the pinned one-chain test policy. The browser displays that report."
+    : "Supplied report. The reader matched the verdict digest and located its inputs. The native checks were not rerun.";
+  box.append(headline, node("p", origin), pieceLink(dossier.reportFile, dossier.pieces[dossier.reportFile]));
   const actions = node("div");
   actions.className = "actions";
   actions.append(pieceLink("decision-record.json", dossier.pieces["decision-record.json"]),
@@ -121,24 +134,30 @@ function renderOverview(dossier) {
 
 function renderChain(dossier) {
   const incomplete = dossier.missing.length > 0;
-  const historical = incomplete ? " Historical result from the complete fixture." : "";
+  const historical = incomplete && !dossier.replayed ? " Supplied result from a dossier with more pieces." : "";
   const unavailable = dossier.verdictInputs.filter(input => input.file === null);
   const verdictInputs = dossier.verdictInputs.filter(input => input.file !== null).map(input => input.file);
   const verdict = unavailable.length
-    ? `Local rerun open. ${unavailable.length} cited piece missing. Original verdict: ${dossier.verdictState} / ${dossier.verdict}.`
-    : `${dossier.verdictState} · the published rerun derived ${dossier.verdict}.`;
+    ? `Open · ${unavailable.length} cited piece missing. ${dossier.replayed
+        ? `Native verdict state: ${dossier.verdictState}. Rule replay: ${dossier.recomputeStatus}.`
+        : `Supplied verdict state: ${dossier.verdictState}.`} Verdict states ${dossier.verdict}.`
+    : `Verdict states ${dossier.verdict}. Report: ${dossier.verdictState}. Rule replay: ${dossier.recomputeStatus ?? "not reported"}.${dossier.recomputed
+        ? ` Derived ${dossier.recomputed}.` : ""}`;
+  const settlement = dossier.settlement
+    ? `${amount(dossier.settlement)} in the settlement anchor.`
+    : "Settlement amount is unavailable.";
   const lanes = [
     ["dps", "Decision · DPS", incomplete
-      ? `Decision records ${amount(dossier.decision.magnitude)}. Approval attachment A1 missing locally.`
-      : `${amount(dossier.decision.magnitude)} approved. Person approval: ${dossier.signatureStatus}. Action binding: ${dossier.bindingStatus}.`,
+      ? `Decision records ${amount(dossier.decision.magnitude)}. Approval attachment A1 is unavailable locally.`
+      : `${amount(dossier.decision.magnitude)} recorded as approved. Person approval: ${dossier.signatureStatus ?? "not reported"}. Action binding: ${dossier.bindingStatus}.`,
     ["decision-record.json", "action-binding-attachment-a1.json", "signatures-attachment.json", "action-specification.json", "action-binding-attachment-a2.json"]],
     ["execution", "Execution · Thaha",
       `${amount(dossier.attempted)} in the executed specification. Execution receipt report: ${dossier.receiptStatus}.${historical}`,
-      ["action-specification-executed.json", "aee-bundle.cbor", "receipts.diag.json", "tool-response.json"]],
+      ["action-specification-executed.json", "aee-bundle.cbor", "receipts.diag.json", "tool-response.json", "binding-statement.cose"]],
     ["verdict", "Verdict · Wright", verdict,
       ["verdict-record.json", "verdict-record.container.json", ...verdictInputs, ...dossier.missing]],
     ["payment", "Payment dispute · Goshi",
-      `${amount(dossier.settlement)} in the settlement anchor. Packet report: ${dossier.packetStatus}; scope: ${dossier.scope}.${historical}`,
+      `${settlement} Packet report: ${dossier.packetStatus}; scope: ${dossier.scope ?? "not reported"}.${historical}`,
       ["dispute-packet.json"]],
   ];
   const rows = lanes.map(([id, title, result, files]) => {
@@ -149,7 +168,10 @@ function renderChain(dossier) {
     heading.scope = "row";
     const findings = node("td", result);
     if (id === "verdict") {
-      findings.append(node("br"), link("Rule: executed-as-approved:v1", dossier.rule));
+      const rule = typeof dossier.rule === "string" && dossier.rule.startsWith("https://")
+        ? link("Open cited rule", dossier.rule)
+        : node("code", dossier.rule ?? "Rule not supplied");
+      findings.append(node("br"), rule);
     }
     if (id === "execution") {
       const detail = node("details");
@@ -158,6 +180,9 @@ function renderChain(dossier) {
       dossier.receiptLimitations.forEach(item => list.append(node("li", item)));
       detail.append(list);
       findings.append(detail);
+    }
+    if (id === "payment" && dossier.unresolvedAnchors.length) {
+      findings.append(node("p", "Referenced pieces not held: " + dossier.unresolvedAnchors.join(", ")));
     }
     const sources = node("td");
     const list = node("ul");
@@ -174,8 +199,17 @@ function renderChain(dossier) {
 }
 
 function renderPieces(dossier) {
-  byId("provenance").textContent =
-    `Fixture corpus ${data.corpus} · DPS reference checks ${dossier.dpsCommit}.`;
+  const parts = [
+    dossier.bundled ? `Fixture corpus ${data.corpus}` : "Local one-chain dossier",
+    `DPS reference checks ${dossier.dpsCommit}`,
+  ];
+  const checks = Object.entries(dossier.joins);
+  if (checks.length) {
+    const passed = checks.filter(([, result]) => result === true).length;
+    parts.push(`Cross-format checks in the report: ${passed}/${checks.length} passed`);
+  }
+  if (dossier.joinNote) parts.push(dossier.joinNote);
+  byId("provenance").textContent = parts.join(" · ");
   const items = Object.entries(dossier.pieces).map(([file, piece]) => {
     const detail = node("details");
     detail.id = pieceId(file);
@@ -184,14 +218,15 @@ function renderPieces(dossier) {
     digest.className = "digest";
     detail.append(digest);
     if (piece.bytes === null) {
-      detail.append(node("p", "This piece is intentionally absent. Its digest remains visible in the verdict’s evidence list."));
+      detail.append(node("p", "The local dossier does not contain this piece. The digest is the reference recorded by the verdict."));
       return detail;
     }
     const bytes = decode(piece.bytes);
     const actions = node("div");
     actions.className = "actions";
-    actions.append(download("Download original", file, bytes, file.endsWith(".cbor") ? "application/cbor" : "application/json"),
-      link("Source at pinned revision", piece.source));
+    const mime = file.endsWith(".json") ? "application/json" : "application/octet-stream";
+    actions.append(download("Download file", file, bytes, mime));
+    if (piece.source) actions.append(link("Source at pinned revision", piece.source));
     detail.append(actions);
     if (file.endsWith(".json")) detail.append(node("pre", new TextDecoder().decode(bytes)));
     return detail;
