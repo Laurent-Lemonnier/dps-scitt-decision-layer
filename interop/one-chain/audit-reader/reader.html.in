@@ -263,6 +263,13 @@ function renderChain(dossier) {
         : `Supplied verdict state: ${dossier.verdictState}.`} Verdict states ${dossier.verdict}.`
     : `Verdict states ${dossier.verdict}. Report: ${dossier.verdictState}. Rule replay: ${dossier.recomputeStatus ?? "not reported"}.${dossier.recomputed
         ? ` Derived ${dossier.recomputed}.` : ""}`;
+  const compared = dossier.comparison;
+  const consistent = compared && (compared.same ? dossier.verdict === "executed_as_approved" : dossier.verdict === "not_as_approved");
+  const verdictLine = dossier.replayed && !unavailable.length && consistent
+    ? `The rule compared the approved specification (${amount(compared.approved.amount)}, through ${compared.approved.through}) with the attempted specification (${amount(compared.attempted.amount)}, through ${compared.attempted.through}). ${compared.same ? "They are the same" : "They differ"}, so ${dossier.verdict}. ${dossier.recomputeStatus === "PASS" && dossier.recomputed === dossier.verdict
+        ? "The replay gives the same result." : `Rule replay: ${dossier.recomputeStatus ?? "not reported"}.`} Verdict state: ${dossier.verdictState}.`
+    : verdict;
+  const comparedFiles = compared ? [compared.approved.file, compared.attempted.file] : [];
   const approvedAmount = amount(dossier.decision.magnitude);
   const executionAmount = amount(dossier.attempted);
   const execution = dossier.executionLinked
@@ -284,8 +291,8 @@ function renderChain(dossier) {
     ["execution", "Execution · Thaha",
       execution,
       ["action-specification-executed.json", "aee-bundle.cbor", "receipts.diag.json", "tool-response.json", "binding-statement.cose"]],
-    ["verdict", "Verdict · Wright", verdict,
-      ["verdict-record.json", "verdict-record.container.json", ...verdictInputs, ...dossier.missing]],
+    ["verdict", "Verdict · Wright", verdictLine,
+      ["verdict-record.json", "verdict-record.container.json", ...verdictInputs, ...comparedFiles, ...dossier.missing]],
     ["payment", "Payment dispute · Goshi",
       `${settlement} Packet report: ${dossier.packetStatus}; scope: ${dossier.scope ?? "not reported"}.${historical}`,
       ["dispute-packet.json", ...(dossier.packetReportFile ? [dossier.packetReportFile] : [])]],
@@ -302,6 +309,11 @@ function renderChain(dossier) {
     findings.className = "finding";
     findings.append(node("p", result));
     if (id === "verdict") {
+      if (verdictLine !== verdict) {
+        const scope = node("p", `The rule compares the two SHA-256 digests carried by ${compared.approved.through} and ${compared.attempted.through}. Each amount is the content of the specification file whose SHA-256 equals that digest; the build checked both digests before showing the amounts.`);
+        scope.className = "digest-scope";
+        findings.append(scope);
+      }
       const rule = typeof dossier.rule === "string" && dossier.rule.startsWith("https://")
         ? link("Open cited rule", dossier.rule)
         : node("code", dossier.rule ?? "Rule not supplied");
@@ -327,7 +339,8 @@ function renderChain(dossier) {
     const list = node("ul");
     [...new Set(files)].forEach(file => {
       const item = node("li");
-      item.append(pieceLink(file, dossier.pieces[file]));
+      const piece = dossier.pieces[file];
+      item.append(piece.bytes === null ? link(`${piece.title} · missing`, pieceHref(file)) : pieceLink(file, piece));
       list.append(item);
     });
     sources.append(node("h4", "Source pieces"), list);

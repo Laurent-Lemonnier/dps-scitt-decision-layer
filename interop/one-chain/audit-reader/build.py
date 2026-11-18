@@ -53,6 +53,45 @@ def piece(title, raw, source=None, expected_digest=None):
     }
 
 
+def resolve_pointer(document, pointer):
+    for token in pointer.split("/")[1:] if pointer else []:
+        token = token.replace("~1", "/").replace("~0", "~")
+        document = document[int(token)] if isinstance(document, list) else document[token]
+    return document
+
+
+def rule_comparison(verdict, inputs, held):
+    """Show what the rule compared: two digests, each read through its cited attachment.
+
+    An amount is shown only when a held specification file hashes to that digest.
+    Returns None when either side cannot be established from the held bytes.
+    """
+    sides = {}
+    for side, attachment, spec in (("approved", "A1", "action-specification.json"),
+                                   ("attempted", "A2", "action-specification-executed.json")):
+        ref = verdict["check"]["inputs"].get(f"{side}_spec_digest")
+        if ref is None:
+            return None
+        carrier = inputs[ref["evidence"]]["file"]
+        if carrier is None:
+            return None
+        value = resolve_pointer(json.loads(held[carrier]), ref["pointer"])
+        if spec not in held or digest(held[spec]) != value:
+            spec = None
+        if spec is None:
+            return None
+        sides[side] = {
+            "digest": value,
+            "through": attachment,
+            "carrier": carrier,
+            "pointer": ref["pointer"],
+            "file": spec,
+            "amount": money(json.loads(held[spec])["parameters"]),
+        }
+    sides["same"] = sides["approved"]["digest"] == sides["attempted"]["digest"]
+    return sides
+
+
 def build_plan_cases():
     common = [
         ("Three Agent Action Capsules", "capsules.json"),
@@ -230,6 +269,7 @@ def build_case(folder, key, replay_case, *, bundled=False, omit_approval=False, 
         "recomputed": stage3.get("re_run_result"),
         "recomputeStatus": stage3.get("result"),
         "verdictInputs": inputs,
+        "comparison": rule_comparison(verdict, inputs, held),
         "signatureStatus": execution.get("dps_a1", {}).get("person_approval", {}).get("status"),
         "bindingStatus": execution["dps_a2"]["dimensions"]["action_binding"],
         "receiptStatus": execution["aee"]["result"],
