@@ -1,0 +1,196 @@
+<section id="plan-tour" class="plan-tour" aria-label="Onboarding plan at resumption" hidden>
+<h2>A decision at the point of resumption</h2>
+<p class="intro">A three-step onboarding plan pauses after its first step. The evidence leaves a screening question open. An office manager approves resumption from that exact state.</p>
+<p class="scope"><strong>Synthetic interoperability example.</strong> The data, keys and effects are test fixtures. The adjudication follows the structure in P10 §9. The checks cover the supplied fixture. P10 issuance, log registration and replay were outside their scope.</p>
+<div class="controls">
+<label for="case-picker">Case</label>
+<select id="case-picker">
+<option value="positive">Verified resumption</option>
+<option value="n15">N15 · Resumption without a citation</option>
+<option value="n18">N18 · Approval came too late</option>
+</select>
+</div>
+<div id="verdict" class="verdict" role="status" aria-live="polite"></div>
+<details id="anomaly-evidence" open hidden>
+  <summary id="anomaly-heading">Evidence for this failure</summary>
+  <div id="anomaly-comparison"></div>
+</details>
+<section class="block" aria-labelledby="timeline-heading">
+<h2 id="timeline-heading">Plan, pause and resumption</h2>
+<ol id="timeline" class="timeline"></ol>
+</section>
+<section class="block" aria-labelledby="checks-heading">
+<h2 id="checks-heading">Native verification</h2>
+<p class="muted">Results were reproduced from the existing vectors. This page displays those reports offline.</p>
+<details open><summary id="report-label">Verification results</summary><ul id="report-lists"></ul></details>
+</section>
+<section class="block" aria-labelledby="sources-heading">
+<h2 id="sources-heading">Evidence</h2>
+<details><summary id="artifact-toggle">Download evidence and view SHA-256 digests</summary><div id="artifacts" class="artifacts"></div></details>
+</section>
+<noscript><p class="scope">Enable JavaScript to switch cases and download the evidence embedded in this file.</p></noscript>
+<footer class="plan-links">
+<a href="https://datatracker.ietf.org/doc/html/draft-lemonnier-scitt-decision-provenance-03">Decision Provenance Internet-Draft</a>
+<a href="https://datatracker.ietf.org/doc/html/draft-nestorov-scitt-p10-underdetermination-02#section-9">P10 §9</a>
+<a href="https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/645852e5f743574b19cd54a2b96bbb25a9c06ace/interop/plan-checkpoint">Pinned vectors</a>
+</footer>
+<script id="plan-data" type="application/json"><!--PLAN_DATA--></script>
+<script>
+(()=> {
+"use strict";
+const data = JSON.parse(document.getElementById("plan-data").textContent);
+const select = document.getElementById("case-picker");
+const labels = ["Create the onboarding document","Create the CRM record","Notify the onboarding channel"];
+
+function append(parent, name, value, className) {
+  const node = document.createElement(name);
+  node.textContent = value;
+  if (className) node.className = className;
+  parent.append(node);
+  return node;
+}
+function stage(timeline, phase, title, content, timeValue, className) {
+  const row = append(timeline, "li", "", className);
+  const left = append(row, "div", "");
+  append(left, "div", phase, "phase");
+  if (timeValue) {
+    const time = append(left, "time", timeValue.slice(11,19) + " UTC");
+    time.dateTime = timeValue;
+  }
+  const right = append(row, "div", "");
+  append(right, "h3", title);
+  append(right, "p", content);
+}
+function reportList(key, report) {
+  const list = document.getElementById("report-lists");
+  list.replaceChildren();
+  if (key === "positive") {
+    const pass = Object.values(report.joins).filter(Boolean).length;
+    const resume = report.checkpoint.dps_person_signatures;
+    document.getElementById("report-label").textContent = pass + " of " + Object.keys(report.joins).length + " joins verified";
+    append(list, "li", report.dps_person_signatures.verified + " original approval and " + resume.verified + " resumption approval verified under the fixture trust policy.");
+    append(list, "li", report.capsules.verified + " of " + report.capsules.of + " capsules verified.");
+    for (const check of Object.keys(report.joins).slice(10)) append(list, "li", check);
+  } else {
+    document.getElementById("report-label").textContent = "Expected failure reproduced";
+    for (const check of report.detail.joins) append(list, "li", "Failed join — " + check);
+  }
+}
+function addArtifactLinks(parent, file) {
+  const download = append(parent, "a", "Download");
+  download.setAttribute("aria-label", "Download " + file.label);
+  download.href = "data:application/json;base64," + file.bytes;
+  download.download = file.name;
+  parent.append(" · ");
+  const original = append(parent, "a", "Pinned source ↗");
+  original.setAttribute("aria-label", "Open pinned source for " + file.label + " on GitHub");
+  original.href = file.source;
+}
+function evidenceLine(parent, label, value) {
+  const line = append(parent, "p", "");
+  append(line, "strong", label);
+  line.append(" ");
+  append(line, "code", value);
+}
+function timestampLine(parent, label, value) {
+  const line = append(parent, "p", "");
+  append(line, "strong", label);
+  line.append(" ");
+  const time = append(line, "time", value.replace("T", " ").replace("Z", " UTC"));
+  time.dateTime = value;
+}
+function anomalyEvidence(key, c) {
+  const details = document.getElementById("anomaly-evidence");
+  const comparison = document.getElementById("anomaly-comparison");
+  details.hidden = key === "positive";
+  comparison.replaceChildren();
+  if (details.hidden) return;
+  details.open = true;
+  const byName = Object.fromEntries(c.artifacts.map(file => [file.name, file]));
+  const readArtifact = name => JSON.parse(new TextDecoder().decode(
+    Uint8Array.from(atob(byName[name].bytes), character => character.charCodeAt(0))
+  ));
+  const checkpoint = readArtifact("checkpoint.json");
+  const heading = document.getElementById("anomaly-heading");
+  const sources = key === "n15" ? ["checkpoint.json", "capsules.json"] : ["manifest.json", "checkpoint.json"];
+
+  if (key === "n15") {
+    heading.textContent = "Compare the resumption decision with the capsule citations";
+    evidenceLine(comparison, "Expected resumption decision seal", checkpoint.record.seal_hash);
+    const capsules = readArtifact("capsules.json");
+    for (const [index, label] of [[1, "CRM capsule cites"], [2, "Chat capsule cites"]]) {
+      const decisionCitations = capsules[index].references.filter(
+        ref => ref.citation_purpose === "ran_under" && ref.type === "org.decisionprovenancestandard.decision_record"
+      );
+      evidenceLine(comparison, label, decisionCitations.map(ref => ref.digest).join(", "));
+    }
+    append(comparison, "p", "The case includes the resumption decision. Both capsules cite the original plan seal and omit the resumption seal.");
+  } else {
+    heading.textContent = "Compare the CRM start with the resumption signature";
+    const crmStart = c.steps[1].started_at;
+    const signedAt = checkpoint.sig_attachment.person_signatures[0].signed_at;
+    timestampLine(comparison, "CRM step started", crmStart);
+    timestampLine(comparison, "Resumption approval signed", signedAt);
+    timestampLine(comparison, "Resumption requested", c.checkpoint.resumed_at);
+    const secondsLate = (Date.parse(signedAt) - Date.parse(crmStart)) / 1000;
+    append(comparison, "p", "The approval follows the CRM start by " + secondsLate + " seconds. A citation to that approval cannot establish authority at the start.");
+  }
+
+  for (const name of [...sources, "result.json"]) {
+    const file = byName[name];
+    const row = append(comparison, "p", file.label + " ");
+    addArtifactLinks(row, file);
+  }
+}
+function evidence(c) {
+  const items = document.getElementById("artifacts");
+  items.replaceChildren();
+  document.getElementById("artifact-toggle").textContent = "Download " + c.artifacts.length + " evidence files and view SHA-256 digests";
+  for (const file of c.artifacts) {
+    const item = append(items, "div", "", "artifact");
+    const heading = append(item, "div", "", "artifact-title");
+    append(heading, "span", file.label);
+    addArtifactLinks(heading, file);
+    const meta = append(item, "div", "");
+    append(meta, "small", "SHA-256 ");
+    append(meta, "code", file.digest);
+    append(meta, "small", " · " + file.size.toLocaleString("en") + " bytes");
+  }
+}
+function render() {
+  const key = select.value;
+  const c = data[key];
+  const positive = key === "positive";
+  const verdict = document.getElementById("verdict");
+  verdict.replaceChildren();
+  verdict.classList.toggle("invalid", !positive);
+  append(verdict, "strong", positive ? "Resumption verified in this fixture" : "Chain rejected as expected");
+  append(verdict, "p", c.caption);
+  anomalyEvidence(key, c);
+  const timeline = document.getElementById("timeline");
+  timeline.replaceChildren();
+  stage(timeline, "Original approval", "Approve the three-step plan",
+    c.case_id + " binds the ordered executable steps, including references to outputs produced by earlier steps.");
+  const approval = () => stage(timeline, "Resumption approval", "Approve continuation from the recorded state",
+    c.checkpoint.decision_id + " binds the state after step 1 and the digest of the unresolved claim’s adjudication.",
+    c.checkpoint.decided_at, key === "n18" ? "problem" : "checkpoint");
+  for (const [i, item] of c.steps.entries()) {
+    if (i === 1) {
+      stage(timeline, "Human checkpoint", "An unresolved screening claim requires a decision",
+        "The same fixture evidence supports both possible outcomes. The record preserves the uncertainty.", null, "checkpoint");
+      if (key !== "n18") approval();
+    }
+    const cite = i === 0 ? "The capsule cites the original approval." :
+      key === "n18" ? "The capsule cites a resumption approval recorded after this step began." :
+      c.cites[i] ? "The capsule cites both approvals." : "The capsule cites the original approval only.";
+    stage(timeline, "Step " + (i + 1), labels[i], cite, item.started_at, i > 0 && !positive ? "problem" : "");
+  }
+  if (key === "n18") approval();
+  reportList(key, c.report);
+  evidence(c);
+}
+select.addEventListener("change", render);
+render();
+})();
+</script>
+</section>

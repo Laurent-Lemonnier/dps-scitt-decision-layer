@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decision provenance evidence reader</title>
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #17251b;
+    --muted: #465047;
+    --paper: #fff;
+    --canvas: #f7f8f5;
+    --line: #d1dacf;
+    --green: #1c671c;
+    --green-wash: #f0f5eb;
+    --focus: #28890a;
+    --accent: #f60058;
+    --link: #a3003b;
+    --amber: #796000;
+    --amber-wash: #fff7dd;
+    --rust: #943b2a;
+    --rust-wash: #fdf0e4;
+    font: 17px/1.6 Arial, Helvetica, sans-serif;
+    color: var(--ink);
+    background: var(--canvas);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  main { max-width: 64rem; margin: auto; padding: 2rem clamp(1rem, 5vw, 3rem); }
+  h1, h2, h3 { line-height: 1.18; letter-spacing: -.026em; }
+  h1 { margin: .65rem 0 .45rem; font-size: clamp(2rem, 5vw, 3.25rem); letter-spacing: -.04em; }
+  h2 { font-size: 1.45rem; }
+  a { color: var(--link); text-underline-offset: .18em; }
+  a:hover { color: var(--green); }
+  .site-intro { padding: clamp(1.1rem, 3vw, 2.1rem); background: linear-gradient(112deg, var(--paper), var(--green-wash)); border: 1px solid var(--line); border-inline-start: .25rem solid var(--accent); border-radius: .85rem; }
+  .site-intro img { display: block; width: 6.5rem; height: auto; }
+  .site-intro p { max-width: 62ch; margin: 0; color: var(--muted); }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: .75rem; padding: 1.15rem; margin: 1rem 0; }
+  .muted { color: var(--muted); }
+  .controls { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; }
+  label { display: grid; gap: .25rem; font-weight: 600; }
+  .controls label, .controls select { min-width: 0; max-width: 100%; }
+  select, button { font: inherit; color: inherit; background: var(--paper); border: 1px solid #7e9080; border-radius: .4rem; padding: .35rem .65rem; min-height: 2.6rem; }
+  button { cursor: pointer; }
+  button:hover { background: var(--green-wash); }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+  .status { border-inline-start: .35rem solid var(--green); padding: .6rem .85rem; background: var(--green-wash); }
+  .status.difference { background: var(--rust-wash); border-color: var(--rust); }
+  .status.missing { background: var(--amber-wash); border-color: var(--amber); }
+  .proof-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: 1rem 0; }
+  .proof-item { display: grid; align-content: start; gap: .25rem; padding: .7rem .8rem; border: 1px solid var(--line); border-radius: .5rem; }
+  .proof-item dt { font-weight: 650; }
+  .proof-item dd { margin: 0; }
+  .proof-value { font-size: 1.32rem; font-weight: 700; }
+  .proof-note { color: var(--muted); font-size: .92rem; }
+  .settlement-warning { border-inline-start: .35rem solid var(--amber); padding: .65rem .8rem; background: var(--amber-wash); }
+  .contributions { display: grid; gap: .75rem; }
+  .contribution { display: grid; grid-template-columns: minmax(8.5rem, 1fr) minmax(0, 2fr) minmax(0, 1.35fr); gap: .75rem 1rem; padding: .85rem; border: 1px solid var(--line); border-radius: .5rem; }
+  .contribution h3, .contribution h4, .contribution ul { margin: 0 0 .35rem; }
+  .contribution h3 { font-size: 1.05rem; }
+  .contribution h4 { font-size: .9rem; }
+  .contribution ul { padding-left: 1.15rem; }
+  .contribution .finding, .contribution .sources { overflow-wrap: anywhere; }
+  details { padding: .5rem 0; }
+  summary { font-weight: 550; cursor: pointer; }
+  pre { padding: .65rem; background: var(--green-wash); overflow: auto; max-height: 36vh; }
+  code, .digest { overflow-wrap: anywhere; font-size: .86em; }
+  #provenance { overflow-wrap: anywhere; }
+  .actions { display: flex; flex-wrap: wrap; gap: .55rem; align-items: center; }
+  .journey { display: flex; align-items: center; gap: .6rem 1.25rem; flex-wrap: wrap; background: var(--green-wash); }
+  .journey label { display: block; }
+  #journey { max-width: 100%; }
+  .plan-tour .intro, .plan-tour .muted, .plan-tour small { color: var(--muted); }
+  .plan-tour .scope, .plan-tour details { padding: .75rem 1rem; border: 1px solid var(--line); border-radius: .5rem; background: var(--paper); }
+  .plan-tour .controls { align-items: center; margin: 1.5rem 0 .85rem; }
+  .plan-tour .verdict { padding: .8rem 1rem; border-inline-start: .35rem solid var(--green); border-radius: .35rem; background: var(--green-wash); }
+  .plan-tour .verdict.invalid { border-color: var(--rust); background: var(--rust-wash); }
+  .plan-tour .verdict strong { display: block; }
+  .plan-tour .verdict p, .plan-tour .timeline h3, .plan-tour .timeline p { margin: .25rem 0; }
+  .plan-tour .block { margin-top: 1.5rem; }
+  .plan-tour .timeline { list-style: none; padding: 0; display: grid; gap: .5rem; }
+  .plan-tour .timeline li { display: grid; grid-template-columns: minmax(8rem, .32fr) 1fr; gap: 1rem; padding: .75rem 1rem; background: var(--paper); border: 1px solid var(--line); border-radius: .5rem; }
+  .plan-tour .timeline li.checkpoint { border-color: #b9cdb5; background: var(--green-wash); }
+  .plan-tour .timeline li.problem { border-color: #e5b5a6; background: var(--rust-wash); }
+  .plan-tour .phase { font-weight: 650; color: var(--green); }
+  .plan-tour time { display: block; font: .82rem/1.6 ui-monospace, monospace; color: var(--muted); }
+  .plan-tour .artifact { padding: .65rem 0; border-top: 1px solid var(--line); }
+  .plan-tour .artifact-title { display: flex; gap: .25rem 1rem; align-items: baseline; flex-wrap: wrap; }
+  .plan-tour .artifact-title span { flex: 1; }
+  .plan-tour .plan-links { display: flex; flex-wrap: wrap; gap: .4rem 1.25rem; margin-top: 1.4rem; font-size: .9rem; }
+  @media (max-width: 640px) { .contribution, .proof-summary { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 480px) { .plan-tour .timeline li { grid-template-columns: 1fr; gap: .2rem; } }
+</style>
+</head>
+<body>
+<main>
+  <header class="site-intro">
+    <img src="data:image/png;base64,<!--ISOLUCE_LOGO-->" alt="iSoluce" width="300" height="86">
+    <h1>Decision provenance evidence reader</h1>
+    <p>Explore two synthetic interoperability examples. The reader opens offline and identifies the source of each verification report.</p>
+  </header>
+  <div class="card journey">
+    <label for="journey">Evidence path</label>
+    <select id="journey">
+      <option value="payment">Refund: approval, execution and dispute</option>
+      <option value="plan">Onboarding: plan, pause and resumption</option>
+    </select>
+  </div>
+  <section id="payment-tour" aria-label="Refund decision and dispute">
+  <h2>From refund approval to payment dispute</h2>
+  <p>Follow a decision, an execution receipt, an audit verdict and a payment dispute packet from the IETF 127 interop exercise.</p>
+  <section class="card controls" aria-label="Choose a case">
+    <label>Case <select id="case"></select></label>
+    <label>Start from <select id="entry">
+      <option value="dps">Decision · DPS</option>
+      <option value="execution">Execution · Thaha</option>
+      <option value="verdict">Verdict · Wright</option>
+      <option value="payment">Payment dispute · Goshi</option>
+    </select></label>
+  </section>
+  <div id="overview" aria-live="polite"></div>
+  <section class="card" aria-labelledby="chain-title">
+    <h2 id="chain-title">Evidence chain</h2>
+    <div id="chain" class="contributions"></div>
+  </section>
+  <section class="card" aria-labelledby="pieces-title">
+    <h2 id="pieces-title">Source pieces</h2>
+    <p class="muted" id="provenance"></p>
+    <div id="pieces"></div>
+  </section>
+  </section>
+  <!--PLAN_READER-->
+</main>
+<script type="application/json" id="dataset"><!--CASE_DATA--></script>
+<script>
+"use strict";
+const data = JSON.parse(document.getElementById("dataset").textContent);
+const byId = id => document.getElementById(id);
+const select = byId("case");
+const entry = byId("entry");
+
+function node(tag, text) {
+  const el = document.createElement(tag);
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
+
+function link(label, target) {
+  const a = node("a", label);
+  a.href = target;
+  return a;
+}
+
+function download(label, name, content, mime) {
+  const button = node("button", label);
+  button.type = "button";
+  button.onclick = () => {
+    const uri = URL.createObjectURL(new Blob([content], {type: mime}));
+    const a = link("", uri);
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(uri), 1000);
+  };
+  return button;
+}
+
+const amount = m => `${Number(m.value).toFixed(2)} ${m.unit}`;
+const pieceId = file => `piece-${file}`;
+const paymentRoute = key => ["match", "input"].includes(key) ? "payment" : `payment-${key}`;
+const pieceHref = file => `#${paymentRoute(select.value)}/${pieceId(file)}`;
+const pieceLink = (file, item) => link(item.title, pieceHref(file));
+const decode = value => Uint8Array.from(atob(value), char => char.charCodeAt(0));
+
+function paymentProof(dossier) {
+  const a1Missing = dossier.missing.length > 0;
+  const goshi02 = dossier.packetProfile === "draft-xg-payment-dispute-profile-02";
+  const summary = node("dl");
+  summary.className = "proof-summary";
+  const approvalStatus = a1Missing ? "Approval attachment A1 missing."
+    : dossier.replayed && dossier.signatureStatus === "verified" ? "Person approval verified in the native replay."
+    : dossier.replayed ? "Person approval not verified in the native replay."
+    : "Approval attributed to the supplied report.";
+  const executionStatus = dossier.executionLinked ? "Request linked to the execution receipts by native checks."
+    : dossier.replayed ? "Request shown in the executed specification; no checked link shown here."
+    : "Request shown in the executed specification; receipts not rerun.";
+  const settlementStatus = !dossier.settlement ? "Settlement amount is unavailable."
+    : goshi02 ? "Unsigned amount in the -02 packet."
+    : "Signature coverage is not established by the packet checks.";
+  const items = [
+    [a1Missing || !dossier.replayed ? "Amount recorded as approved" : "Approved amount", amount(dossier.decision.magnitude), approvalStatus],
+    ["Amount in execution request", amount(dossier.attempted), executionStatus],
+    ["Reported settlement", dossier.settlement ? amount(dossier.settlement) : "Unavailable", settlementStatus],
+  ];
+  for (const [label, value, note] of items) {
+    const item = node("div");
+    item.className = "proof-item";
+    const figure = node("dd", value);
+    figure.className = "proof-value";
+    const status = node("dd", note);
+    status.className = "proof-note";
+    item.append(node("dt", label), figure, status);
+    summary.append(item);
+  }
+  return summary;
+}
+
+function renderOverview(dossier) {
+  const decision = dossier.decision;
+  const box = node("section");
+  box.className = "card";
+  box.append(node("h2", "Decision as recorded"), node("p", decision.label));
+  const absent = dossier.verdictInputs.some(input => input.file === null);
+  const result = dossier.verdictState === "released" && dossier.recomputeStatus === "PASS" &&
+    dossier.recomputed === dossier.verdict ? dossier.recomputed : null;
+  let message = "Open · see the verdict and its verification report.";
+  let variant = "missing";
+  if (absent) {
+    message = "Open · the verdict cites evidence missing from this case.";
+  } else if (result === "not_as_approved") {
+    message = dossier.replayed ? "Discrepancy · the native verdict reports a different amount in the executed specification."
+      : "Supplied verdict · discrepancy between the approved and executed specifications.";
+    variant = "difference";
+  } else if (result === "executed_as_approved") {
+    message = dossier.replayed ? "Match · the native report agrees with the verdict about the approved and executed specifications."
+      : "Supplied verdict · the approved and executed specifications match.";
+    variant = "match";
+  }
+  const headline = node("p", message);
+  headline.className = `status ${variant}`;
+  const origin = dossier.replayed
+    ? "Native replay ran on the enclosed files with the pinned one-chain test policy. The browser displays that report."
+    : "Supplied report. The reader matched the verdict digest and located its inputs. The native checks were not rerun.";
+  box.append(headline, paymentProof(dossier));
+  if (dossier.packetProfile === "draft-xg-payment-dispute-profile-02") {
+    const warning = node("p", "The receipt signature does not authenticate the settlement anchor.");
+    warning.className = "settlement-warning";
+    box.append(warning);
+  }
+  const packetStatus = node("p",
+    `${dossier.replayed ? "Packet replay" : "Supplied packet report"}: ${dossier.packetStatus} · Action scope: ${dossier.scope ?? "not reported"}.`);
+  if (dossier.packetReportFile) {
+    packetStatus.append(document.createTextNode(" "), pieceLink(dossier.packetReportFile, dossier.pieces[dossier.packetReportFile]));
+  }
+  box.append(packetStatus, node("p", origin), pieceLink(dossier.reportFile, dossier.pieces[dossier.reportFile]));
+  const actions = node("div");
+  actions.className = "actions";
+  actions.append(pieceLink("decision-record.json", dossier.pieces["decision-record.json"]),
+    download("Download decision JSON-LD", `${dossier.key}.jsonld`,
+      JSON.stringify(decision, null, 2), "application/ld+json"));
+  box.append(actions);
+  byId("overview").replaceChildren(box);
+}
+
+function renderChain(dossier) {
+  const incomplete = dossier.missing.length > 0;
+  const historical = incomplete && !dossier.replayed ? " The supplied result covers a case with additional evidence." : "";
+  const unavailable = dossier.verdictInputs.filter(input => input.file === null);
+  const verdictInputs = dossier.verdictInputs.filter(input => input.file !== null).map(input => input.file);
+  const verdict = unavailable.length
+    ? `Open · ${unavailable.length} cited ${unavailable.length === 1 ? "piece" : "pieces"} missing. ${dossier.replayed
+        ? `Native verdict state: ${dossier.verdictState}. Rule replay: ${dossier.recomputeStatus}.`
+        : `Supplied verdict state: ${dossier.verdictState}.`} Verdict states ${dossier.verdict}.`
+    : `Verdict states ${dossier.verdict}. Report: ${dossier.verdictState}. Rule replay: ${dossier.recomputeStatus ?? "not reported"}.${dossier.recomputed
+        ? ` Derived ${dossier.recomputed}.` : ""}`;
+  const compared = dossier.comparison;
+  const consistent = compared && (compared.same ? dossier.verdict === "executed_as_approved" : dossier.verdict === "not_as_approved");
+  const verdictLine = dossier.replayed && !unavailable.length && consistent
+    ? `The rule compared the approved specification (${amount(compared.approved.amount)}, through ${compared.approved.through}) with the attempted specification (${amount(compared.attempted.amount)}, through ${compared.attempted.through}). ${compared.same ? "They are the same" : "They differ"}, so ${dossier.verdict}. ${dossier.recomputeStatus === "PASS" && dossier.recomputed === dossier.verdict
+        ? "The replay gives the same result." : `Rule replay: ${dossier.recomputeStatus ?? "not reported"}.`} Verdict state: ${dossier.verdictState}.`
+    : verdict;
+  const comparedFiles = compared ? [compared.approved.file, compared.attempted.file] : [];
+  const approvedAmount = amount(dossier.decision.magnitude);
+  const executionAmount = amount(dossier.attempted);
+  const execution = dossier.executionLinked
+    ? (approvedAmount === executionAmount
+        ? `The execution receipts link the recorded execution to the approved ${approvedAmount} request.`
+        : `The execution receipts link the recorded execution to a request for ${executionAmount}; ${approvedAmount} was approved.`)
+    : `${executionAmount} in the executed specification. Execution receipt report: ${dossier.receiptStatus}.${historical}`;
+  const goshi02 = dossier.packetProfile === "draft-xg-payment-dispute-profile-02";
+  const settlement = !dossier.settlement
+    ? "Settlement amount is unavailable."
+    : goshi02
+      ? `Reported settlement: ${amount(dossier.settlement)}. Unsigned settlement amount in the -02 packet. The receipt signature does not authenticate this settlement anchor.`
+      : `Reported settlement: ${amount(dossier.settlement)}. Settlement signature coverage is not established by the packet checks shown here.`;
+  const lanes = [
+    ["dps", "Decision · DPS", incomplete
+      ? `Decision records ${amount(dossier.decision.magnitude)}. Approval attachment A1 is unavailable locally.`
+      : `${amount(dossier.decision.magnitude)} recorded as approved. Person approval: ${dossier.signatureStatus ?? "not reported"}. Action binding: ${dossier.bindingStatus}.`,
+    ["decision-record.json", "action-binding-attachment-a1.json", "signatures-attachment.json", "action-specification.json", "action-binding-attachment-a2.json"]],
+    ["execution", "Execution · Thaha",
+      execution,
+      ["action-specification-executed.json", "aee-bundle.cbor", "receipts.diag.json", "tool-response.json", "binding-statement.cose"]],
+    ["verdict", "Verdict · Wright", verdictLine,
+      ["verdict-record.json", "verdict-record.container.json", ...verdictInputs, ...comparedFiles, ...dossier.missing]],
+    ["payment", "Payment dispute · Goshi",
+      `${settlement} Packet report: ${dossier.packetStatus}; scope: ${dossier.scope ?? "not reported"}.${historical}`,
+      ["dispute-packet.json", ...(dossier.packetReportFile ? [dossier.packetReportFile] : [])]],
+  ];
+  const rows = lanes.map(([id, title, result, files]) => {
+    const row = node("article");
+    row.className = "contribution";
+    row.id = `lane-${id}`;
+    row.tabIndex = -1;
+    const heading = node("h3", title);
+    heading.id = `lane-title-${id}`;
+    row.setAttribute("aria-labelledby", heading.id);
+    const findings = node("div");
+    findings.className = "finding";
+    findings.append(node("p", result));
+    if (id === "verdict") {
+      if (verdictLine !== verdict) {
+        const scope = node("p", `The rule compares the two SHA-256 digests carried by ${compared.approved.through} and ${compared.attempted.through}. Each amount is the content of the specification file whose SHA-256 equals that digest; the build checked both digests before showing the amounts.`);
+        scope.className = "digest-scope";
+        findings.append(scope);
+      }
+      const rule = typeof dossier.rule === "string" && dossier.rule.startsWith("https://")
+        ? link("Open cited rule", dossier.rule)
+        : node("code", dossier.rule ?? "Rule not supplied");
+      findings.append(node("br"), rule);
+    }
+    if (id === "execution") {
+      if (dossier.executionLinked) {
+        findings.append(link("Inspect the execution receipts", pieceHref("aee-bundle.cbor")),
+          document.createTextNode(" · "), pieceLink(dossier.reportFile, dossier.pieces[dossier.reportFile]));
+      }
+      const detail = node("details");
+      detail.append(node("summary", "Checks left out by the receipt reader"));
+      const list = node("ul");
+      dossier.receiptLimitations.forEach(item => list.append(node("li", item)));
+      detail.append(list);
+      findings.append(detail);
+    }
+    if (id === "payment" && dossier.unresolvedAnchors.length) {
+      findings.append(node("p", "Referenced pieces not held: " + dossier.unresolvedAnchors.join(", ")));
+    }
+    const sources = node("div");
+    sources.className = "sources";
+    const list = node("ul");
+    [...new Set(files)].forEach(file => {
+      const item = node("li");
+      const piece = dossier.pieces[file];
+      item.append(piece.bytes === null ? link(`${piece.title} · missing`, pieceHref(file)) : pieceLink(file, piece));
+      list.append(item);
+    });
+    sources.append(node("h4", "Source pieces"), list);
+    row.append(heading, findings, sources);
+    return row;
+  });
+  byId("chain").replaceChildren(...rows);
+}
+
+function renderPieces(dossier) {
+  const parts = [
+    dossier.bundled ? `Fixture corpus ${data.corpus}` : "Local one-chain case",
+    `DPS reference checks ${dossier.dpsCommit}`,
+  ];
+  const checks = Object.entries(dossier.joins);
+  if (checks.length) {
+    const passed = checks.filter(([, result]) => result === true).length;
+    parts.push(`Cross-format checks in the report: ${passed}/${checks.length} passed`);
+  }
+  if (dossier.joinNote) parts.push(dossier.joinNote);
+  byId("provenance").textContent = parts.join(" · ");
+  const items = Object.entries(dossier.pieces).map(([file, piece]) => {
+    const detail = node("details");
+    detail.id = pieceId(file);
+    detail.append(node("summary", `${piece.title}${piece.bytes === null ? " · missing" : ""}`));
+    const digest = node("p", `SHA-256 ${piece.sha256}`);
+    digest.className = "digest";
+    detail.append(digest);
+    if (piece.bytes === null) {
+      detail.append(node("p", "This case is missing the source file. The digest comes from the verdict’s evidence reference."));
+      return detail;
+    }
+    const bytes = decode(piece.bytes);
+    const actions = node("div");
+    actions.className = "actions";
+    const mime = file.endsWith(".json") ? "application/json" : "application/octet-stream";
+    actions.append(download("Download file", file, bytes, mime));
+    if (piece.source) actions.append(link("Source at pinned revision", piece.source));
+    detail.append(actions);
+    if (file.endsWith(".json")) detail.append(node("pre", new TextDecoder().decode(bytes)));
+    return detail;
+  });
+  byId("pieces").replaceChildren(...items);
+}
+
+function revealPiece(anchor) {
+  const detail = anchor && byId(anchor);
+  if (detail instanceof HTMLDetailsElement) {
+    detail.open = true;
+    detail.querySelector("summary").focus({preventScroll: true});
+    detail.scrollIntoView();
+  }
+}
+
+function render() {
+  const dossier = data.cases.find(item => item.key === select.value);
+  renderOverview(dossier);
+  renderChain(dossier);
+  renderPieces(dossier);
+}
+
+data.cases.forEach(dossier => {
+  const option = node("option", dossier.label);
+  option.value = dossier.key;
+  select.append(option);
+});
+select.addEventListener("change", render);
+entry.addEventListener("change", () => byId(`lane-${entry.value}`).focus());
+document.addEventListener("click", event => {
+  const a = event.target.closest("a");
+  if (a && a.hash === location.hash && a.getAttribute("href").startsWith("#")) {
+    const [, anchor] = a.hash.slice(1).split("/");
+    revealPiece(anchor);
+  }
+});
+render();
+</script>
+<script>
+(() => {
+  const journey = document.getElementById("journey");
+  const paymentCase = document.getElementById("case");
+  const planCase = document.getElementById("case-picker");
+  const planRoutes = {"#plan": "positive", "#plan-n15": "n15", "#plan-n18": "n18"};
+  const paymentRoutes = new Map(data.cases.map(item => [paymentRoute(item.key), item.key]));
+  const route = () => {
+    const [path, anchor] = location.hash.slice(1).split("/");
+    const selected = planRoutes[`#${path}`];
+    const isPlan = typeof selected === "string";
+    journey.value = isPlan ? "plan" : "payment";
+    document.getElementById("payment-tour").hidden = isPlan;
+    document.getElementById("plan-tour").hidden = !isPlan;
+    if (isPlan && planCase.value !== selected) {
+      planCase.value = selected;
+      planCase.dispatchEvent(new Event("change"));
+    }
+    const paymentKey = paymentRoutes.get(path);
+    if (paymentKey && paymentCase.value !== paymentKey) {
+      paymentCase.value = paymentKey;
+      render();
+    }
+    if (!isPlan) revealPiece(anchor || (path.startsWith("piece-") ? path : null));
+  };
+  const planHash = () => planCase.value === "positive" ? "plan" : `plan-${planCase.value}`;
+  journey.addEventListener("change", () => {
+    location.hash = journey.value === "plan" ? planHash() : paymentRoute(paymentCase.value);
+  });
+  planCase.addEventListener("change", () => {
+    if (!document.getElementById("plan-tour").hidden) location.hash = planHash();
+  });
+  paymentCase.addEventListener("change", () => {
+    if (!document.getElementById("payment-tour").hidden) location.hash = paymentRoute(paymentCase.value);
+  });
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>
+</body>
+</html>
