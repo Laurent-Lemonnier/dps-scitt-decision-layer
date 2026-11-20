@@ -65,7 +65,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: vectors-approval-binding through the Action, verifier approval_binding_verify_independent.py
-        uses: probityai/agent-evidence-vectors@v0.36.3
+        uses: probityai/agent-evidence-vectors@v0.37.0
         with:
           corpus: vectors-approval-binding
           tag: ${{ needs.pins.outputs.tag }}
