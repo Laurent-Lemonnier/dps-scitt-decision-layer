@@ -147,7 +147,7 @@ cancellation; we do not.
 signatures, and no signature or time-stamp in the log was left unverified because the verifier does not implement its
 method." Two situations: (a) three cases of `books` where an expected top fingerprint or number of entries is given and is
 wrong ("another top fingerprint expected", "another number of entries expected", "a number of entries given as true"): we
-report `root-mismatch` (9.2) and answer 2 yes; the vectors say `fullyChecked: false`. (b) two cases where a receipt was
+report `root-mismatch` (9.1) and answer 2 yes; the vectors say `fullyChecked: false`. (b) two cases where a receipt was
 altered after signing or carries the countersignature of another receipt (`a stub changed after signing`, `the
 countersignature of another stub`): we verify the countersignature's own signatures although `countersignature-wrong-stub`
 is reported (6 lists three confirmations, "A verifier MUST confirm "stub" (countersignature-wrong-stub), that such keys
@@ -404,3 +404,44 @@ python3 mutation_tests.py --vectors <dir of test-vectors>
 ```
 
 Requirements: Python 3.11 or later, `cryptography >= 42`, `pqcrypto >= 1.0`.
+
+### Replay through Pavel Izmaylov’s conformance kit
+
+The existing verifier also answers the kit's JSON Lines requests using
+`conformance_adapter.py`. The kit alone sees the expected answers and scores
+the computed replies. The original draft-reading report above remains available
+and uses a different comparison scope.
+
+| Kit input | Match | Differ | Skipped | Not run |
+|---|---:|---:|---:|---:|
+| Provared v0.6.0, e4dd2f0381c192c878ae27afec16e762374df7ae | 10,765 | 74 | 3,903 | 0 |
+| Provared main at e96730753ebeb8a16a9be78e0b8312e43a6f70a4 | 10,778 | 79 | 3,932 | 0 |
+
+The JSON reports record disagreements per case. The kit is pinned to
+Provared e96730753ebeb8a16a9be78e0b8312e43a6f70a4 for both runs. Of the 74
+differences at v0.6.0, 49 are in content validators, 24 in timestamp families,
+and one in the slip checker. If Pavel changes the content-member refusal code
+in -03 as discussed, that calls for a separate run against that revision.
+The timestamp answers here are compared with the kit's stored precision.
+The run applies the verifier's draft reading as implemented.
+
+The adapter covers encoding, record parsing, passkey permission checks for
+the core slip format, selected content validators, Merkle proofs, and RFC 3161
+timestamps. It reports skips for whole-book report mapping, covered-field and
+expected-origin options, writers, and other FORMAT or kit-internal functions
+outside this bridge. The whole-book findings in the original report above
+still use the existing draft-focused checker. These results describe a partial
+implementation and do not claim full kit conformance.
+
+Use Node.js 24.19.0 and Python 3.12 with cryptography 50.0.2 and pqcrypto 1.0.0.
+Here `PROVARED_KIT` and `PROVARED_VECTORS` are checkouts at the pins above:
+
+```sh
+node "$PROVARED_KIT/conformance/run.mjs" \
+  --vectors "$PROVARED_VECTORS/test-vectors" --report /tmp/provared-kit-report.json \
+  -- python3 interop/izmaylov/conformance_adapter.py
+```
+
+Both archived kit runs return exit status 1 for the reported mismatches.
+The adapter supports the runner's default comparison, which checks result
+codes and shapes.

@@ -1,0 +1,1238 @@
+{
+ "words": false,
+ "noSkip": false,
+ "files": [
+  {
+   "file": "acknowledgement-contents.json",
+   "function": "validateAcknowledgementContent",
+   "passed": 69,
+   "failed": 15,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "acknowledgements-written.json",
+   "function": "writeAcknowledgement",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 8,
+   "notRun": 0
+  },
+  {
+   "file": "approval-contents.json",
+   "function": "validateApprovalContent",
+   "passed": 128,
+   "failed": 9,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "approval-requests.json",
+   "function": "requestOf",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 31,
+   "notRun": 0
+  },
+  {
+   "file": "approvals-assembled.json",
+   "function": "assembleApproval",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 4,
+   "notRun": 0
+  },
+  {
+   "file": "approvals-prepared.json",
+   "function": "prepareApproval",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 43,
+   "notRun": 0
+  },
+  {
+   "file": "base64url.json",
+   "function": "fromBase64url",
+   "passed": 11,
+   "failed": 0,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "block-fingerprints.json",
+   "function": "blockFingerprint",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 36,
+   "notRun": 0
+  },
+  {
+   "file": "block-stamp-items.json",
+   "function": "blockStampItem",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 18,
+   "notRun": 0
+  },
+  {
+   "file": "block-stamps-flips.json",
+   "function": "checkBlockStamp",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 410,
+   "notRun": 0
+  },
+  {
+   "file": "block-stamps.json",
+   "function": "checkBlockStamp",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 215,
+   "notRun": 0
+  },
+  {
+   "file": "books.json",
+   "function": "checkBook",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 53,
+   "notRun": 0
+  },
+  {
+   "file": "cancellation-contents.json",
+   "function": "validateCancellationContent",
+   "passed": 51,
+   "failed": 9,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "cancellations-assembled.json",
+   "function": "assembleCancellation",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 2,
+   "notRun": 0
+  },
+  {
+   "file": "cancellations-prepared.json",
+   "function": "prepareCancellation",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 8,
+   "notRun": 0
+  },
+  {
+   "file": "canonical-json.json",
+   "function": "parseCanonical",
+   "passed": 37,
+   "failed": 0,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "chained-books.json",
+   "function": "checkBook",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 20,
+   "notRun": 0
+  },
+  {
+   "file": "chained-shows.json",
+   "function": "checkShow",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 4,
+   "notRun": 0
+  },
+  {
+   "file": "characters.json",
+   "function": "countCharacters",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 7,
+   "notRun": 0
+  },
+  {
+   "file": "check-before.json",
+   "function": "checkBefore",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 24,
+   "notRun": 0
+  },
+  {
+   "file": "countersignature-contents.json",
+   "function": "validateCountersignatureContent",
+   "passed": 4,
+   "failed": 0,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "denial-before.json",
+   "function": "checkBefore",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 4,
+   "notRun": 0
+  },
+  {
+   "file": "denial-books.json",
+   "function": "checkBook",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 12,
+   "notRun": 0
+  },
+  {
+   "file": "denial-codes.json",
+   "function": "denialCodes",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 8,
+   "notRun": 0
+  },
+  {
+   "file": "denial-constants.json",
+   "function": "denialConstants",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 1,
+   "notRun": 0
+  },
+  {
+   "file": "denial-contents.json",
+   "function": "validateDenialContent",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 188,
+   "notRun": 0
+  },
+  {
+   "file": "denial-scenarios.json",
+   "function": "recorderScenario",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 5,
+   "notRun": 0
+  },
+  {
+   "file": "denial-shows.json",
+   "function": "checkShow",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 4,
+   "notRun": 0
+  },
+  {
+   "file": "denials-written.json",
+   "function": "writeDenial",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 14,
+   "notRun": 0
+  },
+  {
+   "file": "der-children.json",
+   "function": "children",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 162,
+   "notRun": 0
+  },
+  {
+   "file": "der-ecdsa.json",
+   "function": "ecdsaToRaw",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 128,
+   "notRun": 0
+  },
+  {
+   "file": "der-elements.json",
+   "function": "readElement",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 331,
+   "notRun": 0
+  },
+  {
+   "file": "der-strict.json",
+   "function": "validateDer",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 368,
+   "notRun": 0
+  },
+  {
+   "file": "der-times.json",
+   "function": "timeOf",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 67,
+   "notRun": 0
+  },
+  {
+   "file": "ecdsa-der.json",
+   "function": "ecdsaDerToRaw",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 11,
+   "notRun": 0
+  },
+  {
+   "file": "ed25519-signatures.json",
+   "function": "checkEd25519Signature",
+   "passed": 22,
+   "failed": 0,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "header-answers.json",
+   "function": "answerFor",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 2,
+   "notRun": 0
+  },
+  {
+   "file": "header-bits.json",
+   "function": "nextBits",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 124,
+   "notRun": 0
+  },
+  {
+   "file": "header-blocks.json",
+   "function": "blocksInChain",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 12,
+   "notRun": 0
+  },
+  {
+   "file": "header-chains.json",
+   "function": "readHeaderChain",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 131,
+   "notRun": 0
+  },
+  {
+   "file": "header-checks.json",
+   "function": "checkHeaderChain",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 13,
+   "notRun": 0
+  },
+  {
+   "file": "header-steps.json",
+   "function": "headerChainSteps",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 10,
+   "notRun": 0
+  },
+  {
+   "file": "held-seal-shows.json",
+   "function": "checkShow",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 2,
+   "notRun": 0
+  },
+  {
+   "file": "held-seals-before.json",
+   "function": "checkBefore",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 5,
+   "notRun": 0
+  },
+  {
+   "file": "held-seals.json",
+   "function": "checkBook",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 26,
+   "notRun": 0
+  },
+  {
+   "file": "http-fingerprints.json",
+   "function": "documentFingerprint",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 49,
+   "notRun": 0
+  },
+  {
+   "file": "issuer-origin-shows.json",
+   "function": "checkShow",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 3,
+   "notRun": 0
+  },
+  {
+   "file": "issuer-origins.json",
+   "function": "checkBook",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 7,
+   "notRun": 0
+  },
+  {
+   "file": "keys.json",
+   "function": "checkKey",
+   "passed": 62,
+   "failed": 0,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "make-show.json",
+   "function": "makeShow",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 4,
+   "notRun": 0
+  },
+  {
+   "file": "origins.json",
+   "function": "checkOrigin",
+   "passed": 3710,
+   "failed": 0,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "pass-contents.json",
+   "function": "validatePassContent",
+   "passed": 246,
+   "failed": 12,
+   "skipped": 2,
+   "notRun": 0
+  },
+  {
+   "file": "passes-written.json",
+   "function": "writePass",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 8,
+   "notRun": 0
+  },
+  {
+   "file": "record-constants.json",
+   "function": "recordConstants",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 1,
+   "notRun": 0
+  },
+  {
+   "file": "recorder-details-after.json",
+   "function": "recorderScenario",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 4,
+   "notRun": 0
+  },
+  {
+   "file": "recorder-scenarios.json",
+   "function": "recorderScenario",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 32,
+   "notRun": 0
+  },
+  {
+   "file": "records.json",
+   "function": "parseRecord",
+   "passed": 3,
+   "failed": 0,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "refusal-contents.json",
+   "function": "validateRefusalContent",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 175,
+   "notRun": 0
+  },
+  {
+   "file": "refusals-written.json",
+   "function": "writeRefusal",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 18,
+   "notRun": 0
+  },
+  {
+   "file": "renewal-books.json",
+   "function": "checkBook",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 2,
+   "notRun": 0
+  },
+  {
+   "file": "renewal-shows.json",
+   "function": "checkShow",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 3,
+   "notRun": 0
+  },
+  {
+   "file": "seal-books.json",
+   "function": "validateSealContent",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 18,
+   "notRun": 0
+  },
+  {
+   "file": "seal-contents.json",
+   "function": "validateSealContent",
+   "passed": 60,
+   "failed": 3,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "seal-key-sets.json",
+   "function": "keySetFingerprint",
+   "passed": 16,
+   "failed": 0,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "seal-stamps.json",
+   "function": "decodeStamps",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 42,
+   "notRun": 0
+  },
+  {
+   "file": "sealer-trees.json",
+   "function": "sealerTree",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 85,
+   "notRun": 0
+  },
+  {
+   "file": "shows.json",
+   "function": "checkShow",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 11,
+   "notRun": 0
+  },
+  {
+   "file": "slips.json",
+   "function": "checkSlip",
+   "passed": 149,
+   "failed": 1,
+   "skipped": 31,
+   "notRun": 0
+  },
+  {
+   "file": "stamps-flips-ecdsa.json",
+   "function": "checkStamp",
+   "passed": 864,
+   "failed": 2,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "stamps-flips-ed25519.json",
+   "function": "checkStamp",
+   "passed": 1274,
+   "failed": 1,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "stamps-flips-rsa.json",
+   "function": "checkStamp",
+   "passed": 581,
+   "failed": 1,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "stamps-openssl.json",
+   "function": "checkStamp",
+   "passed": 571,
+   "failed": 3,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "stamps-strict-keys.json",
+   "function": "checkStamp",
+   "passed": 37,
+   "failed": 0,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "stamps.json",
+   "function": "checkStamp",
+   "passed": 324,
+   "failed": 16,
+   "skipped": 7,
+   "notRun": 0
+  },
+  {
+   "file": "stub-contents.json",
+   "function": "validateStubContent",
+   "passed": 46,
+   "failed": 7,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "terms-contents.json",
+   "function": "validateTermsContent",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 164,
+   "notRun": 0
+  },
+  {
+   "file": "terms-written.json",
+   "function": "writeTerms",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 7,
+   "notRun": 0
+  },
+  {
+   "file": "times.json",
+   "function": "parseTime",
+   "passed": 25,
+   "failed": 0,
+   "skipped": 0,
+   "notRun": 0
+  },
+  {
+   "file": "tool-scenarios.json",
+   "function": "recorderScenario",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 8,
+   "notRun": 0
+  },
+  {
+   "file": "tree-builder.json",
+   "function": "treeBuilder",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 73,
+   "notRun": 0
+  },
+  {
+   "file": "tree-consistency-checks.json",
+   "function": "verifyConsistency",
+   "passed": 976,
+   "failed": 0,
+   "skipped": 10,
+   "notRun": 0
+  },
+  {
+   "file": "tree-consistency.json",
+   "function": "consistencyProof",
+   "passed": 69,
+   "failed": 0,
+   "skipped": 5,
+   "notRun": 0
+  },
+  {
+   "file": "tree-inclusion.json",
+   "function": "verifyInclusion",
+   "passed": 1224,
+   "failed": 0,
+   "skipped": 9,
+   "notRun": 0
+  },
+  {
+   "file": "tree-leaves.json",
+   "function": "leafHash",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 28,
+   "notRun": 0
+  },
+  {
+   "file": "tree-paths.json",
+   "function": "inclusionPath",
+   "passed": 219,
+   "failed": 0,
+   "skipped": 5,
+   "notRun": 0
+  },
+  {
+   "file": "tree-roots.json",
+   "function": "treeRoot",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 93,
+   "notRun": 0
+  },
+  {
+   "file": "two-agent-books.json",
+   "function": "checkBook",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 5,
+   "notRun": 0
+  },
+  {
+   "file": "two-agent-shows.json",
+   "function": "checkShow",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 5,
+   "notRun": 0
+  },
+  {
+   "file": "vouching-contents.json",
+   "function": "validateVouchingContent",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 248,
+   "notRun": 0
+  },
+  {
+   "file": "vouchings-written.json",
+   "function": "writeVouching",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 7,
+   "notRun": 0
+  },
+  {
+   "file": "withdrawal-contents.json",
+   "function": "validateWithdrawalContent",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 60,
+   "notRun": 0
+  },
+  {
+   "file": "withdrawals-written.json",
+   "function": "writeWithdrawal",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 3,
+   "notRun": 0
+  },
+  {
+   "file": "witness-before.json",
+   "function": "checkBefore",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 4,
+   "notRun": 0
+  },
+  {
+   "file": "witness-books.json",
+   "function": "checkBook",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 37,
+   "notRun": 0
+  },
+  {
+   "file": "witness-contents.json",
+   "function": "validateWitnessContent",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 131,
+   "notRun": 0
+  },
+  {
+   "file": "witness-shows.json",
+   "function": "checkShow",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 6,
+   "notRun": 0
+  },
+  {
+   "file": "witnesses-written.json",
+   "function": "writeWitness",
+   "passed": 0,
+   "failed": 0,
+   "skipped": 11,
+   "notRun": 0
+  }
+ ],
+ "failures": [
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "id: padding",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "id: a plus sign",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "id: stray bits",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "id: an impossible length",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "slip: padding",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "slip: a slash",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "slip: stray bits",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "cancellation: padding",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "cancellation: a slash",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "cancellation: stray bits",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "pass: padding",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "pass: a slash",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "pass: stray bits",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "a faulty slip, cancellation, pass and time: the slip is reported",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "acknowledgement-contents.json",
+   "name": "a faulty cancellation, pass and time: the cancellation is reported",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "approval-contents.json",
+   "name": "id: padding",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "approval-contents.json",
+   "name": "id: a plus sign",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "approval-contents.json",
+   "name": "id: stray bits",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "approval-contents.json",
+   "name": "id: an impossible length",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "approval-contents.json",
+   "name": "slip: padding",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "approval-contents.json",
+   "name": "slip: a slash",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "approval-contents.json",
+   "name": "slip: stray bits",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "approval-contents.json",
+   "name": "details: a second document that is faulty",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "approval-contents.json",
+   "name": "every field faulty: the id is reported",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "cancellation-contents.json",
+   "name": "id: padding",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "cancellation-contents.json",
+   "name": "id: a plus sign",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "cancellation-contents.json",
+   "name": "id: stray bits",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "cancellation-contents.json",
+   "name": "id: an impossible length",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "cancellation-contents.json",
+   "name": "slip: padding",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "cancellation-contents.json",
+   "name": "slip: a slash",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "cancellation-contents.json",
+   "name": "slip: stray bits",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "cancellation-contents.json",
+   "name": "a faulty id, slip and time: the id is reported",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "cancellation-contents.json",
+   "name": "a faulty slip and time: the slip is reported",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "pass-contents.json",
+   "name": "id: padding",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "pass-contents.json",
+   "name": "id: a plus sign",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "pass-contents.json",
+   "name": "id: stray bits",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "pass-contents.json",
+   "name": "id: an impossible length",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "pass-contents.json",
+   "name": "slip: padding",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "pass-contents.json",
+   "name": "slip: a slash",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "pass-contents.json",
+   "name": "slip: stray bits",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "pass-contents.json",
+   "name": "from: padding",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "pass-contents.json",
+   "name": "from: a slash",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "pass-contents.json",
+   "name": "from: stray bits",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "pass-contents.json",
+   "name": "a faulty helper name and keys: the name is reported",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-key\""
+  },
+  {
+   "file": "pass-contents.json",
+   "name": "a faulty from and faulty helper: the from is reported",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "seal-contents.json",
+   "name": "an id too short",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "seal-contents.json",
+   "name": "an id not base64url",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "seal-contents.json",
+   "name": "an id padded",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  },
+  {
+   "file": "slips.json",
+   "name": "a payload that is a list",
+   "why": "answer.ok.problems[0]: not among the stored findings, or given more often than stored: {\"code\":\"payload-not-canonical\",\"message\":\"Independent draft verifier: payload-not-canonical\"}"
+  },
+  {
+   "file": "stamps-flips-ecdsa.json",
+   "name": "byte 159 changed by 1",
+   "why": "answer.refused.code: expected \"stamp-invalid\", got \"stamp-bad-data\""
+  },
+  {
+   "file": "stamps-flips-ecdsa.json",
+   "name": "byte 442 changed by 1",
+   "why": "answer.refused.code: expected \"stamp-bad-data\", got \"stamp-invalid\""
+  },
+  {
+   "file": "stamps-flips-ed25519.json",
+   "name": "byte 352 changed by 1",
+   "why": "answer.refused.code: expected \"stamp-bad-data\", got \"stamp-invalid\""
+  },
+  {
+   "file": "stamps-flips-rsa.json",
+   "name": "byte 611 changed by 1",
+   "why": "answer.refused.code: expected \"stamp-bad-data\", got \"stamp-invalid\""
+  },
+  {
+   "file": "stamps-openssl.json",
+   "name": "P-384: byte 506 changed by 1",
+   "why": "answer.refused.code: expected \"stamp-bad-data\", got \"stamp-invalid\""
+  },
+  {
+   "file": "stamps-openssl.json",
+   "name": "P-384: byte 556 changed by 1",
+   "why": "answer.refused.code: expected \"stamp-bad-data\", got \"stamp-invalid\""
+  },
+  {
+   "file": "stamps-openssl.json",
+   "name": "P-384: byte 580 changed by 1",
+   "why": "answer.refused.code: expected \"stamp-bad-data\", got \"stamp-invalid\""
+  },
+  {
+   "file": "stamps.json",
+   "name": "Ed25519 with SHA-512, the fingerprint method with parameters",
+   "why": "answer.refused: missing"
+  },
+  {
+   "file": "stamps.json",
+   "name": "Ed25519 with SHA-256 named by the signer",
+   "why": "answer.refused: missing"
+  },
+  {
+   "file": "stamps.json",
+   "name": "Ed25519 with SHA-384 named by the signer",
+   "why": "answer.refused: missing"
+  },
+  {
+   "file": "stamps.json",
+   "name": "a broken ECDSA signature, ECDSA said to be missing",
+   "why": "answer.refused: missing"
+  },
+  {
+   "file": "stamps.json",
+   "name": "statement: a time with a fraction",
+   "why": "answer.ok.time: expected 1791201600999, got 1791201600000"
+  },
+  {
+   "file": "stamps.json",
+   "name": "statement: accuracy given twice in seconds",
+   "why": "answer.refused.code: expected \"stamp-invalid\", got \"stamp-bad-data\""
+  },
+  {
+   "file": "stamps.json",
+   "name": "statement: accuracy given twice in seconds, the second within",
+   "why": "answer.ok: missing"
+  },
+  {
+   "file": "stamps.json",
+   "name": "statement: accuracy of five bytes",
+   "why": "answer.refused.code: expected \"stamp-bad-data\", got \"stamp-invalid\""
+  },
+  {
+   "file": "stamps.json",
+   "name": "statement: accuracy that is negative",
+   "why": "answer.refused: missing"
+  },
+  {
+   "file": "stamps.json",
+   "name": "statement: the service named with its attributes out of DER order",
+   "why": "answer.refused: missing"
+  },
+  {
+   "file": "stamps.json",
+   "name": "statement: an extension with a truth value in an odd place",
+   "why": "answer.refused.code: expected \"stamp-invalid\", got \"stamp-bad-data\""
+  },
+  {
+   "file": "stamps.json",
+   "name": "certificate: a name whose attributes are out of DER order",
+   "why": "answer.refused: missing"
+  },
+  {
+   "file": "stamps.json",
+   "name": "signing method: Ed25519 named with parameters",
+   "why": "answer.refused: missing"
+  },
+  {
+   "file": "stamps.json",
+   "name": "attributes: in another order",
+   "why": "answer.refused: missing"
+  },
+  {
+   "file": "stamps.json",
+   "name": "attributes: a signing time beside them, out of DER order",
+   "why": "answer.refused: missing"
+  },
+  {
+   "file": "stamps.json",
+   "name": "attributes: the fingerprint with a second, larger value before it",
+   "why": "answer.refused.code: expected \"stamp-bad-data\", got \"stamp-invalid\""
+  },
+  {
+   "file": "stub-contents.json",
+   "name": "the reserved document name provared.tool-name",
+   "why": "answer.ok: missing"
+  },
+  {
+   "file": "stub-contents.json",
+   "name": "the reserved document name provared.tool-call-id",
+   "why": "answer.ok: missing"
+  },
+  {
+   "file": "stub-contents.json",
+   "name": "the reserved document name provared.tool-result",
+   "why": "answer.ok: missing"
+  },
+  {
+   "file": "stub-contents.json",
+   "name": "every reserved name once, and the identifiers twice",
+   "why": "answer.ok: missing"
+  },
+  {
+   "file": "stub-contents.json",
+   "name": "the tool's name, the model's identifier for the call and the tool's result, with the arguments",
+   "why": "answer.ok: missing"
+  },
+  {
+   "file": "stub-contents.json",
+   "name": "the tool's name as a label, \"tool\", beside the reserved one",
+   "why": "answer.ok: missing"
+  },
+  {
+   "file": "stub-contents.json",
+   "name": "an unknown reserved document name with a bad fingerprint",
+   "why": "answer.refused.code: expected \"bad-field\", got \"bad-base64url\""
+  }
+ ],
+ "totals": {
+  "passed": 10778,
+  "failed": 79,
+  "skipped": 3932,
+  "notRun": 0
+ },
+ "skippedFunctions": [
+  "answerFor",
+  "assembleApproval",
+  "assembleCancellation",
+  "blockFingerprint",
+  "blockStampItem",
+  "blocksInChain",
+  "checkBefore",
+  "checkBlockStamp",
+  "checkBook",
+  "checkHeaderChain",
+  "checkShow",
+  "children",
+  "countCharacters",
+  "decodeStamps",
+  "denialCodes",
+  "denialConstants",
+  "documentFingerprint",
+  "ecdsaDerToRaw",
+  "ecdsaToRaw",
+  "headerChainSteps",
+  "leafHash",
+  "makeShow",
+  "nextBits",
+  "prepareApproval",
+  "prepareCancellation",
+  "readElement",
+  "readHeaderChain",
+  "recordConstants",
+  "recorderScenario",
+  "requestOf",
+  "sealerTree",
+  "timeOf",
+  "treeBuilder",
+  "treeRoot",
+  "validateDenialContent",
+  "validateDer",
+  "validateRefusalContent",
+  "validateTermsContent",
+  "validateVouchingContent",
+  "validateWithdrawalContent",
+  "validateWitnessContent",
+  "writeAcknowledgement",
+  "writeDenial",
+  "writePass",
+  "writeRefusal",
+  "writeTerms",
+  "writeVouching",
+  "writeWithdrawal",
+  "writeWitness"
+ ],
+ "gaveUp": null,
+ "ok": false
+}

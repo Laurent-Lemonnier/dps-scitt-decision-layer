@@ -82,6 +82,7 @@ def trap(fn):
     except V.Refused as e: return {'refused': e.code}
 
 def same_answer(ours, exp):
+    if exp is None: return True, ours  # expose the computed answer to the JSONL kit adapter
     if 'refused' in exp: return ours.get('refused') == exp['refused']['code'], ours
     return ours.get('ok', 'REFUSED:' + str(ours.get('refused'))) == exp['ok'], ours
 
@@ -161,6 +162,13 @@ def f_verify_consistency(c):
     need_hex(*c['proof'])
     return same_answer({'ok': V.verify_consistency(c['m'], c['n'], hx(c['rootM']), hx(c['rootN']), [hx(p) for p in c['proof']])}, c['expected'])
 
+def reported_slip_signature(out):
+    signature = dict(out['signature'])
+    if any(p.startswith('passkey-') or p == 'signature-invalid' for p in out['problems']):
+        signature['state'] = 'invalid'
+    return signature
+
+
 def f_slips(c):
     opts = c.get('options') or {}
     if 'disclosures' in c: raise Skip('covered fields and disclosures: specified only in [FORMAT] (Section 15)')
@@ -168,7 +176,7 @@ def f_slips(c):
     m = V.Methods(without=opts.get('withoutMethods'))
     out, r = V.check_slip(c['record'], opts.get('issuerKeys'), m)
     e = c['expected']['ok']
-    ours = {'problems': sorted(out['problems']), 'fingerprint': out['fingerprint'], 'state': ('invalid' if any(p.startswith('passkey-') or p == 'signature-invalid' for p in out['problems']) else out['signature']['state']),
+    ours = {'problems': sorted(out['problems']), 'fingerprint': out['fingerprint'], 'state': reported_slip_signature(out)['state'],
             'issuerKey': out.get('issuerKey')}
     exp = {'problems': sorted(p['code'] for p in e['problems']), 'fingerprint': e['fingerprint'], 'state': e['signature']['state'],
            'issuerKey': e.get('issuerKey')}
@@ -256,7 +264,7 @@ def f_stamp(c):
         return {'state': r['state'], 'when': None if r['time'] is None else V.time_text(r['time']), 'time': None if r['time'] is None else r['time'] * 1000, 'authority': r['authority']}
     # the vector's `time` keeps milliseconds; the draft takes times to the second, rounded down (9.3): compare floors
     e = c['expected']
-    if 'ok' in e and e['ok'].get('time') is not None:
+    if e is not None and 'ok' in e and e['ok'].get('time') is not None:
         e = {'ok': dict(e['ok'], time=e['ok']['time'] // 1000 * 1000)}
         return same_answer(trap(go), e)
     return same_answer(trap(go), c['expected'])
